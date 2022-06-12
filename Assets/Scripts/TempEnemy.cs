@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TempEnemy : TempChar
 {
-    [HideInInspector] public GameObject Player;
+    public GameObject Player;
 
     private void OnValidate()
     {
