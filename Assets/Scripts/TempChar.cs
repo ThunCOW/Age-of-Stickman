@@ -65,7 +65,7 @@ public class TempChar : MonoBehaviour
     {
         if(canMove)
             transform.position = new Vector3(transform.position.x + (direction * speed * multiplier) * Time.deltaTime, transform.position.y, transform.position.z);
-    }
+    } 
 
     protected bool movingForward;
     private void MovementControls()
