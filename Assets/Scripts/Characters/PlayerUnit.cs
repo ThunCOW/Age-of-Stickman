@@ -10,14 +10,8 @@ namespace StickmanChampion
         protected override void Start()
         {
             base.Start();
-            gameManager.Player = this;
-            gameManager.PlayerUnits.Add(this);
-        }
 
-        private void FixedUpdate()
-        {
-            if (canMove)
-                transform.position = new Vector3(transform.position.x + ((int)direction * speed * multiplier) * Time.deltaTime, transform.position.y, transform.position.z);
+            gameManager.Player = this;
         }
 
         protected override void CharacterControls()
@@ -32,7 +26,7 @@ namespace StickmanChampion
             {
                 if (!isAnimationDirectionLocked)
                 {
-                    direction = Directions.right;
+                    direction = MoveDirection.right;
 
                     if (target == null)
                     {
@@ -40,7 +34,7 @@ namespace StickmanChampion
                     }
                 }
 
-                charAnimator.SetBool("WalkBehind", true);
+                unitAnimator.SetBool("WalkBehind", true);
 
                 isMoving = true;
 
@@ -53,7 +47,7 @@ namespace StickmanChampion
             {
                 if (!isAnimationDirectionLocked)
                 {
-                    direction = Directions.left;
+                    direction = MoveDirection.left;
 
                     if (target == null)
                     {
@@ -65,7 +59,7 @@ namespace StickmanChampion
                     }
                 }
 
-                charAnimator.SetBool("Walk", true);
+                unitAnimator.SetBool("Walk", true);
 
                 isMoving = true;
 
@@ -76,9 +70,9 @@ namespace StickmanChampion
             }
             else
             {
-                if (!isAnimationDirectionLocked) direction = 0;
-                charAnimator.SetBool("Walk", false);
-                charAnimator.SetBool("WalkBehind", false);
+                if (!isAnimationDirectionLocked) direction = MoveDirection.waiting;
+                unitAnimator.SetBool("Walk", false);
+                unitAnimator.SetBool("WalkBehind", false);
 
                 isMoving = false;
             }

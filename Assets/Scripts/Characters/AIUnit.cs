@@ -6,40 +6,48 @@ namespace StickmanChampion
 {
     public class AIUnit : Unit
     {
+        /// <summary>
+        /// Holds the predetermined distance to target after making the decision in AIActionDecision or MoveAndAttack,
+        /// gets resetted to 0 in AIMovement after closing the distance or passing it.
+        /// </summary>
         private float newDistanceToTarget;
 
         private AIAgressiveness aiAgressiveness = AIAgressiveness.low;
 
-        [SerializeField] protected float maxReach;
-
         private float hitDistanceToTarget = 0.7f;
 
-        private bool isAttacking = false;   // prevents decision making during movement attack
+        private bool preparingAttack = false;   // prevents decision making during movement attack
         protected override void Start()
         {
             base.Start();
             
-            if (gameObject.CompareTag(gameManager.ENEMY_TAG))
-                gameManager.EnemyUnits.Add(this);
-            else
-                gameManager.PlayerUnits.Add(this);
-            
-            foreach(OffensiveSkills attack in attackList)
+            foreach(Action attack in attackList)
             {
                 if(attack.Reach > hitDistanceToTarget)
                     hitDistanceToTarget = attack.Reach;
             }
+            
             StartCoroutine(AIActionDecision());
         }
 
-        void FixedUpdate()
-        {
-            if (canMove)
-                transform.position = new Vector3(transform.position.x + ((int)direction * speed * multiplier) * Time.deltaTime, transform.position.y, transform.position.z);
-        }
         protected override void CharacterControls()
         {
             AIMovement();
+
+            if(idleing == true) // if in idle - animation ended / movement ended / attack ended - check for unit direction relative to target position
+            {
+                if (target != null)
+                {
+
+                    // i.e if target is more on the right but unit is looking left, turn it right
+                    if (transform.position.x < target.transform.position.x && transform.localScale.x < 0)
+                        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+                    else if (transform.position.x > target.transform.position.x && transform.localScale.x > 0)
+                    {
+                        transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                    }
+                }
+            }
         }
 
         // Gets initiated at the start of the game and makes random decisions for the unit, repeats itself until it dies
@@ -47,99 +55,143 @@ namespace StickmanChampion
         {
             yield return new WaitForSeconds(waitTime);
             
+            idleing = false;
             
-            switch (aiAgressiveness)
+            if(target != null)
             {
-                case AIAgressiveness.low:
-                    int rand = 4;
-                    if (rand == 4) // is going to attack
-                    {
-                        bool changeStance = Random.Range(0, 10) == 0;
-                        if(changeStance == true)
+                switch (aiAgressiveness)
+                {
+                    case AIAgressiveness.low:
+                        int rand = 4;
+                        if (rand == 4) // is going to attack
                         {
-                            if(currentStance == StanceList.Stand_A)
-                                currentStance = StanceList.Stand_A_transition_B;
-                            if (currentStance == StanceList.Stand_B)
-                                currentStance = StanceList.Stand_B_transition_A;
-                        }
-                        // select a random attack
-                        int randomAttack = Random.Range(0, attackList.Count);
-                        if (Mathf.Abs(transform.position.x - target.transform.position.x) < attackList[randomAttack].Reach)
-                        {
-                            // if it is close enough to attack, attack and start next courutine for decision
-                            charAnimator.SetBool(attackList[randomAttack].Animation.name, true);
-                            float animationLength = attackList[randomAttack].Animation.length;
-                            waitTime = Random.Range(animationLength, animationLength + 0.8f);
-                            StartCoroutine(AIActionDecision(waitTime));
-                            if(changeStance == true)
+                            bool changeStance = false;
+                            // if there are multiple stances, we can change stance
+                            if (stanceList.Count > 1)
                             {
-                                if (currentStance == StanceList.Stand_A_transition_B)
-                                    currentStance = StanceList.Stand_B;
-                                if (currentStance == StanceList.Stand_B_transition_A)
-                                    currentStance = StanceList.Stand_A;
+                                changeStance = Random.Range(0, 10) == 0;
+                                if (changeStance == true)
+                                {
+                                    if (currentStance == StanceList.Stand_A)
+                                        currentStance = StanceList.Stand_A_transition_B;
+                                    if (currentStance == StanceList.Stand_B)
+                                        currentStance = StanceList.Stand_B_transition_A;
+                                }
+                            }
+                            // select a random attack
+                            int randomAttack = Random.Range(0, attackList.Count);
+                            currentAttack = attackList[randomAttack];
+                            if (Mathf.Abs(transform.position.x - target.transform.position.x) < attackList[randomAttack].Reach)
+                            {
+                                // if it is close enough to attack, attack and start next courutine for decision
+                                unitAnimator.SetBool(attackList[randomAttack].AnimationClip.name, true);
+                                float animationLength = attackList[randomAttack].AnimationClip.length;
+                                waitTime = Random.Range(animationLength, animationLength + 0.8f);
+
+                                StartCoroutine(DealDamage());
+
+                                StartCoroutine(AIActionDecision(waitTime));
+
+                                StartCoroutine(SpeedDuringAnimation(attackList[randomAttack]));
+
+                                // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
+                                if (attackList[randomAttack].rangedSpawnPrefab != null)
+                                    StartCoroutine(UseRangedWeapon(attackList[randomAttack]));
+
+                                if (changeStance == true)
+                                {
+                                    if (currentStance == StanceList.Stand_A_transition_B)
+                                        currentStance = StanceList.Stand_B;
+                                    if (currentStance == StanceList.Stand_B_transition_A)
+                                        currentStance = StanceList.Stand_A;
+                                }
+                            }
+                            else
+                            {
+                                // if it is not close enough to attack
+                                StartCoroutine(MoveAndAttack(attackList[randomAttack], changeStance));
                             }
                         }
                         else
                         {
-                            // if it is not close enough to attack
-                            StartCoroutine(MoveAndAttack(attackList[randomAttack], changeStance));
-                        }
-                    }
-                    else
-                    {
-                        // If a unit is very close to target unit, it does not move closer anymore
-                        if (Mathf.Abs(transform.position.x - target.transform.position.x) < hitDistanceToTarget)
-                        {
-                            waitTime = Random.Range(0.2f, 1f);
-                            StartCoroutine(AIActionDecision(waitTime));
-                        }
-                        else
-                        {
-                            aiAgressiveness = AIAgressiveness.low;
-                            direction = Directions.right;
+                            // If a unit is very close to target unit, it does not move closer anymore
+                            if (Mathf.Abs(transform.position.x - target.transform.position.x) < hitDistanceToTarget)
+                            {
+                                waitTime = Random.Range(0.2f, 1f);
+                                StartCoroutine(AIActionDecision(waitTime));
+                            }
+                            else
+                            {
+                                aiAgressiveness = AIAgressiveness.low;
 
-                            charAnimator.SetBool("Walk", true);
+                                if (transform.position.x < target.transform.position.x)  // if target is more on the right, unit direction is right
+                                    direction = MoveDirection.right;
+                                else
+                                    direction = MoveDirection.left;
 
-                            newDistanceToTarget = Random.Range(0, Mathf.Abs(transform.position.x - target.transform.position.x));
-                            // if too close to player ( within hit distance ) set new movement position to hit distance
-                            if (newDistanceToTarget <= hitDistanceToTarget)
-                                newDistanceToTarget = hitDistanceToTarget - 0.3f;
+                                unitAnimator.SetBool("Walk", true);
+
+                                newDistanceToTarget = Random.Range(0, Mathf.Abs(transform.position.x - target.transform.position.x));
+                                // if too close to player ( within hit distance ) set new movement position to hit distance
+                                if (newDistanceToTarget <= hitDistanceToTarget)
+                                    newDistanceToTarget = hitDistanceToTarget - 0.3f;
+                            }
                         }
-                    }
-                    break;
-                case AIAgressiveness.medium:
-                    break;
-                case AIAgressiveness.high:
-                    break;
-                case AIAgressiveness.boss:
-                    //attacks
-                    break;
-                default:
-                    break;
+                        break;
+                    case AIAgressiveness.medium:
+                        break;
+                    case AIAgressiveness.high:
+                        break;
+                    case AIAgressiveness.boss:
+                        //attacks
+                        break;
+                    default:
+                        break;
+                } 
+            }
+            else
+            {
+                waitTime = Random.Range(0.2f, 1f);
+                StartCoroutine(AIActionDecision(waitTime));
             }
         }
 
         // Activates movement and waits until in reach distance, and attacks
-        private IEnumerator MoveAndAttack(OffensiveSkills attack, bool changeStance = false)
+        private IEnumerator MoveAndAttack(Action attack, bool changeStance = false)
         {
+            Debug.Log("Walk Attack");
+
             aiAgressiveness = AIAgressiveness.low;
 
-            direction = Directions.right;
+            if (transform.position.x < target.transform.position.x)  // if target is more on the right, unit direction is right
+                direction = MoveDirection.right;
+            else
+                direction = MoveDirection.left;
 
-            charAnimator.SetBool("Walk", true);
+            unitAnimator.SetBool("Walk", true);
 
             newDistanceToTarget = attack.Reach - 0.2f;
             
-            isAttacking = true;
+            preparingAttack = true;
 
-            yield return new WaitUntil(() => direction == Directions.waiting);
+            idleing = false;
+
+            yield return new WaitUntil(() => direction == MoveDirection.waiting);
             
-            charAnimator.SetBool(attackList[0].Animation.name, true);
-            float animationLength = attackList[0].Animation.length;
+            unitAnimator.SetBool(attack.AnimationClip.name, true);
+            float animationLength = attack.AnimationClip.length;
             float waitTime = Random.Range(animationLength, animationLength + 0.8f);
-            Debug.Log("Move And Attack");
-            isAttacking = false;
-            StartCoroutine(AIActionDecision(waitTime));
+            preparingAttack = false;
+
+            StartCoroutine(DealDamage());
+            
+            StartCoroutine(AIActionDecision(waitTime)); // waits until animation ends, so does not make decisions during animation
+
+            StartCoroutine(SpeedDuringAnimation(attack));
+
+            // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
+            if (attack.rangedSpawnPrefab != null)
+                StartCoroutine(UseRangedWeapon(attack));
 
             if (currentStance == StanceList.Stand_A_transition_B)
                 currentStance = StanceList.Stand_B;
@@ -160,14 +212,15 @@ namespace StickmanChampion
                         {
                             float waitTime = Random.Range(0.2f, 1f);
 
-                            if (isAttacking == false)
+                            // activated during MoveAndAttack session, walking happens here so it does not trigger twice
+                            if (preparingAttack == false)
                             {
-                                Debug.Log("Move");
                                 StartCoroutine(AIActionDecision(waitTime));
+                                idleing = true;
                             }
 
-                            direction = Directions.waiting;
-                            charAnimator.SetBool("Walk", false);
+                            direction = MoveDirection.waiting;
+                            unitAnimator.SetBool("Walk", false);
 
                             newDistanceToTarget = 0;
                         }
@@ -178,8 +231,8 @@ namespace StickmanChampion
                             float waitTime = Random.Range(0.2f, 1.5f);
 
                             StartCoroutine(AIActionDecision(waitTime));
-                            direction = Directions.waiting;
-                            charAnimator.SetBool("Walk", false);
+                            direction = MoveDirection.waiting;
+                            unitAnimator.SetBool("Walk", false);
 
                             newDistanceToTarget = 0;
                         }
@@ -190,8 +243,8 @@ namespace StickmanChampion
                             float waitTime = Random.Range(0.2f, 1f);
 
                             StartCoroutine(AIActionDecision(waitTime));
-                            direction = Directions.waiting;
-                            charAnimator.SetBool("Walk", false);
+                            direction = MoveDirection.waiting;
+                            unitAnimator.SetBool("Walk", false);
 
                             newDistanceToTarget = 0;
                         }
@@ -200,6 +253,40 @@ namespace StickmanChampion
                         break;
                 }
             }
+        }
+    
+        protected override IEnumerator StunnedFor(float stunDuration)
+        {
+            Debug.Log("stunned");
+            idleing = false;
+
+            // Resets all boolean and triggers
+            foreach(AnimatorControllerParameter parameter in unitAnimator.parameters)
+            {
+                if(parameter.type == AnimatorControllerParameterType.Bool)
+                    unitAnimator.SetBool(parameter.name, false);
+                else if(parameter.type == AnimatorControllerParameterType.Trigger)
+                    unitAnimator.ResetTrigger(parameter.name);
+            }
+            unitAnimator.Play("Idle_A", 0, 0);
+
+            direction = MoveDirection.waiting;
+            speedRelativeToAnimation = 0;
+
+            newDistanceToTarget = 0;
+            
+            yield return new WaitForSeconds(stunDuration);
+            
+            idleing = true;
+            
+            // Means unit was about to attack
+            if(meleeHitTrigger == true)
+            {
+                meleeHitTrigger = false;
+                currentAttack = null;
+            }
+            StartCoroutine(AIActionDecision());
+            StartCoroutine(GetClosestUnitCycle());
         }
     }
 

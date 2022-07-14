@@ -197,12 +197,12 @@ public class TempEnemy : TempChar
         {
             //direction = 0;
             
-            //charAnimator.SetBool("Walking", false);
+            //unitAnimator.SetBool("Walking", false);
             inScreen = true;
         }
         else
         {
-            charAnimator.SetBool("Walking", true);
+            unitAnimator.SetBool("Walking", true);
             
             inScreen = false;
         }

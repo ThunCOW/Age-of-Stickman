@@ -12,6 +12,7 @@ Shader "Custom/NewSurfaceShader"
 		Tags { "Queue" = "Transparent" }
 		
 		Pass {
+			Cull Off
 			Stencil {
 				Ref 2
 				Comp NotEqual
