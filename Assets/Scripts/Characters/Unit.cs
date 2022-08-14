@@ -32,6 +32,10 @@ namespace StickmanChampion
         [SerializeField] protected List<Action> attackList;
         private Dictionary<StanceList, List<Action>> stance = new Dictionary<StanceList, List<Action>>();
 
+        // Variations of how it can get stunned
+        [SerializeField] protected List<StunVariations> stunVariations;
+        protected Dictionary<AttackType, List<BaseAction>> stunType = new Dictionary<AttackType, List<BaseAction>>();
+
         [Header("Character Animation")]
         public Animator unitAnimator = null;
 
@@ -68,9 +72,14 @@ namespace StickmanChampion
 
             foreach (UnitStance Stance in stanceList)
             {
-                stance.Add(Stance.Stance, Stance.attackList);
+                stance.Add(Stance.Stance, Stance.actionList);
             }
             attackList = stance[currentStance];
+
+            foreach (StunVariations stun in stunVariations)
+            {
+                stunType.Add(stun.attackType, stun.actionList);
+            }
 
             StartCoroutine(GetClosestUnitCycle());
             StartCoroutine(FixDirection());
@@ -119,10 +128,10 @@ namespace StickmanChampion
             }
             else
             {
-                transform.position = new Vector2(transform.position.x + attack.PushDistance * attackDirection, transform.position.y);
+                //transform.position = new Vector2(transform.position.x + attack.PushDistance * attackDirection, transform.position.y);
 
                 StopAllCoroutines();
-                StartCoroutine(StunnedFor(0.5f));
+                StartCoroutine(StunnedFor(0.5f, attack));
             }
         }
 
@@ -163,7 +172,7 @@ namespace StickmanChampion
                 target.TakeDamage(currentAttack, dir);
         }
 
-        protected virtual IEnumerator StunnedFor(float stunDuration)
+        protected virtual IEnumerator StunnedFor(float stunDuration, Action attack)
         {
             direction = MoveDirection.waiting;
             // play hurt animation
@@ -310,17 +319,62 @@ namespace StickmanChampion
     public class UnitStance
     {
         public StanceList Stance;
-        public List<Action> attackList = new List<Action>();
+        public List<Action> actionList = new List<Action>();
     }
 
     [System.Serializable]
     public class Action
     {
+        public AttackType attackType;
         public int Damage;
         public float Reach;
         public float PushDistance;
         public AnimationClip AnimationClip;
         [SerializeField] public AnimationCurve speedCurve;
         public GameObject rangedSpawnPrefab = null;
+    }
+
+    [System.Serializable]
+    public class StunVariations
+    {
+        public AttackType attackType;
+        public List<BaseAction> actionList = new List<BaseAction>();
+    }
+    [System.Serializable]
+    public class BaseAction
+    {
+        public AnimationClip AnimationClip;
+        public AnimationCurve speedCurve;
+    }
+    /*[System.Serializable]
+    public class TestStance
+    {
+        [SerializeReference]
+        public ActionTest test = new RangedAttackAction();
+    }
+
+    [System.Serializable]
+    public class ActionTest
+    {
+        public string Test;
+    }
+    [System.Serializable]
+    public class MeleeAttackAction : ActionTest
+    {
+        public int Damage;
+        public float Reach;
+        public float PushDistance;
+    }
+    [System.Serializable]
+    public class RangedAttackAction : MeleeAttackAction
+    {
+        public GameObject rangedSpawnObject = null;
+    }*/
+
+    public enum AttackType
+    {
+        Normal,
+        Kick,
+        Shield
     }
 }

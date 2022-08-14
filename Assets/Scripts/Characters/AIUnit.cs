@@ -255,9 +255,62 @@ namespace StickmanChampion
             }
         }
     
-        protected override IEnumerator StunnedFor(float stunDuration)
+        protected override IEnumerator StunnedFor(float stunDuration, Action attack)
         {
-            Debug.Log("stunned");
+            idleing = false;
+
+            if (transform.position.x < target.transform.position.x)  // if target is more on the right, unit direction is right
+                direction = MoveDirection.left;
+            else
+                direction = MoveDirection.right;
+
+            List<BaseAction> stunActionList = null;
+            switch (attack.attackType)
+            {
+                case AttackType.Normal:
+                    stunActionList = stunType[AttackType.Normal];
+                    unitAnimator.SetTrigger(stunActionList[0].AnimationClip.name);
+                    transform.position = new Vector2(transform.position.x + attack.PushDistance * (int)direction, transform.position.y);
+                    break;
+                case AttackType.Kick:
+                    stunActionList = stunType[AttackType.Kick];
+                    unitAnimator.SetTrigger(stunActionList[0].AnimationClip.name);
+                    break;
+                case AttackType.Shield:
+                    stunActionList = stunType[AttackType.Shield];
+                    unitAnimator.SetTrigger(stunActionList[0].AnimationClip.name);
+                    break;
+                default:
+                    break;
+            }
+
+            float animationLength = stunActionList[0].AnimationClip.length;
+            float animationCurrentTime = 0;
+            Debug.Log(stunActionList[0].speedCurve.Evaluate(animationCurrentTime));
+            while (animationLength > animationCurrentTime)
+            {
+                animationCurrentTime += Time.deltaTime;
+                speedRelativeToAnimation = stunActionList[0].speedCurve.Evaluate(animationCurrentTime);
+                yield return null;
+            }
+
+            //yield return new WaitForSeconds(stunActionList[0].AnimationClip.length);
+
+            idleing = true;
+
+            speedRelativeToAnimation = 0;
+            
+            direction = MoveDirection.waiting;
+
+            // Means unit was about to attack
+            if (meleeHitTrigger == true)
+            {
+                meleeHitTrigger = false;
+                currentAttack = null;
+            }
+            StartCoroutine(AIActionDecision());
+            StartCoroutine(GetClosestUnitCycle());
+            /*Debug.Log("stunned");
             idleing = false;
 
             // Resets all boolean and triggers
@@ -286,7 +339,7 @@ namespace StickmanChampion
                 currentAttack = null;
             }
             StartCoroutine(AIActionDecision());
-            StartCoroutine(GetClosestUnitCycle());
+            StartCoroutine(GetClosestUnitCycle());*/
         }
     }
 
