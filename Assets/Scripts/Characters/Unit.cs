@@ -26,11 +26,60 @@ namespace StickmanChampion
             { 
                 _currentStance = value; 
                 attackList = stance[value];
+                
+                deathActionList = deathActionDict[value];
+                PopulateDeathAction(deathActionList);
             } 
         }
+        [Header("Animation Lists and Properties")]
         [SerializeField] protected List<UnitStance> stanceList;
-        [SerializeField] protected List<Action> attackList;
+
+        // This Field is populized auto
+        protected List<Action> attackList;
         private Dictionary<StanceList, List<Action>> stance = new Dictionary<StanceList, List<Action>>();
+
+        private List<DeathAction> deathActionList;
+        private DeathActions deathActions;
+        private Dictionary<StanceList, List<DeathAction>> deathActionDict = new Dictionary<StanceList, List<DeathAction>>();
+        public class DeathActions
+        {
+            public List<DeathAction> highRegion;
+            public List<DeathAction> midRegion;
+            public List<DeathAction> lowRegion;
+
+            public DeathActions()
+            {
+                highRegion = new List<DeathAction>();
+                midRegion = new List<DeathAction>();
+                lowRegion = new List<DeathAction>();
+            }
+        }
+        public void PopulateDeathAction(List<DeathAction> deathActionList)
+        {
+            deathActions = new DeathActions();
+            foreach(DeathAction deathAction in deathActionList)
+            {
+                switch (deathAction.deathType)
+                {
+                    case HitRegion.High:
+                        deathActions.highRegion.Add(deathAction);
+                        break;
+                    case HitRegion.Mid:
+                        deathActions.midRegion.Add(deathAction);
+                        break;
+                    case HitRegion.Low:
+                        deathActions.lowRegion.Add(deathAction);
+                        break;
+                    case HitRegion.SpearThrowHead:
+                        break;
+                    case HitRegion.Arrow:
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        // End
 
         // Variations of how it can get stunned
         [SerializeField] protected List<StunVariations> stunVariations;
@@ -73,8 +122,11 @@ namespace StickmanChampion
             foreach (UnitStance Stance in stanceList)
             {
                 stance.Add(Stance.Stance, Stance.actionList);
+                deathActionDict.Add(Stance.Stance, Stance.deathActionList);
             }
             attackList = stance[currentStance];
+            deathActionList = deathActionDict[currentStance];
+            PopulateDeathAction(deathActionList);
 
             foreach (StunVariations stun in stunVariations)
             {
@@ -113,13 +165,35 @@ namespace StickmanChampion
 
         public void TakeDamage(Action attack, int attackDirection = 0)
         {
-            Health -= 20;
+            Health -= attack.Damage;
             if(Health <= 0)
             {
+                CheckUnitDirection();
+
+                canMove = false;
+                StopAllCoroutines();
                 // death
                 //Health = 100;
 
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                int randomDeath = 0;
+                switch (attack.attackRegion)
+                {
+                    case HitRegion.High:
+                        randomDeath = Random.Range(0, deathActions.highRegion.Count);
+                        unitAnimator.Play(deathActions.highRegion[randomDeath].AnimationClip.name, 0);
+                        break;
+                    case HitRegion.Mid:
+                        randomDeath = Random.Range(0, deathActions.midRegion.Count);
+                        unitAnimator.Play(deathActions.highRegion[randomDeath].AnimationClip.name, 0);
+                        break;
+                    case HitRegion.Low:
+                        randomDeath = Random.Range(0, deathActions.lowRegion.Count);
+                        unitAnimator.Play(deathActions.highRegion[randomDeath].AnimationClip.name, 0);
+                        break;
+                    default:
+                        break;
+                }
 
                 if (gameObject.CompareTag(gameManager.ENEMY_TAG))
                     gameManager.EnemyUnits.Remove(this);
@@ -129,6 +203,8 @@ namespace StickmanChampion
             else
             {
                 //transform.position = new Vector2(transform.position.x + attack.PushDistance * attackDirection, transform.position.y);
+
+                CheckUnitDirection();
 
                 StopAllCoroutines();
                 StartCoroutine(StunnedFor(0.5f, attack));
@@ -141,6 +217,8 @@ namespace StickmanChampion
         protected IEnumerator DealDamage()
         {
             yield return new WaitUntil(() => meleeHitTrigger == true);
+            
+            meleeHitTrigger = false;
 
             // If target is dead
             // scenario 1: there were multiple target in front of unit, one of them died, now need to change target
@@ -160,7 +238,7 @@ namespace StickmanChampion
             else
                 dir = (int)MoveDirection.right;
 
-            // if target is being pushed to right, current unit must be looking right to land the hit, if its looking right misses it
+            // i.e if target is being pushed to right, current unit must be looking right to land the hit, if its not looking right, misses it
             if (dir == (int)MoveDirection.right && transform.localScale.x < 0.1)
                 yield break;
             else if (dir == (int)MoveDirection.left && transform.localScale.x > 0.1)
@@ -264,12 +342,17 @@ namespace StickmanChampion
 
             if (target != null)
             {
-                // i.e if target is more on the right but unit is looking left, turn it right
-                if (transform.position.x < target.transform.position.x && transform.localScale.x < 0)
-                    transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-                else if (transform.position.x > target.transform.position.x && transform.localScale.x > 0)
-                    transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+                CheckUnitDirection();
             }
+        }
+
+        protected void CheckUnitDirection()
+        {
+            // i.e if target is more on the right but unit is looking left, turn it right
+            if (transform.position.x < target.transform.position.x && transform.localScale.x < 0)
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            else if (transform.position.x > target.transform.position.x && transform.localScale.x > 0)
+                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
 
         // Triggered when there is a projectile, waits until animation to turn releaseProjectile true.
@@ -320,18 +403,27 @@ namespace StickmanChampion
     {
         public StanceList Stance;
         public List<Action> actionList = new List<Action>();
+        public List<DeathAction> deathActionList = new List<DeathAction>();
     }
 
     [System.Serializable]
     public class Action
     {
         public AttackType attackType;
+        public AnimationMovementType animationMovementType;
         public int Damage;
         public float Reach;
         public float PushDistance;
         public AnimationClip AnimationClip;
         [SerializeField] public AnimationCurve speedCurve;
         public GameObject rangedSpawnPrefab = null;
+        public HitRegion attackRegion;
+    }
+
+    [System.Serializable]
+    public class DeathAction : BaseAction
+    {
+        public HitRegion deathType;
     }
 
     [System.Serializable]
@@ -376,5 +468,20 @@ namespace StickmanChampion
         Normal,
         Kick,
         Shield
+    }
+
+    public enum HitRegion
+    {
+        High,
+        Mid,
+        Low,
+        SpearThrowHead,
+        Arrow
+    }
+
+    public enum AnimationMovementType
+    {
+        Stationary,
+        NonStationary
     }
 }

@@ -65,6 +65,17 @@ namespace StickmanChampion
                         int rand = 4;
                         if (rand == 4) // is going to attack
                         {
+                            // if in kick distance, there is a chance to kick
+                            float kickDistance = 0.7f;
+                            if(Mathf.Abs(transform.position.x - target.transform.position.x) < kickDistance)
+                            {
+                                // X % chance to kick
+                                bool kick = Random.Range(0, 5) == 0;
+                                if(kick == true)
+                                {
+
+                                }
+                            }
                             bool changeStance = false;
                             // if there are multiple stances, we can change stance
                             if (stanceList.Count > 1)
@@ -286,7 +297,6 @@ namespace StickmanChampion
 
             float animationLength = stunActionList[0].AnimationClip.length;
             float animationCurrentTime = 0;
-            Debug.Log(stunActionList[0].speedCurve.Evaluate(animationCurrentTime));
             while (animationLength > animationCurrentTime)
             {
                 animationCurrentTime += Time.deltaTime;
