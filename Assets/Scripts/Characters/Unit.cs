@@ -185,11 +185,11 @@ namespace StickmanChampion
                         break;
                     case HitRegion.Mid:
                         randomDeath = Random.Range(0, deathActions.midRegion.Count);
-                        unitAnimator.Play(deathActions.highRegion[randomDeath].AnimationClip.name, 0);
+                        unitAnimator.Play(deathActions.midRegion[randomDeath].AnimationClip.name, 0);
                         break;
                     case HitRegion.Low:
                         randomDeath = Random.Range(0, deathActions.lowRegion.Count);
-                        unitAnimator.Play(deathActions.highRegion[randomDeath].AnimationClip.name, 0);
+                        unitAnimator.Play(deathActions.lowRegion[randomDeath].AnimationClip.name, 0);
                         break;
                     default:
                         break;

@@ -187,8 +187,18 @@ namespace StickmanChampion
 
             idleing = false;
 
-            yield return new WaitUntil(() => direction == MoveDirection.waiting);
-            
+            yield return new WaitUntil(() => direction == MoveDirection.waiting || target == null);
+            // target died, if there is no target stop moving forward
+            if (target == null)
+            {
+                newDistanceToTarget = 0;
+                direction = MoveDirection.waiting;
+                unitAnimator.SetBool("Walk", false);
+                preparingAttack = false;
+                idleing = true;
+                yield break;
+            }
+
             unitAnimator.SetBool(attack.AnimationClip.name, true);
             float animationLength = attack.AnimationClip.length;
             float waitTime = Random.Range(animationLength, animationLength + 0.8f);
