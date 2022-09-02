@@ -91,7 +91,7 @@ namespace StickmanChampion
         [Header("Character Movement")]
         protected bool isMoving;
         protected bool canMove = true;
-        [HideInInspector] public bool isAnimationDirectionLocked = false;   // Animations require direction to be consistent
+        [HideInInspector] public bool isAnimationStarted = false;   // Animations require direction to be consistent
 
         /// <summary>
         /// if in idle - animation ended / movement ended / attack ended - check for character direction relative to target
@@ -100,7 +100,8 @@ namespace StickmanChampion
 
         protected bool movingForward;
 
-        public float speed; // default moving speed
+        public float speed; // default moving speed assigned in inspector
+        protected float speed_; // stores default speed
         protected float speedRelativeToAnimation; // speed for animations
         protected MoveDirection direction = MoveDirection.waiting;
         [HideInInspector] protected float multiplier = 1;
@@ -113,6 +114,8 @@ namespace StickmanChampion
         protected virtual void Start()
         {
             gameManager = GameManager.Instance;
+
+            speed_ = speed;
 
             if (gameObject.CompareTag(gameManager.ENEMY_TAG))
                 gameManager.EnemyUnits.Add(this);
@@ -245,8 +248,8 @@ namespace StickmanChampion
                 yield break;
 
             // TODO: needs fixing later
-            //Debug.Log("closestPos = " + target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x);
-            if(target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x < currentAttack.Reach)
+            //Debug.Log("closestPos = " + (target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x));
+            if(Mathf.Abs(target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x) < currentAttack.Reach)
                 target.TakeDamage(currentAttack, dir);
         }
 
@@ -268,10 +271,13 @@ namespace StickmanChampion
                 yield break;
             }
 
-            if (transform.position.x < target.transform.position.x)  // if target is more on the right, unit direction is right
-                direction = MoveDirection.right;
-            else
-                direction = MoveDirection.left;
+            if (target != null)
+            {
+                if (transform.position.x < target.transform.position.x)     // if target is more on the right, unit direction is right
+                    direction = MoveDirection.right;
+                else
+                    direction = MoveDirection.left;
+            }
 
             float animationLength = Attack.AnimationClip.length;
             float animationCurrentTime = 0;
@@ -291,7 +297,7 @@ namespace StickmanChampion
             yield return new WaitForSeconds(Action.AnimationClip.length);
             idleing = true;
 
-            if(meleeHitTrigger == true)
+            if (meleeHitTrigger == true)
             {
                 meleeHitTrigger = false;
                 currentAttack = null; 

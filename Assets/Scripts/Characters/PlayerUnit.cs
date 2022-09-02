@@ -62,13 +62,53 @@ namespace StickmanChampion
             KeyboardControls();
         }
 
+        void KeyPressed(int dir)
+        {
+            if (target == null)
+            {
+                if (!isAnimationStarted) transform.localScale = new Vector3(dir, transform.localScale.y, transform.localScale.z);
 
+                unitAnimator.SetBool("Walk", true);
+            }
+            else
+            {
+                int lookDir = transform.position.x > target.transform.position.x ? -1 : 1;
+                
+                if (!isAnimationStarted) transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
+
+
+                if(dir == (int)MoveDirection.right)
+                {
+                    if (transform.position.x > target.transform.position.x)
+                    {
+                        unitAnimator.SetBool("WalkBehind", true);
+                    }
+                    else
+                    {
+                        unitAnimator.SetBool("Walk", true);
+                    }
+                }
+                else
+                {
+                    if (transform.position.x > target.transform.position.x)
+                    {
+                        unitAnimator.SetBool("Walk", true);
+                    }
+                    else
+                    {
+                        unitAnimator.SetBool("WalkBehind", true);
+                    }
+                }
+            }
+
+            isMoving = true;
+        }
         void KeyboardControls()
         {
             // Release
             if(Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
             {
-                if (!isAnimationDirectionLocked) direction = MoveDirection.waiting;
+                if (!isAnimationStarted) direction = MoveDirection.waiting;
                 unitAnimator.SetBool("Walk", false);
                 unitAnimator.SetBool("WalkBehind", false);
 
@@ -78,34 +118,10 @@ namespace StickmanChampion
             // Pressed
             if(Input.GetKeyDown(KeyCode.D))
             {
-                
-                direction = MoveDirection.right;
 
-                if (target == null)
-                {
-                    transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+                if (!isAnimationStarted) direction = MoveDirection.right;
 
-                    unitAnimator.SetBool("Walk", true);
-                }
-                else
-                {
-                    int dir = transform.position.x > target.transform.position.x ? -1 : 1;
-
-                    transform.localScale = new Vector3(dir, transform.localScale.y, transform.localScale.z);
-
-                    if (transform.position.x > target.transform.position.x)
-                    {
-                        unitAnimator.SetBool("WalkBehind", true);
-                    }
-                    else
-                    {
-                        unitAnimator.SetBool("Walk", true);
-                    }
-                }
-
-                
-
-                isMoving = true;
+                KeyPressed((int)direction);
 
                 if (transform.localScale.x > 0)
                     movingForward = true;
@@ -114,32 +130,9 @@ namespace StickmanChampion
             }
             if (Input.GetKeyDown(KeyCode.A))
             {
-                
-                direction = MoveDirection.left;
+                if (!isAnimationStarted) direction = MoveDirection.left;
 
-                if (target == null)
-                {
-                    transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
-
-                    unitAnimator.SetBool("Walk", true);
-                }
-                else
-                {
-                    int dir = transform.position.x > target.transform.position.x ? -1 : 1;
-
-                    transform.localScale = new Vector3(dir, transform.localScale.y, transform.localScale.z);
-
-                    if (transform.position.x > target.transform.position.x)
-                    {
-                        unitAnimator.SetBool("Walk", true);
-                    }
-                    else
-                    {
-                        unitAnimator.SetBool("WalkBehind", true);
-                    }
-                }
-
-                isMoving = true;
+                KeyPressed((int)direction);
 
                 if (transform.localScale.x < 0)
                     movingForward = true;
@@ -152,57 +145,88 @@ namespace StickmanChampion
             // Hold
             if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
             {
-                if(Input.GetKeyDown(KeyCode.Space))
+                if(!isAnimationStarted)
                 {
-                    // NonStationary Attack
-                    if (Input.GetKeyDown(KeyCode.Space))
+                    if(Input.GetKeyDown(KeyCode.Space))
                     {
-                        int randomAttack = Random.Range(0, nonStationaryAttack.Count);
-                        currentAttack = nonStationaryAttack[randomAttack];
+                        // NonStationary Attack
+                        if (Input.GetKeyDown(KeyCode.Space))
+                        {
+                            int randomAttack = Random.Range(0, nonStationaryAttack.Count);
+                            currentAttack = nonStationaryAttack[randomAttack];
 
-                        unitAnimator.SetBool(nonStationaryAttack[randomAttack].AnimationClip.name, true);
+                            unitAnimator.SetBool(nonStationaryAttack[randomAttack].AnimationClip.name, true);
 
-                        StartCoroutine(DealDamage());
+                            AttackAction();
+                        }
                     }
                 }
             }
             else
             {
-                // Stationary Attack
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (!isAnimationStarted)
                 {
-                    int randomAttack = Random.Range(0, stationaryAttack.Count);
-                    currentAttack = stationaryAttack[randomAttack];
+                    // Stationary Attack
+                    if (Input.GetKeyDown(KeyCode.Space))
+                    {
+                        int randomAttack = Random.Range(0, stationaryAttack.Count);
+                        currentAttack = stationaryAttack[randomAttack];
 
-                    unitAnimator.SetBool(stationaryAttack[randomAttack].AnimationClip.name, true);
+                        unitAnimator.SetBool(stationaryAttack[randomAttack].AnimationClip.name, true);
 
-                    StartCoroutine(DealDamage());
+                        AttackAction();
+                    }
+
+                    // Stationary Stun
+                    if (Input.GetKeyDown(KeyCode.R))
+                    {
+                        int randomAttack = Random.Range(0, stationaryStun.Count);
+                        currentAttack = stationaryStun[randomAttack];
+
+                        unitAnimator.SetBool(stationaryStun[randomAttack].AnimationClip.name, true);
+
+                        AttackAction();
+                    }
                 }
+            }
+        }
 
-                // Stationary Stun
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    int randomAttack = Random.Range(0, stationaryStun.Count);
-                    currentAttack = stationaryStun[randomAttack];
+        protected void AttackAction()
+        {
+            if(target != null)
+            {
+                int lookDir = transform.position.x > target.transform.position.x ? -1 : 1;
 
-                    unitAnimator.SetBool(stationaryStun[randomAttack].AnimationClip.name, true);
-
-                    StartCoroutine(DealDamage());
-                }
+                if (!isAnimationStarted) transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
             }
 
+            StartCoroutine(DealDamage());
+            StartCoroutine(SpeedDuringAnimation(currentAttack));
+            StartCoroutine(WaitForEndOfAnimation(currentAttack.AnimationClip));
+        }
 
-            if (Input.GetKey(KeyCode.D))
+        protected IEnumerator WaitForEndOfAnimation(AnimationClip animationClip)
+        {
+            speed = 0f;                                                     // speed is now controlled by speed curve
+            isAnimationStarted = true;                                      // prevents direction to become 0 and stop movement
+
+            yield return new WaitForSeconds(animationClip.length + 0.05f);
+
+            speed = speed_;                                                 // speed is now set to default speed level
+            isAnimationStarted = false;                                     // direction released
+            
+            // Set new movement direction and look direction
+            if (Input.GetKey(KeyCode.A))
             {
-                
+                direction = MoveDirection.left;
+
+                KeyPressed((int)direction);
             }
-            else if (Input.GetKey(KeyCode.A))
+            else if (Input.GetKey(KeyCode.D))
             {
-                
-            }
-            else
-            {
-                
+                direction = MoveDirection.right;
+
+                KeyPressed((int)direction);
             }
         }
 
@@ -220,20 +244,19 @@ namespace StickmanChampion
             {
                 case AttackType.Normal:
                     stunActionList = stunType[AttackType.Normal];
-                    unitAnimator.SetTrigger(stunActionList[0].AnimationClip.name);
                     transform.position = new Vector2(transform.position.x + attack.PushDistance * (int)direction, transform.position.y);
                     break;
                 case AttackType.Kick:
                     stunActionList = stunType[AttackType.Kick];
-                    unitAnimator.SetTrigger(stunActionList[0].AnimationClip.name);
                     break;
                 case AttackType.Shield:
                     stunActionList = stunType[AttackType.Shield];
-                    unitAnimator.SetTrigger(stunActionList[0].AnimationClip.name);
                     break;
                 default:
                     break;
             }
+            unitAnimator.SetTrigger(stunActionList[0].AnimationClip.name);
+            StartCoroutine(WaitForEndOfAnimation(stunActionList[0].AnimationClip));
 
             float animationLength = stunActionList[0].AnimationClip.length;
             float animationCurrentTime = 0;
@@ -254,6 +277,7 @@ namespace StickmanChampion
                 meleeHitTrigger = false;
                 currentAttack = null;
             }
+
             StartCoroutine(GetClosestUnitCycle());
         }
     }

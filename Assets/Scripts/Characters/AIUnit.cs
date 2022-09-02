@@ -280,6 +280,8 @@ namespace StickmanChampion
         {
             idleing = false;
 
+            speed = 0f;                                                     // speed is now controlled by speed curve
+
             if (transform.position.x < target.transform.position.x)  // if target is more on the right, unit direction is right
                 direction = MoveDirection.left;
             else
@@ -317,6 +319,8 @@ namespace StickmanChampion
             //yield return new WaitForSeconds(stunActionList[0].AnimationClip.length);
 
             idleing = true;
+
+            speed = speed_;                                                 // speed is now set to default speed level
 
             speedRelativeToAnimation = 0;
             
