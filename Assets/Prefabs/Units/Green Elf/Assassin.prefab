@@ -10,12 +10,11 @@ GameObject:
   m_Component:
   - component: {fileID: 5299606119950628102}
   - component: {fileID: 5299606119950628103}
-  - component: {fileID: 5299606119950628100}
   - component: {fileID: 5299606119950628101}
   - component: {fileID: 5299606119950628098}
   m_Layer: 0
   m_Name: Assassin
-  m_TagString: PlayerUnit
+  m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27,13 +26,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5299606119950628099}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -11.478466, y: -2.45, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -2.45, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5299606120289143862}
-  - {fileID: 5299606121918403386}
+  - {fileID: 3834343802802995406}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -50,14 +49,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
-  Health: 22
+  Health: 31
   stanceList:
   - Stance: 0
     actionList:
     - attackType: 0
       animationMovementType: 0
       Damage: 10
-      Reach: 1.5
+      Reach: 2.555
       PushDistance: 0
       AnimationClip: {fileID: 7400000, guid: 9be8f224bdeb55d49afde279ba8247e1, type: 2}
       speedCurve:
@@ -85,7 +84,7 @@ MonoBehaviour:
     - attackType: 0
       animationMovementType: 1
       Damage: 10
-      Reach: 1.5
+      Reach: 1.9
       PushDistance: 0
       AnimationClip: {fileID: 7400000, guid: b17b2ebc449b0f14f93129883c63de15, type: 2}
       speedCurve:
@@ -93,7 +92,7 @@ MonoBehaviour:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.01
+          value: 2
           inSlope: 0
           outSlope: 0
           tangentMode: 34
@@ -102,17 +101,17 @@ MonoBehaviour:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 0.49
-          value: 0.01
-          inSlope: 0
-          outSlope: -201.0002
+          value: 2
+          inSlope: -0
+          outSlope: -200.0002
           tangentMode: 69
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 0.5
-          value: -2
-          inSlope: -201.0002
+          value: 0
+          inSlope: -200.0002
           outSlope: 0
           tangentMode: 69
           weightedMode: 0
@@ -120,7 +119,7 @@ MonoBehaviour:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: -2
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 34
@@ -135,7 +134,7 @@ MonoBehaviour:
     - attackType: 0
       animationMovementType: 1
       Damage: 10
-      Reach: 1.5
+      Reach: 2.8
       PushDistance: 0
       AnimationClip: {fileID: 7400000, guid: 6308369bd1129604a87cfb2f29c807c5, type: 2}
       speedCurve:
@@ -143,7 +142,7 @@ MonoBehaviour:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0.01
+          value: 2
           inSlope: 0
           outSlope: 0
           tangentMode: 34
@@ -152,17 +151,17 @@ MonoBehaviour:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 0.49
-          value: 0.01
+          value: 2
           inSlope: 0
-          outSlope: -201.0002
+          outSlope: -200.0002
           tangentMode: 69
           weightedMode: 0
           inWeight: 0.33333334
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 0.5
-          value: -2
-          inSlope: -201.0002
+          value: 0
+          inSlope: -200.0002
           outSlope: 0
           tangentMode: 69
           weightedMode: 0
@@ -170,7 +169,7 @@ MonoBehaviour:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: -2
+          value: 0
           inSlope: 0
           outSlope: 0
           tangentMode: 34
@@ -199,7 +198,7 @@ MonoBehaviour:
     - attackType: 0
       animationMovementType: 0
       Damage: 0
-      Reach: 1.5
+      Reach: 2.495
       PushDistance: 0
       AnimationClip: {fileID: 7400000, guid: 2660cbceadd714847a489206b3deefb7, type: 2}
       speedCurve:
@@ -354,20 +353,11 @@ MonoBehaviour:
   unitAnimator: {fileID: 5299606120289143851}
   isAnimationStarted: 0
   speed: 1.99
-  target: {fileID: 0}
+  _target: {fileID: 0}
   meleeHitTrigger: 0
   releaseProjectile: 0
---- !u!210 &5299606119950628100
-SortingGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299606119950628099}
-  m_Enabled: 1
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 17
+  _aiAgressiveness: 0
+  aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!61 &5299606119950628101
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -487,9 +477,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 12
+  m_SortingLayerID: 1871919695
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 20dfbc188fa1b8a4da9979c50c8b466a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -533,87 +523,65 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!1 &5299606121918403387
-GameObject:
+--- !u!1001 &2667698251093729419
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5299606121918403386}
-  - component: {fileID: 5299606121918403389}
-  m_Layer: 0
-  m_Name: Unit_Shadow
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5299606121918403386
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 5299606119950628102}
+    m_Modifications:
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.1800001
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1167490254741200966, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_Name
+      value: Unit_Shadow
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+--- !u!4 &3834343802802995406 stripped
 Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+  m_PrefabInstance: {fileID: 2667698251093729419}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299606121918403387}
-  m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.1800001, z: 0}
-  m_LocalScale: {x: 1.05, y: 0.8375, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5299606119950628102}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5299606121918403389
-SpriteRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5299606121918403387}
-  m_Enabled: 1
-  m_CastShadows: 0
-  m_ReceiveShadows: 0
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RayTraceProcedural: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: d541400406f06e44cb81839bee3602cb, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 0
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: 24d79ba4e49b9bc44ba09dcaa6bba38f, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
-  m_FlipY: 0
-  m_DrawMode: 0
-  m_Size: {x: 3.45, y: 0.94}
-  m_AdaptiveModeThreshold: 0.5
-  m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
-  m_SpriteSortPoint: 0

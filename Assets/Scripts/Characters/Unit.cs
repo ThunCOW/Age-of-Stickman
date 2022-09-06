@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace StickmanChampion
 {
@@ -89,14 +90,30 @@ namespace StickmanChampion
         public Animator unitAnimator = null;
 
         [Header("Character Movement")]
-        protected bool isMoving;
         protected bool canMove = true;
         [HideInInspector] public bool isAnimationStarted = false;   // Animations require direction to be consistent
 
         /// <summary>
         /// if in idle - animation ended / movement ended / attack ended - check for character direction relative to target
         /// </summary>
-        protected bool idleing = false;
+        protected bool _idleing;
+        protected bool idleing
+        {
+            get { return _idleing; }
+            set
+            {
+                _idleing = value;
+                /*if(value == true)
+                {
+                    StopCoroutine(CheckUnitDirectionCycle());
+                    StartCoroutine(CheckUnitDirectionCycle());
+                }
+                else if(value == false)
+                {
+                    StopCoroutine(CheckUnitDirectionCycle());
+                }*/
+            }
+        }
 
         protected bool movingForward;
 
@@ -107,7 +124,19 @@ namespace StickmanChampion
         [HideInInspector] protected float multiplier = 1;
 
         [Header("Target Information")]
-        [SerializeField] protected Unit target = null;
+        [SerializeField] protected Unit _target;
+        protected Unit target
+        {
+            get { return _target; }
+            set
+            {
+                _target = value;
+
+                /*StopCoroutine(TargetInScreen());
+                if ( value != null )
+                    StartCoroutine(TargetInScreen());*/
+            }
+        }
 
         protected GameManager gameManager = null;
         // Start is called before the first frame update
@@ -121,6 +150,8 @@ namespace StickmanChampion
                 gameManager.EnemyUnits.Add(this);
             else
                 gameManager.PlayerUnits.Add(this);
+
+            gameManager.sortManager.AddToOrder(this);
 
             foreach (UnitStance Stance in stanceList)
             {
@@ -136,14 +167,15 @@ namespace StickmanChampion
                 stunType.Add(stun.attackType, stun.actionList);
             }
 
-            StartCoroutine(GetClosestUnitCycle());
-            StartCoroutine(FixDirection());
+            StartCoroutine(InitializeClosestUnitSearch());
+            //StartCoroutine(GetClosestUnitSearchCycle());
+            //StartCoroutine(CheckUnitDirectionCycle());
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if(tempState != currentStance)
+            if (tempState != currentStance)
             {
                 tempState = currentStance;
                 attackList = stance[currentStance];
@@ -151,6 +183,8 @@ namespace StickmanChampion
 
             if (Health > 0) // Only if alive
             {
+                if (idleing == true && target != null) CheckUnitDirection();        // Turns towards target while in idle only
+                
                 CharacterControls();
             }
         }
@@ -172,13 +206,10 @@ namespace StickmanChampion
             if(Health <= 0)
             {
                 CheckUnitDirection();
+                StopAllCoroutines();
 
                 canMove = false;
-                StopAllCoroutines();
-                // death
-                //Health = 100;
 
-                //Destroy(gameObject);
                 int randomDeath = 0;
                 switch (attack.attackRegion)
                 {
@@ -202,11 +233,11 @@ namespace StickmanChampion
                     gameManager.EnemyUnits.Remove(this);
                 else
                     gameManager.PlayerUnits.Remove(this);
+
+                gameManager.sortManager.RemoveFromOrder(this);
             }
             else
             {
-                //transform.position = new Vector2(transform.position.x + attack.PushDistance * attackDirection, transform.position.y);
-
                 CheckUnitDirection();
 
                 StopAllCoroutines();
@@ -217,21 +248,24 @@ namespace StickmanChampion
         // DealDamage called when attack decisiion happen, and meleeHitTrigger turns true via animation call
         [HideInInspector] public bool meleeHitTrigger = false;
         protected Action currentAttack = null;
-        protected IEnumerator DealDamage()
+        public IEnumerator DealDamage()
         {
             yield return new WaitUntil(() => meleeHitTrigger == true);
             
             meleeHitTrigger = false;
 
-            // If target is dead
             // scenario 1: there were multiple target in front of unit, one of them died, now need to change target
-            // scenario 2: the target in front died, now there is no target in front or any at all
+            // scenario 2: the target in front died, and there is no target in front or any at all
+            
+            // If target is dead
             if (target == null)
                 FindClosestUnit();
 
             // scenario 2
             if (target == null)
                 yield break;
+
+            gameManager.sortManager.BringToFront(this);
 
             int dir;
             
@@ -248,6 +282,7 @@ namespace StickmanChampion
                 yield break;
 
             // TODO: needs fixing later
+            // If target is in damage distance, succesfully landed the hit.
             //Debug.Log("closestPos = " + (target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x));
             if(Mathf.Abs(target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x) < currentAttack.Reach)
                 target.TakeDamage(currentAttack, dir);
@@ -255,22 +290,35 @@ namespace StickmanChampion
 
         protected virtual IEnumerator StunnedFor(float stunDuration, Action attack)
         {
-            direction = MoveDirection.waiting;
-            // play hurt animation
-
             yield return new WaitForSeconds(stunDuration);
         }
+
+        protected virtual void ReStartCoroutines() { }
 
         // Changes the speed during animation
         protected IEnumerator SpeedDuringAnimation(Action Attack)
         {
-            StartCoroutine(IdleAfterAnimation(Attack));
+            speed = 0;
 
+            // Animation works in normal speed
             if (Attack.speedCurve.Evaluate(0) == 0)
             {
+                speed = speed_;
+
+                yield return new WaitForSeconds(Attack.AnimationClip.length);
+
+                idleing = true;
+
+                if (meleeHitTrigger == true)
+                {
+                    meleeHitTrigger = false;
+                    currentAttack = null;
+                }
+
                 yield break;
             }
 
+            // Check for what ???
             if (target != null)
             {
                 if (transform.position.x < target.transform.position.x)     // if target is more on the right, unit direction is right
@@ -279,86 +327,28 @@ namespace StickmanChampion
                     direction = MoveDirection.left;
             }
 
+            // lasts until animation ends
             float animationLength = Attack.AnimationClip.length;
             float animationCurrentTime = 0;
-            while (animationLength > animationCurrentTime)
+            while (animationLength >= animationCurrentTime)
             {
                 animationCurrentTime += Time.deltaTime;
                 speedRelativeToAnimation = Attack.speedCurve.Evaluate(animationCurrentTime);
                 yield return null;
             }
-            speedRelativeToAnimation = 0;
-            direction = MoveDirection.waiting;
-        }
+            speed = speed_;
 
-        // idleing turns true after animation ends
-        protected IEnumerator IdleAfterAnimation(Action Action)
-        {
-            yield return new WaitForSeconds(Action.AnimationClip.length);
+            speedRelativeToAnimation = 0;
+
+            direction = MoveDirection.waiting;
+
             idleing = true;
 
             if (meleeHitTrigger == true)
             {
                 meleeHitTrigger = false;
-                currentAttack = null; 
+                currentAttack = null;
             }
-        }
-
-        // repeats itself until it dies, searches for closest target
-        protected IEnumerator GetClosestUnitCycle(float waitTime = 0)
-        {
-            yield return new WaitForSeconds(waitTime);
-
-            FindClosestUnit();
-
-            if (Health > 0)
-                StartCoroutine(GetClosestUnitCycle(Random.Range(0.1f, 0.25f)));
-        }
-
-        protected void FindClosestUnit()
-        {
-            // ie. If current unit is enemy, search for player units
-            List<Unit> unitList;
-            if (gameObject.CompareTag(gameManager.ENEMY_TAG))
-                unitList = gameManager.PlayerUnits;
-            else
-                unitList = gameManager.EnemyUnits;
-
-            if (unitList.Count == 0)
-                target = null;
-
-            float closestX = 5000;
-            foreach (Unit unit in unitList)
-            {
-                if (closestX > Mathf.Abs(transform.position.x - unit.transform.position.x))
-                {
-                    target = unit;
-                    closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
-                }
-            }
-        }
-
-        // Sometimes target is not found at start, repeats itself until it finds a target and fixes direction then kills the process.
-        protected IEnumerator FixDirection()
-        {
-            while(target == null)
-            {
-                yield return null;
-            }
-
-            if (target != null)
-            {
-                CheckUnitDirection();
-            }
-        }
-
-        protected void CheckUnitDirection()
-        {
-            // i.e if target is more on the right but unit is looking left, turn it right
-            if (transform.position.x < target.transform.position.x && transform.localScale.x < 0)
-                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-            else if (transform.position.x > target.transform.position.x && transform.localScale.x > 0)
-                transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
         }
 
         // Triggered when there is a projectile, waits until animation to turn releaseProjectile true.
@@ -389,9 +379,125 @@ namespace StickmanChampion
             if (gameObject.CompareTag(gameManager.ENEMY_TAG))
                 projectile.targetTag = gameManager.PLAYER_TAG;
             else
-                projectile.targetTag= gameManager.ENEMY_TAG;
+                projectile.targetTag = gameManager.ENEMY_TAG;
         }
 
+        // Called at Start, this helps to fix direction of spawned object
+        private IEnumerator InitializeClosestUnitSearch(float waitTime = 0)
+        {
+            yield return new WaitForSeconds(waitTime);
+
+            FindClosestUnit();
+            
+            if (target == null)
+            {
+                StartCoroutine(InitializeClosestUnitSearch(Random.Range(0.1f, 0.25f)));
+            }
+            else
+            {
+                CheckUnitDirection();
+                StartCoroutine(GetClosestUnitSearchCycle());
+            }
+        }
+        // repeats itself until unit dies, searches for closest target
+        protected IEnumerator GetClosestUnitSearchCycle(float waitTime = 0)
+        {
+            yield return new WaitForSeconds(waitTime);
+
+            FindClosestUnit();
+
+            if (Health > 0)
+                StartCoroutine(GetClosestUnitSearchCycle(Random.Range(0.1f, 0.25f)));
+        }
+
+        protected virtual void FindClosestUnit()
+        {
+            // ie. If current unit is enemy, search for player units
+            List<Unit> unitList;
+            if (gameObject.CompareTag(gameManager.ENEMY_TAG))
+                unitList = gameManager.PlayerUnits;
+            else
+                unitList = gameManager.EnemyUnits;
+
+            target = null;
+
+            Unit lastUnit = target;
+
+            float closestX = 5000;
+            foreach (Unit unit in unitList)
+            {
+                float dist = Mathf.Abs(transform.position.x - unit.transform.position.x);
+                if (this is AIUnit)
+                {
+                    if (closestX > dist)
+                    {
+                        target = unit;
+                        closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
+                    }
+                }
+                else
+                {
+                    float maxVision = 8.65f;    // maxVision is for player, player won't detect enemies outside of cam
+                    if (dist < maxVision)
+                    {
+                        if (closestX > dist)
+                        {
+                            target = unit;
+                            closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
+                        }
+                    }
+                }
+            }
+
+            /*if(target != null)
+            {
+                if(idleing == true)
+                {
+                    StopCoroutine(TargetInScreen());
+                    StartCoroutine(TargetInScreen());
+                }
+            }*/
+
+            // target changed, look direction 
+            if (lastUnit != target)
+            {
+
+            }
+        }
+
+        /*private IEnumerator CheckUnitDirectionCycle()
+        {
+            yield return new WaitForSeconds(Random.Range(0, 0.15f));
+
+            StopCoroutine(TargetInScreen());
+            StartCoroutine(TargetInScreen());
+
+            StartCoroutine(CheckUnitDirectionCycle());
+        }
+
+        protected IEnumerator TargetInScreen()
+        {
+            float dist = Mathf.Abs(this.transform.position.x - target.transform.position.x);
+            Debug.Log(dist);
+            while (dist >= 910.5f)
+            {
+                yield return null;
+            }
+
+            if(target != null)
+            {
+                if(idleing == true) CheckUnitDirection();
+            }
+        }*/
+
+        protected void CheckUnitDirection()
+        {
+            //Debug.Log("enters CheckUnitDirection");
+            // i.e if target is more on the right but unit is looking left, turn it right
+            int lookDir = transform.position.x > target.transform.position.x ? -1 : 1;
+
+            transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
+        }
     }
 
     public enum StanceList

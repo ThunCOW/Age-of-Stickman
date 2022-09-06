@@ -20,6 +20,7 @@ namespace StickmanChampion
         public void MeleeAttack()
         {
             Unit.meleeHitTrigger = true;
+            StartCoroutine(Unit.DealDamage());
         }
     } 
 }

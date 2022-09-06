@@ -13,6 +13,20 @@ public class ParallaxGroup : MonoBehaviour
     
     void OnValidate()
     {
+        if(Cam == null)
+        {
+            foreach(Camera cam in FindObjectsOfType<Camera>())
+            {
+                if (cam.tag == "Main Camera")
+                {
+                    this.Cam = cam.gameObject;
+                    break;
+                }
+            }
+            if (Cam == null)
+                Debug.LogError("Main Camera is missing in scene!");
+        }
+
         if(ParallaxObjects.Count == 0)
         {
             for(int i = 0; i < transform.childCount; i++)

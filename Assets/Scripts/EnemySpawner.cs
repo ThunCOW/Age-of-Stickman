@@ -20,7 +20,6 @@ public class EnemySpawner : MonoBehaviour
     private float randSpawnRate;
     private float nextSpawn = 0f;
 
-
     // Start is called before the first frame update
     void Start()
     {
