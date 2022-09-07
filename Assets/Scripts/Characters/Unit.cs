@@ -263,7 +263,11 @@ namespace StickmanChampion
 
             // scenario 2
             if (target == null)
+            {
+                currentAttack.swooshSoundEffect.PlayRandomSoundEffect();
+
                 yield break;
+            }
 
             gameManager.sortManager.BringToFront(this);
 
@@ -277,15 +281,31 @@ namespace StickmanChampion
 
             // i.e if target is being pushed to right, current unit must be looking right to land the hit, if its not looking right, misses it
             if (dir == (int)MoveDirection.right && transform.localScale.x < 0.1)
+            {
+                currentAttack.swooshSoundEffect.PlayRandomSoundEffect();
+
                 yield break;
+            }
             else if (dir == (int)MoveDirection.left && transform.localScale.x > 0.1)
+            {
+                currentAttack.swooshSoundEffect.PlayRandomSoundEffect();
+
                 yield break;
+            }
 
             // TODO: needs fixing later
             // If target is in damage distance, succesfully landed the hit.
             //Debug.Log("closestPos = " + (target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x));
-            if(Mathf.Abs(target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x) < currentAttack.Reach)
+            if (Mathf.Abs(target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x) < currentAttack.Reach)
+            {
+                currentAttack.hitSoundEffect.PlayRandomSoundEffect();
+
                 target.TakeDamage(currentAttack, dir);
+            }
+            else
+            {
+                currentAttack.swooshSoundEffect.PlayRandomSoundEffect();
+            }
         }
 
         protected virtual IEnumerator StunnedFor(float stunDuration, Action attack)
@@ -500,24 +520,6 @@ namespace StickmanChampion
         }
     }
 
-    public enum StanceList
-    {
-        Stand_A,
-        Stand_A_transition_B,
-        Stand_B,
-        Stand_B_transition_A,
-        Walking,
-        Special
-    }
-
-    [System.Serializable]
-    public class UnitStance
-    {
-        public StanceList Stance;
-        public List<Action> actionList = new List<Action>();
-        public List<DeathAction> deathActionList = new List<DeathAction>();
-    }
-
     [System.Serializable]
     public class Action
     {
@@ -530,6 +532,17 @@ namespace StickmanChampion
         [SerializeField] public AnimationCurve speedCurve;
         public GameObject rangedSpawnPrefab = null;
         public HitRegion attackRegion;
+
+        public SoundEffect swooshSoundEffect;
+        public SoundEffect hitSoundEffect;
+
+    }
+
+    [System.Serializable]
+    public class BaseAction
+    {
+        public AnimationClip AnimationClip;
+        public AnimationCurve speedCurve;
     }
 
     [System.Serializable]
@@ -538,42 +551,61 @@ namespace StickmanChampion
         public HitRegion deathType;
     }
 
+    /*public class CloseCombatAction : BaseAction
+    {
+        public AttackType attackType;
+        public AnimationMovementType animationMovementType;
+        public int Damage;
+        public float Reach;
+        public float PushDistance;
+        public HitRegion attackRegion;
+    }
+
+    public class RangedCombatAction : CloseCombatAction
+    {
+        public GameObject rangedSpawnPrefab = null;
+    }*/
+
     [System.Serializable]
     public class StunVariations
     {
         public AttackType attackType;
         public List<BaseAction> actionList = new List<BaseAction>();
     }
+
     [System.Serializable]
-    public class BaseAction
+    public class UnitStance
     {
-        public AnimationClip AnimationClip;
-        public AnimationCurve speedCurve;
-    }
-    /*[System.Serializable]
-    public class TestStance
-    {
-        [SerializeReference]
-        public ActionTest test = new RangedAttackAction();
+        public StanceList Stance;
+        public List<Action> actionList = new List<Action>();
+        public List<DeathAction> deathActionList = new List<DeathAction>();
     }
 
     [System.Serializable]
-    public class ActionTest
+    public class SoundEffect
     {
-        public string Test;
+        public List<AudioClip> soundEffectsList;
+
+        public void PlayRandomSoundEffect()
+        {
+            if (soundEffectsList.Count == 0)
+                return;
+
+            int randomSoundEffect = Random.Range(0, soundEffectsList.Count);
+
+            SoundManager.Instance.PlayEffect(soundEffectsList[randomSoundEffect]);
+        }
     }
-    [System.Serializable]
-    public class MeleeAttackAction : ActionTest
+
+    public enum StanceList
     {
-        public int Damage;
-        public float Reach;
-        public float PushDistance;
+        Stand_A,
+        Stand_A_transition_B,
+        Stand_B,
+        Stand_B_transition_A,
+        Walking,
+        Special
     }
-    [System.Serializable]
-    public class RangedAttackAction : MeleeAttackAction
-    {
-        public GameObject rangedSpawnObject = null;
-    }*/
 
     public enum AttackType
     {

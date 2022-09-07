@@ -113,6 +113,8 @@ namespace StickmanChampion
             if(Input.GetKeyDown(KeyCode.Space))
             {
                 attackTrigger = true;
+                stunTrigger = false;
+
                 if(triggerCoroutine != null) StopCoroutine(triggerCoroutine);
             }
             // Space Released
@@ -125,6 +127,8 @@ namespace StickmanChampion
             if(Input.GetKeyDown(KeyCode.R))
             {
                 stunTrigger = true;
+                attackTrigger = false;
+
                 if (triggerCoroutine != null) StopCoroutine(triggerCoroutine);
             }
             if(Input.GetKeyUp(KeyCode.R))
@@ -234,7 +238,7 @@ namespace StickmanChampion
 
         protected void AttackAction()
         {
-            // 
+            //
             if(target != null)
             {
                 CheckUnitDirection();
@@ -329,18 +333,21 @@ namespace StickmanChampion
         {
             base.FindClosestUnit();
 
-            // Set new movement direction and look direction
-            if (Input.GetKey(KeyCode.A))
+            if (!isAnimationStarted)
             {
-                direction = MoveDirection.left;
+                // Set new movement direction and look direction
+                if (Input.GetKey(KeyCode.A))
+                {
+                    direction = MoveDirection.left;
 
-                SetWalkingAnimation((int)direction);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                direction = MoveDirection.right;
+                    SetWalkingAnimation((int)direction);
+                }
+                else if (Input.GetKey(KeyCode.D))
+                {
+                    direction = MoveDirection.right;
 
-                SetWalkingAnimation((int)direction);
+                    SetWalkingAnimation((int)direction);
+                }
             }
         }
     }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace StickmanChampion
 {
@@ -243,6 +244,18 @@ namespace StickmanChampion
         {
             if (target != null)
             {
+                if(speed != 0)                                                                  // speed equals to zero means speed is controlled by speed curve for animation
+                {
+                    float dist = Mathf.Abs(transform.position.x - gameManager.transform.position.x);
+                    float maxVision = 8.65f;                                                    // maxVision for player
+                    if (dist > maxVision)                                                       //  if AIUnit is outside of cam, it will move faster to catch up and then slow down to normal speed level
+                    {
+                        if (target.speed != 0)  speed = target.speed * 1.5f;
+                    }
+                    else
+                        speed = speed_;
+                }
+
                 // if a unit has gotten enough close or extra closer to target than it was determinted to, ready for next action ( Basically idleing )
                 if (Mathf.Abs(transform.position.x - target.transform.position.x) <= newDistanceToTarget)
                 {

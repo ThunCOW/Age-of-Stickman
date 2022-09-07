@@ -22,6 +22,7 @@ namespace StickmanChampion
         }
         private float nextSpawnTimer;
         public int maxSpawn;
+        public int maxEnemyOnScreen;
 
         [HideInInspector] public List<Transform> spawnPosList;
 
@@ -54,7 +55,9 @@ namespace StickmanChampion
         // Update is called once per frame
         void Update()
         {
-            if (maxSpawn > 0) SpawnLogic();
+            if (maxSpawn > 0) 
+                if(maxEnemyOnScreen > GameManager.Instance.EnemyUnits.Count) 
+                    SpawnLogic();
         }
 
         void SpawnLogic()
@@ -89,7 +92,10 @@ namespace StickmanChampion
 
                 maxSpawn--;
 
-                nextSpawnTimer = spawnTimer;
+                if (maxEnemyOnScreen > GameManager.Instance.EnemyUnits.Count)
+                    nextSpawnTimer = spawnTimer * 2;
+                else
+                    nextSpawnTimer = spawnTimer;
             }
         }
 

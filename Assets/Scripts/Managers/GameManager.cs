@@ -20,7 +20,13 @@ namespace StickmanChampion
 
         private void Awake()
         {
-            Instance = this;
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(this.gameObject);
+            }
+            else
+                Destroy(this.gameObject);
 
             transform.parent = Player.gameObject.transform;
             transform.localPosition = new Vector2(0, transform.localPosition.y);
