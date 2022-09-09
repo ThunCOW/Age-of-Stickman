@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1871919695
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 2affc3424e31d5a498dc35adc4bbe953, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   Health: 40
+  bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   stanceList:
   - Stance: 0
     actionList:
@@ -185,6 +186,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: -1.746
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 0
       animationMovementType: 0
       Damage: 10
@@ -199,6 +214,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: -2.361
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 0
       animationMovementType: 1
       Damage: 10
@@ -249,6 +278,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 0
+      hitHeightPosiiton: -1.609
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 0
       animationMovementType: 1
       Damage: 10
@@ -299,6 +342,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 2
+      hitHeightPosiiton: -2.751
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 1
       animationMovementType: 0
       Damage: 0
@@ -313,6 +370,15 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: 0
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: e7d435d73eef9da44bb4f0717f2b199a, type: 3}
+        - {fileID: 8300000, guid: fa9f3f07ef7c6f142a148fabc371427b, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 59785368d6b21fd4d80aee7948b4ef66, type: 3}
+        - {fileID: 8300000, guid: 47bb7bfac3089554d991e13014afa1aa, type: 3}
     - attackType: 2
       animationMovementType: 0
       Damage: 0
@@ -327,6 +393,15 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: 0
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: e7d435d73eef9da44bb4f0717f2b199a, type: 3}
+        - {fileID: 8300000, guid: fa9f3f07ef7c6f142a148fabc371427b, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 59785368d6b21fd4d80aee7948b4ef66, type: 3}
+        - {fileID: 8300000, guid: 47bb7bfac3089554d991e13014afa1aa, type: 3}
     deathActionList:
     - AnimationClip: {fileID: 7400000, guid: 1e528b2c3a418e548bb03efc239f216b, type: 2}
       speedCurve:
@@ -336,6 +411,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 1
+      CutPart: {fileID: 0}
     - AnimationClip: {fileID: 7400000, guid: a95b2f86ad19421459b17b8cf4039892, type: 2}
       speedCurve:
         serializedVersion: 2
@@ -344,7 +420,8 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 0
-    - AnimationClip: {fileID: 7400000, guid: 7ebee8aa371937f449f74db2837daa43, type: 2}
+      CutPart: {fileID: 0}
+    - AnimationClip: {fileID: 7400000, guid: e29ab9c9678d33c479bdefc3b36cc90e, type: 2}
       speedCurve:
         serializedVersion: 2
         m_Curve: []
@@ -352,6 +429,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 0
+      CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
     - AnimationClip: {fileID: 7400000, guid: 0331a9f6213ce9243baa92b6652dceaa, type: 2}
       speedCurve:
         serializedVersion: 2
@@ -360,6 +438,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 0
+      CutPart: {fileID: 0}
     - AnimationClip: {fileID: 7400000, guid: 1e528b2c3a418e548bb03efc239f216b, type: 2}
       speedCurve:
         serializedVersion: 2
@@ -368,6 +447,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 2
+      CutPart: {fileID: 0}
   stunVariations:
   - attackType: 0
     actionList:
@@ -530,6 +610,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 7793430469283690595}
     m_Modifications:
+    - target: {fileID: 1167490254741200964, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
+      propertyPath: m_SortingOrder
+      value: -10
+      objectReference: {fileID: 0}
     - target: {fileID: 1167490254741200965, guid: 21f82b691e6f1534da1184201af538b3, type: 3}
       propertyPath: m_RootOrder
       value: 1

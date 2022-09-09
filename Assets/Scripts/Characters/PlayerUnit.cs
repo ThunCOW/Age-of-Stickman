@@ -28,7 +28,7 @@ namespace StickmanChampion
             if (nonStationaryStun == null)
                 nonStationaryStun = new List<Action>();
 
-            gameManager.Player = this;
+            GameManager.Instance.Player = this;
 
             foreach(Action action in attackList)
             {
@@ -222,7 +222,6 @@ namespace StickmanChampion
 
         private IEnumerator ResetAttackTrigger(KeyCode keyCode)
         {
-            Debug.Log("enters here");
             yield return new WaitForSeconds(0.25f);
 
             switch (keyCode)
@@ -326,6 +325,9 @@ namespace StickmanChampion
 
         protected override void ReStartCoroutines()
         {
+            attackTrigger = false;
+            stunTrigger = false;
+
             StartCoroutine(GetClosestUnitSearchCycle());
         }
 

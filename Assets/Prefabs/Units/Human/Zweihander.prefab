@@ -73,7 +73,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1871919695
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 07b752ec4bdef6247b8923399d178382, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -168,6 +168,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   Health: 25
+  bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   stanceList:
   - Stance: 0
     actionList:
@@ -185,6 +186,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: -1.65
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 0
       animationMovementType: 0
       Damage: 10
@@ -199,9 +214,23 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: -1.68
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 0
       animationMovementType: 0
-      Damage: 0
+      Damage: 10
       Reach: 2.68
       PushDistance: 0
       AnimationClip: {fileID: 7400000, guid: c6fb72bc2c685ea49b58a8133964b55f, type: 2}
@@ -213,6 +242,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: -1.62
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 1
       animationMovementType: 0
       Damage: 0
@@ -227,6 +270,15 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: 0
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: e7d435d73eef9da44bb4f0717f2b199a, type: 3}
+        - {fileID: 8300000, guid: fa9f3f07ef7c6f142a148fabc371427b, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 59785368d6b21fd4d80aee7948b4ef66, type: 3}
+        - {fileID: 8300000, guid: 47bb7bfac3089554d991e13014afa1aa, type: 3}
     deathActionList:
     - AnimationClip: {fileID: 7400000, guid: a62e842a5f73c794e82471bae6bdf897, type: 2}
       speedCurve:
@@ -236,6 +288,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 1
+      CutPart: {fileID: 0}
     - AnimationClip: {fileID: 7400000, guid: 0fde76ada1416e94fa7b93f19dd38f75, type: 2}
       speedCurve:
         serializedVersion: 2
@@ -244,6 +297,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 0
+      CutPart: {fileID: 0}
     - AnimationClip: {fileID: 7400000, guid: 02118d447aac4d6419a781cdc8cc7fbb, type: 2}
       speedCurve:
         serializedVersion: 2
@@ -252,6 +306,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 0
+      CutPart: {fileID: 0}
     - AnimationClip: {fileID: 7400000, guid: 87373a089bfd6a5478cc984202174ea0, type: 2}
       speedCurve:
         serializedVersion: 2
@@ -260,6 +315,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 0
+      CutPart: {fileID: 0}
     - AnimationClip: {fileID: 7400000, guid: e19e505412a3bd342a7baf3dbaf9887a, type: 2}
       speedCurve:
         serializedVersion: 2
@@ -268,6 +324,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 2
+      CutPart: {fileID: 0}
     - AnimationClip: {fileID: 7400000, guid: a62e842a5f73c794e82471bae6bdf897, type: 2}
       speedCurve:
         serializedVersion: 2
@@ -276,6 +333,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 2
+      CutPart: {fileID: 0}
   stunVariations:
   - attackType: 0
     actionList:
@@ -382,7 +440,7 @@ MonoBehaviour:
   _target: {fileID: 0}
   meleeHitTrigger: 0
   releaseProjectile: 0
-  _aiAgressiveness: 0
+  _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!61 &5489001913009341044
 BoxCollider2D:

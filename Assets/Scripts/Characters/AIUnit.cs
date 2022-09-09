@@ -17,7 +17,6 @@ namespace StickmanChampion
 
         private bool preparingAttack = false;   // prevents decision making during movement attack
 
-        
         [SerializeField] private AIAgressiveness _aiAgressiveness;
         public AIAgressiveness aiAgressiveness
         {
@@ -138,8 +137,8 @@ namespace StickmanChampion
                         StartCoroutine(SpeedDuringAnimation(attackList[randomAttack]));
 
                         // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
-                        if (attackList[randomAttack].rangedSpawnPrefab != null)
-                            StartCoroutine(UseRangedWeapon(attackList[randomAttack]));
+                        if (currentAttack.rangedSpawnPrefab != null)
+                            StartCoroutine(UseRangedWeapon(currentAttack));
 
                         if (changeStance == true)
                         {
@@ -246,7 +245,7 @@ namespace StickmanChampion
             {
                 if(speed != 0)                                                                  // speed equals to zero means speed is controlled by speed curve for animation
                 {
-                    float dist = Mathf.Abs(transform.position.x - gameManager.transform.position.x);
+                    float dist = Mathf.Abs(transform.position.x - GameManager.Instance.transform.position.x);
                     float maxVision = 8.65f;                                                    // maxVision for player
                     if (dist > maxVision)                                                       //  if AIUnit is outside of cam, it will move faster to catch up and then slow down to normal speed level
                     {

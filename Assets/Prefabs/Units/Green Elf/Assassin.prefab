@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5299606119950628098}
   m_Layer: 0
   m_Name: Assassin
-  m_TagString: EnemyUnit
+  m_TagString: PlayerUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHealth: 100
-  Health: 31
+  Health: 100
+  bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   stanceList:
   - Stance: 0
     actionList:
@@ -67,6 +68,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 0
+      hitHeightPosiiton: -1.614
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 0
       animationMovementType: 0
       Damage: 10
@@ -81,6 +96,48 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
+      hitHeightPosiiton: -1.961
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
+    - attackType: 0
+      animationMovementType: 0
+      Damage: 0
+      Reach: 2.495
+      PushDistance: 0
+      AnimationClip: {fileID: 7400000, guid: 2660cbceadd714847a489206b3deefb7, type: 2}
+      speedCurve:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 0
+        m_PostInfinity: 0
+        m_RotationOrder: 0
+      rangedSpawnPrefab: {fileID: 0}
+      attackRegion: 1
+      hitHeightPosiiton: -1.57
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 0
       animationMovementType: 1
       Damage: 10
@@ -131,6 +188,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 0
+      hitHeightPosiiton: -1.961
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 0
       animationMovementType: 1
       Damage: 10
@@ -181,6 +252,20 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 0
+      hitHeightPosiiton: -1.474
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
+        - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
+        - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
+        - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
+        - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
+        - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
+        - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
+        - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}
     - attackType: 1
       animationMovementType: 0
       Damage: 0
@@ -195,20 +280,15 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 0}
       attackRegion: 1
-    - attackType: 0
-      animationMovementType: 0
-      Damage: 0
-      Reach: 2.495
-      PushDistance: 0
-      AnimationClip: {fileID: 7400000, guid: 2660cbceadd714847a489206b3deefb7, type: 2}
-      speedCurve:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 0
-        m_PostInfinity: 0
-        m_RotationOrder: 0
-      rangedSpawnPrefab: {fileID: 0}
-      attackRegion: 1
+      hitHeightPosiiton: 0
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: e7d435d73eef9da44bb4f0717f2b199a, type: 3}
+        - {fileID: 8300000, guid: fa9f3f07ef7c6f142a148fabc371427b, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 59785368d6b21fd4d80aee7948b4ef66, type: 3}
+        - {fileID: 8300000, guid: 47bb7bfac3089554d991e13014afa1aa, type: 3}
     deathActionList:
     - AnimationClip: {fileID: 7400000, guid: 738afaab65882c44d8ec922216400242, type: 2}
       speedCurve:
@@ -356,7 +436,7 @@ MonoBehaviour:
   _target: {fileID: 0}
   meleeHitTrigger: 0
   releaseProjectile: 0
-  _aiAgressiveness: 0
+  _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!61 &5299606119950628101
 BoxCollider2D:
@@ -478,7 +558,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1871919695
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 20dfbc188fa1b8a4da9979c50c8b466a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

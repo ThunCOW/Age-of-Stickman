@@ -13,10 +13,10 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Blood
+  - Blood 2
+  - Ground
+  - Cut Unit Parts
   - 
   - 
   - 
@@ -42,6 +42,9 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Blood
+    uniqueID: 3727170933
     locked: 0
   - name: Shadow
     uniqueID: 2065995805

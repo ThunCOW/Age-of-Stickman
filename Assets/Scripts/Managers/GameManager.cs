@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace StickmanChampion
 {
@@ -31,6 +32,7 @@ namespace StickmanChampion
             transform.parent = Player.gameObject.transform;
             transform.localPosition = new Vector2(0, transform.localPosition.y);
         }
+
         // Start is called before the first frame update
         void Start()
         {
@@ -63,6 +65,18 @@ namespace StickmanChampion
             {
                 ChangeSort(u);
             }*/
+        }
+
+        public void ChangePlayerSortOnly(Unit aggressor, Unit target)
+        {
+            if(aggressor is PlayerUnit)
+            {
+                aggressor.GetComponentInChildren<SpriteRenderer>().sortingOrder = 999;
+            }
+            else if(target is PlayerUnit)
+            {
+                target.GetComponentInChildren<SpriteRenderer>().sortingOrder = -1;
+            }
         }
 
         // Newly initiated unit 

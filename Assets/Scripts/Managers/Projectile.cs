@@ -33,6 +33,8 @@ namespace StickmanChampion
                 // hits the target
                 if (collision.gameObject.CompareTag(targetTag))
                 {
+                    RangedAttack.hitSoundEffect.PlayRandomSoundEffect();
+
                     collision.GetComponent<Unit>().TakeDamage(RangedAttack);
                     /*gameObject.transform.parent = collision.gameObject.transform;
                     GetComponent<BoxCollider2D>().enabled = false;

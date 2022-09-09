@@ -51,6 +51,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHealth: 100
   Health: 9
+  bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   stanceList:
   - Stance: 0
     actionList:
@@ -68,6 +69,14 @@ MonoBehaviour:
         m_RotationOrder: 0
       rangedSpawnPrefab: {fileID: 471602743204583940, guid: a721e46aad272284a971c8eda23d9ba1, type: 3}
       attackRegion: 1
+      hitHeightPosiiton: -2.05
+      swooshSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 6a948b58f9baff24db06e0e702e7139a, type: 3}
+        - {fileID: 8300000, guid: ae6f68eccb93bcb45863496ec03da2c7, type: 3}
+      hitSoundEffect:
+        soundEffectsList:
+        - {fileID: 8300000, guid: 4ef6e6fbcbf2dff4499ac0cdfbc9ad60, type: 3}
     deathActionList:
     - AnimationClip: {fileID: 7400000, guid: 041202c9581c7da479c5d84add0f9d60, type: 2}
       speedCurve:
@@ -337,7 +346,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1871919695
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 9ddb80f8086ec384e80e77c80085e95c, type: 3}
   m_Color: {r: 0.99215686, g: 1, b: 1, a: 1}
