@@ -1374,6 +1374,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 138076240, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -15.36
+      objectReference: {fileID: 0}
     - target: {fileID: 729561227878750506, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2247,7 +2251,7 @@ MonoBehaviour:
         - {fileID: 8300000, guid: 59785368d6b21fd4d80aee7948b4ef66, type: 3}
         - {fileID: 8300000, guid: 47bb7bfac3089554d991e13014afa1aa, type: 3}
     deathActionList:
-    - AnimationClip: {fileID: 7400000, guid: e29ab9c9678d33c479bdefc3b36cc90e, type: 2}
+    - AnimationClip: {fileID: 7400000, guid: 0331a9f6213ce9243baa92b6652dceaa, type: 2}
       speedCurve:
         serializedVersion: 2
         m_Curve: []
@@ -2256,7 +2260,7 @@ MonoBehaviour:
         m_RotationOrder: 0
       deathType: 1
       CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
-    - AnimationClip: {fileID: 7400000, guid: e29ab9c9678d33c479bdefc3b36cc90e, type: 2}
+    - AnimationClip: {fileID: 7400000, guid: 0331a9f6213ce9243baa92b6652dceaa, type: 2}
       speedCurve:
         serializedVersion: 2
         m_Curve: []
@@ -2265,7 +2269,7 @@ MonoBehaviour:
         m_RotationOrder: 0
       deathType: 0
       CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
-    - AnimationClip: {fileID: 7400000, guid: e29ab9c9678d33c479bdefc3b36cc90e, type: 2}
+    - AnimationClip: {fileID: 7400000, guid: 0331a9f6213ce9243baa92b6652dceaa, type: 2}
       speedCurve:
         serializedVersion: 2
         m_Curve: []
@@ -2274,7 +2278,7 @@ MonoBehaviour:
         m_RotationOrder: 0
       deathType: 0
       CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
-    - AnimationClip: {fileID: 7400000, guid: e29ab9c9678d33c479bdefc3b36cc90e, type: 2}
+    - AnimationClip: {fileID: 7400000, guid: 0331a9f6213ce9243baa92b6652dceaa, type: 2}
       speedCurve:
         serializedVersion: 2
         m_Curve: []
@@ -2283,7 +2287,7 @@ MonoBehaviour:
         m_RotationOrder: 0
       deathType: 0
       CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
-    - AnimationClip: {fileID: 7400000, guid: e29ab9c9678d33c479bdefc3b36cc90e, type: 2}
+    - AnimationClip: {fileID: 7400000, guid: 0331a9f6213ce9243baa92b6652dceaa, type: 2}
       speedCurve:
         serializedVersion: 2
         m_Curve: []

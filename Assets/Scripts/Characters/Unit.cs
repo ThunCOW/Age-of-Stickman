@@ -213,25 +213,6 @@ namespace StickmanChampion
                     case HitRegion.High:
                         randomDeath = Random.Range(0, deathActions.highRegion.Count);
                         unitAnimator.Play(deathActions.highRegion[randomDeath].AnimationClip.name, 0);
-
-                        // Spawn Body Part and set initial position and scales
-                        Vector3 cutSpawnPos = deathActions.highRegion[randomDeath].CutPart.transform.position;
-                        GameObject cut_part = Instantiate(deathActions.highRegion[randomDeath].CutPart, gameObject.transform);
-                        cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
-                        cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, 1, 1);
-
-                        // Randomize a fling degree and get vector equivalent
-                        float degree = Random.Range(0, 180);
-                        float degreeToRad = degree * Mathf.Deg2Rad;
-                        Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
-
-                        // Add speed on X and Y axis calculated above, force amount is also randomized
-                        cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 500));
-
-                        // Add torque to make it spin around
-                        int torqDir = radToVec2.x > 0 ? -1 : 1;
-                        cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
-
                         break;
                     case HitRegion.Mid:
                         randomDeath = Random.Range(0, deathActions.midRegion.Count);
@@ -244,7 +225,26 @@ namespace StickmanChampion
                     default:
                         break;
                 }
-                
+                if (deathActions.highRegion[randomDeath].CutPart != null)
+                {
+                    // Spawn Body Part and set initial position and scales
+                    Vector3 cutSpawnPos = deathActions.highRegion[randomDeath].CutPart.transform.position;
+                    GameObject cut_part = Instantiate(deathActions.highRegion[randomDeath].CutPart, gameObject.transform);
+                    cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
+                    cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, 1, 1);
+
+                    // Randomize a fling degree and get vector equivalent
+                    float degree = Random.Range(0, 180);
+                    float degreeToRad = degree * Mathf.Deg2Rad;
+                    Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+
+                    // Add speed on X and Y axis calculated above, force amount is also randomized
+                    cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 500));
+
+                    // Add torque to make it spin around
+                    int torqDir = radToVec2.x > 0 ? -1 : 1;
+                    cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
+                }
 
                 if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
                     GameManager.Instance.EnemyUnits.Remove(this);

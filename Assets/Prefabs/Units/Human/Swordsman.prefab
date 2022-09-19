@@ -438,7 +438,7 @@ MonoBehaviour:
         m_PostInfinity: 0
         m_RotationOrder: 0
       deathType: 0
-      CutPart: {fileID: 0}
+      CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
     - AnimationClip: {fileID: 7400000, guid: 1e528b2c3a418e548bb03efc239f216b, type: 2}
       speedCurve:
         serializedVersion: 2
