@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: DualWeapon
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 4933f757a48bcda48a1e03e0518649c9, type: 2}
+      Movement: {fileID: 11400000, guid: 4a1616fb77250074da6521965b8cd89e, type: 2}
+      MovementBackward: {fileID: 0}
+      Hurt: {fileID: 11400000, guid: 41154055edb8b0643b8a1a60cd89755f, type: 2}
+      Kicked: {fileID: 11400000, guid: e73291aa0b039aa49bd9d5b365116415, type: 2}
+      Slammed: {fileID: 11400000, guid: 6d1859867c381104591010f2dcfdabb7, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 7c2f454dbd3b8674d9259967406cc9f6, type: 2}
+      - {fileID: 11400000, guid: b7165640a03bebf478065ab27db68d65, type: 2}
+      - {fileID: 11400000, guid: 557f58f807ddc774da3fdb459fa463f6, type: 2}
+      WalkAttack:
+      - {fileID: 11400000, guid: 00169173fedf3f147916fd92b43a9c87, type: 2}
+      - {fileID: 11400000, guid: bc34979fdbdbbe745a7e55544dc29497, type: 2}
+      Death: []
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: 55be1cff149c5694fb7f894c439a2926, type: 2}
+        - {fileID: 11400000, guid: ccec0427025ebe64dbf0b4edea6c2ac1, type: 2}
+        - {fileID: 11400000, guid: 5f6aaf44180ac3e438599681ae712e28, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: 8155c9c9a0389914db30b71c58141e4f, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 8155c9c9a0389914db30b71c58141e4f, type: 2}
+      StunVariations: []
+      BreakStance:
+      - {fileID: 11400000, guid: b09f808c818fcf24784b8a46bc44c603, type: 2}

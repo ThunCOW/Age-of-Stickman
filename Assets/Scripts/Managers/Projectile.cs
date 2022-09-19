@@ -35,7 +35,7 @@ namespace StickmanChampion
                 {
                     RangedAttack.hitSoundEffect.PlayRandomSoundEffect();
 
-                    collision.GetComponent<Unit>().TakeDamage(RangedAttack);
+                    collision.GetComponent<Unit_Old>().TakeDamage(RangedAttack);
                     /*gameObject.transform.parent = collision.gameObject.transform;
                     GetComponent<BoxCollider2D>().enabled = false;
                     speed = 0;*/

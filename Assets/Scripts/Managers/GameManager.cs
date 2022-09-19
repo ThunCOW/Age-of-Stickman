@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.UI.CanvasScaler;
 
 namespace StickmanChampion
 {
@@ -10,9 +9,9 @@ namespace StickmanChampion
         public static GameManager Instance;
         
         [Header("Unit Assignments")]
-        public Unit Player;
-        public List<Unit> EnemyUnits = new List<Unit>();
-        public List<Unit> PlayerUnits = new List<Unit>();
+        public Unit_Old Player;
+        public List<Unit_Old> EnemyUnits = new List<Unit_Old>();
+        public List<Unit_Old> PlayerUnits = new List<Unit_Old>();
 
         public string ENEMY_TAG = "EnemyUnit";
         public string PLAYER_TAG = "PlayerUnit";
@@ -50,14 +49,14 @@ namespace StickmanChampion
     public class SortManager
     {
         [SerializeField]
-        public List<Unit> sortingOrder;
+        public List<Unit_Old> sortingOrder;
         
         public SortManager()
         {
-            sortingOrder = new List<Unit>();
+            sortingOrder = new List<Unit_Old>();
         }
 
-        public void BringToFront(Unit unit)
+        public void BringToFront(Unit_Old unit)
         {
             /*sortingOrder.Remove(unit);
             sortingOrder.Add(unit);
@@ -67,7 +66,7 @@ namespace StickmanChampion
             }*/
         }
 
-        public void ChangePlayerSortOnly(Unit aggressor, Unit target)
+        public void ChangePlayerSortOnly(Unit_Old aggressor, Unit_Old target)
         {
             if(aggressor is PlayerUnit)
             {
@@ -80,7 +79,7 @@ namespace StickmanChampion
         }
 
         // Newly initiated unit 
-        public void AddToOrder(Unit unit)
+        public void AddToOrder(Unit_Old unit)
         {
             sortingOrder.Add(unit);
             ChangeSort(unit);
@@ -88,19 +87,19 @@ namespace StickmanChampion
 
         // Dead units are thrown to the back, newly dead units will have higher priority on sorting order.
         private int deathNumber;
-        public void RemoveFromOrder(Unit unit)
+        public void RemoveFromOrder(Unit_Old unit)
         {
             sortingOrder.Remove(unit);
             unit.GetComponentInChildren<SpriteRenderer>().sortingOrder = -999 + deathNumber;
             deathNumber++;
 
-            foreach (Unit u in sortingOrder)
+            foreach (Unit_Old u in sortingOrder)
             {
                 ChangeSort(u);
             }
         }
 
-        void ChangeSort(Unit unit)
+        void ChangeSort(Unit_Old unit)
         {
             int newOrder = sortingOrder.IndexOf(unit);
             unit.GetComponentInChildren<SpriteRenderer>().sortingOrder = newOrder;

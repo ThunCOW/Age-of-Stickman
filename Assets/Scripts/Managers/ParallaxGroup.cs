@@ -17,7 +17,7 @@ public class ParallaxGroup : MonoBehaviour
         {
             foreach(Camera cam in FindObjectsOfType<Camera>())
             {
-                if (cam.tag == "Main Camera")
+                if (cam.tag == "MainCamera")
                 {
                     this.Cam = cam.gameObject;
                     break;

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
+  m_Name: Spear
+  m_EditorClassIdentifier: 
+  id: 8e13ed0e18d4e6a4290b1cb0e2e327eb
+  ItemName: Spear
+  ItemSlot: 3
+  front:
+  - SlotName: Weapon/Spear_0
+    AttachmentName: Weapon/Spear_00
+  side: []
+  back: []
+  AnimationList: {fileID: 11400000, guid: c9c74624d1934564fb91395f859b47ae, type: 2}

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
+  m_Name: Sword_3 OffHand
+  m_EditorClassIdentifier: 
+  id: 8647725c23631c8428ffc758ef6e300a
+  ItemName: 
+  ItemSlot: 4
+  front:
+  - SlotName: Weapon/OneHand_Sword_1 OffHand
+    AttachmentName: Weapon/OneHand_Sword_03
+  side: []
+  back: []
+  AnimationList: {fileID: 11400000, guid: 101e70e7f66bf3441bc36ea856bd32ba, type: 2}

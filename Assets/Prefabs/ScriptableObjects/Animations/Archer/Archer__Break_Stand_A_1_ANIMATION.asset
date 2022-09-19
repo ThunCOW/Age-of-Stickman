@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c5c3fa30a596a4ea3b616783c75d35, type: 3}
+  m_Name: Archer__Break_Stand_A_1_ANIMATION
+  m_EditorClassIdentifier: 
+  Prefix: Archer
+  AnimationName: Break_Stand_A_1
+  SpineAnimationReference: {fileID: 11400000, guid: 3cb4c4d26bc79ff489b70b9b5b779c80, type: 2}
+  _PrefixChangeCheck: Archer
+  _AnimationNameChangeCheck: Break_Stand_A_1
+  GetAnimationBool: 0
+  speedCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  attackType: 1
+  animationMovementType: 0
+  Damage: 0
+  Reach: 1.55
+  PushDistance: 0
+  attackRegion: 1
+  hitHeightPosiiton: 0
+  swooshSoundEffect:
+    soundEffectsList: []
+  hitSoundEffect:
+    soundEffectsList: []

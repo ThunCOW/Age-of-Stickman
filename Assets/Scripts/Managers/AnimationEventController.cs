@@ -6,10 +6,10 @@ namespace StickmanChampion
 {
     public class AnimationEventController : MonoBehaviour
     {
-        Unit Unit = null;
+        Unit_Old Unit = null;
         void Start()
         {
-            Unit = gameObject.transform.GetComponentInParent<Unit>();
+            Unit = gameObject.transform.GetComponentInParent<Unit_Old>();
         }
 
         public void RangedAttack()

@@ -29,3 +29,19 @@ public class SoundManager : MonoBehaviour
         musicSource.PlayOneShot(clip);
     }
 }
+
+[System.Serializable]
+public class SoundEffect
+{
+    public List<AudioClip> soundEffectsList;
+
+    public void PlayRandomSoundEffect()
+    {
+        if (soundEffectsList.Count == 0)
+            return;
+
+        int randomSoundEffect = Random.Range(0, soundEffectsList.Count);
+
+        SoundManager.Instance.PlayEffect(soundEffectsList[randomSoundEffect]);
+    }
+}
