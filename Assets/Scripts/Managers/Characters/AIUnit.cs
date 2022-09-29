@@ -341,21 +341,4 @@ namespace StickmanChampion
             StartCoroutine(GetClosestUnitSearchCycle());
         }
     }
-
-    public enum AIAgressiveness
-    {
-        low,
-        medium,
-        high,
-        boss
-    }
-
-    [System.Serializable]
-    public class AIVariables
-    {
-        public AIAgressiveness aIAgressivenesses;                                   // Agressiveness Level
-        public float AttackChance;                                                  // Attack chance out of 100
-        public float maxWaitAfterAttack;                                            // Max wait chance calculated by summary of two random number
-        public float maxWaitAfterMovement;                                          // Same as above
-    }
 }

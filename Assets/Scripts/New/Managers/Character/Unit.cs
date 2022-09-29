@@ -8,10 +8,10 @@ public class Unit : MonoBehaviour
     [Header("Character Stats")]
     [SerializeField] protected int MaxHealth;
     public int Health;
+    public GameObject bloodObject;
 
     [HideInInspector] public UnitController unitController;
-
-    public GameObject bloodObject;
+    [HideInInspector] public InventoryManager unitInventory;
 
     private StanceList tempState;
     private StanceList _currentStance;
@@ -50,10 +50,12 @@ public class Unit : MonoBehaviour
     [Header("Target Information")]
     public Unit target;
 
-    void Awake()
+    void OnValidate()
     {
         // Unit Controller
-        unitController = GetComponent<UnitController>();
+        if(unitController == null) unitController = GetComponent<UnitController>();
+
+        if (unitInventory == null) unitInventory = GetComponent<InventoryManager>();
     }
 
     // Start is called before the first frame update

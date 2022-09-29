@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Break_Stand_A_1 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: a5f20cba9223af2498c85162b7c51837, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 2237d2830c871964a9dc02c4bb0f601f, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Break_Stand_A_1 UNITY
-  GetAnimationBool: 0
   speedCurve:
     serializedVersion: 2
     m_Curve: []
@@ -31,7 +30,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: 0
-  swooshSoundEffect:
-    soundEffectsList: []
-  hitSoundEffect:
-    soundEffectsList: []
+  SoundObject: {fileID: 11400000, guid: 7ea0058a0023bfc42ada000b3ffe1e68, type: 2}

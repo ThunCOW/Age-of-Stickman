@@ -1,4 +1,3 @@
-using StickmanChampion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -241,7 +240,7 @@ public class AIController : UnitController
         {
             if (speed != 0)                                                                  // speed equals to zero means speed is controlled by speed curve for animation
             {
-                float dist = Mathf.Abs(transform.position.x - GameManager.Instance.transform.position.x);
+                float dist = Mathf.Abs(transform.position.x - SpineControllerVersion.GameManager.Instance.transform.position.x);
                 float maxVision = 8.65f;                                                    // maxVision for player
                 if (dist > maxVision)                                                       //  if AIUnit is outside of cam, it will move faster to catch up and then slow down to normal speed level
                 {
@@ -276,4 +275,21 @@ public class AIController : UnitController
     {
         StartCoroutine(AIActionDecision());
     }
+}
+
+public enum AIAgressiveness
+{
+    low,
+    medium,
+    high,
+    boss
+}
+
+[System.Serializable]
+public class AIVariables
+{
+    public AIAgressiveness aIAgressivenesses;                                   // Agressiveness Level
+    public float AttackChance;                                                  // Attack chance out of 100
+    public float maxWaitAfterAttack;                                            // Max wait chance calculated by summary of two random number
+    public float maxWaitAfterMovement;                                          // Same as above
 }

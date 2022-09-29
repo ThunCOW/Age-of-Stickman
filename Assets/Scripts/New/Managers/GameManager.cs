@@ -1,7 +1,7 @@
 using Spine.Unity;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SpineControllerVersion
 {
@@ -17,7 +17,20 @@ namespace SpineControllerVersion
         public string ENEMY_TAG = "EnemyUnit";
         public string PLAYER_TAG = "PlayerUnit";
 
-        public SortManager sortManager = new SortManager();
+        [Header("Player Gold")]
+        private int _Gold;
+        public int Gold
+        {
+            get { return _Gold; }
+            set 
+            {
+                _Gold = value;
+                GoldText.text = value.ToString();
+            }
+        }
+        public Text GoldText;
+
+        [HideInInspector] public SortManager sortManager = new SortManager();
 
         private void Awake()
         {
@@ -28,9 +41,6 @@ namespace SpineControllerVersion
             }
             else
                 Destroy(this.gameObject);
-
-            transform.parent = Player.gameObject.transform;
-            transform.localPosition = new Vector2(0, transform.localPosition.y);
         }
 
         // Start is called before the first frame update
@@ -43,6 +53,11 @@ namespace SpineControllerVersion
         void Update()
         {
 
+        }
+
+        void AddGold()
+        {
+            _Gold++;
         }
     }
 
@@ -69,15 +84,14 @@ namespace SpineControllerVersion
 
         public void ChangePlayerSortOnly(Unit aggressor, Unit target)
         {
-            // TODO ai unit player unit is not defined yet, so fix later
-            /*if (aggressor is PlayerUnit)
+            if (aggressor.CompareTag(SpineControllerVersion.GameManager.Instance.PLAYER_TAG))
             {
-                aggressor.GetComponentInChildren<SpriteRenderer>().sortingOrder = 999;
+                aggressor.GetComponentInChildren<MeshRenderer>().sortingOrder = 999;
             }
-            else if (target is PlayerUnit)
+            else if (target.CompareTag(SpineControllerVersion.GameManager.Instance.PLAYER_TAG))
             {
-                target.GetComponentInChildren<SpriteRenderer>().sortingOrder = -1;
-            }*/
+                target.GetComponentInChildren<MeshRenderer>().sortingOrder = -1;
+            }
         }
 
         // Newly initiated unit 
@@ -92,7 +106,7 @@ namespace SpineControllerVersion
         public void RemoveFromOrder(Unit unit)
         {
             sortingOrder.Remove(unit);
-            unit.GetComponentInChildren<SpriteRenderer>().sortingOrder = -999 + deathNumber;
+            unit.GetComponentInChildren<MeshRenderer>().sortingOrder = -999 + deathNumber;
             deathNumber++;
 
             foreach (Unit u in sortingOrder)

@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_Stand_A_2(Spearman)
-  SpineAnimationReference: {fileID: 11400000, guid: 36b4a2b300927d5469f38f41d44bdd4b, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 4b7a6537c60c9a542a513e3c75b29787, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_Stand_A_2(Spearman)
-  GetAnimationBool: 0
   speedCurve:
     serializedVersion: 2
     m_Curve: []
@@ -31,7 +30,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -2.361
-  swooshSoundEffect:
-    soundEffectsList: []
-  hitSoundEffect:
-    soundEffectsList: []
+  SoundObject: {fileID: 11400000, guid: 929929fea9c2ef849bf553a896dffb90, type: 2}

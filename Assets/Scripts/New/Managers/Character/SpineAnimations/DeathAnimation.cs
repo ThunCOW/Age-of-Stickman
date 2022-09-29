@@ -7,5 +7,4 @@ using UnityEngine;
 public class DeathAnimation : BasicAnimation
 {
     public HitRegion deathType;
-    public GameObject CutPart;
 }

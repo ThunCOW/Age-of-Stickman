@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Archer
   AnimationName: Attack_Stand_A_1 CLEAN ATTEMPT
-  SpineAnimationReference: {fileID: 11400000, guid: 38a1116b1b3b70d4da6aaa887ad6907e, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: ff072b5db267ca54ca0bf2e56b11c150, type: 2}
   _PrefixChangeCheck: Archer
   _AnimationNameChangeCheck: Attack_Stand_A_1 CLEAN ATTEMPT
-  GetAnimationBool: 0
   speedCurve:
     serializedVersion: 2
     m_Curve: []
@@ -31,7 +30,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -1.746
-  swooshSoundEffect:
-    soundEffectsList: []
-  hitSoundEffect:
-    soundEffectsList: []
+  SoundObject: {fileID: 11400000, guid: 7ea0058a0023bfc42ada000b3ffe1e68, type: 2}

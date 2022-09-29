@@ -14,6 +14,7 @@ public class CloseCombatAnimation : SpeedDependantAnimation
     public HitRegion attackRegion;
 
     public float hitHeightPosiiton;
-    public SoundEffect swooshSoundEffect;
-    public SoundEffect hitSoundEffect;
+    public SoundScriptableObject SoundObject;
+    //public SoundEffect swooshSoundEffect;
+    //public SoundEffect hitSoundEffect;
 }

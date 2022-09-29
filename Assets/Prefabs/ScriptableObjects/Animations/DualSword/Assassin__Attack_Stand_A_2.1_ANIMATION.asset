@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Assassin
   AnimationName: Attack_Stand_A_2.1
-  SpineAnimationReference: {fileID: 11400000, guid: 470871b4bf4ff784cbe9f6ccffebdb99, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: f0451d8d0bc53744a8c69d1fbbb10ecc, type: 2}
   _PrefixChangeCheck: Assassin
   _AnimationNameChangeCheck: Attack_Stand_A_2.1
-  GetAnimationBool: 0
   speedCurve:
     serializedVersion: 2
     m_Curve: []
@@ -31,7 +30,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -2.361
-  swooshSoundEffect:
-    soundEffectsList: []
-  hitSoundEffect:
-    soundEffectsList: []
+  SoundObject: {fileID: 11400000, guid: 87e30564fb2a33d4283c2faa0e99ac8a, type: 2}

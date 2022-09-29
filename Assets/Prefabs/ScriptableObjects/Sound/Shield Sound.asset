@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a428c2f822b4449b40a1d5137ee5c3, type: 3}
+  m_Name: Shield Sound
+  m_EditorClassIdentifier: 
+  Name: 
+  swooshSoundEffect:
+    soundEffectsList:
+    - {fileID: 8300000, guid: e7d435d73eef9da44bb4f0717f2b199a, type: 3}
+    - {fileID: 8300000, guid: fa9f3f07ef7c6f142a148fabc371427b, type: 3}
+  hitSoundEffect:
+    soundEffectsList:
+    - {fileID: 8300000, guid: 59785368d6b21fd4d80aee7948b4ef66, type: 3}
+    - {fileID: 8300000, guid: 47bb7bfac3089554d991e13014afa1aa, type: 3}

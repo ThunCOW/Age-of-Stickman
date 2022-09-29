@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_Stand_A_2(Fast) UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 9dbd8b694cc45ba429e399b651ea7f71, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: c3133f9efd49e8a4593414c8b061f90a, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_Stand_A_2(Fast) UNITY
-  GetAnimationBool: 0
   speedCurve:
     serializedVersion: 2
     m_Curve: []
@@ -31,7 +30,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -2.361
-  swooshSoundEffect:
-    soundEffectsList: []
-  hitSoundEffect:
-    soundEffectsList: []
+  SoundObject: {fileID: 11400000, guid: 87e30564fb2a33d4283c2faa0e99ac8a, type: 2}

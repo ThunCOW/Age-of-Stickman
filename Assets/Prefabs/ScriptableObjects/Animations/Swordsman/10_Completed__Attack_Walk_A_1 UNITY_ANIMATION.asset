@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_Walk_A_1 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 2bc014f01f6e039409e17fa83c638b1b, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 515338d45b2f83b4abfd62b8046748c4, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_Walk_A_1 UNITY
-  GetAnimationBool: 0
   speedCurve:
     serializedVersion: 2
     m_Curve:
@@ -67,7 +66,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 0
   hitHeightPosiiton: -1.609
-  swooshSoundEffect:
-    soundEffectsList: []
-  hitSoundEffect:
-    soundEffectsList: []
+  SoundObject: {fileID: 11400000, guid: 87e30564fb2a33d4283c2faa0e99ac8a, type: 2}

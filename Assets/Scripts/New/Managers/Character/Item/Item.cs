@@ -10,7 +10,10 @@ public class Item : ScriptableObject
     public string ID { get { return id; } }
 
     public string ItemName;
+    public int ItemPrice;
     public ItemSlot ItemSlot;
+    public Sprite ItemSprite;
+    public Sprite ItemQualitySprite;
 
     [UnityEngine.Serialization.FormerlySerializedAs("SpineAttachment")]
     public List<SpineAttachment> front;

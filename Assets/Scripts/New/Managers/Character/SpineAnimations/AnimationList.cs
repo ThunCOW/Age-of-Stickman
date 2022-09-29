@@ -52,7 +52,6 @@ public class UnitAnimations
     [Space]
     [Space]
 
-    public List<BasicAnimation> StunVariations;
     public List<BasicAnimation> BreakStance;
 }
 

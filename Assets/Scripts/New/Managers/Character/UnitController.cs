@@ -1,9 +1,9 @@
+using Spine;
+using Spine.Unity;
+using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Spine.Unity;
-using Spine;
-using SpineControllerVersion;
 
 public class UnitController : MonoBehaviour
 {
@@ -70,14 +70,14 @@ public class UnitController : MonoBehaviour
         // scenario 2
         if (unit.target == null)
         {
-            currentAttack.swooshSoundEffect.PlayRandomSoundEffect();
+            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
 
             return;
         }
 
         // TODO sortingManager 
         //GameManager.Instance.sortManager.BringToFront(this);
-        //GameManager.Instance.sortManager.ChangePlayerSortOnly(this, target);
+        GameManager.Instance.sortManager.ChangePlayerSortOnly(unit, unit.target);
 
         int dir;
 
@@ -90,36 +90,28 @@ public class UnitController : MonoBehaviour
         // i.e if target is being pushed to right, current unit must be looking right to land the hit, if its not looking right, misses it
         if (dir == (int)MoveDirection.right && transform.localScale.x < 0.1)
         {
-            currentAttack.swooshSoundEffect.PlayRandomSoundEffect();
+            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
 
             return;
         }
         else if (dir == (int)MoveDirection.left && transform.localScale.x > 0.1)
         {
-            currentAttack.swooshSoundEffect.PlayRandomSoundEffect();
+            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
 
             return;
         }
 
         // TODO: needs fixing later
         // If target is in damage distance, succesfully landed the hit.
-        //Debug.Log("closestPos = " + (target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x));
         if (Mathf.Abs(unit.target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x) < currentAttack.Reach)
         {
-            currentAttack.hitSoundEffect.PlayRandomSoundEffect();
+            currentAttack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
             unit.target.unitController.TakeDamage(currentAttack, dir);
-
-            // TODO blood objectc
-            /*if (currentAttack.attackType != AttackType.Kick && currentAttack.attackType != AttackType.Shield)
-            {
-                GameObject blood_go = Instantiate(unit.target.bloodObject);
-                blood_go.transform.position = new Vector3(unit.target.transform.position.x, currentAttack.hitHeightPosiiton, unit.target.bloodObject.transform.position.z);
-            }*/
         }
         else
         {
-            currentAttack.swooshSoundEffect.PlayRandomSoundEffect();
+            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
         }
     }
 
@@ -135,47 +127,33 @@ public class UnitController : MonoBehaviour
 
             int randomDeath = 0;
             List<DeathAnimation> deathAnimation;
+            DeathAnimation tempDeathAnim = null;
             switch (attack.attackRegion)
             {
                 case HitRegion.High:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
                     randomDeath = Random.Range(0, deathAnimation.Count);
-                    spineSkeletonAnimation.state.SetAnimation(1, deathAnimation[randomDeath].SpineAnimationReference, false).TimeScale = 1f;
+                    tempDeathAnim = deathAnimation[randomDeath];
+                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
                     break;
                 case HitRegion.Mid:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
                     randomDeath = Random.Range(0, deathAnimation.Count);
-                    spineSkeletonAnimation.state.SetAnimation(1, deathAnimation[randomDeath].SpineAnimationReference, false).TimeScale = 1f;
+                    tempDeathAnim = deathAnimation[randomDeath];
+                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
                     break;
                 case HitRegion.Low:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
                     randomDeath = Random.Range(0, deathAnimation.Count);
-                    spineSkeletonAnimation.state.SetAnimation(1, deathAnimation[randomDeath].SpineAnimationReference, false).TimeScale = 1f;
+                    tempDeathAnim = deathAnimation[randomDeath];
+                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
                     break;
                 default:
                     break;
             }
-            // TODO cutting parts of body animations
-            /*if (deathActions.highRegion[randomDeath].CutPart != null)
-            {
-                // Spawn Body Part and set initial position and scales
-                Vector3 cutSpawnPos = deathActions.highRegion[randomDeath].CutPart.transform.position;
-                GameObject cut_part = Instantiate(deathActions.highRegion[randomDeath].CutPart, gameObject.transform);
-                cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
-                cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, 1, 1);
+            if (tempDeathAnim is DeathByDismemberAnimation)
+                DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
 
-                // Randomize a fling degree and get vector equivalent
-                float degree = Random.Range(0, 180);
-                float degreeToRad = degree * Mathf.Deg2Rad;
-                Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
-
-                // Add speed on X and Y axis calculated above, force amount is also randomized
-                cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 500));
-
-                // Add torque to make it spin around
-                int torqDir = radToVec2.x > 0 ? -1 : 1;
-                cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
-            }*/
 
             if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
                 GameManager.Instance.EnemyUnits.Remove(unit);
@@ -191,8 +169,37 @@ public class UnitController : MonoBehaviour
             StopAllCoroutines();
             StartCoroutine(StunnedFor(0.5f, attack));
         }
+
+        if (attack.attackType != AttackType.Kick && attack.attackType != AttackType.Shield)
+        {
+            GameObject blood_go = Instantiate(unit.bloodObject);
+            blood_go.transform.position = new Vector3(transform.position.x, attack.hitHeightPosiiton, unit.bloodObject.transform.position.z);
+        }
     }
 
+    private void DismemberBody(DeathByDismemberAnimation deathAnimation)
+    {
+        if (deathAnimation.CutPart != null)
+        {
+            // Spawn Body Part and set initial position and scales
+            Vector3 cutSpawnPos = deathAnimation.CutPart.transform.position;
+            GameObject cut_part = Instantiate(deathAnimation.CutPart, gameObject.transform);
+            cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
+            cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, 1, 1);
+
+            // Randomize a fling degree and get vector equivalent
+            float degree = Random.Range(0, 180);
+            float degreeToRad = degree * Mathf.Deg2Rad;
+            Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+
+            // Add speed on X and Y axis calculated above, force amount is also randomized
+            cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 500));
+
+            // Add torque to make it spin around
+            int torqDir = radToVec2.x > 0 ? -1 : 1;
+            cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
+        }
+    }
     protected IEnumerator StunnedFor(float stunDuration, CloseCombatAnimation attack)
     {
         idleing = false;

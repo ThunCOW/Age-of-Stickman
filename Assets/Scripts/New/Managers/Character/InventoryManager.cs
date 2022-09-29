@@ -200,7 +200,7 @@ public class InventoryManager : MonoBehaviour
         }
         if (e.Data.Name == "Armor Triggers/Shoulder_Front")
         {
-            if (equippedItems.ContainsKey(ItemSlot.Shoulder))
+            if (equippedItems[ItemSlot.Shoulder] != null)
             {
                 SetAllAttachment(equippedItems[ItemSlot.Shoulder].front);
                 SetAllAttachment(equippedItems[ItemSlot.Shoulder].side, true);
@@ -209,7 +209,7 @@ public class InventoryManager : MonoBehaviour
         }
         if (e.Data.Name == "Armor Triggers/Shoulder_Side")
         {
-            if (equippedItems.ContainsKey(ItemSlot.Shoulder))
+            if (equippedItems[ItemSlot.Shoulder] != null)
             {
                 skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Shoulder].front[0].SlotName, null);
                 SetAllAttachment(equippedItems[ItemSlot.Shoulder].side);
@@ -218,7 +218,7 @@ public class InventoryManager : MonoBehaviour
         }
         if (e.Data.Name == "Armor Triggers/Shoulder_Back")
         {
-            if (equippedItems.ContainsKey(ItemSlot.Shoulder))
+            if (equippedItems[ItemSlot.Shoulder] != null)
             {
                 skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Shoulder].front[0].SlotName, null);
                 SetAllAttachment(equippedItems[ItemSlot.Shoulder].side, true);
