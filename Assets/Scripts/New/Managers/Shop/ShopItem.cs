@@ -40,7 +40,7 @@ public class ShopItem : MonoBehaviour
         // TODO : Brings up if we want to buy page
         if(SpineControllerVersion.GameManager.Instance.Gold > ItemPrice)
         {
-            SpineControllerVersion.GameManager.Instance.Gold -= ItemPrice;
+            SpineControllerVersion.GameManager.Instance.GoldChange(-ItemPrice);
 
             shopPanel.ChangeItem(ItemCategory);
         }

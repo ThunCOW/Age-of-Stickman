@@ -1,10 +1,11 @@
 using Spine;
 using Spine.Unity;
+using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryManager : MonoBehaviour
+public class EquipmentManager : MonoBehaviour
 {
     private SkeletonAnimation skelAnim;
 
@@ -18,6 +19,12 @@ public class InventoryManager : MonoBehaviour
         skelAnim = GetComponentInChildren<SkeletonAnimation>();
 
         skelAnim.AnimationState.Event += HandleAnimationStateEvent;
+
+        if(GetComponent<UnitController>() is PlayerController)
+        {
+            startingItems = new List<Item>();
+            startingItems.AddRange(GameManager.Instance.PlayerEquipments);
+        }
 
         SetStartingItems();
     }
@@ -65,6 +72,15 @@ public class InventoryManager : MonoBehaviour
                 startingItems.RemoveAt(i);
             }
             changeItemNow = false;
+        }
+    }
+
+    void ChangeItem(List<Item> newItems)
+    {
+        int i = 0;
+        for (; i < newItems.Count; i++)
+        {
+            EquipItems(startingItems[i].InitiateItem());
         }
     }
 

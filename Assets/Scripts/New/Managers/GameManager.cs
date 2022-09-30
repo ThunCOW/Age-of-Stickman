@@ -5,24 +5,36 @@ using UnityEngine.UI;
 
 namespace SpineControllerVersion
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour, ISaveable
     {
         public static GameManager Instance;
 
         [Header("Unit Assignments")]
-        public Unit Player;
         public List<Unit> EnemyUnits = new List<Unit>();
         public List<Unit> PlayerUnits = new List<Unit>();
 
         public string ENEMY_TAG = "EnemyUnit";
         public string PLAYER_TAG = "PlayerUnit";
 
-        [Header("Player Gold")]
+        [Header("Player Data")]
+        public Unit Player;
+        public List<Item> PlayerEquipments;
+
+        private int _PlayerLives;
+        public int PlayerLives
+        {
+            get { return _PlayerLives; }
+            private set
+            {
+                _PlayerLives = value;
+            }
+            
+        }
         private int _Gold;
         public int Gold
         {
             get { return _Gold; }
-            set 
+            private set 
             {
                 _Gold = value;
                 GoldText.text = value.ToString();
@@ -55,9 +67,44 @@ namespace SpineControllerVersion
 
         }
 
-        void AddGold()
+        public void GoldChange(int Amount)
         {
-            _Gold++;
+            Gold += Amount;
+        }
+
+        public void PlayerLivesChange(int Amount)
+        {
+            PlayerLives += Amount;
+        }
+
+        [System.Serializable]
+        private struct SaveData
+        {
+            public List<Item> equippedItems;
+
+            public int PlayerLives;
+            public int Gold;
+        }
+
+        public object SaveState()
+        {
+            return new SaveData()
+            {
+                equippedItems = this.PlayerEquipments,
+
+                PlayerLives = this.PlayerLives,
+                Gold = this.Gold
+            };
+        }
+
+        public void LoadState(object state)
+        {
+            var saveData = (SaveData)state;
+
+            PlayerEquipments = saveData.equippedItems;
+
+            PlayerLives = saveData.PlayerLives;
+            Gold = saveData.Gold;
         }
     }
 

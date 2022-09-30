@@ -15,7 +15,6 @@ public class Item : ScriptableObject
     public Sprite ItemSprite;
     public Sprite ItemQualitySprite;
 
-    [UnityEngine.Serialization.FormerlySerializedAs("SpineAttachment")]
     public List<SpineAttachment> front;
     public List<SpineAttachment> side;
     public List<SpineAttachment> back;
@@ -35,6 +34,7 @@ public class Item : ScriptableObject
     }
 }
 
+
 [System.Serializable]
 public class SpineAttachment
 {
@@ -50,4 +50,32 @@ public enum ItemSlot
     MainHand,
     Offhand,
     TwoHanded,
+}
+
+[System.Serializable]
+public class SaveItem
+{
+    public string ID;
+
+    public string ItemName;
+    public int ItemPrice;
+    public ItemSlot ItemSlot;
+    public Sprite ItemSprite;
+    public Sprite ItemQualitySprite;
+
+    public List<SpineAttachment> front;
+    public List<SpineAttachment> side;
+    public List<SpineAttachment> back;
+
+    public SaveItem(Item item)
+    {
+        ID = item.ID;
+
+        ItemName = item.ItemName;
+        ItemPrice = item.ItemPrice;
+        ItemSlot = item.ItemSlot;
+        ItemSprite = item.ItemSprite;
+        ItemQualitySprite = item.ItemQualitySprite;
+
+    }
 }

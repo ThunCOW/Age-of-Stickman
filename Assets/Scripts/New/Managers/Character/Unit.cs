@@ -11,7 +11,7 @@ public class Unit : MonoBehaviour
     public GameObject bloodObject;
 
     [HideInInspector] public UnitController unitController;
-    [HideInInspector] public InventoryManager unitInventory;
+    [HideInInspector] public EquipmentManager unitInventory;
 
     private StanceList tempState;
     private StanceList _currentStance;
@@ -55,11 +55,11 @@ public class Unit : MonoBehaviour
         // Unit Controller
         if(unitController == null) unitController = GetComponent<UnitController>();
 
-        if (unitInventory == null) unitInventory = GetComponent<InventoryManager>();
+        if (unitInventory == null) unitInventory = GetComponent<EquipmentManager>();
     }
 
     // Start is called before the first frame update
-    protected virtual void Start()
+    void Start()
     {
         // GameManager
         if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))

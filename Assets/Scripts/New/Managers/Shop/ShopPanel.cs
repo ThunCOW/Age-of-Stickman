@@ -85,14 +85,14 @@ public class ShopPanel : MonoBehaviour
 
     public void SetStartingItems()
     {
-        UpgradeScreenDict[ShopItemCategory.Weapon].EquippedItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
-        UpgradeScreenDict[ShopItemCategory.Weapon].PurchasableItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
-
-        UpgradeScreenDict[ShopItemCategory.Shield].EquippedItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
-        UpgradeScreenDict[ShopItemCategory.Shield].PurchasableItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
-
-        UpgradeScreenDict[ShopItemCategory.Armor].EquippedItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
-        UpgradeScreenDict[ShopItemCategory.Armor].PurchasableItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
+        //UpgradeScreenDict[ShopItemCategory.Weapon].EquippedItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
+        //UpgradeScreenDict[ShopItemCategory.Weapon].PurchasableItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
+        //
+        //UpgradeScreenDict[ShopItemCategory.Shield].EquippedItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
+        //UpgradeScreenDict[ShopItemCategory.Shield].PurchasableItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
+        //
+        //UpgradeScreenDict[ShopItemCategory.Armor].EquippedItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
+        //UpgradeScreenDict[ShopItemCategory.Armor].PurchasableItemSlot.Item = GameManager.Instance.Player.unitInventory.equippedItems[ItemSlot.MainHand];
     }
 }
 
