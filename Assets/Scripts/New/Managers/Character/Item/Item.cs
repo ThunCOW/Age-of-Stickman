@@ -29,7 +29,6 @@ public class Item : ScriptableObject
 
     public Item InitiateItem()
     {
-        Debug.LogWarning("New Item Initiated");
         return Instantiate(this);
     }
 }
@@ -50,32 +49,4 @@ public enum ItemSlot
     MainHand,
     Offhand,
     TwoHanded,
-}
-
-[System.Serializable]
-public class SaveItem
-{
-    public string ID;
-
-    public string ItemName;
-    public int ItemPrice;
-    public ItemSlot ItemSlot;
-    public Sprite ItemSprite;
-    public Sprite ItemQualitySprite;
-
-    public List<SpineAttachment> front;
-    public List<SpineAttachment> side;
-    public List<SpineAttachment> back;
-
-    public SaveItem(Item item)
-    {
-        ID = item.ID;
-
-        ItemName = item.ItemName;
-        ItemPrice = item.ItemPrice;
-        ItemSlot = item.ItemSlot;
-        ItemSprite = item.ItemSprite;
-        ItemQualitySprite = item.ItemQualitySprite;
-
-    }
 }

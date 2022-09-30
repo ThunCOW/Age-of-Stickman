@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SpineControllerVersion
 {
-    public class GameManager : MonoBehaviour, ISaveable
+    public class GameManager : MonoBehaviour, ISaveableJson
     {
         public static GameManager Instance;
 
@@ -20,7 +20,7 @@ namespace SpineControllerVersion
         public Unit Player;
         public List<Item> PlayerEquipments;
 
-        private int _PlayerLives;
+        [SerializeField] private int _PlayerLives;
         public int PlayerLives
         {
             get { return _PlayerLives; }
@@ -30,14 +30,14 @@ namespace SpineControllerVersion
             }
             
         }
-        private int _Gold;
+        [SerializeField] private int _Gold;
         public int Gold
         {
             get { return _Gold; }
             private set 
             {
                 _Gold = value;
-                GoldText.text = value.ToString();
+                //GoldText.text = value.ToString();
             }
         }
         public Text GoldText;
@@ -53,6 +53,8 @@ namespace SpineControllerVersion
             }
             else
                 Destroy(this.gameObject);
+
+            LoadDataAsJson();
         }
 
         // Start is called before the first frame update
@@ -77,34 +79,66 @@ namespace SpineControllerVersion
             PlayerLives += Amount;
         }
 
-        [System.Serializable]
-        private struct SaveData
-        {
-            public List<Item> equippedItems;
 
-            public int PlayerLives;
-            public int Gold;
+
+
+
+
+
+
+
+        /*********************
+         * Saving and Loading
+        */
+        [ContextMenu("SaveJsonData")]
+        public void SaveDataAsJson()
+        {
+            SaveData sd = new SaveData();
+            PopulateSaveData(sd);
+
+            FileManager.WriteToFile(sd.ToJson());
         }
 
-        public object SaveState()
+        public void PopulateSaveData(SaveData a_SaveData)
         {
-            return new SaveData()
+            a_SaveData.equippedItems = PlayerEquipments;
+
+            a_SaveData.PlayerLives = PlayerLives;
+            a_SaveData.Gold = Gold;
+        }
+
+        [ContextMenu("LoadJsonData")]
+        public void LoadDataAsJson()
+        {
+            if(FileManager.LoadFromFile(out var json))
             {
-                equippedItems = this.PlayerEquipments,
+                SaveData sd = new SaveData();
+                sd.LoadFromJson(json);
 
-                PlayerLives = this.PlayerLives,
-                Gold = this.Gold
-            };
+                LoadFromSaveData(sd);
+            }
+            else
+            {
+                // No save is found, new game
+            }
+        }
+        
+        public void LoadFromSaveData(SaveData a_SaveData)
+        {
+            PlayerEquipments = a_SaveData.equippedItems;
+
+            PlayerLives = a_SaveData.PlayerLives;
+            Gold = a_SaveData.Gold;
         }
 
-        public void LoadState(object state)
+        void OnApplicationQuit()
         {
-            var saveData = (SaveData)state;
+            SaveDataAsJson();    
+        }
 
-            PlayerEquipments = saveData.equippedItems;
+        public void ResetGameData()
+        {
 
-            PlayerLives = saveData.PlayerLives;
-            Gold = saveData.Gold;
         }
     }
 
