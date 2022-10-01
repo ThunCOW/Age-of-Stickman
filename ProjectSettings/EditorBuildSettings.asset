@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Main Menu.unity
-    guid: 91a9cdcd6346fac4da3c505ad2710f1c
+    path: Assets/Scenes/Main Menu 1.unity
+    guid: 98c85c017267a0149adefd3996ad06a8
   - enabled: 1
     path: Assets/Scenes/SpineAnimation.unity
     guid: 93d635710c3a976439814110c7c6138a
   - enabled: 1
-    path: Assets/Scenes/Main Menu 1.unity
-    guid: 98c85c017267a0149adefd3996ad06a8
+    path: Assets/Scenes/Main Menu.unity
+    guid: 91a9cdcd6346fac4da3c505ad2710f1c
   m_configObjects: {}

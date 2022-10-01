@@ -288,4 +288,19 @@ public class PlayerController : UnitController
 
         StartCoroutine(CheckDirection());
     }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == GameManager.Instance.GOLD_TAG)
+        {
+            Debug.Log(gameObject.name);
+            if (gameObject.tag == GameManager.Instance.PLAYER_TAG)
+            {
+                GameManager.Instance.GoldChange(+1);
+                Destroy(collision.gameObject);
+                SoundManager.Instance.PlayEffect(GameManager.Instance.
+                    CoinPickupSound[Random.Range(0, GameManager.Instance.CoinPickupSound.Count)]);
+            }
+        }
+    }
 }

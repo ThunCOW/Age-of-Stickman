@@ -15,10 +15,12 @@ namespace SpineControllerVersion
 
         public string ENEMY_TAG = "EnemyUnit";
         public string PLAYER_TAG = "PlayerUnit";
+        public string GOLD_TAG = "Gold";
 
         [Header("Player Data")]
         public Unit Player;
         public List<Item> PlayerEquipments;
+        public Dictionary<ItemSlot, Item> a;
 
         [SerializeField] private int _PlayerLives;
         public int PlayerLives
@@ -28,8 +30,11 @@ namespace SpineControllerVersion
             {
                 _PlayerLives = value;
             }
-            
         }
+        
+        [Space]
+        public GameObject GoldPrefab;
+        public List<AudioClip> CoinPickupSound;
         [SerializeField] private int _Gold;
         public int Gold
         {

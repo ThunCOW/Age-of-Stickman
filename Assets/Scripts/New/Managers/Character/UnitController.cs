@@ -153,6 +153,8 @@ public class UnitController : MonoBehaviour
             }
             if (tempDeathAnim is DeathByDismemberAnimation)
                 DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+            
+            GoldDrop();
 
 
             if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
@@ -200,6 +202,29 @@ public class UnitController : MonoBehaviour
             cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
         }
     }
+
+    private void GoldDrop()
+    {
+        // Spawn Body Part and set initial position and scales
+        Vector3 goldPos = GameManager.Instance.GoldPrefab.transform.position;
+        GameObject gold = Instantiate(GameManager.Instance.GoldPrefab, gameObject.transform);
+        gold.transform.localPosition = new Vector3(goldPos.x, goldPos.y, goldPos.z);
+        gold.transform.localScale = new Vector3(gold.transform.parent.transform.localScale.x, 1, 1);
+        gold.transform.parent = null;
+
+        // Randomize a fling degree and get vector equivalent
+        float degree = Random.Range(0, 180);
+        float degreeToRad = degree * Mathf.Deg2Rad;
+        Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+
+        // Add speed on X and Y axis calculated above, force amount is also randomized
+        gold.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 301));
+
+        // Add torque to make it spin around
+        int torqDir = radToVec2.x > 0 ? -1 : 1;
+        gold.GetComponent<Rigidbody2D>().AddTorque(Random.Range(5, 15) * torqDir, ForceMode2D.Force);
+    }
+
     protected IEnumerator StunnedFor(float stunDuration, CloseCombatAnimation attack)
     {
         idleing = false;

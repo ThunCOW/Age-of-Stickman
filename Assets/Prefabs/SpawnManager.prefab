@@ -109,16 +109,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnUnitList:
-  - unit: {fileID: 7793430469283690606, guid: c7e7e548c2f141d4b8fb9a2c5414b8c5, type: 3}
+  - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 35
-  - unit: {fileID: 2585002053760148138, guid: 087856c73102194438c1822ae26abbce, type: 3}
+  - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 35
-  - unit: {fileID: 1661913786953231513, guid: ef4bbc18524d7dc4992b3be1c14573f5, type: 3}
+  - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 15
-  - unit: {fileID: 5489001913009341042, guid: 5c0719d004bc6784998e883f1ca76f3a, type: 3}
+  - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 15
-  _spawnTimer: 15
-  maxSpawn: 10
+  _spawnTimer: 5
+  maxSpawn: 19
+  maxEnemyOnScreen: 5
   spawnPosList:
   - {fileID: 1855033762}
   - {fileID: 138076240}

@@ -38,11 +38,11 @@ public class ShopItem : MonoBehaviour
     public void UpgradeItem()
     {
         // TODO : Brings up if we want to buy page
-        if(SpineControllerVersion.GameManager.Instance.Gold > ItemPrice)
+        if(SpineControllerVersion.GameManager.Instance.Gold >= ItemPrice)
         {
             SpineControllerVersion.GameManager.Instance.GoldChange(-ItemPrice);
 
-            shopPanel.ChangeItem(ItemCategory);
+            shopPanel.ItemUpgrade(ItemCategory);
         }
     }
 }

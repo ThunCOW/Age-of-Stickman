@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PlayerUnit
   - EnemyUnit
+  - Gold
   layers:
   - Default
   - TransparentFX
@@ -17,8 +18,8 @@ TagManager:
   - Blood 2
   - Ground
   - Cut Unit Parts
-  - 
-  - 
+  - Gold
+  - Player
   - 
   - 
   - 
