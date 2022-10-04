@@ -14,10 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Zweihander
   AnimationName: ZewiHanderAttackKnockKickA1.1.1
-  SpineAnimationReference: {fileID: 11400000, guid: 38dcb8df3a1fbae4dbb9f42f5994eae3, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 3bb75d88dcd0a1243bba8378829655b6, type: 2}
   _PrefixChangeCheck: Zweihander
   _AnimationNameChangeCheck: ZewiHanderAttackKnockKickA1.1.1
-  GetAnimationBool: 0
   speedCurve:
     serializedVersion: 2
     m_Curve: []
@@ -26,12 +25,9 @@ MonoBehaviour:
     m_RotationOrder: 4
   attackType: 2
   animationMovementType: 0
-  Damage: 0
+  DamageMultiplierMax: 1
   Reach: 1.54
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: 0
-  swooshSoundEffect:
-    soundEffectsList: []
-  hitSoundEffect:
-    soundEffectsList: []
+  SoundObject: {fileID: 0}

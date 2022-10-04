@@ -25,7 +25,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   attackType: 2
   animationMovementType: 0
-  Damage: 0
+  DamageMultiplierMax: 1
   Reach: 1.54
   PushDistance: 0
   attackRegion: 1

@@ -14,6 +14,7 @@ public class SceneLoader : MonoBehaviour
     public SceneReference MainMenu;
     
     public SceneReference TempLevel;
+    public List<SceneReference> Levels;
 
     void Start()
     {

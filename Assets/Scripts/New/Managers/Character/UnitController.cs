@@ -107,7 +107,16 @@ public class UnitController : MonoBehaviour
         {
             currentAttack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
-            unit.target.unitController.TakeDamage(currentAttack, dir);
+            //float temp = Random.Range(0, unit.Damage / 2);
+            //Debug.Log("Unit damage = " + unit.Damage + " / unit damage half = " + (unit.Damage / 2) + " / random = " + temp);
+            float softDamage = Random.Range(0, unit.Damage / 2) + Random.Range(0, unit.Damage / 2);
+            int damageDealt = (int)(softDamage * Random.Range(1, currentAttack.DamageMultiplierMax));
+            //Debug.Log("Soft Damage = " + softDamage + " / Damage Dealth = " + damageDealt + " / DamageMultiplier = " + currentAttack.DamageMultiplierMax);
+
+            if (currentAttack.DamageMultiplierMax == 0)
+                Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
+
+            unit.target.unitController.TakeDamage(currentAttack, damageDealt, dir);
         }
         else
         {
@@ -115,9 +124,9 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    public void TakeDamage(CloseCombatAnimation attack, int attackDirection = 0)
+    public void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0)
     {
-        unit.Health -= attack.Damage;
+        unit.Health -= DamageTaken;
         if (unit.Health <= 0)
         {
             unit.CheckUnitDirection();
@@ -154,7 +163,8 @@ public class UnitController : MonoBehaviour
             if (tempDeathAnim is DeathByDismemberAnimation)
                 DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
             
-            GoldDrop();
+            if(gameObject.CompareTag(GameManager.Instance.ENEMY_TAG)) 
+                GoldDrop();
 
 
             if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))

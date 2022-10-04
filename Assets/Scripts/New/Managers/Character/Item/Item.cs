@@ -10,6 +10,10 @@ public class Item : ScriptableObject
     public string ID { get { return id; } }
 
     public string ItemName;
+    [Space]
+    public int HealthBonus;
+    public int DamageBonus;
+    [Space]
     public int ItemPrice;
     public ItemSlot ItemSlot;
     public Sprite ItemSprite;

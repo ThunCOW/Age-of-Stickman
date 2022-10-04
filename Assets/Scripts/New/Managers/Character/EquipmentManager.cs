@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
 {
+    private Unit unit;
     private SkeletonAnimation skelAnim;
 
     public List<Item> startingItems;
@@ -16,6 +17,7 @@ public class EquipmentManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        unit = GetComponent<Unit>();
         skelAnim = GetComponentInChildren<SkeletonAnimation>();
 
         skelAnim.AnimationState.Event += HandleAnimationStateEvent;
@@ -86,6 +88,9 @@ public class EquipmentManager : MonoBehaviour
 
     private void EquipItems(Item item)
     {
+        unit.HealthMax += item.HealthBonus;
+        unit.Damage += item.DamageBonus;
+
         //if(item.ItemSlot == ItemSlot.MainHand || item.ItemSlot == ItemSlot.Offhand || item.ItemSlot == ItemSlot.TwoHanded)
         if (item.ItemSlot == ItemSlot.TwoHanded)
         {
@@ -208,7 +213,7 @@ public class EquipmentManager : MonoBehaviour
 
     private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        Debug.Log("Event fired! " + e.Data.Name);
+        //Debug.Log("Event fired! " + e.Data.Name);
 
         if (e.Data.Name == "MeleeAttack")
         {

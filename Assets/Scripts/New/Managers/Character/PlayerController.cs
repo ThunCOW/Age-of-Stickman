@@ -5,6 +5,22 @@ using SpineControllerVersion;
 
 public class PlayerController : UnitController
 {
+    public Transform LeftWallPosition;
+    public Transform RightWallPosition;
+
+    void OnValidate()
+    {
+        if (LeftWallPosition == null || RightWallPosition == null)
+        {
+            GameObject go = GameObject.FindGameObjectWithTag("LevelBorders");
+            if(go != null)
+            {
+                LeftWallPosition = go.transform.GetChild(0);
+                RightWallPosition = go.transform.GetChild(1);
+            }
+        }
+    }
+
     // Start is called before the first frame update
     protected override void Start()
     {
@@ -13,11 +29,25 @@ public class PlayerController : UnitController
         GameManager.Instance.Player = unit;
 
         StartCoroutine(CheckDirection());
+
+        if (LeftWallPosition == null || RightWallPosition == null)
+            Debug.LogError("Failed to find level borders, make sure they are in scene");
     }
 
     protected override void CharacterControls()
     {
         KeyboardControls();
+
+        if(gameObject.transform.position.x <= LeftWallPosition.position.x)
+        {
+            if (direction == MoveDirection.left)
+                direction = MoveDirection.waiting;
+        }
+        if(gameObject.transform.position.x >= RightWallPosition.position.x)
+        {
+            if (direction == MoveDirection.right)
+                direction = MoveDirection.waiting;
+        }
     }
 
     void MobileController()
@@ -293,7 +323,6 @@ public class PlayerController : UnitController
     {
         if(collision.gameObject.tag == GameManager.Instance.GOLD_TAG)
         {
-            Debug.Log(gameObject.name);
             if (gameObject.tag == GameManager.Instance.PLAYER_TAG)
             {
                 GameManager.Instance.GoldChange(+1);

@@ -45,17 +45,17 @@ public class AIController : UnitController
     public AIAgressivenessLevel aiAgressivenessLevel;
     private AIVariables aiVariable;
     private Dictionary<AIAgressiveness, AIVariables> aiVariables = new Dictionary<AIAgressiveness, AIVariables>();
-
-    protected override void Start()
+    void Awake()
     {
-        base.Start();
-
         foreach (AIVariables variables in aiAgressivenessLevel.aiVariableList)
         {
             aiVariables.Add(variables.aIAgressivenesses, variables);
         }
+    }
 
-        aiAgressiveness = _aiAgressiveness;
+    protected override void Start()
+    {
+        base.Start();
 
         StartCoroutine(AIActionDecision());
     }
@@ -240,7 +240,7 @@ public class AIController : UnitController
         {
             if (speed != 0)                                                                  // speed equals to zero means speed is controlled by speed curve for animation
             {
-                float dist = Mathf.Abs(transform.position.x - SpineControllerVersion.GameManager.Instance.transform.position.x);
+                float dist = Mathf.Abs(transform.position.x - SpineControllerVersion.GameManager.Instance.Player.transform.position.x);
                 float maxVision = 8.65f;                                                    // maxVision for player
                 if (dist > maxVision)                                                       //  if AIUnit is outside of cam, it will move faster to catch up and then slow down to normal speed level
                 {

@@ -1,5 +1,6 @@
 using Spine.Unity;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -31,7 +32,7 @@ namespace SpineControllerVersion
                 _PlayerLives = value;
             }
         }
-        
+
         [Space]
         public GameObject GoldPrefab;
         public List<AudioClip> CoinPickupSound;
@@ -42,10 +43,10 @@ namespace SpineControllerVersion
             private set 
             {
                 _Gold = value;
-                //GoldText.text = value.ToString();
+                GoldText.text = value.ToString();
             }
         }
-        public Text GoldText;
+        public TMP_Text GoldText;
 
         [HideInInspector] public SortManager sortManager = new SortManager();
 
@@ -140,6 +141,16 @@ namespace SpineControllerVersion
         {
             SaveDataAsJson();    
         }
+
+#if UNITY_ANDROID && !UNITY_EDITOR
+        void OnApplicationPause(bool pause)
+        {
+            if (pause)
+            {
+                SaveDataAsJson();
+            }
+        }
+#endif
 
         public void ResetGameData()
         {

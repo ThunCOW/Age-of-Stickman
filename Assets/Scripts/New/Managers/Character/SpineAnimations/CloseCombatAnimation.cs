@@ -8,7 +8,7 @@ public class CloseCombatAnimation : SpeedDependantAnimation
 {
     public AttackType attackType;
     public AnimationMovementType animationMovementType;
-    public int Damage;
+    public float DamageMultiplierMax;
     public float Reach;
     public float PushDistance;
     public HitRegion attackRegion;

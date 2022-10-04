@@ -6,14 +6,28 @@ using UnityEngine;
 public class Unit : MonoBehaviour
 {
     [Header("Character Stats")]
-    [SerializeField] protected int MaxHealth;
-    public int Health;
+    public GameObject HealthBar;
+    public int HealthMax;
+    [SerializeField] private int _Health;
+    public int Health
+    {
+        get { return _Health; }
+        set
+        {
+            _Health = value;
+            if (value < 0)
+                _Health = 0;
+            
+            float healthPercentage = (float)Health / (float)HealthMax;
+            HealthBar.transform.localScale = new Vector3(healthPercentage, 1, 1);
+        }
+    }
+    public int Damage;
     public GameObject bloodObject;
 
     [HideInInspector] public UnitController unitController;
     [HideInInspector] public EquipmentManager unitInventory;
 
-    private StanceList tempState;
     private StanceList _currentStance;
     [SerializeField]
     protected StanceList currentStance
@@ -56,11 +70,15 @@ public class Unit : MonoBehaviour
         if(unitController == null) unitController = GetComponent<UnitController>();
 
         if (unitInventory == null) unitInventory = GetComponent<EquipmentManager>();
+
+        if (HealthBar == null) HealthBar = gameObject.transform.Find("HealthBar").GetChild(0).gameObject;
     }
 
     // Start is called before the first frame update
     void Start()
     {
+        Health = HealthMax;
+
         // GameManager
         if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
             GameManager.Instance.EnemyUnits.Add(this);
@@ -118,9 +136,9 @@ public class Unit : MonoBehaviour
         else
             unitList = GameManager.Instance.EnemyUnits;
 
-        target = null;
-
         Unit lastUnit = target;
+        
+        target = null;
 
         float closestX = 5000;
         foreach (Unit unit in unitList)
@@ -145,6 +163,18 @@ public class Unit : MonoBehaviour
                         closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
                     }
                 }
+            }
+        }
+
+        if(gameObject.GetComponent<PlayerController>() != null)
+        {
+            if(lastUnit != null)
+            {
+                lastUnit.HealthBar.transform.parent.gameObject.SetActive(false);
+            }
+            if (target != null)
+            {
+                target.HealthBar.transform.parent.gameObject.SetActive(true);
             }
         }
     }

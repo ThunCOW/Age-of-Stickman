@@ -68,7 +68,8 @@ public class SpawnManager : MonoBehaviour
 
             Vector2 spawnPos = spawnPosList[randNumber].position;
 
-            GameObject nextEnemy = null;
+            GameObject nextEnemyPrefab = null;
+            AIAgressiveness nextEnemyAgressiveness = 0;
 
             int randUnit = Random.Range(1, 101);
             int spawnPieChance = 0;                                         // all units sum of spawn chance is 100, imagine it like a pie of chance to spawn for every unit calculated by adding to each other
@@ -77,17 +78,21 @@ public class SpawnManager : MonoBehaviour
                 spawnPieChance += spawnUnit.spawnChance;
                 if(randUnit <= spawnPieChance)
                 {
-                    nextEnemy = spawnUnit.unit;
+                    nextEnemyPrefab = spawnUnit.unit;
+                    nextEnemyAgressiveness = spawnUnit.AIAgressiveness;
                     break;
                 }
             }
 
-            if(nextEnemy == null)
+            if(nextEnemyPrefab == null)
             {
                 Debug.LogError("Could not find nextEnemy during in SpawnLogic function");
                 return;
             }
-            GameObject spawnedEnemy = Instantiate(nextEnemy, new Vector3(spawnPos.x, nextEnemy.transform.position.y, 0), nextEnemy.transform.rotation) as GameObject;
+            GameObject spawnedEnemyGO = Instantiate(nextEnemyPrefab, new Vector3(spawnPos.x, nextEnemyPrefab.transform.position.y, 0), nextEnemyPrefab.transform.rotation) as GameObject;
+
+            AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
+            spawnedEnemyUnit.aiAgressiveness = nextEnemyAgressiveness;
 
             maxSpawn--;
 
@@ -108,5 +113,6 @@ public class SpawnManager : MonoBehaviour
     {
         public GameObject unit;
         public int spawnChance;               // Out of 100
+        public AIAgressiveness AIAgressiveness;
     }
 }

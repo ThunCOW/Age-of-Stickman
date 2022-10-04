@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 29d0792572859aa49aabb441eb079922
   ItemName: Shield
+  HealthBonus: 35
+  DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 4
   ItemSprite: {fileID: 21300000, guid: 3e083d3aa148813429ac16edc26b6036, type: 3}

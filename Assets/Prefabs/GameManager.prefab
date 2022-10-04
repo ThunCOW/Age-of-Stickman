@@ -839,6 +839,74 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &377815799
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 377815802}
+  - component: {fileID: 377815801}
+  - component: {fileID: 377815800}
+  m_Layer: 0
+  m_Name: EventSystem
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &377815802
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377815799}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 9.807373, y: 1.9787598, z: 0.07759183}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7700336283338286803}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &377815801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377815799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 10
+--- !u!114 &377815800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 377815799}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SendPointerHoverToParent: 1
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
 --- !u!1 &462157395
 GameObject:
   m_ObjectHideFlags: 0
@@ -3037,74 +3105,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!1 &1895009876
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1895009879}
-  - component: {fileID: 1895009878}
-  - component: {fileID: 1895009877}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1895009879
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1895009876}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.807379, y: 1.9787676, z: 0.07759183}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 7700336283338286803}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1895009878
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1895009876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!114 &1895009877
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1895009876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_HorizontalAxis: Horizontal
-  m_VerticalAxis: Vertical
-  m_SubmitButton: Submit
-  m_CancelButton: Cancel
-  m_InputActionsPerSecond: 10
-  m_RepeatDelay: 0.5
-  m_ForceModuleActive: 0
 --- !u!1 &1934271819
 GameObject:
   m_ObjectHideFlags: 0
@@ -4034,7 +4034,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 672413501}
-  - {fileID: 1895009879}
+  - {fileID: 377815802}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4070,7 +4070,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: ceeb511792bb3734cae0393b2e299c4b, type: 3}
   - {fileID: 8300000, guid: 6938d915a47388f4bafd13e18916d420, type: 3}
   _Gold: 0
-  GoldText: {fileID: 0}
+  GoldText: {fileID: 12090325}
   sortManager:
     sortingOrder: []
 --- !u!114 &7700336283338286801
@@ -4089,7 +4089,56 @@ MonoBehaviour:
   LevelCanvas: {fileID: 2019428467}
   MainMenu:
     sceneAsset: {fileID: 102900000, guid: 98c85c017267a0149adefd3996ad06a8, type: 3}
-    scenePath: Assets/Scenes/Main Menu 1.unity
+    scenePath: Assets/Scenes/Main Menu.unity
   TempLevel:
-    sceneAsset: {fileID: 102900000, guid: 93d635710c3a976439814110c7c6138a, type: 3}
-    scenePath: Assets/Scenes/SpineAnimation.unity
+    sceneAsset: {fileID: 102900000, guid: 2f146adb41c896d43b2e41d8dcb9f450, type: 3}
+    scenePath: Assets/Scenes/Level 1.unity
+  Levels:
+  - sceneAsset: {fileID: 102900000, guid: 2f146adb41c896d43b2e41d8dcb9f450, type: 3}
+    scenePath: Assets/Scenes/Level 1.unity
+  - sceneAsset: {fileID: 102900000, guid: 2e815289ac58ffd4c971f9ff5ba54159, type: 3}
+    scenePath: Assets/Scenes/Level 2.unity
+  - sceneAsset: {fileID: 102900000, guid: ba7915519f43b1b45a1edc00ece94ff8, type: 3}
+    scenePath: Assets/Scenes/Level 3.unity
+  - sceneAsset: {fileID: 102900000, guid: c1db9f1abe23c9744ab3f6ebda200b60, type: 3}
+    scenePath: Assets/Scenes/Level 4.unity
+  - sceneAsset: {fileID: 102900000, guid: 5e50936d1cb9d5143a724bc87887c416, type: 3}
+    scenePath: Assets/Scenes/Level 5.unity
+  - sceneAsset: {fileID: 102900000, guid: 5bc869d3c0323e84a8a3236647e7cc5a, type: 3}
+    scenePath: Assets/Scenes/Level 6.unity
+  - sceneAsset: {fileID: 102900000, guid: edf4cae3d9930f446827031a746979ae, type: 3}
+    scenePath: Assets/Scenes/Level 7.unity
+  - sceneAsset: {fileID: 102900000, guid: f5c19b424fef9274cbf7a254fc741407, type: 3}
+    scenePath: Assets/Scenes/Level 8.unity
+  - sceneAsset: {fileID: 102900000, guid: cfbf394738001e842b66aeef8241329e, type: 3}
+    scenePath: Assets/Scenes/Level 9.unity
+  - sceneAsset: {fileID: 102900000, guid: 2532e4c5e9eda1541bed1a3c3cec4eac, type: 3}
+    scenePath: Assets/Scenes/Level 10.unity
+  - sceneAsset: {fileID: 102900000, guid: be751e73d47d61548a430961df174087, type: 3}
+    scenePath: Assets/Scenes/Level 11.unity
+  - sceneAsset: {fileID: 102900000, guid: 8d8d2e296bfcbe341a63fc1af3f92643, type: 3}
+    scenePath: Assets/Scenes/Level 12.unity
+  - sceneAsset: {fileID: 102900000, guid: d4e5a4654c1d0dd43a09aec1f2603d99, type: 3}
+    scenePath: Assets/Scenes/Level 13.unity
+  - sceneAsset: {fileID: 102900000, guid: 006cc1da24a8e4d47a9da62bc6a16840, type: 3}
+    scenePath: Assets/Scenes/Level 14.unity
+  - sceneAsset: {fileID: 102900000, guid: 537f45b7b91a5944a814f5a08e04d038, type: 3}
+    scenePath: Assets/Scenes/Level 15.unity
+  - sceneAsset: {fileID: 102900000, guid: 714d6157dc980034fa8f63f62a88bf5e, type: 3}
+    scenePath: Assets/Scenes/Level 16.unity
+  - sceneAsset: {fileID: 102900000, guid: 7fab06efaee94644dbd10182aecba4b0, type: 3}
+    scenePath: Assets/Scenes/Level 17.unity
+  - sceneAsset: {fileID: 102900000, guid: 43576511d4676894384be834ee427632, type: 3}
+    scenePath: Assets/Scenes/Level 18.unity
+  - sceneAsset: {fileID: 102900000, guid: 48334e20c38ac97449cb54cad2d6927b, type: 3}
+    scenePath: Assets/Scenes/Level 19.unity
+  - sceneAsset: {fileID: 102900000, guid: b4dde606fb4a74a45a2ad83247baa146, type: 3}
+    scenePath: Assets/Scenes/Level 20.unity
+  - sceneAsset: {fileID: 102900000, guid: 52074f383f852db4e9f32c02f3245b8d, type: 3}
+    scenePath: Assets/Scenes/Level 21.unity
+  - sceneAsset: {fileID: 102900000, guid: e81854b11a556004c815e98fbe832f2e, type: 3}
+    scenePath: Assets/Scenes/Level 22.unity
+  - sceneAsset: {fileID: 102900000, guid: 0649406a72f8fe74e830f0963389c227, type: 3}
+    scenePath: Assets/Scenes/Level 23.unity
+  - sceneAsset: {fileID: 102900000, guid: 93337a1d3e3d9ca4587c52aaa29defc1, type: 3}
+    scenePath: Assets/Scenes/Level 24.unity
