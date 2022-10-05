@@ -20,11 +20,13 @@ public class BasicAnimation : ScriptableObject
 
     void OnValidate()
     {
-        //AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(this), Prefix + "_" + AnimationName + "_ANIMA");
+        AnimationReferenceAsset tempObj;
+        
+        //AssetDatabase.RenameAsset(AssetDatabase.GetAssetPath(this), Prefix + "_" + AnimationName);
         //AssetDatabase.Refresh();
         //this.name = Prefix + "_" + AnimationName;
 
-        //AnimationReferenceAsset tempObj = Resources.Load("ReferenceAssets/" + Prefix + "_" + AnimationName, typeof(AnimationReferenceAsset)) as AnimationReferenceAsset;
+        //tempObj = Resources.Load("ReferenceAssets/" + Prefix + "_" + AnimationName, typeof(AnimationReferenceAsset)) as AnimationReferenceAsset;
         //SpineAnimationReference = tempObj;
 
         if (_PrefixChangeCheck != Prefix || _AnimationNameChangeCheck != AnimationName)
@@ -45,7 +47,7 @@ public class BasicAnimation : ScriptableObject
         }
         if(SpineAnimationReference == null)
         {
-            AnimationReferenceAsset tempObj = Resources.Load("ReferenceAssets/" + Prefix + "_" + AnimationName, typeof(AnimationReferenceAsset)) as AnimationReferenceAsset;
+            tempObj = Resources.Load("ReferenceAssets/" + Prefix + "_" + AnimationName, typeof(AnimationReferenceAsset)) as AnimationReferenceAsset;
             SpineAnimationReference = tempObj;
         }
     }

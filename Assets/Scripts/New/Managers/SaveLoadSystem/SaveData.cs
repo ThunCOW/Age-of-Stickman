@@ -6,6 +6,7 @@ using UnityEngine;
 public class SaveData
 {
     public List<Item> equippedItems;
+    public List<int> equippedItemIndexs;
 
     public int PlayerLives;
     public int Gold;

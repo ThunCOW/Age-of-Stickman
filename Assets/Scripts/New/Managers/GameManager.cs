@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 namespace SpineControllerVersion
 {
-    public class GameManager : MonoBehaviour, ISaveableJson
+    public class GameManager : MonoBehaviour, ISaveableJson, ISerializationCallbackReceiver
     {
         public static GameManager Instance;
 
@@ -20,8 +20,22 @@ namespace SpineControllerVersion
 
         [Header("Player Data")]
         public Unit Player;
+        [SerializeField] private List<Item> AllEquipments;
+        private List<int> _PlayerEquipmentsKeys = new List<int>();
+        private List<int> PlayerEquipmentsKeys
+        {
+            get { return _PlayerEquipmentsKeys; }
+            set
+            {
+                _PlayerEquipmentsKeys = value;
+                PlayerEquipments.Clear();
+                foreach(int i in PlayerEquipmentsKeys)
+                {
+                    PlayerEquipments.Add(AllEquipments[i]);
+                }
+            }
+        }
         public List<Item> PlayerEquipments;
-        public Dictionary<ItemSlot, Item> a;
 
         [SerializeField] private int _PlayerLives;
         public int PlayerLives
@@ -50,8 +64,17 @@ namespace SpineControllerVersion
 
         [HideInInspector] public SortManager sortManager = new SortManager();
 
+        void ChangeEquipment(Item newEquipment)
+        {
+
+        }
         private void Awake()
         {
+            for(int i = 0; i < AllEquipments.Count; i++)
+            {
+                //AllEquipmentsDict.Add(i, AllEquipments[i]);
+            }
+
             if (Instance == null)
             {
                 Instance = this;
@@ -107,7 +130,13 @@ namespace SpineControllerVersion
 
         public void PopulateSaveData(SaveData a_SaveData)
         {
-            a_SaveData.equippedItems = PlayerEquipments;
+            //a_SaveData.equippedItems = PlayerEquipments;
+            PlayerEquipmentsKeys.Clear();
+            foreach(Item item in PlayerEquipments)
+            {
+                PlayerEquipmentsKeys.Add(AllEquipments.IndexOf(item));
+            }
+            a_SaveData.equippedItemIndexs = PlayerEquipmentsKeys;
 
             a_SaveData.PlayerLives = PlayerLives;
             a_SaveData.Gold = Gold;
@@ -131,7 +160,8 @@ namespace SpineControllerVersion
         
         public void LoadFromSaveData(SaveData a_SaveData)
         {
-            PlayerEquipments = a_SaveData.equippedItems;
+            //PlayerEquipments = a_SaveData.equippedItems;
+            PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
             Gold = a_SaveData.Gold;
@@ -155,6 +185,16 @@ namespace SpineControllerVersion
         public void ResetGameData()
         {
 
+        }
+
+        public void OnBeforeSerialize()
+        {
+            
+        }
+
+        public void OnAfterDeserialize()
+        {
+            
         }
     }
 
