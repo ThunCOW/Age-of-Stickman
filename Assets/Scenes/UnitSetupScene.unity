@@ -5682,11 +5682,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnUnitList:
-  - unit: {fileID: 6248090491408798412, guid: e42a7df5f55806f40b03b2e2ce96ded0, type: 3}
+  - unit: {fileID: 6248090491408798412, guid: 5b48586d65be01648a1e4b5bf17a37ee, type: 3}
     spawnChance: 100
     AIAgressiveness: 1
   _spawnTimer: 5
-  maxSpawn: 6
+  maxSpawn: 1
   maxEnemyOnScreen: 5
   spawnPosList:
   - {fileID: 4973821420141865720}
@@ -5934,6 +5934,10 @@ PrefabInstance:
     - target: {fileID: 8615564714039348845, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615564714106964960, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
+      propertyPath: speed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8615564714106964963, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: m_RootOrder

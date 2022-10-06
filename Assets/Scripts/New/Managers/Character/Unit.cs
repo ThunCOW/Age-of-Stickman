@@ -47,7 +47,7 @@ public class Unit : MonoBehaviour
         get { return _animationList; }
         set
         {
-            _animationList = value;
+            _animationList = value.InitializeSO();
 
             // Reset stance
             currentStance = StanceList.Stand_A;

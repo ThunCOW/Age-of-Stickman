@@ -56,6 +56,11 @@ public class BasicAnimation : ScriptableObject
     {
         Debug.Log("does this work");
     }
+
+    public BasicAnimation InitializeSO()
+    {
+        return Instantiate(this);
+    }
 }
 
 public enum AttackType

@@ -3,6 +3,7 @@ using Spine.Unity;
 using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class UnitController : MonoBehaviour
@@ -27,7 +28,6 @@ public class UnitController : MonoBehaviour
     protected float speed_; // stores default speed
     protected float speedRelativeToAnimation; // speed for animations
     protected MoveDirection direction = MoveDirection.waiting;
-    [HideInInspector] protected float multiplier = 1;
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -49,11 +49,10 @@ public class UnitController : MonoBehaviour
             CharacterControls();
         }
     }
-
     void FixedUpdate()
     {
         if (canMove)
-            transform.position = new Vector3(transform.position.x + ((int)direction * (speed + speedRelativeToAnimation) * multiplier) * Time.deltaTime, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + ((int)direction * (speed + speedRelativeToAnimation)) * Time.deltaTime, transform.position.y, transform.position.z);
     }
 
     protected virtual void CharacterControls() { }
@@ -302,8 +301,41 @@ public class UnitController : MonoBehaviour
         idleing = false;
 
         speed = 0;
+        
+        if(Attack.Keys.Count > 0)
+        {
+            if(unit.target != null)
+            {
+                float time = Attack.speedCurve[Attack.Keys[Attack.Keys.Count - 1]].time - Attack.speedCurve[Attack.Keys[0]].time;
+                float animSpeed = (Mathf.Abs(transform.position.x - unit.target.transform.position.x) - 2f) / time;
+                Debug.Log("Time = " + time + " / Speed = " + animSpeed + " / CurPos = " + transform.position.x + " / NextPos = " + transform.position.x + (time * animSpeed));
 
-        // Animation works in normal speed
+                //Debug.Log("Time Dif = " + time + " / move = " + time * 32);
+                //Debug.Log("Current Distance = " + transform.position.x + " / next position = " +  (transform.position.x + (time * 32)));
+                // calculate distance to target and find speed
+
+                Keyframe[] keyframe = Attack.speedCurve.keys;
+
+                for (int i = 0; i < Attack.Keys.Count; i++)
+                {
+                    keyframe[Attack.Keys[i]].value = animSpeed;
+                    //Debug.Log(Attack.speedCurve.keys[Attack.Keys[i]].value + " / " + Attack.Values[i]);
+                }
+                Attack.speedCurve.keys = keyframe;
+            }
+            else
+            {
+                Keyframe[] keyframe = Attack.speedCurve.keys;
+
+                for (int i = 0; i < Attack.Keys.Count; i++)
+                {
+                    keyframe[Attack.Keys[i]].value = Attack.Values[i];
+                    //Debug.Log(Attack.speedCurve.keys[Attack.Keys[i]].value + " / " + Attack.Values[i]);
+                }
+                Attack.speedCurve.keys = keyframe;
+            }
+        }
+        
         if (Attack.speedCurve.Evaluate(0) == 0)
         {
             speed = speed_;

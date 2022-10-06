@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
-    public List<Item> equippedItems;
+    //public List<Item> equippedItems;
     public List<int> equippedItemIndexs;
 
     public int PlayerLives;

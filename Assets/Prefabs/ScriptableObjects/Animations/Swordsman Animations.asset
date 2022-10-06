@@ -28,11 +28,6 @@ MonoBehaviour:
       WalkAttack:
       - {fileID: 11400000, guid: 1db459df200cd8443abbfe952af2548b, type: 2}
       - {fileID: 11400000, guid: 27891db1e2267de42bf71fe7a67d2d33, type: 2}
-      Death:
-      - {fileID: 11400000, guid: c5875eef7f4ca4f44b1d2b927439d205, type: 2}
-      - {fileID: 11400000, guid: 9130f7ad92ef8ca49844f2733937b054, type: 2}
-      - {fileID: 11400000, guid: 6c71c7d006f28bf4e82118f711f34ff4, type: 2}
-      - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
       DeathAnimationByDamageRegion:
         highRegion:
         - {fileID: 11400000, guid: c5875eef7f4ca4f44b1d2b927439d205, type: 2}

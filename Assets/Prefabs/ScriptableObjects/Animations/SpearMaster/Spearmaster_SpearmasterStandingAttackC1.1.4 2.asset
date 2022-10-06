@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e1c5c3fa30a596a4ea3b616783c75d35, type: 3}
-  m_Name: Spearmaster_SpearmasterStandingAttackC1.1.4 1
+  m_Name: Spearmaster_SpearmasterStandingAttackC1.1.4 2
   m_EditorClassIdentifier: 
   Prefix: Spearmaster
   AnimationName: SpearmasterStandingAttackC1.1.4.1
@@ -33,24 +33,15 @@ MonoBehaviour:
       time: 0.3665
       value: 0.000014589004
       inSlope: -0.00023304502
-      outSlope: 79986.58
+      outSlope: 319946.75
       tangentMode: 69
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.3666
-      value: 8
-      inSlope: 79986.58
-      outSlope: 718.56287
-      tangentMode: 69
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.4
       value: 32
-      inSlope: 718.56287
+      inSlope: 319946.75
       outSlope: 0
       tangentMode: 69
       weightedMode: 0
@@ -86,7 +77,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  Keys: 0300000004000000
+  Keys: 0200000003000000
   Values:
   - 32
   - 32

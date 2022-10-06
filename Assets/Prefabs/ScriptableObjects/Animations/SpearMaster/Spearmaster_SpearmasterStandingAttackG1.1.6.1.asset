@@ -19,10 +19,96 @@ MonoBehaviour:
   _AnimationNameChangeCheck: SpearmasterStandingAttackG1.1.6.1
   speedCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.0001
+      inSlope: 149.99501
+      outSlope: 149.99501
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.02
+      value: 3
+      inSlope: 22.504873
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1333
+      value: 3
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1334
+      value: 6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 136
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2666
+      value: 6
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6666
+      value: 6
+      inSlope: -0
+      outSlope: -122.10031
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.027286323
+    - serializedVersion: 3
+      time: 0.8
+      value: 0
+      inSlope: -10.706405
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.25415033
+      outWeight: 1
+    - serializedVersion: 3
+      time: 0.8001
+      value: 0
+      inSlope: -2.4480603
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 1
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 0300000004000000
+  Values:
+  - 6
+  - 6
+  SetupKeys: 0
   attackType: 0
   animationMovementType: 1
   DamageMultiplierMax: 1.5
