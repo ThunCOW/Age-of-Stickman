@@ -178,7 +178,7 @@ public class UnitController : MonoBehaviour
             unit.CheckUnitDirection();
 
             StopAllCoroutines();
-            StartCoroutine(StunnedFor(0.5f, attack));
+            StartCoroutine(StunnedFor(attack));
         }
 
         if (attack.attackType != AttackType.Kick && attack.attackType != AttackType.Shield)
@@ -234,7 +234,7 @@ public class UnitController : MonoBehaviour
         gold.GetComponent<Rigidbody2D>().AddTorque(Random.Range(5, 15) * torqDir, ForceMode2D.Force);
     }
 
-    protected IEnumerator StunnedFor(float stunDuration, CloseCombatAnimation attack)
+    protected IEnumerator StunnedFor(CloseCombatAnimation attack)
     {
         idleing = false;
 

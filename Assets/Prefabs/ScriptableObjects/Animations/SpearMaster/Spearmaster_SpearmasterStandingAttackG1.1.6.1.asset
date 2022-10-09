@@ -57,15 +57,6 @@ MonoBehaviour:
       inWeight: 0.33333334
       outWeight: 0.33333334
     - serializedVersion: 3
-      time: 0.2666
-      value: 6
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 65
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
       time: 0.6666
       value: 6
       inSlope: -0
@@ -106,8 +97,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   Keys: 0300000004000000
   Values:
-  - 6
-  - 6
+  - 10
+  - 10
   SetupKeys: 0
   attackType: 0
   animationMovementType: 1

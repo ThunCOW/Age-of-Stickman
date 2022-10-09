@@ -28,7 +28,7 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 59618394db4589e479b19a38d9de142f, type: 2}
       WalkAttack:
       - {fileID: 11400000, guid: 65a8b71a270351044ac83d1c5dfac277, type: 2}
-      - {fileID: 11400000, guid: e0da6f54823172a4b90d9edad2d2c261, type: 2}
+      - {fileID: 11400000, guid: 59e52d6800357024eb0ff32dbe7ec273, type: 2}
       - {fileID: 11400000, guid: e0da6f54823172a4b90d9edad2d2c261, type: 2}
       DeathAnimationByDamageRegion:
         highRegion: []
