@@ -454,7 +454,7 @@ Shield/ShieldLong_01
   index: -1
 Shield/ShieldLong_02
   rotate: true
-  xy: 397, 1421
+  xy: 356, 1421
   size: 12, 40
   orig: 12, 40
   offset: 0, 0
@@ -503,7 +503,7 @@ Shield/VectorShield_00
   index: -1
 Shield/VectorShield_01
   rotate: true
-  xy: 356, 1421
+  xy: 398, 1421
   size: 12, 39
   orig: 12, 39
   offset: 0, 0

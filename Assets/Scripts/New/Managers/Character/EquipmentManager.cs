@@ -269,6 +269,22 @@ public class EquipmentManager : MonoBehaviour
             }
             else Debug.LogError("Projectile could not be found, which should not have happened");
         }
+        if (e.Data.Name == "Shield Triggers/Shield_Side")
+        {
+            if (equippedItems.ContainsKey(ItemSlot.Offhand))
+            {
+                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].front[0].SlotName, equippedItems[ItemSlot.Offhand].front[0].AttachmentName);
+                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].side[0].SlotName, null);
+            }
+        }
+        if (e.Data.Name == "Shield Triggers/Shield_Front")
+        {
+            if (equippedItems.ContainsKey(ItemSlot.Offhand))
+            {
+                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].front[0].SlotName, null);
+                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].side[0].SlotName, equippedItems[ItemSlot.Offhand].side[0].AttachmentName);
+            }
+        }
     }
 
     void SetAllAttachment(List<SpineAttachment> SpineAttachment, bool remove = false)

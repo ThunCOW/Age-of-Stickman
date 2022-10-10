@@ -87,14 +87,33 @@ public class AIController : UnitController
                 idleing = false;
 
                 // if in kick distance, there is a chance to kick
-                float kickDistance = 0.7f;
+                float kickDistance = 2f;
                 if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < kickDistance)
                 {
                     // X % chance to kick
-                    bool kick = Random.Range(0, 5) == 0;
+                    bool kick = true;
                     if (kick == true)
                     {
+                        List<BasicAnimation> tempBreakAnimation = unit.activeAnimations.BreakStance;
 
+                        int randomAttack2 = Random.Range(0, tempBreakAnimation.Count);
+                        BasicAnimation selectedAnim = tempBreakAnimation[randomAttack2];
+                        
+                        currentAttack = selectedAnim as CloseCombatAnimation;
+
+                        spineSkeletonAnimation.state.SetAnimation(1, selectedAnim.SpineAnimationReference, false).TimeScale = 1f;
+                        float animationLength = selectedAnim.SpineAnimationReference.Animation.Duration;
+                        waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
+                        waitTime += Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
+
+                        StartCoroutine(AIActionDecision(waitTime));
+
+                        if (selectedAnim is CloseCombatAnimation)
+                            StartCoroutine(SpeedDuringAnimation(selectedAnim as CloseCombatAnimation));
+                        else if (selectedAnim is SpeedDependantAnimation)
+                            StartCoroutine(SpeedDuringAnimation(selectedAnim as SpeedDependantAnimation));
+                        
+                        yield break;
                     }
                 }
 
@@ -114,10 +133,27 @@ public class AIController : UnitController
                 }*/
 
                 List<BasicAnimation> tempAttackAnimation = unit.activeAnimations.Attack;
+                tempAttackAnimation.AddRange(unit.activeAnimations.WalkAttack);
 
                 // select a random attack
                 int randomAttack = Random.Range(0, tempAttackAnimation.Count);
                 currentAttack = tempAttackAnimation[randomAttack] as CloseCombatAnimation;
+
+                if (unit.target != null)
+                {
+                    float dist = Mathf.Abs(unit.transform.position.x - unit.target.transform.position.x);
+                    foreach (BasicAnimation action in tempAttackAnimation)
+                    {
+                        if (dist < currentAttack.MinDistanceLimit)
+                        {
+                            // current unit is too close to make this action, like jump attack etc
+                            randomAttack = Random.Range(0, tempAttackAnimation.Count);
+                            currentAttack = tempAttackAnimation[randomAttack] as CloseCombatAnimation;
+                        }
+                        else break;
+                    }
+                }
+
                 if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < currentAttack.Reach)
                 {
                     // if it is close enough to attack, attack and start next courutine for decision

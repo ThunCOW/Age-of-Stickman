@@ -48,6 +48,8 @@ public class UnitAnimations
     public BasicAnimation idle;
     public BasicAnimation Movement;
     public BasicAnimation MovementBackward;
+    public BasicAnimation BlockAttack;
+    public BasicAnimation ResetSlots;
     public BasicAnimation Hurt;
     public BasicAnimation Kicked;
     public BasicAnimation Slammed;

@@ -10,6 +10,7 @@ public class CloseCombatAnimation : SpeedDependantAnimation
     public AnimationMovementType animationMovementType;
     public float DamageMultiplierMax;
     public float Reach;
+    public float MinDistanceLimit;                          // If unit is closer than min distance, it cannot use this action
     public float PushDistance;
     public HitRegion attackRegion;
 

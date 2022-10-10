@@ -57,6 +57,7 @@ public class PlayerController : UnitController
 
     bool attackTrigger = false;
     bool stunTrigger = false;
+    bool blockTrigger = false;
     Coroutine triggerCoroutine = null;
     void KeyboardControls()
     {
@@ -85,6 +86,14 @@ public class PlayerController : UnitController
         if (Input.GetKeyUp(KeyCode.R))
         {
             triggerCoroutine = StartCoroutine(ResetAttackTrigger(KeyCode.R));
+        }
+
+        // F pressed
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            blockTrigger = true;
+
+            //if(triggerCoroutine != null) StopCoroutine()
         }
 
         // Movement Conditions
@@ -169,12 +178,33 @@ public class PlayerController : UnitController
                 List<BasicAnimation> tempStationaryStun = unit.activeAnimations.BreakStance;
 
                 int randomAttack = Random.Range(0, tempStationaryStun.Count);
-                currentAttack = tempStationaryStun[randomAttack] as CloseCombatAnimation;
+                BasicAnimation t = tempStationaryStun[randomAttack];
+                currentAttack = (CloseCombatAnimation)t;
 
                 spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
 
                 AttackAction();
             }
+        }
+
+        if (!isAnimationStarted)
+        {
+            if (Input.GetKey(KeyCode.F))
+            {
+                BasicAnimation blockAnimation = unit.activeAnimations.BlockAttack;
+
+                isAnimationStarted = true;
+
+                spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
+            }
+        }
+        // Space Released
+        if (Input.GetKeyUp(KeyCode.F))
+        {
+            isAnimationStarted = false;
+
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, false).TimeScale = 1f;
+            spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
         }
     }
 

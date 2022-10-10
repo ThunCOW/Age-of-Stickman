@@ -5851,7 +5851,15 @@ MonoBehaviour:
   PLAYER_TAG: PlayerUnit
   GOLD_TAG: Gold
   Player: {fileID: 0}
-  AllEquipments: []
+  AllEquipments:
+  - {fileID: 11400000, guid: 29d0792572859aa49aabb441eb079922, type: 2}
+  - {fileID: 11400000, guid: 926768ee1ad2ea54097c9859adc878f9, type: 2}
+  - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
+  - {fileID: 11400000, guid: fd998a6a390a91a439028726577c292c, type: 2}
+  - {fileID: 11400000, guid: 4e64c86178a18bc4a8a53aa889897cf3, type: 2}
+  - {fileID: 11400000, guid: bb916c92eaaded44397d079bc000aa0d, type: 2}
+  - {fileID: 11400000, guid: 6f36743ab9bc99242ba1ccbc3256c9e6, type: 2}
+  - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
   PlayerEquipments:
   - {fileID: 11400000, guid: 4e64c86178a18bc4a8a53aa889897cf3, type: 2}
   - {fileID: 11400000, guid: 29d0792572859aa49aabb441eb079922, type: 2}

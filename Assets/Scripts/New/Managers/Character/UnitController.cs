@@ -308,7 +308,7 @@ public class UnitController : MonoBehaviour
             {
                 float time = Attack.speedCurve[Attack.Keys[Attack.Keys.Count - 1]].time - Attack.speedCurve[Attack.Keys[0]].time;
                 float animSpeed = (Mathf.Abs(transform.position.x - unit.target.transform.position.x) - 2f) / time;
-                Debug.Log("Time = " + time + " / Speed = " + animSpeed + " / CurPos = " + transform.position.x + " / NextPos = " + transform.position.x + (time * animSpeed));
+                //Debug.Log("Time = " + time + " / Speed = " + animSpeed + " / CurPos = " + transform.position.x + " / NextPos = " + transform.position.x + (time * animSpeed));
 
                 //Debug.Log("Time Dif = " + time + " / move = " + time * 32);
                 //Debug.Log("Current Distance = " + transform.position.x + " / next position = " +  (transform.position.x + (time * 32)));
@@ -381,7 +381,57 @@ public class UnitController : MonoBehaviour
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
+    protected IEnumerator SpeedDuringAnimation(SpeedDependantAnimation Animation)
+    {
+        idleing = false;
 
+        speed = 0;
+
+        if (Animation.speedCurve.Evaluate(0) == 0)
+        {
+            speed = speed_;
+
+            yield return new WaitForSeconds(Animation.SpineAnimationReference.Animation.Duration);
+
+            idleing = true;
+
+            currentAttack = null;
+
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            yield break;
+        }
+
+        // Check for what ???
+        if (unit.target != null)
+        {
+            if (transform.position.x < unit.target.transform.position.x)     // if target is more on the right, unit direction is right
+                direction = MoveDirection.right;
+            else
+                direction = MoveDirection.left;
+        }
+
+        // lasts until animation ends
+        float animationLength = Animation.SpineAnimationReference.Animation.Duration;
+        float animationCurrentTime = 0;
+        while (animationLength >= animationCurrentTime)
+        {
+            animationCurrentTime += Time.deltaTime;
+            speedRelativeToAnimation = Animation.speedCurve.Evaluate(animationCurrentTime);
+            yield return null;
+        }
+        speed = speed_;
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        idleing = true;
+
+        currentAttack = null;
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+    }
     private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
         if (e.Data.Name == "MeleeAttack")

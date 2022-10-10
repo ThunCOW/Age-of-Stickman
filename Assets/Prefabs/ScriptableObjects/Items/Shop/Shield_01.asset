@@ -25,5 +25,7 @@ MonoBehaviour:
     AttachmentName: Shield/ShieldCircle_00
   - SlotName: Shield/ShieldCircle_01
     AttachmentName: Shield/ShieldCircle_01
-  side: []
+  side:
+  - SlotName: Shield/ShieldCircle_03
+    AttachmentName: Shield/ShieldCircle_03
   back: []
