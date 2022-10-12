@@ -8,8 +8,8 @@ using UnityEngine;
 public class SpeedDependantAnimation : BasicAnimation, ISerializationCallbackReceiver
 {
     public AnimationCurve speedCurve;
-    public List<int> Keys;
-    public List<float> Values;
+    public List<int> Keys = new List<int>();
+    public List<float> Values = new List<float>();
     private Dictionary<int, float> KeyFrameDict = new Dictionary<int, float>();
     public bool SetupKeys;
     public void OnBeforeSerialize()

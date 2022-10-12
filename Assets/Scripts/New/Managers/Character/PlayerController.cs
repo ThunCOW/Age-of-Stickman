@@ -8,6 +8,10 @@ public class PlayerController : UnitController
     public Transform LeftWallPosition;
     public Transform RightWallPosition;
 
+    bool attackTrigger = false;
+    bool stunTrigger = false;
+    Coroutine triggerCoroutine = null;
+
     void OnValidate()
     {
         if (LeftWallPosition == null || RightWallPosition == null)
@@ -55,10 +59,6 @@ public class PlayerController : UnitController
 
     }
 
-    bool attackTrigger = false;
-    bool stunTrigger = false;
-    bool blockTrigger = false;
-    Coroutine triggerCoroutine = null;
     void KeyboardControls()
     {
         // Space Pressed
@@ -86,14 +86,6 @@ public class PlayerController : UnitController
         if (Input.GetKeyUp(KeyCode.R))
         {
             triggerCoroutine = StartCoroutine(ResetAttackTrigger(KeyCode.R));
-        }
-
-        // F pressed
-        if(Input.GetKeyDown(KeyCode.F))
-        {
-            blockTrigger = true;
-
-            //if(triggerCoroutine != null) StopCoroutine()
         }
 
         // Movement Conditions
@@ -186,11 +178,16 @@ public class PlayerController : UnitController
                 AttackAction();
             }
         }
+        
+        // Block Button Action
 
         if (!isAnimationStarted)
         {
-            if (Input.GetKey(KeyCode.F))
+            if (Input.GetKey(KeyCode.S))
             {
+                canMove = false;
+                blockTrigger = true;
+
                 BasicAnimation blockAnimation = unit.activeAnimations.BlockAttack;
 
                 isAnimationStarted = true;
@@ -198,12 +195,15 @@ public class PlayerController : UnitController
                 spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
             }
         }
-        // Space Released
-        if (Input.GetKeyUp(KeyCode.F))
+        // F Released
+        if (blockTrigger && Input.GetKeyUp(KeyCode.S))
         {
+            canMove = true;
+            blockTrigger = false;
+
             isAnimationStarted = false;
 
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, false).TimeScale = 1f;
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
             spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
         }
     }

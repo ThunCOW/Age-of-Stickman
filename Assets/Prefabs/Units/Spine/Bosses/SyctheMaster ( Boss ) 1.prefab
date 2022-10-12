@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5918015680494077888}
   m_LocalRotation: {x: -0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.375, z: 0}
+  m_LocalPosition: {x: -0.346, y: -1.375, z: 0}
   m_LocalScale: {x: 1.05, y: 0.8375, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 11400000, guid: cc9f4d5a0cf67524989dafe94a27404e, type: 2}
-  initialSkinName: Human
+  initialSkinName: Elf
   initialFlipX: 0
   initialFlipY: 0
   updateWhenInvisible: 3
@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 5918015681238482116}
   - component: {fileID: 5918015681238482119}
   m_Layer: 0
-  m_Name: Spearmaster ( Boss )
+  m_Name: SyctheMaster ( Boss ) 1
   m_TagString: EnemyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -468,9 +468,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startingItems:
-  - {fileID: 11400000, guid: f661d9558a9e4134eb6c01f0faab07a2, type: 2}
-  - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
-  - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
+  - {fileID: 11400000, guid: cfef3c2d1d1109142b4e937261f809d9, type: 2}
+  - {fileID: 11400000, guid: 05a6c2596f95ae749bfb079d399d9883, type: 2}
+  - {fileID: 11400000, guid: bee017d867df2834d95df34895afce83, type: 2}
   equippedItemList: []
   changeItemNow: 0
 --- !u!114 &5918015681238482122
@@ -486,7 +486,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 4957357575968501044}
-  HealthMax: 80
+  HealthMax: 600
   _Health: 0
   Damage: 70
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
@@ -497,12 +497,17 @@ MonoBehaviour:
     idle: {fileID: 0}
     Movement: {fileID: 0}
     MovementBackward: {fileID: 0}
+    BlockAttack: {fileID: 0}
+    ResetSlots: {fileID: 0}
     Hurt: {fileID: 0}
     Kicked: {fileID: 0}
     Slammed: {fileID: 0}
     KnockedDown: {fileID: 0}
     Attack: []
     WalkAttack: []
+    ChangeStance:
+      Animation: {fileID: 0}
+      chance: 0
     DeathAnimationByDamageRegion:
       highRegion: []
       midRegion: []

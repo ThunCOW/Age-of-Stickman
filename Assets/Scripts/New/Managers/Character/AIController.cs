@@ -1,3 +1,4 @@
+using Newtonsoft.Json.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -84,106 +85,7 @@ public class AIController : UnitController
 
             if (rand <= aiVariable.AttackChance) // is going to attack
             {
-                idleing = false;
-
-                // if in kick distance, there is a chance to kick
-                float kickDistance = 2f;
-                if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < kickDistance)
-                {
-                    // X % chance to kick
-                    bool kick = true;
-                    if (kick == true)
-                    {
-                        List<BasicAnimation> tempBreakAnimation = unit.activeAnimations.BreakStance;
-
-                        int randomAttack2 = Random.Range(0, tempBreakAnimation.Count);
-                        BasicAnimation selectedAnim = tempBreakAnimation[randomAttack2];
-                        
-                        currentAttack = selectedAnim as CloseCombatAnimation;
-
-                        spineSkeletonAnimation.state.SetAnimation(1, selectedAnim.SpineAnimationReference, false).TimeScale = 1f;
-                        float animationLength = selectedAnim.SpineAnimationReference.Animation.Duration;
-                        waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
-                        waitTime += Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
-
-                        StartCoroutine(AIActionDecision(waitTime));
-
-                        if (selectedAnim is CloseCombatAnimation)
-                            StartCoroutine(SpeedDuringAnimation(selectedAnim as CloseCombatAnimation));
-                        else if (selectedAnim is SpeedDependantAnimation)
-                            StartCoroutine(SpeedDuringAnimation(selectedAnim as SpeedDependantAnimation));
-                        
-                        yield break;
-                    }
-                }
-
-                bool changeStance = false;
-                // if there are multiple stances, we can change stance
-                // TODO handle stance changes later
-                /*if (stanceList.Count > 1)
-                {
-                    changeStance = Random.Range(0, 10) == 0;
-                    if (changeStance == true)
-                    {
-                        if (currentStance == StanceList.Stand_A)
-                            currentStance = StanceList.Stand_A_transition_B;
-                        if (currentStance == StanceList.Stand_B)
-                            currentStance = StanceList.Stand_B_transition_A;
-                    }
-                }*/
-
-                List<BasicAnimation> tempAttackAnimation = unit.activeAnimations.Attack;
-                tempAttackAnimation.AddRange(unit.activeAnimations.WalkAttack);
-
-                // select a random attack
-                int randomAttack = Random.Range(0, tempAttackAnimation.Count);
-                currentAttack = tempAttackAnimation[randomAttack] as CloseCombatAnimation;
-
-                if (unit.target != null)
-                {
-                    float dist = Mathf.Abs(unit.transform.position.x - unit.target.transform.position.x);
-                    foreach (BasicAnimation action in tempAttackAnimation)
-                    {
-                        if (dist < currentAttack.MinDistanceLimit)
-                        {
-                            // current unit is too close to make this action, like jump attack etc
-                            randomAttack = Random.Range(0, tempAttackAnimation.Count);
-                            currentAttack = tempAttackAnimation[randomAttack] as CloseCombatAnimation;
-                        }
-                        else break;
-                    }
-                }
-
-                if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < currentAttack.Reach)
-                {
-                    // if it is close enough to attack, attack and start next courutine for decision
-                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
-                    float animationLength = currentAttack.SpineAnimationReference.Animation.Duration;
-                    waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
-                    waitTime += Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
-
-                    StartCoroutine(AIActionDecision(waitTime));
-
-                    StartCoroutine(SpeedDuringAnimation(currentAttack));
-
-                    // TODO RANGED ATTACK
-                    // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
-                    //if (currentAttack.rangedSpawnPrefab != null)
-                    //    StartCoroutine(UseRangedWeapon(currentAttack));
-
-                    /*if (changeStance == true)
-                    {
-                        if (currentStance == StanceList.Stand_A_transition_B)
-                            currentStance = StanceList.Stand_B;
-                        if (currentStance == StanceList.Stand_B_transition_A)
-                            currentStance = StanceList.Stand_A;
-                    }*/
-                }
-                else
-                {
-                    // if it is not close enough to attack
-                    StartCoroutine(MoveAndAttack(currentAttack, changeStance));
-                }
+                AttackDecision();
             }
             else
             {
@@ -222,8 +124,120 @@ public class AIController : UnitController
         }
     }
 
+    private void AttackDecision()
+    {
+        float waitTime = 0;
+
+        idleing = false;
+
+        // if in kick distance, there is a chance to kick
+        float kickDistance = 2f;
+        if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < kickDistance)
+        {
+            // X % chance to kick
+            bool kick = false;
+            if (kick == true)
+            {
+                List<BasicAnimation> tempBreakAnimation = unit.activeAnimations.BreakStance;
+
+                int randomAttack2 = Random.Range(0, tempBreakAnimation.Count);
+                BasicAnimation selectedAnim = tempBreakAnimation[randomAttack2];
+
+                currentAttack = selectedAnim as CloseCombatAnimation;
+
+                spineSkeletonAnimation.state.SetAnimation(1, selectedAnim.SpineAnimationReference, false).TimeScale = 1f;
+                float animationLength = selectedAnim.SpineAnimationReference.Animation.Duration;
+                waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
+                waitTime += Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
+
+                StartCoroutine(AIActionDecision(waitTime));
+
+                if (selectedAnim is CloseCombatAnimation)
+                    StartCoroutine(SpeedDuringAnimation(selectedAnim as CloseCombatAnimation));
+                else if (selectedAnim is SpeedDependantAnimation)
+                    StartCoroutine(SpeedDuringAnimation(selectedAnim as SpeedDependantAnimation));
+
+                return;
+            }
+        }
+        // if there are multiple stances, we can change stance
+        // TODO handle stance changes later
+        if (unit.activeAnimations.ChangeStance.Animation != null)
+        {
+            int rand = Random.Range(0, 100);
+            bool tempChangeStance = rand < unit.activeAnimations.ChangeStance.chance ? true : false;
+            if (tempChangeStance == true)
+            {
+                currentAttack = unit.activeAnimations.ChangeStance.Animation as CloseCombatAnimation;
+
+                changeStance = true;
+            }
+        }
+
+        if(!changeStance)
+        {
+            List<BasicAnimation> tempAttackAnimation = new List<BasicAnimation>();
+            foreach (BasicAnimation standAttack in unit.activeAnimations.Attack)
+                tempAttackAnimation.Add(standAttack);
+            foreach (BasicAnimation walkAttack in unit.activeAnimations.WalkAttack)
+                tempAttackAnimation.Add(walkAttack);
+
+            // select a random attack
+            int randomAttack = Random.Range(0, tempAttackAnimation.Count);
+            currentAttack = tempAttackAnimation[randomAttack] as CloseCombatAnimation;
+
+            if (unit.target != null)
+            {
+                float dist = Mathf.Abs(unit.transform.position.x - unit.target.transform.position.x);
+                foreach (BasicAnimation action in tempAttackAnimation)
+                {
+                    if (dist < currentAttack.MinDistanceLimit)
+                    {
+                        // current unit is too close to make this action, like jump attack etc
+                        randomAttack = Random.Range(0, tempAttackAnimation.Count);
+                        currentAttack = tempAttackAnimation[randomAttack] as CloseCombatAnimation;
+                    }
+                    else break;
+                }
+            }
+        }
+
+        if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < currentAttack.Reach)
+        {
+            // if it is close enough to attack, attack and start next courutine for decision
+            spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
+            float animationLength = currentAttack.SpineAnimationReference.Animation.Duration;
+            waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
+            waitTime += Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
+
+            StartCoroutine(AIActionDecision(waitTime));
+
+            StartCoroutine(SpeedDuringAnimation(currentAttack));
+
+            // TODO RANGED ATTACK
+            // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
+            //if (currentAttack.rangedSpawnPrefab != null)
+            //    StartCoroutine(UseRangedWeapon(currentAttack));
+
+            /*if (changeStance == true)
+            {
+                if (currentStance == StanceList.Stand_A_transition_B)
+                    currentStance = StanceList.Stand_B;
+                if (currentStance == StanceList.Stand_B_transition_A)
+                    currentStance = StanceList.Stand_A;
+            }*/
+        }
+        else
+        {
+            // if it is not close enough to attack
+            //if(MoveAndAttackCoroutine != null) StopCoroutine(MoveAndAttackCoroutine);
+            StartCoroutine(MoveAndAttack(currentAttack));
+        }
+    }
+
+    //Coroutine MoveAndAttackCoroutine = null;
     // Activates movement and waits until in reach distance, and attacks
-    private IEnumerator MoveAndAttack(CloseCombatAnimation attack, bool changeStance = false)
+    private IEnumerator MoveAndAttack(CloseCombatAnimation attack)
     {
         if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
             direction = MoveDirection.right;
@@ -237,6 +251,25 @@ public class AIController : UnitController
         preparingAttack = true;
 
         // wait until we reach to hit distance or target is dead
+        bool wait = true;
+        float waitMax = Random.Range(2, 3.5f);
+        while(wait)
+        {
+            waitMax -= Time.deltaTime;
+            
+            if (direction == MoveDirection.waiting)
+                wait = false;
+            else if (unit.target == null)
+                wait = false;
+            else if(waitMax <= 0)
+            {
+                // Enough waited, think for different action
+                if (changeStance == true) changeStance = false;
+                AttackDecision();
+                yield break;
+            }
+            yield return null;
+        }
         yield return new WaitUntil(() => direction == MoveDirection.waiting || unit.target == null);
         // target died, if there is no target stop moving forward
         if (unit.target == null)

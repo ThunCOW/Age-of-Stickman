@@ -1703,7 +1703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &2307875882445625098
 GameObject:
   m_ObjectHideFlags: 0
@@ -5682,7 +5682,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnUnitList:
-  - unit: {fileID: 5918015681238482118, guid: c2f88fb11b90ee849921820c4da3de66, type: 3}
+  - unit: {fileID: 5918015681238482118, guid: 407870d33eb783541acb897272f65dc5, type: 3}
     spawnChance: 100
     AIAgressiveness: 3
   _spawnTimer: 5
@@ -5856,13 +5856,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 926768ee1ad2ea54097c9859adc878f9, type: 2}
   - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
   - {fileID: 11400000, guid: fd998a6a390a91a439028726577c292c, type: 2}
+  - {fileID: 11400000, guid: 05a6c2596f95ae749bfb079d399d9883, type: 2}
+  - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
+  - {fileID: 11400000, guid: bee017d867df2834d95df34895afce83, type: 2}
   - {fileID: 11400000, guid: 4e64c86178a18bc4a8a53aa889897cf3, type: 2}
   - {fileID: 11400000, guid: bb916c92eaaded44397d079bc000aa0d, type: 2}
   - {fileID: 11400000, guid: 6f36743ab9bc99242ba1ccbc3256c9e6, type: 2}
-  - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
   - {fileID: 11400000, guid: f661d9558a9e4134eb6c01f0faab07a2, type: 2}
+  - {fileID: 11400000, guid: cfef3c2d1d1109142b4e937261f809d9, type: 2}
   PlayerEquipments:
-  - {fileID: 11400000, guid: f661d9558a9e4134eb6c01f0faab07a2, type: 2}
+  - {fileID: 11400000, guid: cfef3c2d1d1109142b4e937261f809d9, type: 2}
   - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
   - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
   _PlayerLives: 0

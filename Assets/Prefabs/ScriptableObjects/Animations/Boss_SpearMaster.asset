@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
-  m_Name: SpearMaster
+  m_Name: Boss_SpearMaster
   m_EditorClassIdentifier: 
   AnimationListByStance:
   - Stance: 0
@@ -18,9 +18,11 @@ MonoBehaviour:
       idle: {fileID: 11400000, guid: 5af0eefcde1047b41b5a7e71fc7bbafb, type: 2}
       Movement: {fileID: 11400000, guid: 9a01f8330ae66124ab9a31e5b0d6574d, type: 2}
       MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
       Hurt: {fileID: 0}
-      Kicked: {fileID: 0}
-      Slammed: {fileID: 0}
+      Kicked: {fileID: 11400000, guid: 3c6c384d1197b3843a09e261d0a2eae1, type: 2}
+      Slammed: {fileID: 11400000, guid: 3c6c384d1197b3843a09e261d0a2eae1, type: 2}
       KnockedDown: {fileID: 0}
       Attack:
       - {fileID: 11400000, guid: 661b6359aec71d74da2c8f30a8cb3867, type: 2}

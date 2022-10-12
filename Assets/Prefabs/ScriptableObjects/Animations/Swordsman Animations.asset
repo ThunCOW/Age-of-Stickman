@@ -37,6 +37,7 @@ MonoBehaviour:
         - {fileID: 11400000, guid: e333aeabfeaba214eb711dfbfdc3e905, type: 2}
         midRegion:
         - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
+        - {fileID: 11400000, guid: c5875eef7f4ca4f44b1d2b927439d205, type: 2}
         lowRegion:
         - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
       BreakStance:

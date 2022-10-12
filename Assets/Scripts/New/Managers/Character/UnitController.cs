@@ -29,6 +29,20 @@ public class UnitController : MonoBehaviour
     protected float speedRelativeToAnimation; // speed for animations
     protected MoveDirection direction = MoveDirection.waiting;
 
+    protected bool blockTrigger = false;
+
+    bool _changeStance = false;
+    protected bool changeStance
+    {
+        get { return _changeStance; }
+        set
+        {
+            
+
+            _changeStance = value;
+        }
+    }
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -125,6 +139,11 @@ public class UnitController : MonoBehaviour
 
     public void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0)
     {
+        if(blockTrigger)
+        {
+            // Show block message and play block sound
+            return;
+        }
         unit.Health -= DamageTaken;
         if (unit.Health <= 0)
         {
@@ -172,6 +191,20 @@ public class UnitController : MonoBehaviour
                 GameManager.Instance.PlayerUnits.Remove(unit);
 
             GameManager.Instance.sortManager.RemoveFromOrder(unit);
+        }
+        else if(unit.activeAnimations.Hurt == null)
+        {
+            if(attack.attackType == AttackType.Casual)
+            {
+                // boss dont stop movement in hits
+            }
+            else
+            {
+                unit.CheckUnitDirection();
+
+                StopAllCoroutines();
+                StartCoroutine(StunnedFor(attack));
+            }
         }
         else
         {
@@ -246,6 +279,16 @@ public class UnitController : MonoBehaviour
             direction = MoveDirection.left;
         else
             direction = MoveDirection.right;
+
+        if(changeStance)
+        {
+            changeStance = false;
+
+            if (unit.currentStance == StanceList.Stand_A)
+                unit.currentStance = StanceList.Stand_B;
+            else if (unit.currentStance == StanceList.Stand_B)
+                unit.currentStance = StanceList.Stand_A;
+        }
 
         //List<CloseCombatAnimation> stunActionList = null;
         SpeedDependantAnimation stunAnimation = null;
@@ -346,6 +389,16 @@ public class UnitController : MonoBehaviour
 
             currentAttack = null;
 
+            if (changeStance)
+            {
+                if (unit.currentStance == StanceList.Stand_A)
+                    unit.currentStance = StanceList.Stand_B;
+                else if (unit.currentStance == StanceList.Stand_B)
+                    unit.currentStance = StanceList.Stand_A;
+
+                changeStance = false;
+            }
+
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
 
             yield break;
@@ -396,6 +449,16 @@ public class UnitController : MonoBehaviour
             idleing = true;
 
             currentAttack = null;
+
+            if (changeStance)
+            {
+                if (unit.currentStance == StanceList.Stand_A)
+                    unit.currentStance = StanceList.Stand_B;
+                else if (unit.currentStance == StanceList.Stand_B)
+                    unit.currentStance = StanceList.Stand_A;
+
+                changeStance = false;
+            }
 
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
 

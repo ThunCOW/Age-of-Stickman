@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
+  m_Name: Leg_2
+  m_EditorClassIdentifier: 
+  id: bee017d867df2834d95df34895afce83
+  ItemName: Leg
+  HealthBonus: 0
+  DamageBonus: 0
+  ItemPrice: 0
+  ItemSlot: 2
+  ItemSprite: {fileID: 0}
+  ItemQualitySprite: {fileID: 0}
+  front:
+  - SlotName: Armor/Green_Elf/Leg_1
+    AttachmentName: Armor/Green_Elf/Leg_1
+  - SlotName: Armor/Green_Elf/Leg_2
+    AttachmentName: Armor/Green_Elf/Leg_1
+  side: []
+  back: []

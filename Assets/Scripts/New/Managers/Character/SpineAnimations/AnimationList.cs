@@ -57,6 +57,7 @@ public class UnitAnimations
 
     public List<BasicAnimation> Attack;
     public List<BasicAnimation> WalkAttack;
+    public ChangeStanceAction ChangeStance;
 
     public DeathAnimationByDamageRegion DeathAnimationByDamageRegion;
     [Space]
@@ -111,4 +112,11 @@ public class DeathAnimationByDamageRegion
     public List<DeathAnimation> highRegion;
     public List<DeathAnimation> midRegion;
     public List<DeathAnimation> lowRegion;
+}
+
+[System.Serializable]
+public class ChangeStanceAction
+{
+    public BasicAnimation Animation;
+    public int chance;
 }

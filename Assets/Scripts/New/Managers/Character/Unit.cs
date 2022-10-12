@@ -29,15 +29,14 @@ public class Unit : MonoBehaviour
     [HideInInspector] public EquipmentManager unitInventory;
 
     private StanceList _currentStance;
-    [SerializeField]
-    protected StanceList currentStance
+    public StanceList currentStance
     {
         get { return _currentStance; }
         set
         {
             _currentStance = value;
 
-            //activeAnimations = animationList.GetActiveAnimationsByStance(currentStance);
+            activeAnimations = animationList.GetActiveAnimationsByStance(currentStance);
         }
     }
 
@@ -53,7 +52,7 @@ public class Unit : MonoBehaviour
             currentStance = StanceList.Stand_A;
 
             // When new item is equipped, set proper animations for item
-            activeAnimations = animationList.GetActiveAnimationsByStance(currentStance);
+            //activeAnimations = animationList.GetActiveAnimationsByStance(currentStance);
 
             unitController.spineSkeletonAnimation.state.SetAnimation(1, activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
         }
