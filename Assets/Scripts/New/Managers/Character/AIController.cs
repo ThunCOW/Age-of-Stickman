@@ -189,13 +189,13 @@ public class AIController : UnitController
             if (unit.target != null)
             {
                 float dist = Mathf.Abs(unit.transform.position.x - unit.target.transform.position.x);
-                foreach (BasicAnimation action in tempAttackAnimation)
+                //foreach (BasicAnimation action in tempAttackAnimation)
+                for(int i = 0; i < tempAttackAnimation.Count; i++)
                 {
                     if (dist < currentAttack.MinDistanceLimit)
                     {
                         // current unit is too close to make this action, like jump attack etc
-                        randomAttack = Random.Range(0, tempAttackAnimation.Count);
-                        currentAttack = tempAttackAnimation[randomAttack] as CloseCombatAnimation;
+                        currentAttack = tempAttackAnimation[i] as CloseCombatAnimation;
                     }
                     else break;
                 }

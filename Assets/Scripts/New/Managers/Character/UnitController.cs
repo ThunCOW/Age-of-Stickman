@@ -37,8 +37,6 @@ public class UnitController : MonoBehaviour
         get { return _changeStance; }
         set
         {
-            
-
             _changeStance = value;
         }
     }
@@ -383,6 +381,8 @@ public class UnitController : MonoBehaviour
         {
             speed = speed_;
 
+            direction = MoveDirection.waiting;
+
             yield return new WaitForSeconds(Attack.SpineAnimationReference.Animation.Duration);
 
             idleing = true;
@@ -432,6 +432,16 @@ public class UnitController : MonoBehaviour
 
         currentAttack = null;
 
+        if (changeStance)
+        {
+            if (unit.currentStance == StanceList.Stand_A)
+                unit.currentStance = StanceList.Stand_B;
+            else if (unit.currentStance == StanceList.Stand_B)
+                unit.currentStance = StanceList.Stand_A;
+
+            changeStance = false;
+        }
+
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
     protected IEnumerator SpeedDuringAnimation(SpeedDependantAnimation Animation)
@@ -443,6 +453,8 @@ public class UnitController : MonoBehaviour
         if (Animation.speedCurve.Evaluate(0) == 0)
         {
             speed = speed_;
+
+            direction = MoveDirection.waiting;
 
             yield return new WaitForSeconds(Animation.SpineAnimationReference.Animation.Duration);
 
@@ -492,6 +504,16 @@ public class UnitController : MonoBehaviour
         idleing = true;
 
         currentAttack = null;
+
+        if (changeStance)
+        {
+            if (unit.currentStance == StanceList.Stand_A)
+                unit.currentStance = StanceList.Stand_B;
+            else if (unit.currentStance == StanceList.Stand_B)
+                unit.currentStance = StanceList.Stand_A;
+
+            changeStance = false;
+        }
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }

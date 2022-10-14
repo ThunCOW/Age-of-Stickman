@@ -80,4 +80,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 24.unity
     guid: 93337a1d3e3d9ca4587c52aaa29defc1
+  - enabled: 1
+    path: Assets/Scenes/UnitSetupScene.unity
+    guid: 5f56c8eabd767b84baf7ccec9b98833a
   m_configObjects: {}

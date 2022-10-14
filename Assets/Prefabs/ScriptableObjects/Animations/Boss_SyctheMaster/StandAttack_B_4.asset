@@ -14,12 +14,57 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Double_Scythe
   AnimationName: DoubleSyctheAttackStandingE1.1.4.2 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 1bf288eb027a6a44597e0b885a90a927, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: a1242595723e0a14aa580f830cd25e89, type: 2}
   _PrefixChangeCheck: Double_Scythe
   _AnimationNameChangeCheck: DoubleSyctheAttackStandingE1.1.4.2 UNITY
   speedCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.001
+      inSlope: -0.010000001
+      outSlope: -0.010000001
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1
+      value: 0
+      inSlope: -0.0025000002
+      outSlope: 0.23452045
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1085595
+    - serializedVersion: 3
+      time: 0.25
+      value: -40
+      inSlope: 0.010125382
+      outSlope: 0.010125382
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 0
+      inSlope: -0.29629242
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.24897227
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6666
+      value: 0
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

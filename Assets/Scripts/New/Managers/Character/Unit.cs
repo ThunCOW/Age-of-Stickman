@@ -63,6 +63,8 @@ public class Unit : MonoBehaviour
     [Header("Target Information")]
     public Unit target;
 
+    public GameObject throwableReturn;              // VERY VERY TEMPORARY stores reference to prefab of sycthe so boss can throw and shit, its very bad coding wise but later i might make a more flexible system
+
     void OnValidate()
     {
         // Unit Controller

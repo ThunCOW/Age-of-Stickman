@@ -290,6 +290,11 @@ public class EquipmentManager : MonoBehaviour
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, equippedItems[ItemSlot.TwoHanded].front[0].AttachmentName);
                 }
                 break;
+            case "Weapon Triggers/Weapon_Throw":
+                GameObject spawn = Instantiate(unit.throwableReturn, unit.gameObject.transform);
+                
+                break;
+                //unit.unitController.currentAttack
             default:
                 break;
         }

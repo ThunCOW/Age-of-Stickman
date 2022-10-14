@@ -21,12 +21,15 @@ MonoBehaviour:
       BlockAttack: {fileID: 0}
       ResetSlots: {fileID: 0}
       Hurt: {fileID: 0}
-      Kicked: {fileID: 0}
-      Slammed: {fileID: 0}
+      Kicked: {fileID: 11400000, guid: 77c4697044b3dba4a8f36cd3dfd1af17, type: 2}
+      Slammed: {fileID: 11400000, guid: 77c4697044b3dba4a8f36cd3dfd1af17, type: 2}
       KnockedDown: {fileID: 0}
       Attack:
       - {fileID: 11400000, guid: 1857c387c9726ae4ea5dd5fdb188bb07, type: 2}
       - {fileID: 11400000, guid: 813bc372fcaad5642beedccf350e6381, type: 2}
+      - {fileID: 11400000, guid: 7e9b877d2b6d27b47a340dfce7fc7ae5, type: 2}
+      - {fileID: 11400000, guid: 7e9b877d2b6d27b47a340dfce7fc7ae5, type: 2}
+      - {fileID: 11400000, guid: 7e9b877d2b6d27b47a340dfce7fc7ae5, type: 2}
       WalkAttack:
       - {fileID: 11400000, guid: ff5f7006f7c1589429dd26e5f1390770, type: 2}
       ChangeStance:
@@ -45,14 +48,13 @@ MonoBehaviour:
       BlockAttack: {fileID: 0}
       ResetSlots: {fileID: 0}
       Hurt: {fileID: 0}
-      Kicked: {fileID: 0}
-      Slammed: {fileID: 0}
+      Kicked: {fileID: 11400000, guid: 70f8254840841e046a4fc6e244127076, type: 2}
+      Slammed: {fileID: 11400000, guid: 70f8254840841e046a4fc6e244127076, type: 2}
       KnockedDown: {fileID: 0}
       Attack:
       - {fileID: 11400000, guid: 3be36f9e01397b34bb04887da57ce0ba, type: 2}
       - {fileID: 11400000, guid: 97e826fc4f08da84bbc6af268afe4bce, type: 2}
       - {fileID: 11400000, guid: fa1369762bb612843bc1c51a21df0236, type: 2}
-      - {fileID: 11400000, guid: 66083b7db4d39fc42bb59f0388552b0e, type: 2}
       WalkAttack:
       - {fileID: 11400000, guid: b9c44362dbb949845925e7ed57c8e2ec, type: 2}
       ChangeStance:
