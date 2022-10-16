@@ -195,7 +195,7 @@ public class PlayerController : UnitController
                 spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
             }
         }
-        // F Released
+        // S Released
         if (blockTrigger && Input.GetKeyUp(KeyCode.S))
         {
             canMove = true;
