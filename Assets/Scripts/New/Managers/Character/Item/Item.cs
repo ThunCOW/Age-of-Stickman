@@ -22,6 +22,7 @@ public class Item : ScriptableObject
     public List<SpineAttachment> front;
     public List<SpineAttachment> side;
     public List<SpineAttachment> back;
+    public List<SpineAttachment> back2;
 
     void OnValidate()
     {

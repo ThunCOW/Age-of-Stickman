@@ -13,20 +13,24 @@ MonoBehaviour:
   m_Name: Archer_Attack_Stand_A_1 CLEAN ATTEMPT
   m_EditorClassIdentifier: 
   Prefix: Archer
-  AnimationName: Attack_Stand_A_1 CLEAN ATTEMPT
-  SpineAnimationReference: {fileID: 11400000, guid: 377b0ca04647c0346b604c381ecb152d, type: 2}
+  AnimationName: Attack_Stand_A_1 CLEAN ATTEMPT2
+  SpineAnimationReference: {fileID: 11400000, guid: 5ac6a1d1919d800479feec7eb9482121, type: 2}
   _PrefixChangeCheck: Archer
-  _AnimationNameChangeCheck: Attack_Stand_A_1 CLEAN ATTEMPT
+  _AnimationNameChangeCheck: Attack_Stand_A_1 CLEAN ATTEMPT2
   speedCurve:
     serializedVersion: 2
     m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
   attackType: 0
   animationMovementType: 0
-  DamageMultiplierMax: 0
-  Reach: 3
+  DamageMultiplierMax: 1
+  Reach: 8
+  MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -1.746

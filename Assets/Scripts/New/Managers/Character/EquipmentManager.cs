@@ -244,8 +244,9 @@ public class EquipmentManager : MonoBehaviour
                 }
                 break;
             case "ProjectileRelease":
-                if (equippedItems.ContainsKey(ItemSlot.TwoHanded))
+                if (equippedItems[ItemSlot.TwoHanded] != null)
                 {
+                    Instantiate(unit.Projectile, unit.gameObject.transform);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, null);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[1].SlotName, null);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[2].SlotName, null);
@@ -253,48 +254,80 @@ public class EquipmentManager : MonoBehaviour
                 else Debug.LogError("Projectile could not be found, which should not have happened");
                 break;
             case "ProjectileDraw":
-                if (equippedItems.ContainsKey(ItemSlot.TwoHanded))
+                if (equippedItems[ItemSlot.TwoHanded] != null)
                 {
-                    if (equippedItems.ContainsKey(ItemSlot.TwoHanded))
-                    {
-                        skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, equippedItems[ItemSlot.TwoHanded].front[0].AttachmentName);
-                        skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[1].SlotName, equippedItems[ItemSlot.TwoHanded].front[1].AttachmentName);
-                        skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[2].SlotName, equippedItems[ItemSlot.TwoHanded].front[2].AttachmentName);
-                    }
+                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, equippedItems[ItemSlot.TwoHanded].front[0].AttachmentName);
+                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[1].SlotName, equippedItems[ItemSlot.TwoHanded].front[1].AttachmentName);
+                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[2].SlotName, equippedItems[ItemSlot.TwoHanded].front[2].AttachmentName);
                 }
                 else Debug.LogError("Projectile could not be found, which should not have happened");
                 break;
             case "Shield Triggers/Shield_Side":
-                if (equippedItems.ContainsKey(ItemSlot.Offhand))
+                if (equippedItems[ItemSlot.Offhand] != null)
                 {
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].front[0].SlotName, equippedItems[ItemSlot.Offhand].front[0].AttachmentName);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].side[0].SlotName, null);
                 }
                 break;
             case "Shield Triggers/Shield_Front":
-                if (equippedItems.ContainsKey(ItemSlot.Offhand))
+                if (equippedItems[ItemSlot.Offhand] != null)
                 {
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].front[0].SlotName, null);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].side[0].SlotName, equippedItems[ItemSlot.Offhand].side[0].AttachmentName);
                 }
                 break;
             case "Weapon Triggers/Weapon_Hide_Front":
-                if(equippedItems.ContainsKey(ItemSlot.TwoHanded))
+                if(equippedItems[ItemSlot.TwoHanded] != null)
                 {
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, null);
                 }
+                else
+                {
+                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[0].SlotName, null);
+                }
                 break;
             case "Weapon Triggers/Weapon_Show_Front":
-                if (equippedItems.ContainsKey(ItemSlot.TwoHanded))
+                if (equippedItems[ItemSlot.TwoHanded] != null)
                 {
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, equippedItems[ItemSlot.TwoHanded].front[0].AttachmentName);
                 }
+                else
+                {
+                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[0].SlotName, equippedItems[ItemSlot.MainHand].front[0].AttachmentName);
+                }
                 break;
             case "Weapon Triggers/Weapon_Throw":
-                GameObject spawn = Instantiate(unit.throwableReturn, unit.gameObject.transform);
-                
+                Instantiate(unit.Projectile, unit.gameObject.transform);
                 break;
-                //unit.unitController.currentAttack
+            case "Weapon Triggers/Weapon_Front":
+                if (equippedItems[ItemSlot.TwoHanded] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].front);
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].side, true);
+                }
+                break;
+            case "Weapon Triggers/Weapon_Side":
+                if (equippedItems[ItemSlot.TwoHanded] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].side);
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].front, true);
+                }
+                break;
+            case "Weapon Triggers/Weapon_Back":
+                if (equippedItems[ItemSlot.TwoHanded] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].back);
+                }
+                break;
+            case "Weapon Triggers/Weapon_Back_2":
+                if (equippedItems[ItemSlot.TwoHanded] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].back2);
+                }
+                break;
+            //unit.unitController.currentAttack
             default:
                 break;
         }

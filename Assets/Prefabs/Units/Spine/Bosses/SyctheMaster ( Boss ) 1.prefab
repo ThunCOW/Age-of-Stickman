@@ -514,7 +514,7 @@ MonoBehaviour:
       lowRegion: []
     BreakStance: []
   target: {fileID: 0}
-  throwableReturn: {fileID: 2547178049229607411, guid: f142fe811704221479333145f4745285, type: 3}
+  Projectile: {fileID: 2547178049229607411, guid: f142fe811704221479333145f4745285, type: 3}
 --- !u!114 &5918015681238482117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,6 +529,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spineSkeletonAnimation: {fileID: 5918015680693387126}
   isAnimationStarted: 0
+  extraSpeed: 0
   speed: 2
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}

@@ -5682,12 +5682,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnUnitList:
-  - unit: {fileID: 5918015681238482118, guid: 407870d33eb783541acb897272f65dc5, type: 3}
+  - unit: {fileID: 1703918253564249575, guid: dad582d5b81ce1e45a2765447d7e43e1, type: 3}
     spawnChance: 100
-    AIAgressiveness: 3
+    AIAgressiveness: 1
   _spawnTimer: 5
-  maxSpawn: 1
-  maxEnemyOnScreen: 5
+  maxSpawn: 82
+  maxEnemyOnScreen: 3
   spawnPosList:
   - {fileID: 4973821420141865720}
   mainCamera: {fileID: 245096268}
@@ -5852,18 +5852,26 @@ MonoBehaviour:
   GOLD_TAG: Gold
   Player: {fileID: 0}
   AllEquipments:
+  - {fileID: 11400000, guid: c3e8537b3ee92904184663014aa24fbd, type: 2}
   - {fileID: 11400000, guid: 29d0792572859aa49aabb441eb079922, type: 2}
   - {fileID: 11400000, guid: 926768ee1ad2ea54097c9859adc878f9, type: 2}
+  - {fileID: 11400000, guid: 415fa749a20679a4887eb9d776deca33, type: 2}
+  - {fileID: 11400000, guid: a4b94a7e8a8c1a549aed3ce5d458f21e, type: 2}
   - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
   - {fileID: 11400000, guid: fd998a6a390a91a439028726577c292c, type: 2}
   - {fileID: 11400000, guid: 05a6c2596f95ae749bfb079d399d9883, type: 2}
+  - {fileID: 11400000, guid: 3f081c21755637942983dbe247d6dd3a, type: 2}
   - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
   - {fileID: 11400000, guid: bee017d867df2834d95df34895afce83, type: 2}
+  - {fileID: 11400000, guid: 85676dcb2705d514b9763dfa1ff2e8d9, type: 2}
   - {fileID: 11400000, guid: 4e64c86178a18bc4a8a53aa889897cf3, type: 2}
   - {fileID: 11400000, guid: bb916c92eaaded44397d079bc000aa0d, type: 2}
   - {fileID: 11400000, guid: 6f36743ab9bc99242ba1ccbc3256c9e6, type: 2}
+  - {fileID: 11400000, guid: 30efcbbaac709cf4ba2b055d8ab9d1ed, type: 2}
   - {fileID: 11400000, guid: f661d9558a9e4134eb6c01f0faab07a2, type: 2}
   - {fileID: 11400000, guid: cfef3c2d1d1109142b4e937261f809d9, type: 2}
+  - {fileID: 11400000, guid: 3c76ceeb19111e140b09cb7b03825a07, type: 2}
+  - {fileID: 11400000, guid: 10ae8c62a2b5af04e8e9f403d03f44ac, type: 2}
   PlayerEquipments:
   - {fileID: 11400000, guid: cfef3c2d1d1109142b4e937261f809d9, type: 2}
   - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
@@ -5938,6 +5946,14 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8615564714039348847, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
+      propertyPath: timeScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615564714039348847, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
+      propertyPath: initialSkinName
+      value: Demon
+      objectReference: {fileID: 0}
     - target: {fileID: 8615564714106964960, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: speed
       value: 2
@@ -5985,6 +6001,14 @@ PrefabInstance:
     - target: {fileID: 8615564714106964963, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615564714106964965, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
+      propertyPath: m_Size.y
+      value: 3.131102
+      objectReference: {fileID: 0}
+    - target: {fileID: 8615564714106964965, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
+      propertyPath: m_Offset.y
+      value: -0.12724751
       objectReference: {fileID: 0}
     - target: {fileID: 8615564714106964967, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: HealthMax

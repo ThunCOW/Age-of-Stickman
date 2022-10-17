@@ -2,6 +2,7 @@ using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class Unit : MonoBehaviour
 {
@@ -37,6 +38,8 @@ public class Unit : MonoBehaviour
             _currentStance = value;
 
             activeAnimations = animationList.GetActiveAnimationsByStance(currentStance);
+
+            unitController.extraSpeed = animationList.GetSpeedByStance(currentStance);
         }
     }
 
@@ -63,7 +66,7 @@ public class Unit : MonoBehaviour
     [Header("Target Information")]
     public Unit target;
 
-    public GameObject throwableReturn;              // VERY VERY TEMPORARY stores reference to prefab of sycthe so boss can throw and shit, its very bad coding wise but later i might make a more flexible system
+    public GameObject Projectile;              // VERY VERY TEMPORARY stores reference to prefab of sycthe so boss can throw and shit, its very bad coding wise but later i might make a more flexible system
 
     void OnValidate()
     {

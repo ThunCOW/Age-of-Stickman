@@ -6,6 +6,8 @@ public class AnimationList : ScriptableObject
 {
     public List<AnimationsByStance> AnimationListByStance;
     private Dictionary<StanceList, UnitAnimations> animationsByStanceDict;
+    private Dictionary<StanceList, float> speedByStanceDict;
+
     // Awake function is called when created
     public void OnStart()
     {
@@ -15,10 +17,12 @@ public class AnimationList : ScriptableObject
         }
 
         animationsByStanceDict = new Dictionary<StanceList, UnitAnimations>();
+        speedByStanceDict = new Dictionary<StanceList, float>();
 
         foreach (AnimationsByStance animationList in AnimationListByStance)
         {
             animationsByStanceDict.Add(animationList.Stance, animationList.ActiveAnimations);
+            speedByStanceDict.Add(animationList.Stance, animationList.extraSpeed);
         }
     }
 
@@ -26,6 +30,11 @@ public class AnimationList : ScriptableObject
     {
         OnStart();
         return animationsByStanceDict[stance];
+    }
+
+    public float GetSpeedByStance(StanceList stance)
+    {
+        return speedByStanceDict[stance];
     }
 
     public AnimationList InitializeSO()
@@ -40,6 +49,8 @@ public class AnimationsByStance
     public StanceList Stance;
 
     public UnitAnimations ActiveAnimations;
+
+    public float extraSpeed;
 }
 
 [System.Serializable]

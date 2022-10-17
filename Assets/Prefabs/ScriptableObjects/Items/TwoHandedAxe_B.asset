@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
+  m_Name: TwoHandedAxe_B
+  m_EditorClassIdentifier: 
+  id: 8c26c473942708f44911470d3fd6f2bb
+  ItemName: 
+  HealthBonus: 0
+  DamageBonus: 0
+  ItemPrice: 0
+  ItemSlot: 5
+  ItemSprite: {fileID: 0}
+  ItemQualitySprite: {fileID: 0}
+  front:
+  - SlotName: Weapon/TwoHand_Axe_00
+    AttachmentName: Weapon/TwoHand_Axe_00
+  side:
+  - SlotName: Weapon/TwoHand_Axe_00_0
+    AttachmentName: Weapon/TwoHand_Axe_00_0
+  back:
+  - SlotName: Weapon/TwoHand_Axe_00_0
+    AttachmentName: Weapon/TwoHand_Axe_00_2
+  back2:
+  - SlotName: Weapon/TwoHand_Axe_00_0
+    AttachmentName: Weapon/TwoHand_Axe_00_1
+  AnimationList: {fileID: 11400000, guid: 921476c6f098d32479fa55d90a9abcc0, type: 2}

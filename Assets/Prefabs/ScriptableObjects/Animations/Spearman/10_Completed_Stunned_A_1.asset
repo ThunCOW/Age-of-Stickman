@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: 10_Completed_Stunned_A_1
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
-  AnimationName: Stunned_A_1
-  SpineAnimationReference: {fileID: 11400000, guid: 401c503a173e4aa48b00d75c23bbfa8d, type: 2}
+  AnimationName: Stunned_A_1 (Spearman)
+  SpineAnimationReference: {fileID: 11400000, guid: b2aa4f861c7c3bc4d85005358f1bf54c, type: 2}
   _PrefixChangeCheck: 10_Completed
-  _AnimationNameChangeCheck: Stunned_A_1
+  _AnimationNameChangeCheck: Stunned_A_1 (Spearman)
   speedCurve:
     serializedVersion: 2
     m_Curve:
@@ -59,3 +59,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0

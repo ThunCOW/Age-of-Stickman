@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class UnitController : MonoBehaviour
 {
@@ -24,6 +25,7 @@ public class UnitController : MonoBehaviour
 
     protected bool idleing;
 
+    [HideInInspector] public float extraSpeed;   // just temporary for charge speed, it is retrived from AnimationList and assigned in editor
     public float speed; // default moving speed assigned in inspector
     protected float speed_; // stores default speed
     protected float speedRelativeToAnimation; // speed for animations
@@ -64,7 +66,7 @@ public class UnitController : MonoBehaviour
     void FixedUpdate()
     {
         if (canMove)
-            transform.position = new Vector3(transform.position.x + ((int)direction * (speed + speedRelativeToAnimation)) * Time.deltaTime, transform.position.y, transform.position.z);
+            transform.position = new Vector3(transform.position.x + ((int)direction * (speed + speedRelativeToAnimation + extraSpeed)) * Time.deltaTime, transform.position.y, transform.position.z);
     }
 
     protected virtual void CharacterControls() { }
@@ -133,6 +135,25 @@ public class UnitController : MonoBehaviour
         {
             currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
         }
+    }
+    public void ProjectileDamage()
+    {
+        int dir;
+
+        if (transform.position.x > unit.target.transform.position.x)
+            dir = (int)MoveDirection.left;
+        else
+            dir = (int)MoveDirection.right;
+
+        currentAttack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+
+        float softDamage = Random.Range(0, unit.Damage / 2) + Random.Range(0, unit.Damage / 2);
+        int damageDealt = (int)(softDamage * Random.Range(1, currentAttack.DamageMultiplierMax));
+
+        if (currentAttack.DamageMultiplierMax == 0)
+            Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
+
+        unit.target.unitController.TakeDamage(currentAttack, damageDealt, dir);
     }
 
     public void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0)

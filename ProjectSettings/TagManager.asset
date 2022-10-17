@@ -21,7 +21,7 @@ TagManager:
   - Cut Unit Parts
   - Gold
   - Player
-  - 
+  - Projectile
   - 
   - 
   - 
@@ -53,4 +53,7 @@ TagManager:
     locked: 0
   - name: Unit
     uniqueID: 1871919695
+    locked: 0
+  - name: Projectile
+    uniqueID: 2290366717
     locked: 0
