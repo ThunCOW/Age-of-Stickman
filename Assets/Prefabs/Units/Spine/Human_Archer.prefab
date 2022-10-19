@@ -117,7 +117,7 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 2
   _aiAgressiveness: 2
-  aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
+  aiAgressivenessLevel: {fileID: 11400000, guid: be4c3236d3f57494aadd6607dcfcd0d1, type: 2}
 --- !u!50 &8933617129985177256
 Rigidbody2D:
   serializedVersion: 4

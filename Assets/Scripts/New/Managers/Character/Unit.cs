@@ -98,12 +98,6 @@ public class Unit : MonoBehaviour
         StartCoroutine(InitializeClosestUnitSearch());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private IEnumerator InitializeClosestUnitSearch(float waitTime = 0)
     {
         yield return new WaitForSeconds(waitTime);

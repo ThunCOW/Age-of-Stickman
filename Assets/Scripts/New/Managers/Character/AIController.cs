@@ -77,7 +77,13 @@ public class AIController : UnitController
     // Gets initiated at the start of the game and makes random decisions for the unit, repeats itself until it dies
     private IEnumerator AIActionDecision(float waitTime = 0)
     {
+        while(CinematicAction.Instance.GamePaused)
+            yield return null;
+
         yield return new WaitForSeconds(waitTime);
+
+        while (CinematicAction.Instance.GamePaused)
+            yield return null;
 
         if (unit.target != null)
         {

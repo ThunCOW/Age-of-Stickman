@@ -329,7 +329,7 @@ public class PlayerController : UnitController
     {
         yield return new WaitForSeconds(Random.Range(0.1f, 0.25f));
 
-        if (!isAnimationStarted)
+        if (!isAnimationStarted && CinematicAction.Instance.GamePaused == false)
         {
             // Set new movement direction and look direction
             if (Input.GetKey(KeyCode.A))

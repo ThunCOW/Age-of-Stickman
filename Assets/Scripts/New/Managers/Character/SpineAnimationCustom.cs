@@ -1,7 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 using Spine.Unity;
 
 [CreateAssetMenu(fileName = "Data", menuName = "SpineData/Spine Attachment", order = 1)]
@@ -28,18 +26,6 @@ public class SpineAnimationCustom : ScriptableObject
                 AnimationReferenceAsset = tempObj;
             }
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
 

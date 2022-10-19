@@ -25,6 +25,6 @@ public class SaveData
 
 public interface ISaveableJson
 {
-    void PopulateSaveData(SaveData a_SaveData);
+    bool PopulateSaveData(SaveData a_SaveData);
     void LoadFromSaveData(SaveData a_SaveData);
 }

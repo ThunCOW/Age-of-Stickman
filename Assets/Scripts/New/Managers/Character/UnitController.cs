@@ -56,13 +56,17 @@ public class UnitController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (unit.Health > 0) // Only if alive
+        if (CinematicAction.Instance.GamePaused == false)
         {
-            if (idleing == true && unit.target != null) unit.CheckUnitDirection();        // Turns towards target while in idle only
+            if (unit.Health > 0) // Only if alive
+            {
+                if (idleing == true && unit.target != null) unit.CheckUnitDirection();        // Turns towards target while in idle only
 
-            CharacterControls();
+                CharacterControls();
+            }
         }
     }
+
     void FixedUpdate()
     {
         if (canMove)

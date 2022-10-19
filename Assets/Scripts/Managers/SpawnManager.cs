@@ -54,9 +54,12 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (maxSpawn > 0) 
-            if(maxEnemyOnScreen > SpineControllerVersion.GameManager.Instance.EnemyUnits.Count) 
-                SpawnLogic();
+        if(CinematicAction.Instance.GamePaused == false)
+        {
+            if (maxSpawn > 0) 
+                if(maxEnemyOnScreen > SpineControllerVersion.GameManager.Instance.EnemyUnits.Count) 
+                    SpawnLogic();
+        }
     }
 
     void SpawnLogic()

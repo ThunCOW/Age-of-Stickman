@@ -92,12 +92,6 @@ namespace SpineControllerVersion
             Instance = this;
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
         public void GoldChange(int Amount)
         {
             Gold += Amount;
@@ -123,23 +117,32 @@ namespace SpineControllerVersion
         public void SaveDataAsJson()
         {
             SaveData sd = new SaveData();
-            PopulateSaveData(sd);
-
-            FileManager.WriteToFile(sd.ToJson());
+            if (PopulateSaveData(sd))
+                FileManager.WriteToFile(sd.ToJson());
+            else
+                Debug.LogError("Failed to save game data");
         }
 
-        public void PopulateSaveData(SaveData a_SaveData)
+        public bool PopulateSaveData(SaveData a_SaveData)
         {
+            if (PlayerEquipments.Count == 0)
+                return false;
             //a_SaveData.equippedItems = PlayerEquipments;
             PlayerEquipmentsKeys.Clear();
             foreach(Item item in PlayerEquipments)
             {
+                int index = AllEquipments.IndexOf(item);
+                if (index == -1)
+                    return false;
+
                 PlayerEquipmentsKeys.Add(AllEquipments.IndexOf(item));
             }
             a_SaveData.equippedItemIndexs = PlayerEquipmentsKeys;
 
             a_SaveData.PlayerLives = PlayerLives;
             a_SaveData.Gold = Gold;
+
+            return true;
         }
 
         [ContextMenu("LoadJsonData")]
