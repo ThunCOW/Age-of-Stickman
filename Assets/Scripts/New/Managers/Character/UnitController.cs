@@ -43,6 +43,8 @@ public class UnitController : MonoBehaviour
         }
     }
 
+    public bool isBoss;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -56,7 +58,7 @@ public class UnitController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (CinematicAction.Instance.GamePaused == false)
+        if (GameManager.Instance.GamePaused == false)
         {
             if (unit.Health > 0) // Only if alive
             {
@@ -170,6 +172,22 @@ public class UnitController : MonoBehaviour
         unit.Health -= DamageTaken;
         if (unit.Health <= 0)
         {
+            if(isBoss)
+            {
+                //canMove = false;
+
+                BossDead();
+
+                unit.target.unitController.BossDead();
+
+                if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
+                    GameManager.Instance.EnemyUnits.Remove(unit);
+                else
+                    GameManager.Instance.PlayerUnits.Remove(unit);
+
+                //GameManager.Instance.sortManager.RemoveFromOrder(unit);
+                return;
+            }
             unit.CheckUnitDirection();
             StopAllCoroutines();
 
@@ -241,6 +259,48 @@ public class UnitController : MonoBehaviour
         {
             GameObject blood_go = Instantiate(unit.bloodObject);
             blood_go.transform.position = new Vector3(transform.position.x, attack.hitHeightPosiiton, unit.bloodObject.transform.position.z);
+        }
+    }
+
+    public void BossDead()
+    {
+        GameManager.Instance.GamePaused = true;
+
+        StopAllCoroutines();
+
+        CinematicAction cAnim = GetComponent<CinematicAction>();
+
+
+        if(gameObject.CompareTag(GameManager.Instance.PLAYER_TAG))
+        {
+            //
+            StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
+        }
+        else
+        {
+            unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
+
+            float distBetween = Mathf.Abs(gameObject.transform.position.x - unit.target.transform.position.x);
+            if (distBetween != 1.6f)
+            {
+                float distToMove = 0;
+                if (distBetween > 1.6f)
+                    distToMove = distBetween - 1.6f;
+                else
+                    distToMove = distBetween - 1.6f;
+
+                float speed = distToMove / 0.3666f;
+
+                Keyframe[] keyframe = cAnim.SpearmasterDead.speedCurve.keys;
+
+                for (int i = 0; i < cAnim.SpearmasterDead.Keys.Count; i++)
+                {
+                    keyframe[cAnim.SpearmasterDead.Keys[i]].value = speed;
+                }
+                cAnim.SpearmasterDead.speedCurve.keys = keyframe;
+            }
+
+            StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, false));
         }
     }
 
@@ -542,11 +602,116 @@ public class UnitController : MonoBehaviour
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
+
+    protected IEnumerator PlayCinematicAnimation(SpeedDependantAnimation Animation, bool continueIdle = false)
+    {
+        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, Animation.SpineAnimationReference, false);
+        var completeOrEnd = WaitForSpineAnimation.AnimationEventTypes.Complete | WaitForSpineAnimation.AnimationEventTypes.End;
+
+        idleing = false;
+
+        speed = 0;
+
+        if (Animation.speedCurve.Evaluate(0) == 0)
+        {
+            speed = speed_;
+
+            direction = MoveDirection.waiting;
+
+            yield return new WaitForSpineAnimation(track, completeOrEnd);
+            
+            idleing = true;
+
+            currentAttack = null;
+
+            if (changeStance)
+            {
+                if (unit.currentStance == StanceList.Stand_A)
+                    unit.currentStance = StanceList.Stand_B;
+                else if (unit.currentStance == StanceList.Stand_B)
+                    unit.currentStance = StanceList.Stand_A;
+
+                changeStance = false;
+            }
+
+            if (continueIdle) spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            yield break;
+        }
+
+        // Check for what ???
+        if (unit.target != null)
+        {
+            if (transform.position.x < unit.target.transform.position.x)     // if target is more on the right, unit direction is right
+                direction = MoveDirection.right;
+            else
+                direction = MoveDirection.left;
+        }
+        
+        // lasts until animation ends
+        float animationCurrentTime = 0;
+        while (track.IsComplete == false)
+        {
+            animationCurrentTime += Time.deltaTime;
+            speedRelativeToAnimation = Animation.speedCurve.Evaluate(animationCurrentTime);
+            yield return null;
+        }
+
+        speed = speed_;
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        idleing = true;
+
+        currentAttack = null;
+
+        if (changeStance)
+        {
+            if (unit.currentStance == StanceList.Stand_A)
+                unit.currentStance = StanceList.Stand_B;
+            else if (unit.currentStance == StanceList.Stand_B)
+                unit.currentStance = StanceList.Stand_A;
+
+            changeStance = false;
+        }
+
+        if(continueIdle) spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+    }
+
     private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        if (e.Data.Name == "MeleeAttack")
+        switch (e.Data.Name)
         {
-            DealDamage();
+            case "MeleeAttack":
+                DealDamage();
+                break;
+            case "Game Event/Weapon_Hit_Sound":
+                if(currentAttack == null)
+                {
+                    CloseCombatAnimation tempAnim = unit.activeAnimations.Attack[0] as CloseCombatAnimation;
+                    tempAnim.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+                }
+                else
+                {
+                    currentAttack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+                }
+                break;
+            case "Game Event/Weapon_Miss_Sound":
+                if (currentAttack == null)
+                {
+                    CloseCombatAnimation tempAnim = unit.activeAnimations.Attack[0] as CloseCombatAnimation;
+                    tempAnim.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+                }
+                else
+                {
+                    currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+                }
+                break;
+
+            default:
+                break;
         }
     }
 }

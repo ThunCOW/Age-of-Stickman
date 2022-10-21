@@ -250,6 +250,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 174019209}
     - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: AllEquipments
+      value: 
+      objectReference: {fileID: 11400000, guid: a3a106d766366f746a0e86a2e7f835be, type: 2}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: AllEquipments2
+      value: 
+      objectReference: {fileID: 11400000, guid: a3a106d766366f746a0e86a2e7f835be, type: 2}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: AllEquipments.Array.size
       value: 8
       objectReference: {fileID: 0}

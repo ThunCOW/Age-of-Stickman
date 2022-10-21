@@ -10,6 +10,8 @@ namespace SpineControllerVersion
     {
         public static GameManager Instance;
 
+        public bool GamePaused;
+
         [Header("Unit Assignments")]
         public List<Unit> EnemyUnits = new List<Unit>();
         public List<Unit> PlayerUnits = new List<Unit>();
@@ -20,7 +22,7 @@ namespace SpineControllerVersion
 
         [Header("Player Data")]
         public Unit Player;
-        [SerializeField] private List<Item> AllEquipments;
+        [SerializeField] private AllEquipments AllEquipments;
         private List<int> _PlayerEquipmentsKeys = new List<int>();
         private List<int> PlayerEquipmentsKeys
         {
@@ -31,7 +33,7 @@ namespace SpineControllerVersion
                 PlayerEquipments.Clear();
                 foreach(int i in PlayerEquipmentsKeys)
                 {
-                    PlayerEquipments.Add(AllEquipments[i]);
+                    PlayerEquipments.Add(AllEquipments.Equipments[i]);
                 }
             }
         }
@@ -70,7 +72,7 @@ namespace SpineControllerVersion
         }
         private void Awake()
         {
-            for(int i = 0; i < AllEquipments.Count; i++)
+            for(int i = 0; i < AllEquipments.Equipments.Count; i++)
             {
                 //AllEquipmentsDict.Add(i, AllEquipments[i]);
             }
@@ -131,11 +133,11 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys.Clear();
             foreach(Item item in PlayerEquipments)
             {
-                int index = AllEquipments.IndexOf(item);
+                int index = AllEquipments.Equipments.IndexOf(item);
                 if (index == -1)
                     return false;
 
-                PlayerEquipmentsKeys.Add(AllEquipments.IndexOf(item));
+                PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(item));
             }
             a_SaveData.equippedItemIndexs = PlayerEquipmentsKeys;
 

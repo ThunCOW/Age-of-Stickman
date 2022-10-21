@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -54,7 +53,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(CinematicAction.Instance.GamePaused == false)
+        if(SpineControllerVersion.GameManager.Instance.GamePaused == false)
         {
             if (maxSpawn > 0) 
                 if(maxEnemyOnScreen > SpineControllerVersion.GameManager.Instance.EnemyUnits.Count) 

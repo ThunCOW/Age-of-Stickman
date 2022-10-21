@@ -586,11 +586,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
---- !u!1 &686236299 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7467918463023935844, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-  m_PrefabInstance: {fileID: 8615564713597905891}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &687834032
 GameObject:
   m_ObjectHideFlags: 0
@@ -2346,11 +2341,6 @@ Transform:
   m_Father: {fileID: 1366418787}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &2036070910 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 777053081335208818, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-  m_PrefabInstance: {fileID: 8615564713597905891}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2072018964
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2536,30 +2526,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 777053081335208818, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8615564714039348845, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 8615564714039348847, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-      propertyPath: _animationName
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615564714106964960, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615564714106964960, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-      propertyPath: LeftWallPosition
-      value: 
-      objectReference: {fileID: 1780878466}
-    - target: {fileID: 8615564714106964960, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-      propertyPath: RightWallPosition
-      value: 
-      objectReference: {fileID: 1901696191}
     - target: {fileID: 8615564714106964963, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2604,44 +2574,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8615564714106964966, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8615564714106964967, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8615564714106975260, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 8712067699090689508, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.167
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
---- !u!1 &8615564713597905892 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8615564714106975260, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
-  m_PrefabInstance: {fileID: 8615564713597905891}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8615564713597905893
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8615564713597905892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: decbf2746fe035549804cc5c3341dde9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  GamePaused: 0
-  ShadowObject: {fileID: 686236299}
-  HealthBar: {fileID: 2036070910}
 --- !u!4 &8615564713597905899 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8615564714106964963, guid: 89d30c7e635014e47b83059374778ee9, type: 3}

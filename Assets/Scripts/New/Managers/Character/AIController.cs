@@ -1,4 +1,5 @@
 using Newtonsoft.Json.Linq;
+using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -77,12 +78,12 @@ public class AIController : UnitController
     // Gets initiated at the start of the game and makes random decisions for the unit, repeats itself until it dies
     private IEnumerator AIActionDecision(float waitTime = 0)
     {
-        while(CinematicAction.Instance.GamePaused)
+        while(GameManager.Instance.GamePaused)
             yield return null;
 
         yield return new WaitForSeconds(waitTime);
 
-        while (CinematicAction.Instance.GamePaused)
+        while (GameManager.Instance.GamePaused)
             yield return null;
 
         if (unit.target != null)
@@ -141,7 +142,7 @@ public class AIController : UnitController
         if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < kickDistance)
         {
             // X % chance to kick
-            bool kick = false;
+            bool kick = Random.Range(0, 5) == 0;
             if (kick == true)
             {
                 List<BasicAnimation> tempBreakAnimation = unit.activeAnimations.BreakStance;

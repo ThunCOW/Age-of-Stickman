@@ -429,6 +429,7 @@ GameObject:
   - component: {fileID: 5918015681238482117}
   - component: {fileID: 5918015681238482116}
   - component: {fileID: 5918015681238482119}
+  - component: {fileID: 696120666892367528}
   m_Layer: 0
   m_Name: Spearmaster ( Boss )
   m_TagString: EnemyUnit
@@ -486,7 +487,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 4957357575968501044}
-  HealthMax: 600
+  HealthMax: 1
   _Health: 0
   Damage: 70
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
@@ -505,12 +506,16 @@ MonoBehaviour:
     KnockedDown: {fileID: 0}
     Attack: []
     WalkAttack: []
+    ChangeStance:
+      Animation: {fileID: 0}
+      chance: 0
     DeathAnimationByDamageRegion:
       highRegion: []
       midRegion: []
       lowRegion: []
     BreakStance: []
   target: {fileID: 0}
+  Projectile: {fileID: 0}
 --- !u!114 &5918015681238482117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,7 +530,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spineSkeletonAnimation: {fileID: 5918015680693387126}
   isAnimationStarted: 0
+  extraSpeed: 0
   speed: 2
+  isBoss: 1
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &5918015681238482116
@@ -575,6 +582,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4081397, y: 1.8593353}
   m_EdgeRadius: 0
+--- !u!114 &696120666892367528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918015681238482118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: decbf2746fe035549804cc5c3341dde9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skelAnim: {fileID: 5918015680693387126}
+  ShadowObject: {fileID: 5918015680494077888}
+  HealthBar: {fileID: 5491818668541902069}
+  SpearmasterDead: {fileID: 11400000, guid: e4819a433a1b7e747b06740e6d6e5474, type: 2}
 --- !u!1 &5918015681498576767
 GameObject:
   m_ObjectHideFlags: 0
@@ -760,5 +783,10 @@ Transform:
 --- !u!1 &4957357575968501044 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6348446657146583663, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
+  m_PrefabInstance: {fileID: 2077888867105331035}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5491818668541902069 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5827938367165246382, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
   m_PrefabInstance: {fileID: 2077888867105331035}
   m_PrefabAsset: {fileID: 0}

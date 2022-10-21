@@ -1,30 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using Spine;
 using Spine.Unity;
 using UnityEngine;
 
 public class  CinematicAction: MonoBehaviour
 {
-    public static CinematicAction Instance;
-
-    public bool GamePaused;
-
-    private SkeletonAnimation skelAnim;
+    [HideInInspector] public SkeletonAnimation skelAnim;
 
     public GameObject ShadowObject;
     public GameObject HealthBar;
 
+    void OnValidate()
+    {
+        if (skelAnim == null) skelAnim = GetComponentInChildren<SkeletonAnimation>();
+        
+    }
     // Start is called before the first frame update
     void Start()
     {
-        Instance = this;
-
-        skelAnim = GetComponentInChildren<SkeletonAnimation>();
 
         skelAnim.AnimationState.Event += HandleAnimationStateEvent;
 
-        skelAnim.state.SetAnimation(1, "Cinematic/Level_Entrance", false);
+        //skelAnim.state.SetAnimation(1, "Cinematic/Level_Entrance", false);
     }
 
     private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
@@ -32,13 +28,14 @@ public class  CinematicAction: MonoBehaviour
         switch (e.Data.Name)
         {
             case "Game Event/Game_Pause":
-                GamePaused = true;
-                
+                SpineControllerVersion.GameManager.Instance.GamePaused = true;
+
+                Debug.Log(gameObject.name);
                 ShadowObject.SetActive(false);
                 HealthBar.SetActive(false);
                 break;
             case "Game Event/Game_Continue":
-                GamePaused = false;
+                SpineControllerVersion.GameManager.Instance.GamePaused = false;
 
                 ShadowObject.SetActive(true);
                 HealthBar.SetActive(true);
@@ -48,4 +45,6 @@ public class  CinematicAction: MonoBehaviour
                 break;
         }
     }
+
+    public SpeedDependantAnimation SpearmasterDead;
 }

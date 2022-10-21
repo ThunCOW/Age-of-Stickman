@@ -32,10 +32,17 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 65a8b71a270351044ac83d1c5dfac277, type: 2}
       - {fileID: 11400000, guid: 59e52d6800357024eb0ff32dbe7ec273, type: 2}
       - {fileID: 11400000, guid: e0da6f54823172a4b90d9edad2d2c261, type: 2}
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: 0
       DeathAnimationByDamageRegion:
-        highRegion: []
-        midRegion: []
-        lowRegion: []
+        highRegion:
+        - {fileID: 11400000, guid: 7fe5595f89cd2894b902c3ee9dfc3208, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: 7fe5595f89cd2894b902c3ee9dfc3208, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 7fe5595f89cd2894b902c3ee9dfc3208, type: 2}
       BreakStance:
       - {fileID: 11400000, guid: 96f6d15dbc814ff43b7bca289d081848, type: 2}
       - {fileID: 11400000, guid: f0e23b13d4a3fb341bb46f83766287f6, type: 2}
+    extraSpeed: 0
