@@ -14,6 +14,8 @@ public class EquipmentManager : MonoBehaviour
     public List<Item> equippedItemList;
     public Dictionary<ItemSlot, Item> equippedItems = new Dictionary<ItemSlot, Item>();
 
+    public Item secondaryWeapon;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -45,6 +47,7 @@ public class EquipmentManager : MonoBehaviour
         equippedItems.Add(ItemSlot.Offhand, null);
         equippedItems.Add(ItemSlot.Shoulder, null);
         equippedItems.Add(ItemSlot.TwoHanded, null);
+        equippedItems.Add(ItemSlot.SecondaryWeapon, null);
 
         int i = 0;
         for (; i < startingItems.Count; i++)
@@ -164,7 +167,28 @@ public class EquipmentManager : MonoBehaviour
 
             equippedItems[item.ItemSlot] = item;
 
+            // TODO : Too lazy to make a secondary weapon working, so this line of code removes secondary weapon from appearing until first boss is dead
+            if(gameObject.CompareTag(GameManager.PLAYER_TAG))
+            {
+                skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[0].SlotName, equippedItems[item.ItemSlot].front[0].AttachmentName);
+                if(GameManager.Instance.IsSpearmasterDead)
+                    skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[1].SlotName, equippedItems[item.ItemSlot].front[1].AttachmentName);
+                return;
+            }
             // Add attachments of newly equipped item
+            for (int i = 0; i < equippedItems[item.ItemSlot].front.Count; i++)
+            {
+                skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[i].SlotName, equippedItems[item.ItemSlot].front[i].AttachmentName);
+            }
+        }
+        else if (item.ItemSlot == ItemSlot.SecondaryWeapon)
+        {
+            UnequipItem(item.ItemSlot);
+
+            equippedItemList.Add(item);
+
+            equippedItems[item.ItemSlot] = item;
+
             for (int i = 0; i < equippedItems[item.ItemSlot].front.Count; i++)
             {
                 skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[i].SlotName, equippedItems[item.ItemSlot].front[i].AttachmentName);
@@ -209,6 +233,11 @@ public class EquipmentManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SwapToSecondaryWeapon()
+    {
+
     }
 
     private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
@@ -286,6 +315,23 @@ public class EquipmentManager : MonoBehaviour
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[0].SlotName, null);
                 }
                 break;
+            case "Weapon Triggers/WeaponSecondary_Hide_Front":
+                if (equippedItems[ItemSlot.MainHand] != null)
+                {
+                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[1].SlotName, null);
+                    
+                }
+                else
+                {
+                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[1].SlotName, null);
+                }
+                break;
+            case "Weapon Triggers/WeaponSecondary_Show_Front":
+                if (equippedItems[ItemSlot.MainHand] != null)
+                {
+                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[1].SlotName, equippedItems[ItemSlot.MainHand].front[1].AttachmentName);
+                }
+                break;
             case "Weapon Triggers/Weapon_Show_Front":
                 if (equippedItems[ItemSlot.TwoHanded] != null)
                 {
@@ -331,79 +377,6 @@ public class EquipmentManager : MonoBehaviour
             default:
                 break;
         }
-        /*
-        if (e.Data.Name == "MeleeAttack")
-        {
-
-        }
-        if (e.Data.Name == "Armor Triggers/Shoulder_Front")
-        {
-            if (equippedItems[ItemSlot.Shoulder] != null)
-            {
-                SetAllAttachment(equippedItems[ItemSlot.Shoulder].front);
-                SetAllAttachment(equippedItems[ItemSlot.Shoulder].side, true);
-                SetAllAttachment(equippedItems[ItemSlot.Shoulder].back, true);
-            }
-        }
-        if (e.Data.Name == "Armor Triggers/Shoulder_Side")
-        {
-            if (equippedItems[ItemSlot.Shoulder] != null)
-            {
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Shoulder].front[0].SlotName, null);
-                SetAllAttachment(equippedItems[ItemSlot.Shoulder].side);
-                SetAllAttachment(equippedItems[ItemSlot.Shoulder].back, true);
-            }
-        }
-        if (e.Data.Name == "Armor Triggers/Shoulder_Back")
-        {
-            if (equippedItems[ItemSlot.Shoulder] != null)
-            {
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Shoulder].front[0].SlotName, null);
-                SetAllAttachment(equippedItems[ItemSlot.Shoulder].side, true);
-                SetAllAttachment(equippedItems[ItemSlot.Shoulder].back);
-            }
-        }
-        if (e.Data.Name == "ProjectileRelease")
-        {
-            if (equippedItems.ContainsKey(ItemSlot.TwoHanded))
-            {
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, null);
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[1].SlotName, null);
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[2].SlotName, null);
-            }
-            else Debug.LogError("Projectile could not be found, which should not have happened");
-        }
-        if (e.Data.Name == "ProjectileDraw")
-        {
-            if (equippedItems.ContainsKey(ItemSlot.TwoHanded))
-            {
-                if (equippedItems.ContainsKey(ItemSlot.TwoHanded))
-                {
-                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, equippedItems[ItemSlot.TwoHanded].front[0].AttachmentName);
-                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[1].SlotName, equippedItems[ItemSlot.TwoHanded].front[1].AttachmentName);
-                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[2].SlotName, equippedItems[ItemSlot.TwoHanded].front[2].AttachmentName);
-                }
-            }
-            else Debug.LogError("Projectile could not be found, which should not have happened");
-        }
-        if (e.Data.Name == "Shield Triggers/Shield_Side")
-        {
-            if (equippedItems.ContainsKey(ItemSlot.Offhand))
-            {
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].front[0].SlotName, equippedItems[ItemSlot.Offhand].front[0].AttachmentName);
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].side[0].SlotName, null);
-            }
-        }
-        if (e.Data.Name == "Shield Triggers/Shield_Front")
-        {
-            if (equippedItems.ContainsKey(ItemSlot.Offhand))
-            {
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].front[0].SlotName, null);
-                skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.Offhand].side[0].SlotName, equippedItems[ItemSlot.Offhand].side[0].AttachmentName);
-            }
-        }
-        if(e.Data.Name == "Weapon Triggers/Weapon_Hide_Front") { }
-        */
     }
 
     void SetAllAttachment(List<SpineAttachment> SpineAttachment, bool remove = false)

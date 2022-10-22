@@ -1,3 +1,4 @@
+using SpineControllerVersion;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,6 +8,7 @@ public class SpawnManager : MonoBehaviour
 {
     [Header("_Spawn Units_")]
     public List<SpawnUnit> spawnUnitList;
+    public GameObject BossUnit;
 
     [SerializeField] private float _spawnTimer;
     private float spawnTimer
@@ -63,6 +65,9 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnLogic()
     {
+        if (GameManager.Instance.EnemyUnits.Count == 0)
+            nextSpawnTimer = nextSpawnTimer > 4 ? Random.Range(0, 3.5f) : nextSpawnTimer;
+
         nextSpawnTimer -= Time.deltaTime;
         if (nextSpawnTimer <= 0f)                            //start spawning
         {

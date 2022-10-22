@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SpineControllerVersion;
+using Spine.Unity;
+using Spine;
 
 public class PlayerController : UnitController
 {
@@ -11,6 +13,8 @@ public class PlayerController : UnitController
     bool attackTrigger = false;
     bool stunTrigger = false;
     Coroutine triggerCoroutine = null;
+
+    public bool canThrow = true;
 
     void OnValidate()
     {
@@ -36,6 +40,9 @@ public class PlayerController : UnitController
 
         if (LeftWallPosition == null || RightWallPosition == null)
             Debug.LogError("Failed to find level borders, make sure they are in scene");
+
+        // TODO: Same S1
+        canThrow = GameManager.Instance.IsSpearmasterDead;
     }
 
     protected override void CharacterControls()
@@ -47,11 +54,11 @@ public class PlayerController : UnitController
             if (direction == MoveDirection.left)
                 direction = MoveDirection.waiting;
         }
-        if(gameObject.transform.position.x >= RightWallPosition.position.x)
-        {
-            if (direction == MoveDirection.right)
-                direction = MoveDirection.waiting;
-        }
+        //if(gameObject.transform.position.x >= RightWallPosition.position.x)
+        //{
+        //    if (direction == MoveDirection.right)
+        //        direction = MoveDirection.waiting;
+        //}
     }
 
     void MobileController()
@@ -206,6 +213,44 @@ public class PlayerController : UnitController
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
             spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
         }
+
+        // Weapon Swap Animation
+
+        if (!isAnimationStarted)
+        {
+            if(Input.GetKey(KeyCode.Q))
+            {
+                if(unit.activeAnimations.SwapWeapon != null && canThrow)
+                {
+                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false).TimeScale = 1f;
+
+                    StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.SwapWeapon.SpineAnimationReference.Animation.Duration));
+
+                    if (unit.currentStance == StanceList.Stand_A)
+                        unit.currentStance = StanceList.Stand_B;
+                    else if (unit.currentStance == StanceList.Stand_B)
+                        unit.currentStance = StanceList.Stand_A;
+                }
+            }
+        }
+
+        if(!isAnimationStarted)
+        {
+            if(Input.GetKey(KeyCode.E))
+            {
+                if(unit.activeAnimations.ChangeStance.Animation != null && canThrow)
+                {
+                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false).TimeScale = 1f;
+
+                    StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference.Animation.Duration));
+
+                    if (unit.currentStance == StanceList.Stand_A)
+                        unit.currentStance = StanceList.Stand_B;
+                    else if (unit.currentStance == StanceList.Stand_B)
+                        unit.currentStance = StanceList.Stand_A;
+                }
+            }
+        }
     }
 
     // Walking animation depends on the direction unit is facing
@@ -300,6 +345,8 @@ public class PlayerController : UnitController
 
             SetWalkingAnimation((int)direction);
         }
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
 
     //private IEnumerator WaitFor
@@ -349,16 +396,37 @@ public class PlayerController : UnitController
         StartCoroutine(CheckDirection());
     }
 
+    protected override void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
+    {
+        base.HandleAnimationStateEvent(trackEntry, e);
+
+        switch (e.Data.Name)
+        {
+            case "Weapon Triggers/WeaponSecondary_Hide_Front":
+                canThrow = false;
+                break;
+            case "Weapon Triggers/WeaponSecondary_CanThrow":
+                canThrow = true;
+                break;
+            default:
+                break;
+        }
+    }
+
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == GameManager.Instance.GOLD_TAG)
+        if(gameObject.tag == GameManager.PLAYER_TAG)
         {
-            if (gameObject.tag == GameManager.Instance.PLAYER_TAG)
+            if(collision.gameObject.tag == GameManager.GOLD_TAG)
             {
                 GameManager.Instance.GoldChange(+1);
                 Destroy(collision.gameObject);
                 SoundManager.Instance.PlayEffect(GameManager.Instance.
                     CoinPickupSound[Random.Range(0, GameManager.Instance.CoinPickupSound.Count)]);
+            }
+            else if(collision.gameObject.tag == GameManager.FINISH_LEVEL_TAG)
+            {
+                GameManager.Instance.SceneLoader.OpenMainMenu();
             }
         }
     }

@@ -1703,7 +1703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &2307875882445625098
 GameObject:
   m_ObjectHideFlags: 0
@@ -5854,6 +5854,7 @@ MonoBehaviour:
   Player: {fileID: 0}
   AllEquipments: {fileID: 11400000, guid: a3a106d766366f746a0e86a2e7f835be, type: 2}
   PlayerEquipments: []
+  SecondaryWeapon: {fileID: 0}
   _PlayerLives: 0
   GoldPrefab: {fileID: 7026553871909760441, guid: d3d4dbc1f5775694c83a940964669686, type: 3}
   CoinPickupSound:
@@ -6004,6 +6005,10 @@ PrefabInstance:
       propertyPath: HealthMax
       value: 715
       objectReference: {fileID: 0}
+    - target: {fileID: 8615564714106964967, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 7860010022100989081, guid: 5443a34332a313d48874bede13bcb679, type: 3}
     - target: {fileID: 8615564714106975260, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: m_Name
       value: Player

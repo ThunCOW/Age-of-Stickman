@@ -54,4 +54,5 @@ public enum ItemSlot
     MainHand,
     Offhand,
     TwoHanded,
+    SecondaryWeapon,
 }

@@ -316,7 +316,7 @@ public class AIController : UnitController
         {
             if (speed != 0)                                                                  // speed equals to zero means speed is controlled by speed curve for animation
             {
-                float dist = Mathf.Abs(transform.position.x - SpineControllerVersion.GameManager.Instance.Player.transform.position.x);
+                float dist = Mathf.Abs(transform.position.x - GameManager.Instance.Player.transform.position.x);
                 float maxVision = 8.65f;                                                    // maxVision for player
                 if (dist > maxVision)                                                       //  if AIUnit is outside of cam, it will move faster to catch up and then slow down to normal speed level
                 {

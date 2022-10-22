@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: Swordsman And Spearman
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 9eb78451891ad9647b24bb2d44870559, type: 2}
+      Movement: {fileID: 11400000, guid: 1be99ec54e1580f469216af983d7cc33, type: 2}
+      MovementBackward: {fileID: 11400000, guid: c934f6c52fe5f9948ad4ac0862089e78, type: 2}
+      BlockAttack: {fileID: 11400000, guid: 515ba48d2ecd1c14b900402e42283d2a, type: 2}
+      ResetSlots: {fileID: 11400000, guid: 689ff9f67ae5f3249ade6fa50c2081fc, type: 2}
+      Hurt: {fileID: 11400000, guid: de4dfeffec33d984885acf796643287d, type: 2}
+      Kicked: {fileID: 11400000, guid: 9e03c13a6457c0f408621003048557b9, type: 2}
+      Slammed: {fileID: 11400000, guid: b15dc9fa10aceeb4e99f06aa76b9be5b, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 9b2c1b8d3102c16458aa9e16d9f6ad59, type: 2}
+      - {fileID: 11400000, guid: 77460c2139b57bf4db96c61fa46662a3, type: 2}
+      WalkAttack:
+      - {fileID: 11400000, guid: 1db459df200cd8443abbfe952af2548b, type: 2}
+      - {fileID: 11400000, guid: 27891db1e2267de42bf71fe7a67d2d33, type: 2}
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: 0
+      SwapWeapon: {fileID: 11400000, guid: 4d896685ae7041843bf27ba1b11fdce0, type: 2}
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: c5875eef7f4ca4f44b1d2b927439d205, type: 2}
+        - {fileID: 11400000, guid: 9270fe37d24b7b943b21ae3019132537, type: 2}
+        - {fileID: 11400000, guid: e333aeabfeaba214eb711dfbfdc3e905, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
+        - {fileID: 11400000, guid: c5875eef7f4ca4f44b1d2b927439d205, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
+      BreakStance:
+      - {fileID: 11400000, guid: 32fd807559c5e90408d316d8a4d84980, type: 2}
+      - {fileID: 11400000, guid: e3fcfed9212494c4fb5285d68c0207bf, type: 2}
+    extraSpeed: 0
+  - Stance: 2
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 632be14102234014496b3679a68a0a18, type: 2}
+      Movement: {fileID: 11400000, guid: 071778f4ce13f7d4aa6daf0be89f3e2a, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 11400000, guid: e5a281120a34a9a4b83a1ae56413cf91, type: 2}
+      Kicked: {fileID: 11400000, guid: 1e9d582f8a53b6a4ab68f601a98a0723, type: 2}
+      Slammed: {fileID: 11400000, guid: f7c4094f69e59cd4891b1fcdd9074135, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 52a4153c6abe13647a10a13bddf3ab62, type: 2}
+      - {fileID: 11400000, guid: 776dc58a405f588418414ffee6bf1a5c, type: 2}
+      WalkAttack: []
+      ChangeStance:
+        Animation: {fileID: 11400000, guid: 436ce1717b089214daa9cb7642b64234, type: 2}
+        chance: 0
+      SwapWeapon: {fileID: 11400000, guid: bda0f1186accf76438e9d76d9c8e2b1e, type: 2}
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: 168a1c79d96f1b04f9868f34f6246684, type: 2}
+        - {fileID: 11400000, guid: d41666963c089de47ac35bbf17297ed4, type: 2}
+        - {fileID: 11400000, guid: b8fa23c61d146c642b82b81a74239832, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: 2c0b63b8998b28245a1b497848406461, type: 2}
+        - {fileID: 11400000, guid: 168a1c79d96f1b04f9868f34f6246684, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 2c0b63b8998b28245a1b497848406461, type: 2}
+      BreakStance:
+      - {fileID: 11400000, guid: 32f6b60725780ce49a26d41bdafc68f0, type: 2}
+      - {fileID: 11400000, guid: 19d3aac645b25f8449c2c4f4afc22ae5, type: 2}
+    extraSpeed: 0

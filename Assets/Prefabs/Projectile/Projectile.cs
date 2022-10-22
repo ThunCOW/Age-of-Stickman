@@ -6,7 +6,6 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     private Unit parentUnit;
-    private Transform target;
 
     public SoundScriptableObject RangedAttackSoundSO;
     
@@ -20,16 +19,13 @@ public class Projectile : MonoBehaviour
     {
         parentUnit = transform.parent.GetComponent<Unit>();
 
-        if (parentUnit.gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
-            targetTag = GameManager.Instance.PLAYER_TAG;
+        if (parentUnit.gameObject.CompareTag(GameManager.ENEMY_TAG))
+            targetTag = GameManager.PLAYER_TAG;
         else
-            targetTag = GameManager.Instance.ENEMY_TAG;
-
-        target = parentUnit.target.gameObject.transform;
+            targetTag = GameManager.ENEMY_TAG;
 
         transform.parent = null;
         
-        projectileDir = parentUnit.transform.position.x - target.transform.position.x < 0 ? 1 : -1;
         projectileDir = parentUnit.transform.localScale.x > 0 ? 1 : -1;
 
     }

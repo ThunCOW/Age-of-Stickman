@@ -8,6 +8,7 @@ TagManager:
   - EnemyUnit
   - Gold
   - LevelBorders
+  - FinishLevelTrigger
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - Gold
   - Player
   - Projectile
-  - 
+  - Player Interactable Trigger
   - 
   - 
   - 

@@ -69,6 +69,7 @@ public class UnitAnimations
     public List<BasicAnimation> Attack;
     public List<BasicAnimation> WalkAttack;
     public ChangeStanceAction ChangeStance;
+    public SpeedDependantAnimation SwapWeapon;
 
     public DeathAnimationByDamageRegion DeathAnimationByDamageRegion;
     [Space]

@@ -9,6 +9,7 @@ namespace SpineControllerVersion
     public class GameManager : MonoBehaviour, ISaveableJson, ISerializationCallbackReceiver
     {
         public static GameManager Instance;
+        public SceneLoader SceneLoader;
 
         public bool GamePaused;
 
@@ -16,9 +17,10 @@ namespace SpineControllerVersion
         public List<Unit> EnemyUnits = new List<Unit>();
         public List<Unit> PlayerUnits = new List<Unit>();
 
-        public string ENEMY_TAG = "EnemyUnit";
-        public string PLAYER_TAG = "PlayerUnit";
-        public string GOLD_TAG = "Gold";
+        public static string ENEMY_TAG = "EnemyUnit";
+        public static string PLAYER_TAG = "PlayerUnit";
+        public static string GOLD_TAG = "Gold";
+        public static string FINISH_LEVEL_TAG = "FinishLevelTrigger";
 
         [Header("Player Data")]
         public Unit Player;
@@ -38,6 +40,8 @@ namespace SpineControllerVersion
             }
         }
         public List<Item> PlayerEquipments;
+
+        public Item SecondaryWeapon;
 
         [SerializeField] private int _PlayerLives;
         public int PlayerLives
@@ -66,10 +70,11 @@ namespace SpineControllerVersion
 
         [HideInInspector] public SortManager sortManager = new SortManager();
 
-        void ChangeEquipment(Item newEquipment)
-        {
+        // Too lazy to make a system fro secondary weapon so im just gonna check if first boss is dead and hide/show weapon lmao
+        public bool IsSpearmasterDead;
 
-        }
+        public int Level;
+
         private void Awake()
         {
             for(int i = 0; i < AllEquipments.Equipments.Count; i++)
@@ -79,6 +84,8 @@ namespace SpineControllerVersion
 
             if (Instance == null)
             {
+                SceneLoader = GetComponent<SceneLoader>();
+
                 Instance = this;
                 DontDestroyOnLoad(this.gameObject);
             }
@@ -91,7 +98,7 @@ namespace SpineControllerVersion
         // Start is called before the first frame update
         void Start()
         {
-            Instance = this;
+            
         }
 
         public void GoldChange(int Amount)
@@ -138,11 +145,16 @@ namespace SpineControllerVersion
                     return false;
 
                 PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(item));
+                if (SecondaryWeapon != null) PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(SecondaryWeapon));
             }
             a_SaveData.equippedItemIndexs = PlayerEquipmentsKeys;
 
             a_SaveData.PlayerLives = PlayerLives;
             a_SaveData.Gold = Gold;
+
+            a_SaveData.IsSpearmasterDead = IsSpearmasterDead;
+
+            a_SaveData.Level = Level;
 
             return true;
         }
@@ -170,6 +182,10 @@ namespace SpineControllerVersion
 
             PlayerLives = a_SaveData.PlayerLives;
             Gold = a_SaveData.Gold;
+
+            IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
+
+            Level = a_SaveData.Level;
         }
 
         void OnApplicationQuit()
@@ -226,11 +242,11 @@ namespace SpineControllerVersion
 
         public void ChangePlayerSortOnly(Unit aggressor, Unit target)
         {
-            if (aggressor.CompareTag(SpineControllerVersion.GameManager.Instance.PLAYER_TAG))
+            if (aggressor.CompareTag(SpineControllerVersion.GameManager.PLAYER_TAG))
             {
                 aggressor.GetComponentInChildren<MeshRenderer>().sortingOrder = 999;
             }
-            else if (target.CompareTag(SpineControllerVersion.GameManager.Instance.PLAYER_TAG))
+            else if (target.CompareTag(SpineControllerVersion.GameManager.PLAYER_TAG))
             {
                 target.GetComponentInChildren<MeshRenderer>().sortingOrder = -1;
             }

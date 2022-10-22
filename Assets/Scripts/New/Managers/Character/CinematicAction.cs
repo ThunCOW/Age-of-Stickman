@@ -1,10 +1,13 @@
 using Spine;
 using Spine.Unity;
+using SpineControllerVersion;
 using UnityEngine;
 
 public class  CinematicAction: MonoBehaviour
 {
     [HideInInspector] public SkeletonAnimation skelAnim;
+
+    public Item SpearmasterSpear;
 
     public GameObject ShadowObject;
     public GameObject HealthBar;
@@ -41,6 +44,15 @@ public class  CinematicAction: MonoBehaviour
                 HealthBar.SetActive(true);
                 break;
 
+            case "Game Event/Spearmaster_Dead":
+                GameManager.Instance.IsSpearmasterDead = true;
+                break;
+            case "Shadow Events/Shadow_Hide":
+                ShadowObject.SetActive(false);
+                break;
+            case "Shadow Events/Shadow_Show":
+                ShadowObject.SetActive(true);
+                break;
             default:
                 break;
         }

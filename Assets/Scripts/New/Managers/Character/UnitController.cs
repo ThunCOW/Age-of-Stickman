@@ -180,7 +180,7 @@ public class UnitController : MonoBehaviour
 
                 unit.target.unitController.BossDead();
 
-                if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
+                if (gameObject.CompareTag(GameManager.ENEMY_TAG))
                     GameManager.Instance.EnemyUnits.Remove(unit);
                 else
                     GameManager.Instance.PlayerUnits.Remove(unit);
@@ -222,11 +222,11 @@ public class UnitController : MonoBehaviour
             if (tempDeathAnim is DeathByDismemberAnimation)
                 DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
             
-            if(gameObject.CompareTag(GameManager.Instance.ENEMY_TAG)) 
+            if(gameObject.CompareTag(GameManager.ENEMY_TAG)) 
                 GoldDrop();
 
 
-            if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
+            if (gameObject.CompareTag(GameManager.ENEMY_TAG))
                 GameManager.Instance.EnemyUnits.Remove(unit);
             else
                 GameManager.Instance.PlayerUnits.Remove(unit);
@@ -271,7 +271,7 @@ public class UnitController : MonoBehaviour
         CinematicAction cAnim = GetComponent<CinematicAction>();
 
 
-        if(gameObject.CompareTag(GameManager.Instance.PLAYER_TAG))
+        if(gameObject.CompareTag(GameManager.PLAYER_TAG))
         {
             //
             StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
@@ -680,7 +680,27 @@ public class UnitController : MonoBehaviour
         if(continueIdle) spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
 
-    private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
+    protected IEnumerator PlayCasualAnimation(BasicAnimation Animation)
+    {
+        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, Animation.SpineAnimationReference, false);
+        var completeOrEnd = WaitForSpineAnimation.AnimationEventTypes.Complete | WaitForSpineAnimation.AnimationEventTypes.End;
+
+        idleing = false;
+
+        isAnimationStarted = true;
+
+        speed = 0;
+
+        direction = MoveDirection.waiting;
+
+        yield return new WaitForSpineAnimation(track, completeOrEnd);
+
+        idleing = true;
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+    }
+
+    protected virtual void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
         switch (e.Data.Name)
         {

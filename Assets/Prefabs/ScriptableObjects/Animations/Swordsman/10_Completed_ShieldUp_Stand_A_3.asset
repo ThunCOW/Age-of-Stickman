@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 10_Completed_ShieldUp_Stand_A_3
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
-  AnimationName: ShieldUp_Stand_A_3
-  SpineAnimationReference: {fileID: 11400000, guid: d81104657cbfea143abe461d5b1cfc49, type: 2}
+  AnimationName: ShieldUp_Stand_A_4
+  SpineAnimationReference: {fileID: 11400000, guid: 7a94c535fb7869942b6431c2523f8a50, type: 2}
   _PrefixChangeCheck: 10_Completed
-  _AnimationNameChangeCheck: ShieldUp_Stand_A_3
+  _AnimationNameChangeCheck: ShieldUp_Stand_A_4

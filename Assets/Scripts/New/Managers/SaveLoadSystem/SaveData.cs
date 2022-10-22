@@ -10,6 +10,8 @@ public class SaveData
 
     public int PlayerLives;
     public int Gold;
+    public int Level;
+    public bool IsSpearmasterDead;
 
     public string ToJson()
     {

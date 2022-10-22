@@ -1,4 +1,5 @@
 using SpineControllerVersion;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Tymski;
@@ -19,27 +20,36 @@ public class SceneLoader : MonoBehaviour
     void Start()
     {
         ShopCanvas.SetActive(true);
-        LevelCanvas.SetActive(false);
+        //LevelCanvas.SetActive(false);
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     public void OpenMainMenu()
     {
         SceneManager.LoadScene(MainMenu);
-        
-        ShopCanvas.SetActive(true);
-        LevelCanvas.SetActive(false);
-
-        GameManager.Instance.EnemyUnits = new List<Unit>();
-        GameManager.Instance.PlayerUnits = new List<Unit>();
-        GameManager.Instance.sortManager = new SortManager();
-        GameManager.Instance.Player = null;
     }
 
-    public void OpenLevel()
+    public void NextLevel()
     {
-        SceneManager.LoadScene(TempLevel);
+        SceneManager.LoadScene(Levels[GameManager.Instance.Level]);
+    }
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == "Main Menu")
+        {
+            ShopCanvas.SetActive(true);
+            //LevelCanvas.SetActive(false);
 
-        ShopCanvas.SetActive(false);
-        LevelCanvas.SetActive(true);
+            GameManager.Instance.EnemyUnits = new List<Unit>();
+            GameManager.Instance.PlayerUnits = new List<Unit>();
+            GameManager.Instance.sortManager = new SortManager();
+            GameManager.Instance.Player = null;
+        }
+        else
+        {
+            ShopCanvas.SetActive(false);
+            //LevelCanvas.SetActive(true);
+        }
     }
 }

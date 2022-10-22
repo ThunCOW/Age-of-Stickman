@@ -84,7 +84,7 @@ public class Unit : MonoBehaviour
         Health = HealthMax;
 
         // GameManager
-        if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
+        if (gameObject.CompareTag(GameManager.ENEMY_TAG))
             GameManager.Instance.EnemyUnits.Add(this);
         else
             GameManager.Instance.PlayerUnits.Add(this);
@@ -129,7 +129,7 @@ public class Unit : MonoBehaviour
     {
         // ie. If current unit is enemy, search for player units
         List<Unit> unitList;
-        if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
+        if (gameObject.CompareTag(GameManager.ENEMY_TAG))
             unitList = GameManager.Instance.PlayerUnits;
         else
             unitList = GameManager.Instance.EnemyUnits;
@@ -142,7 +142,7 @@ public class Unit : MonoBehaviour
         foreach (Unit unit in unitList)
         {
             float dist = Mathf.Abs(transform.position.x - unit.transform.position.x);
-            if (gameObject.CompareTag(GameManager.Instance.ENEMY_TAG))
+            if (gameObject.CompareTag(GameManager.ENEMY_TAG))
             {
                 if (closestX > dist)
                 {
