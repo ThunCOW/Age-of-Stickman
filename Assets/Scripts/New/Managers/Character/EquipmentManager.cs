@@ -4,6 +4,7 @@ using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class EquipmentManager : MonoBehaviour
 {
@@ -390,7 +391,7 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-    void ResetAttachments()
+    public void ResetAttachments()
     {
         // Shoulders
         SetAllAttachment(equippedItems[ItemSlot.Shoulder].side, true);
@@ -401,5 +402,11 @@ public class EquipmentManager : MonoBehaviour
         // Shield
 
         // Weapon
+    }
+
+    public void ShowSecondaryWeapon()
+    {
+        skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[1].SlotName, equippedItems[ItemSlot.MainHand].front[1].AttachmentName);
+        //skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[1].SlotName, equippedItems[item.ItemSlot].front[1].AttachmentName);
     }
 }

@@ -12,18 +12,15 @@ public class Projectile : MonoBehaviour
     public float projectileSpeed;
     private int projectileDir;
 
-    private string targetTag;
+    List<string> targetTags;
 
     // Start is called before the first frame update
     void Start()
     {
         parentUnit = transform.parent.GetComponent<Unit>();
 
-        if (parentUnit.gameObject.CompareTag(GameManager.ENEMY_TAG))
-            targetTag = GameManager.PLAYER_TAG;
-        else
-            targetTag = GameManager.ENEMY_TAG;
-
+        targetTags = Unit.CompareTags(parentUnit.gameObject, GameManager.ENEMY_TAGS) ? GameManager.ALLY_TAGS : GameManager.ENEMY_TAGS;
+        
         transform.parent = null;
         
         projectileDir = parentUnit.transform.localScale.x > 0 ? 1 : -1;
@@ -37,11 +34,10 @@ public class Projectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("works");
         if (collision != null)
         {
             // hits the target
-            if (collision.gameObject.CompareTag(targetTag))
+            if (Unit.CompareTags(collision.gameObject, targetTags))
             {
                 //RangedAttackSoundSO.hitSoundEffect.PlayRandomSoundEffect();
                 

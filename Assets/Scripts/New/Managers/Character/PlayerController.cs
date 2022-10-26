@@ -7,18 +7,20 @@ using Spine;
 
 public class PlayerController : UnitController
 {
-    public Transform LeftWallPosition;
-    public Transform RightWallPosition;
-
     bool attackTrigger = false;
     bool stunTrigger = false;
     Coroutine triggerCoroutine = null;
 
     public bool canThrow = true;
 
+    public delegate void OnBossTrigger(string BossTag);
+    public static OnBossTrigger BossTrigger;
+
+    public static bool hasPlayerReachedEndOfLevel;
+
     void OnValidate()
     {
-        if (LeftWallPosition == null || RightWallPosition == null)
+        /*if (LeftWallPosition == null || RightWallPosition == null)
         {
             GameObject go = GameObject.FindGameObjectWithTag("LevelBorders");
             if(go != null)
@@ -26,7 +28,7 @@ public class PlayerController : UnitController
                 LeftWallPosition = go.transform.GetChild(0);
                 RightWallPosition = go.transform.GetChild(1);
             }
-        }
+        }*/
     }
 
     // Start is called before the first frame update
@@ -49,16 +51,19 @@ public class PlayerController : UnitController
     {
         KeyboardControls();
 
-        if(gameObject.transform.position.x <= LeftWallPosition.position.x)
+        if(!SpawnManager.isBossSpawned)
         {
-            if (direction == MoveDirection.left)
-                direction = MoveDirection.waiting;
+            if(gameObject.transform.position.x <= LeftWallPosition.position.x)
+            {
+                if (direction == MoveDirection.left)
+                    direction = MoveDirection.waiting;
+            }
+            if(gameObject.transform.position.x >= RightWallPosition.position.x + 3)
+            {
+                if (direction == MoveDirection.right)
+                    direction = MoveDirection.waiting;
+            }
         }
-        //if(gameObject.transform.position.x >= RightWallPosition.position.x)
-        //{
-        //    if (direction == MoveDirection.right)
-        //        direction = MoveDirection.waiting;
-        //}
     }
 
     void MobileController()
@@ -329,7 +334,7 @@ public class PlayerController : UnitController
 
         direction = MoveDirection.waiting;
 
-        speed = speed_;                                                 // speed is now set to default speed level
+        speed = defaultSpeed;                                                 // speed is now set to default speed level
         isAnimationStarted = false;                                     // direction released
 
         // Set new movement direction and look direction
@@ -376,7 +381,7 @@ public class PlayerController : UnitController
     {
         yield return new WaitForSeconds(Random.Range(0.1f, 0.25f));
 
-        if (!isAnimationStarted && GameManager.Instance.GamePaused == false)
+        if (!isAnimationStarted && GameManager.Instance.DisableControls == false)
         {
             // Set new movement direction and look direction
             if (Input.GetKey(KeyCode.A))
@@ -415,19 +420,54 @@ public class PlayerController : UnitController
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if(gameObject.tag == GameManager.PLAYER_TAG)
+        if (gameObject.tag == GameManager.PLAYER_TAG)
         {
-            if(collision.gameObject.tag == GameManager.GOLD_TAG)
+            if (collision.gameObject.tag == GameManager.GOLD_TAG)
             {
                 GameManager.Instance.GoldChange(+1);
                 Destroy(collision.gameObject);
                 SoundManager.Instance.PlayEffect(GameManager.Instance.
                     CoinPickupSound[Random.Range(0, GameManager.Instance.CoinPickupSound.Count)]);
             }
-            else if(collision.gameObject.tag == GameManager.FINISH_LEVEL_TAG)
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D trigger)
+    {
+        if(gameObject.tag == GameManager.PLAYER_TAG)
+        {
+            if(trigger.gameObject.tag == GameManager.FINISH_LEVEL_TAG)
             {
-                GameManager.Instance.SceneLoader.OpenMainMenu();
+                if (GameManager.Instance.EnemyUnits.Count != 0)
+                {
+                    Debug.Log("Defeat All Enemies First");
+                }
+                else
+                {
+                    StartCoroutine(EndLevelInTime());
+                }
+            }
+            if(trigger.gameObject.tag == GameManager.SPEARMASTER_SPAWN_TAG)
+            {
+                trigger.gameObject.SetActive(false);
+
+                BossTrigger(GameManager.SPEARMASTER_TAG);
             }
         }
+    }
+
+    IEnumerator EndLevelInTime()
+    {
+        GameManager.Instance.DisableControls = true;
+
+        speed = defaultSpeed;
+
+        direction = MoveDirection.right;
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true);
+
+        yield return new WaitForSeconds(2.5f);
+        
+        GameManager.Instance.SceneLoader.FinishLevel();
     }
 }

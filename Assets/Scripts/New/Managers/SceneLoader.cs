@@ -30,10 +30,18 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(MainMenu);
     }
 
+    public void FinishLevel()
+    {
+        OpenMainMenu();
+
+        GameManager.Instance.Level++;
+    }
+
     public void NextLevel()
     {
         SceneManager.LoadScene(Levels[GameManager.Instance.Level]);
     }
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if(scene.name == "Main Menu")
@@ -42,7 +50,7 @@ public class SceneLoader : MonoBehaviour
             //LevelCanvas.SetActive(false);
 
             GameManager.Instance.EnemyUnits = new List<Unit>();
-            GameManager.Instance.PlayerUnits = new List<Unit>();
+            GameManager.Instance.AllyUnits = new List<Unit>();
             GameManager.Instance.sortManager = new SortManager();
             GameManager.Instance.Player = null;
         }

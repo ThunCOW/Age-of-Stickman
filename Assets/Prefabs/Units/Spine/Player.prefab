@@ -164,8 +164,8 @@ GameObject:
   - component: {fileID: 8615564714106964966}
   - component: {fileID: 8615564714106964967}
   - component: {fileID: 8615564714106964960}
-  - component: {fileID: 8615564714106964962}
   - component: {fileID: 8615564714106964965}
+  - component: {fileID: 8615564714106964962}
   - component: {fileID: 8615564713597905893}
   m_Layer: 11
   m_Name: Player
@@ -207,6 +207,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startingItems: []
   equippedItemList: []
+  secondaryWeapon: {fileID: 0}
   changeItemNow: 0
 --- !u!114 &8615564714106964967
 MonoBehaviour:
@@ -243,6 +244,7 @@ MonoBehaviour:
     ChangeStance:
       Animation: {fileID: 0}
       chance: 0
+    SwapWeapon: {fileID: 0}
     DeathAnimationByDamageRegion:
       highRegion: []
       midRegion: []
@@ -267,29 +269,7 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 2
   isBoss: 0
-  LeftWallPosition: {fileID: 0}
-  RightWallPosition: {fileID: 0}
---- !u!50 &8615564714106964962
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8615564714106975260}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 1
-  m_Constraints: 0
+  canThrow: 1
 --- !u!61 &8615564714106964965
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -316,6 +296,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4081397, y: 2.1984894}
   m_EdgeRadius: 0
+--- !u!50 &8615564714106964962
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8615564714106975260}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 0
 --- !u!114 &8615564713597905893
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,9 +329,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decbf2746fe035549804cc5c3341dde9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GamePaused: 0
+  skelAnim: {fileID: 8615564714039348847}
   ShadowObject: {fileID: 7467918463023935844}
   HealthBar: {fileID: 777053081335208818}
+  SpearmasterDead: {fileID: 11400000, guid: a2c06b33437281e42975910028761fd2, type: 2}
 --- !u!1001 &6496542209462677724
 PrefabInstance:
   m_ObjectHideFlags: 0

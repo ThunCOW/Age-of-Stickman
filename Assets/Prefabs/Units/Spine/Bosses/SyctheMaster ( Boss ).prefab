@@ -431,7 +431,7 @@ GameObject:
   - component: {fileID: 5918015681238482119}
   m_Layer: 0
   m_Name: SyctheMaster ( Boss )
-  m_TagString: EnemyUnit
+  m_TagString: Scythemaster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -472,6 +472,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 05a6c2596f95ae749bfb079d399d9883, type: 2}
   - {fileID: 11400000, guid: bee017d867df2834d95df34895afce83, type: 2}
   equippedItemList: []
+  secondaryWeapon: {fileID: 0}
   changeItemNow: 0
 --- !u!114 &5918015681238482122
 MonoBehaviour:
@@ -508,6 +509,7 @@ MonoBehaviour:
     ChangeStance:
       Animation: {fileID: 0}
       chance: 0
+    SwapWeapon: {fileID: 0}
     DeathAnimationByDamageRegion:
       highRegion: []
       midRegion: []

@@ -1,28 +1,84 @@
-using Spine.Unity;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
-
+using System;
 namespace SpineControllerVersion
 {
     public class GameManager : MonoBehaviour, ISaveableJson, ISerializationCallbackReceiver
     {
         public static GameManager Instance;
+
+        // Delegates
+        public delegate void OnControlsDsiabled();
+        public static OnControlsDsiabled DisableAllControls;
+        public static OnControlsDsiabled EnableAllControls;
+
+
+
+        [Header("_Various Variables_")]
         public SceneLoader SceneLoader;
 
-        public bool GamePaused;
+        [SerializeField] private bool _disableControls;
+        public bool DisableControls
+        {
+            get { return _disableControls; }
+            set
+            {
+                _disableControls = value;
+                if (value == true)
+                {
+                    Debug.Log("Controls are disabled");
+                    
+                    DisableAllControls();
+                }
+                else
+                {
+                    Debug.Log("Controls are enabled");
 
-        [Header("Unit Assignments")]
+                    EnableAllControls();
+                }
+            }
+        }
+
+        public GameObject LevelBordersParent;
+        public GameObject SceneViewBordersParent;
+
+
+
+
+
+        [Header("_Unit Assignments_")]
         public List<Unit> EnemyUnits = new List<Unit>();
-        public List<Unit> PlayerUnits = new List<Unit>();
+        public List<Unit> AllyUnits = new List<Unit>();
 
-        public static string ENEMY_TAG = "EnemyUnit";
-        public static string PLAYER_TAG = "PlayerUnit";
-        public static string GOLD_TAG = "Gold";
-        public static string FINISH_LEVEL_TAG = "FinishLevelTrigger";
+        [HideInInspector] public SortManager sortManager = new SortManager();
 
-        [Header("Player Data")]
+
+
+
+        // TAGS
+        public const string GOLD_TAG = "Gold";
+        
+        public const string ENEMY_TAG = "EnemyUnit";
+        public const string SPEARMASTER_TAG = "Spearmaster";
+        public const string SCYTHEMASTER_TAG = "Scythemaster";
+
+        public const string ALLY_TAG = "AllyUnit";
+        public const string PLAYER_TAG = "PlayerUnit";
+
+
+        public const string FINISH_LEVEL_TAG = "FinishLevelTrigger";
+        public const string SPEARMASTER_SPAWN_TAG = "SpearmasterBossTrigger";
+        public const string SCYTHEMASTER_SPAWN_TAG = "SycthemasterBossTrigger";
+
+        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG };
+        public static List<string> ALLY_TAGS = new List<string> { ALLY_TAG, PLAYER_TAG };
+
+
+
+
+
+        [Header("_Player Variabes_")]
         public Unit Player;
         [SerializeField] private AllEquipments AllEquipments;
         private List<int> _PlayerEquipmentsKeys = new List<int>();
@@ -41,8 +97,9 @@ namespace SpineControllerVersion
         }
         public List<Item> PlayerEquipments;
 
-        public Item SecondaryWeapon;
+        //public Item SecondaryWeapon;
 
+        
         [SerializeField] private int _PlayerLives;
         public int PlayerLives
         {
@@ -53,6 +110,11 @@ namespace SpineControllerVersion
             }
         }
 
+
+
+
+
+        [Header("_Gold Variables_")]
         [Space]
         public GameObject GoldPrefab;
         public List<AudioClip> CoinPickupSound;
@@ -68,14 +130,22 @@ namespace SpineControllerVersion
         }
         public TMP_Text GoldText;
 
-        [HideInInspector] public SortManager sortManager = new SortManager();
 
+
+
+
+        [Header("_Temporary / Dumb Variables_")]
         // Too lazy to make a system fro secondary weapon so im just gonna check if first boss is dead and hide/show weapon lmao
         public bool IsSpearmasterDead;
 
         public int Level;
 
-        private void Awake()
+
+
+
+
+
+        void Awake()
         {
             for(int i = 0; i < AllEquipments.Equipments.Count; i++)
             {
@@ -84,8 +154,6 @@ namespace SpineControllerVersion
 
             if (Instance == null)
             {
-                SceneLoader = GetComponent<SceneLoader>();
-
                 Instance = this;
                 DontDestroyOnLoad(this.gameObject);
             }
@@ -145,7 +213,7 @@ namespace SpineControllerVersion
                     return false;
 
                 PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(item));
-                if (SecondaryWeapon != null) PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(SecondaryWeapon));
+                //if (SecondaryWeapon != null) PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(SecondaryWeapon));
             }
             a_SaveData.equippedItemIndexs = PlayerEquipmentsKeys;
 
@@ -183,9 +251,11 @@ namespace SpineControllerVersion
             PlayerLives = a_SaveData.PlayerLives;
             Gold = a_SaveData.Gold;
 
-            IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
+            //IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
+            IsSpearmasterDead = false;
 
-            Level = a_SaveData.Level;
+            //Level = a_SaveData.Level;
+            Level = 6;
         }
 
         void OnApplicationQuit()

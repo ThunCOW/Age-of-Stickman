@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 138076239}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -16.927837, y: 0.0073599815, z: 3.9109476}
+  m_LocalPosition: {x: -12.24, y: 0.0073599815, z: 3.9109476}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -111,12 +111,16 @@ MonoBehaviour:
   spawnUnitList:
   - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 35
+    AIAgressiveness: 0
   - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 35
+    AIAgressiveness: 0
   - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 15
+    AIAgressiveness: 0
   - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 15
+    AIAgressiveness: 0
   _spawnTimer: 5
   maxSpawn: 19
   maxEnemyOnScreen: 5
@@ -124,3 +128,5 @@ MonoBehaviour:
   - {fileID: 1855033762}
   - {fileID: 138076240}
   mainCamera: {fileID: 0}
+  SpearmasterPrefab: {fileID: 5918015681238482118, guid: c2f88fb11b90ee849921820c4da3de66, type: 3}
+  SycthemasterPrefab: {fileID: 5918015681238482118, guid: 407870d33eb783541acb897272f65dc5, type: 3}

@@ -432,7 +432,7 @@ GameObject:
   - component: {fileID: 696120666892367528}
   m_Layer: 0
   m_Name: Spearmaster ( Boss )
-  m_TagString: EnemyUnit
+  m_TagString: Spearmaster
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -473,6 +473,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
   - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
   equippedItemList: []
+  secondaryWeapon: {fileID: 0}
   changeItemNow: 0
 --- !u!114 &5918015681238482122
 MonoBehaviour:
@@ -509,6 +510,7 @@ MonoBehaviour:
     ChangeStance:
       Animation: {fileID: 0}
       chance: 0
+    SwapWeapon: {fileID: 0}
     DeathAnimationByDamageRegion:
       highRegion: []
       midRegion: []
@@ -595,6 +597,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skelAnim: {fileID: 5918015680693387126}
+  SpearmasterSpear: {fileID: 0}
   ShadowObject: {fileID: 5918015680494077888}
   HealthBar: {fileID: 5491818668541902069}
   SpearmasterDead: {fileID: 11400000, guid: e4819a433a1b7e747b06740e6d6e5474, type: 2}

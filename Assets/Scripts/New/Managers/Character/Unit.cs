@@ -82,12 +82,13 @@ public class Unit : MonoBehaviour
     void Start()
     {
         Health = HealthMax;
-
+        
         // GameManager
-        if (gameObject.CompareTag(GameManager.ENEMY_TAG))
+        
+        if(CompareTags(gameObject, GameManager.ENEMY_TAGS))
             GameManager.Instance.EnemyUnits.Add(this);
         else
-            GameManager.Instance.PlayerUnits.Add(this);
+            GameManager.Instance.AllyUnits.Add(this);
 
         GameManager.Instance.sortManager.AddToOrder(this);
 
@@ -128,11 +129,7 @@ public class Unit : MonoBehaviour
     public void FindClosestUnit()
     {
         // ie. If current unit is enemy, search for player units
-        List<Unit> unitList;
-        if (gameObject.CompareTag(GameManager.ENEMY_TAG))
-            unitList = GameManager.Instance.PlayerUnits;
-        else
-            unitList = GameManager.Instance.EnemyUnits;
+        List<Unit> unitList = CompareTags(gameObject, GameManager.ENEMY_TAGS) ? GameManager.Instance.AllyUnits : GameManager.Instance.EnemyUnits;
 
         Unit lastUnit = target;
         
@@ -142,7 +139,7 @@ public class Unit : MonoBehaviour
         foreach (Unit unit in unitList)
         {
             float dist = Mathf.Abs(transform.position.x - unit.transform.position.x);
-            if (gameObject.CompareTag(GameManager.ENEMY_TAG))
+            if(CompareTags(gameObject, GameManager.ENEMY_TAGS))
             {
                 if (closestX > dist)
                 {
@@ -150,9 +147,11 @@ public class Unit : MonoBehaviour
                     closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
                 }
             }
+            // For Player
             else
             {
-                float maxVision = 8.65f;    // maxVision is for player, player won't detect enemies outside of cam
+                float maxVision = SpawnManager.isBossSpawned ? 20 : 8.65f;    // maxVision is for player, player won't detect enemies outside of cam
+
                 if (dist < maxVision)
                 {
                     if (closestX > dist)
@@ -164,7 +163,8 @@ public class Unit : MonoBehaviour
             }
         }
 
-        if(gameObject.GetComponent<PlayerController>() != null)
+        // For Player
+        if(unitController is PlayerController)
         {
             if(lastUnit != null)
             {
@@ -172,7 +172,8 @@ public class Unit : MonoBehaviour
             }
             if (target != null)
             {
-                target.HealthBar.transform.parent.gameObject.SetActive(true);
+                if(GameManager.Instance.DisableControls == false)
+                    target.HealthBar.transform.parent.gameObject.SetActive(true);
             }
         }
     }
@@ -183,6 +184,21 @@ public class Unit : MonoBehaviour
         int lookDir = transform.position.x > target.transform.position.x ? -1 : 1;
 
         transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
+    }
+
+    public MoveDirection GetDirectionRelativeToTarget()
+    {
+        return transform.position.x > target.transform.position.x ? MoveDirection.left : MoveDirection.right;
+    }
+
+    public static bool CompareTags(GameObject gameObject, List<string> tags)
+    {
+        foreach(string tag in tags)
+        {
+            if (gameObject.CompareTag(tag))
+                return true;
+        }
+        return false;
     }
 }
 

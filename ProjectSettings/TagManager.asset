@@ -9,6 +9,10 @@ TagManager:
   - Gold
   - LevelBorders
   - FinishLevelTrigger
+  - SpearmasterBossTrigger
+  - Spearmaster
+  - ScythemasterBossTrigger
+  - Scythemaster
   layers:
   - Default
   - TransparentFX

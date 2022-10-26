@@ -7,14 +7,15 @@ using System.Linq;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 
+public enum MoveDirection
+{
+    left = -1,
+    right = 1,
+    waiting = 0
+}
+
 public class UnitController : MonoBehaviour
 {
-    protected enum MoveDirection
-    {
-        left = -1,
-        right = 1,
-        waiting = 0
-    }
 
     public SkeletonAnimation spineSkeletonAnimation;
 
@@ -27,7 +28,7 @@ public class UnitController : MonoBehaviour
 
     [HideInInspector] public float extraSpeed;   // just temporary for charge speed, it is retrived from AnimationList and assigned in editor
     public float speed; // default moving speed assigned in inspector
-    protected float speed_; // stores default speed
+    protected float defaultSpeed; // stores default speed
     protected float speedRelativeToAnimation; // speed for animations
     protected MoveDirection direction = MoveDirection.waiting;
 
@@ -45,6 +46,9 @@ public class UnitController : MonoBehaviour
 
     public bool isBoss;
 
+    protected Transform LeftWallPosition;
+    protected Transform RightWallPosition;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -52,13 +56,19 @@ public class UnitController : MonoBehaviour
 
         spineSkeletonAnimation.state.Event += HandleAnimationStateEvent;
 
-        speed_ = speed;
+        defaultSpeed = speed;
+
+        LeftWallPosition = GameManager.Instance.LevelBordersParent.transform.GetChild(0);
+        RightWallPosition = GameManager.Instance.LevelBordersParent.transform.GetChild(1);
+
+        GameManager.DisableAllControls += GamePaused;
+        GameManager.EnableAllControls += GameContinue;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (GameManager.Instance.GamePaused == false)
+        if (GameManager.Instance.DisableControls == false)
         {
             if (unit.Health > 0) // Only if alive
             {
@@ -180,10 +190,10 @@ public class UnitController : MonoBehaviour
 
                 unit.target.unitController.BossDead();
 
-                if (gameObject.CompareTag(GameManager.ENEMY_TAG))
+                if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
                     GameManager.Instance.EnemyUnits.Remove(unit);
                 else
-                    GameManager.Instance.PlayerUnits.Remove(unit);
+                    GameManager.Instance.AllyUnits.Remove(unit);
 
                 //GameManager.Instance.sortManager.RemoveFromOrder(unit);
                 return;
@@ -226,10 +236,10 @@ public class UnitController : MonoBehaviour
                 GoldDrop();
 
 
-            if (gameObject.CompareTag(GameManager.ENEMY_TAG))
+            if(Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
                 GameManager.Instance.EnemyUnits.Remove(unit);
             else
-                GameManager.Instance.PlayerUnits.Remove(unit);
+                GameManager.Instance.AllyUnits.Remove(unit);
 
             GameManager.Instance.sortManager.RemoveFromOrder(unit);
         }
@@ -264,16 +274,14 @@ public class UnitController : MonoBehaviour
 
     public void BossDead()
     {
-        GameManager.Instance.GamePaused = true;
-
         StopAllCoroutines();
 
         CinematicAction cAnim = GetComponent<CinematicAction>();
 
-
         if(gameObject.CompareTag(GameManager.PLAYER_TAG))
         {
-            //
+            GameManager.Instance.DisableControls = true;
+            
             StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
         }
         else
@@ -408,7 +416,7 @@ public class UnitController : MonoBehaviour
 
         isAnimationStarted = false;                                     // direction released (for player)
 
-        speed = speed_;                                                 // speed is now set to default speed level
+        speed = defaultSpeed;                                                 // speed is now set to default speed level
 
         speedRelativeToAnimation = 0;
 
@@ -464,7 +472,7 @@ public class UnitController : MonoBehaviour
         
         if (Attack.speedCurve.Evaluate(0) == 0)
         {
-            speed = speed_;
+            speed = defaultSpeed;
 
             direction = MoveDirection.waiting;
 
@@ -507,7 +515,7 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = Attack.speedCurve.Evaluate(animationCurrentTime);
             yield return null;
         }
-        speed = speed_;
+        speed = defaultSpeed;
 
         speedRelativeToAnimation = 0;
 
@@ -537,7 +545,7 @@ public class UnitController : MonoBehaviour
 
         if (Animation.speedCurve.Evaluate(0) == 0)
         {
-            speed = speed_;
+            speed = defaultSpeed;
 
             direction = MoveDirection.waiting;
 
@@ -580,7 +588,7 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = Animation.speedCurve.Evaluate(animationCurrentTime);
             yield return null;
         }
-        speed = speed_;
+        speed = defaultSpeed;
 
         speedRelativeToAnimation = 0;
 
@@ -614,7 +622,7 @@ public class UnitController : MonoBehaviour
 
         if (Animation.speedCurve.Evaluate(0) == 0)
         {
-            speed = speed_;
+            speed = defaultSpeed;
 
             direction = MoveDirection.waiting;
 
@@ -657,7 +665,7 @@ public class UnitController : MonoBehaviour
             yield return null;
         }
 
-        speed = speed_;
+        speed = defaultSpeed;
 
         speedRelativeToAnimation = 0;
 
@@ -666,6 +674,8 @@ public class UnitController : MonoBehaviour
         idleing = true;
 
         currentAttack = null;
+
+        isAnimationStarted = false;                                     // direction released (for player)
 
         if (changeStance)
         {
@@ -733,5 +743,21 @@ public class UnitController : MonoBehaviour
             default:
                 break;
         }
+    }
+
+    void GamePaused()
+    {
+
+    }
+
+    void GameContinue()
+    {
+
+    }
+
+    void OnDestroy()
+    {
+        GameManager.EnableAllControls -= GameContinue;
+        GameManager.DisableAllControls -= GamePaused;
     }
 }

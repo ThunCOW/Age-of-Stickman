@@ -19,7 +19,97 @@ MonoBehaviour:
   _AnimationNameChangeCheck: Spearmaster_Death4
   speedCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.001
+      inSlope: -0.004286327
+      outSlope: -0.004286327
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2333
+      value: 0
+      inSlope: -0.004286327
+      outSlope: 0.65000236
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.2334
+      value: 6
+      inSlope: 1.0318999
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3333
+      value: 6
+      inSlope: -0
+      outSlope: -1.6769646
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3334
+      value: 0
+      inSlope: -1.6466168
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 0
+      inSlope: -0
+      outSlope: 1.188045
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5001
+      value: 4
+      inSlope: 1.5046883
+      outSlope: 1.7620808
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1815745
+    - serializedVersion: 3
+      time: 1.0666
+      value: 4
+      inSlope: 0.31229833
+      outSlope: -1.8264105
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.13499206
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0667
+      value: 0
+      inSlope: -2.1801562
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 7.433
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

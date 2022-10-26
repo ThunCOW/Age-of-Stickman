@@ -207,6 +207,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &152153515 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7700336283338286801, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+  m_PrefabInstance: {fileID: 946470749}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 512499986deba2a42be0c6fe8d13f393, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &174019209 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
@@ -253,6 +264,10 @@ PrefabInstance:
       propertyPath: shopPanel
       value: 
       objectReference: {fileID: 174019209}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: SceneLoader
+      value: 
+      objectReference: {fileID: 152153515}
     - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: AllEquipments
       value: 
