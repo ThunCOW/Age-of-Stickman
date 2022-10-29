@@ -32,6 +32,8 @@ public class EquipmentManager : MonoBehaviour
         }
 
         SetStartingItems();
+
+        unit.unitController.ResetAttachments += ResetAttachments;
     }
 
     // Update is called once per frame
@@ -391,15 +393,29 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-    public void ResetAttachments()
+    void DisableControls()
+    {
+        //ResetAttachments();
+    }
+
+    void ResetAttachments()
     {
         // Shoulders
-        SetAllAttachment(equippedItems[ItemSlot.Shoulder].side, true);
-        SetAllAttachment(equippedItems[ItemSlot.Shoulder].back, true);
+        if (equippedItems[ItemSlot.Shoulder] != null)
+        {
+            SetAllAttachment(equippedItems[ItemSlot.Shoulder].side, true);
+            SetAllAttachment(equippedItems[ItemSlot.Shoulder].back, true);
 
-        SetAllAttachment(equippedItems[ItemSlot.Shoulder].front);
+            SetAllAttachment(equippedItems[ItemSlot.Shoulder].front);
+        }
 
         // Shield
+        if (equippedItems[ItemSlot.Offhand] != null)
+        {
+            SetAllAttachment(equippedItems[ItemSlot.Offhand].front);
+
+            SetAllAttachment(equippedItems[ItemSlot.Offhand].side, true);
+        }
 
         // Weapon
     }

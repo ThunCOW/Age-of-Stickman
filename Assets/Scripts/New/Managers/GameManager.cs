@@ -255,7 +255,7 @@ namespace SpineControllerVersion
             IsSpearmasterDead = false;
 
             //Level = a_SaveData.Level;
-            Level = 6;
+            Level = 7;
         }
 
         void OnApplicationQuit()

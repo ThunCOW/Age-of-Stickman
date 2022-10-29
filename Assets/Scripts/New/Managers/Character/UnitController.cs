@@ -49,6 +49,9 @@ public class UnitController : MonoBehaviour
     protected Transform LeftWallPosition;
     protected Transform RightWallPosition;
 
+    public delegate void OnControlsDisabled();
+    public OnControlsDisabled ResetAttachments;
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
@@ -195,7 +198,11 @@ public class UnitController : MonoBehaviour
                 else
                     GameManager.Instance.AllyUnits.Remove(unit);
 
-                //GameManager.Instance.sortManager.RemoveFromOrder(unit);
+                GameObject finishLevelTrigger = RightWallPosition.GetChild(0).gameObject;
+                finishLevelTrigger.transform.position = new Vector3(GameManager.Instance.Player.transform.position.x + 7.7f, finishLevelTrigger.transform.position.y, 0);
+                finishLevelTrigger.SetActive(true);
+                
+                    //GameManager.Instance.sortManager.RemoveFromOrder(unit);
                 return;
             }
             unit.CheckUnitDirection();
@@ -280,9 +287,13 @@ public class UnitController : MonoBehaviour
 
         if(gameObject.CompareTag(GameManager.PLAYER_TAG))
         {
+            ResetAttachments();
+            
             GameManager.Instance.DisableControls = true;
             
             StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
+
+            ReStartCoroutines();
         }
         else
         {

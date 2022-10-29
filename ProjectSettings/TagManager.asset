@@ -13,6 +13,7 @@ TagManager:
   - Spearmaster
   - ScythemasterBossTrigger
   - Scythemaster
+  - AllyUnit
   layers:
   - Default
   - TransparentFX

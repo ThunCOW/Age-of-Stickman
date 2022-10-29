@@ -401,22 +401,6 @@ public class PlayerController : UnitController
         StartCoroutine(CheckDirection());
     }
 
-    protected override void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
-    {
-        base.HandleAnimationStateEvent(trackEntry, e);
-
-        switch (e.Data.Name)
-        {
-            case "Weapon Triggers/WeaponSecondary_Hide_Front":
-                canThrow = false;
-                break;
-            case "Weapon Triggers/WeaponSecondary_CanThrow":
-                canThrow = true;
-                break;
-            default:
-                break;
-        }
-    }
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -469,5 +453,27 @@ public class PlayerController : UnitController
         yield return new WaitForSeconds(2.5f);
         
         GameManager.Instance.SceneLoader.FinishLevel();
+    }
+
+
+
+
+
+
+    protected override void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
+    {
+        base.HandleAnimationStateEvent(trackEntry, e);
+
+        switch (e.Data.Name)
+        {
+            case "Weapon Triggers/WeaponSecondary_Hide_Front":
+                canThrow = false;
+                break;
+            case "Weapon Triggers/WeaponSecondary_CanThrow":
+                canThrow = true;
+                break;
+            default:
+                break;
+        }
     }
 }

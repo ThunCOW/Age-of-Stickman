@@ -158,7 +158,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 25729209}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -167,7 +167,7 @@ RectTransform:
   - {fileID: 2083463446}
   - {fileID: 1623581293}
   - {fileID: 2143054153}
-  m_Father: {fileID: 672413501}
+  m_Father: {fileID: 7092967816490694864}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -920,7 +920,7 @@ GameObject:
   - component: {fileID: 446506887}
   - component: {fileID: 446506886}
   m_Layer: 5
-  m_Name: Main Menu (Button) (1)
+  m_Name: Open Main Menu (Button)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -945,8 +945,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 87, y: -412}
-  m_SizeDelta: {x: 492.5, y: 94.6}
+  m_AnchoredPosition: {x: 53, y: -407.82202}
+  m_SizeDelta: {x: 595.1592, y: 122.0554}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &446506888
 CanvasRenderer:
@@ -1391,7 +1391,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 25729210}
+  - {fileID: 7092967816490694864}
   - {fileID: 1421919633}
   - {fileID: 446506885}
   m_Father: {fileID: 7700336283338286803}
@@ -2592,7 +2592,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -129, y: 40.1}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 287.3, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1489066210
 CanvasRenderer:
@@ -2622,7 +2622,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Press To Start
+  m_text: Press To Continue
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: bf97a3528d965254bb18f2eaa34084b8, type: 2}
   m_sharedMaterial: {fileID: 2133539447572000831, guid: bf97a3528d965254bb18f2eaa34084b8, type: 2}
@@ -4089,6 +4089,43 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!1 &4461259360872795627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7092967816490694864}
+  m_Layer: 5
+  m_Name: Main Menu
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &7092967816490694864
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4461259360872795627}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 25729210}
+  m_Father: {fileID: 672413501}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7700336283338286813
 GameObject:
   m_ObjectHideFlags: 0
@@ -4136,10 +4173,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9d40f2b51223e43a4c7ee87783ed0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SceneLoader: {fileID: 0}
-  GamePaused: 0
+  SceneLoader: {fileID: 7700336283338286801}
+  _disableControls: 0
+  LevelBordersParent: {fileID: 0}
+  SceneViewBordersParent: {fileID: 0}
   EnemyUnits: []
-  PlayerUnits: []
+  AllyUnits: []
+  sortManager:
+    sortingOrder: []
   Player: {fileID: 0}
   AllEquipments: {fileID: 11400000, guid: a3a106d766366f746a0e86a2e7f835be, type: 2}
   PlayerEquipments:
@@ -4147,7 +4188,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 29d0792572859aa49aabb441eb079922, type: 2}
   - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
   - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
-  SecondaryWeapon: {fileID: 0}
   _PlayerLives: 0
   GoldPrefab: {fileID: 7026553871909760441, guid: d3d4dbc1f5775694c83a940964669686, type: 3}
   CoinPickupSound:
@@ -4158,8 +4198,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6938d915a47388f4bafd13e18916d420, type: 3}
   _Gold: 0
   GoldText: {fileID: 12090325}
-  sortManager:
-    sortingOrder: []
   IsSpearmasterDead: 0
   Level: 0
 --- !u!114 &7700336283338286801
@@ -4174,7 +4212,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512499986deba2a42be0c6fe8d13f393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PressToStartButton: {fileID: 0}
   ShopCanvas: {fileID: 25729209}
   LevelCanvas: {fileID: 0}
   MainMenu:
