@@ -233,17 +233,37 @@ PrefabInstance:
       propertyPath: shopPanel
       value: 
       objectReference: {fileID: 174019209}
-    - target: {fileID: 893235100, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_margin.w
-      value: -61.507004
+    - target: {fileID: 1287943647, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 893235100, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_margin.x
-      value: 268.10706
+    - target: {fileID: 1287943647, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 893235100, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_margin.y
-      value: 14.298996
+    - target: {fileID: 1287943647, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1639421321}
+    - target: {fileID: 1287943647, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287943647, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287943647, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UnityEngine.GameObject, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287943647, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_BoolArgument
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1287943647, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 1450014731, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: shopPanel
@@ -253,6 +273,10 @@ PrefabInstance:
       propertyPath: shopPanel
       value: 
       objectReference: {fileID: 174019209}
+    - target: {fileID: 1639421321, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1719444802, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: shopPanel
       value: 
@@ -311,6 +335,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+--- !u!1 &1639421321 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1639421321, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+  m_PrefabInstance: {fileID: 946470749}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8165572107925285197
 Transform:
   m_ObjectHideFlags: 0
