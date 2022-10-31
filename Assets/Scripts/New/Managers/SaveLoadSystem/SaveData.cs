@@ -5,13 +5,17 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
-    //public List<Item> equippedItems;
     public List<int> equippedItemIndexs;
 
     public int PlayerLives;
     public int Gold;
     public int Level;
     public bool IsSpearmasterDead;
+
+    //public List<Mercenary> Mercenaries = new List<Mercenary>();
+    public List<MercenarySave> mercenarySaves;
+
+    //public static SaveData saveData = new SaveData();
 
     public string ToJson()
     {

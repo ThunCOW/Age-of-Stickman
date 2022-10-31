@@ -133,16 +133,65 @@ public class Unit : MonoBehaviour
 
         Unit lastUnit = target;
         
+        float closestX = 5000;
+
+        bool isAllyOutOfView = false;
+        if(CompareTag(GameManager.ALLY_TAG))
+        {
+            if(transform.position.x < GameManager.Instance.Player.transform.position.x)
+            {
+                if (transform.position.x < GameManager.Instance.SceneViewBordersParent.transform.GetChild(0).transform.position.x && target != null)
+                {
+                    Debug.Log("EMTERES");
+                    isAllyOutOfView = true;
+                    return;
+                }
+                else
+                {
+
+                }
+            }
+            else if(transform.position.x > GameManager.Instance.Player.transform.position.x)
+            {
+                if (transform.position.x > GameManager.Instance.SceneViewBordersParent.transform.GetChild(1).transform.position.x && target != null)
+                {
+                    isAllyOutOfView = true;
+                    return;
+                }
+            }
+        }
+        
         target = null;
 
-        float closestX = 5000;
         foreach (Unit unit in unitList)
         {
             float dist = Mathf.Abs(transform.position.x - unit.transform.position.x);
-            if(CompareTags(gameObject, GameManager.ENEMY_TAGS))
+            if(CompareTags(gameObject, GameManager.ENEMY_TAGS) || isAllyOutOfView)
             {
                 if (closestX > dist)
                 {
+                    target = unit;
+                    closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
+                }
+            }
+            else if(CompareTag(GameManager.ALLY_TAG))
+            {
+                if (closestX > dist)
+                {
+                    // If enemy is not in camera borders, we want ally mercenaries to ignore it
+                    if(unit.transform.position.x > transform.position.x)
+                    {
+                        if (unit.transform.position.x > GameManager.Instance.SceneViewBordersParent.transform.GetChild(1).transform.position.x)
+                        {
+                            continue;   
+                        }
+                    }
+                    else if(unit.transform.position.x < transform.position.x)
+                    {
+                        if (unit.transform.position.x < GameManager.Instance.SceneViewBordersParent.transform.GetChild(0).transform.position.x)
+                            continue;
+                    }
+
                     target = unit;
                     closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
                 }

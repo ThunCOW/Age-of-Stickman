@@ -4,6 +4,7 @@ using UnityEngine;
 using Spine.Unity;
 using UnityEngine.UI;
 using TMPro;
+using SpineControllerVersion;
 
 public class HiringPanel : MonoBehaviour
 {
@@ -26,22 +27,32 @@ public class HiringPanel : MonoBehaviour
     // tempo, supposed to hold currently viewed race
     UnitRace currentRace = UnitRace.Human;
 
+    // speed unit cards move
     public int speed;
-    // Start is called before the first frame update
-    void Start()
+
+    // holds ref to which plus button was pressed
+    MercenaryUnit targetedMercenaryUnit;
+    
+    void Awake()
     {
-        // When HiringPanel is initiated it will populate second object in UnitObjects
-        currentMercenary = (MercenaryManager.dictAllMercenaries[currentRace])[0];
-
-        List<Item> mercenaryItems = currentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
-
-        currentUnit = UnitPanel[0];
-
-        ChangeUnitEquipments(currentUnit, mercenaryItems);
-
-        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.UnitIdleAnimation.SpineAnimationReference, false);
+        UnitPanel[0].Init();
+        UnitPanel[1].Init();
     }
 
+
+    public void HireMercenary()
+    {
+        targetedMercenaryUnit.CurrentMercenary = currentMercenary;
+
+        GameManager.Instance.GoldChange(-currentMercenary.UnitPrice);
+    }
+
+
+
+
+
+
+    // Move Through Mercenaries
     public void NextUnit()
     {
         NextButton.interactable = false;
@@ -53,9 +64,9 @@ public class HiringPanel : MonoBehaviour
 
         List<Item> mercenaryItems = currentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
 
-        ChangeUnitEquipments(currentUnit, mercenaryItems);
+        currentUnit.ChangeUnitEquipments(currentUnit, mercenaryItems);
 
-        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.UnitIdleAnimation.SpineAnimationReference, false);
+        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
 
         MoveUnit(false);
     }
@@ -71,9 +82,9 @@ public class HiringPanel : MonoBehaviour
 
         List<Item> mercenaryItems = currentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
 
-        ChangeUnitEquipments(currentUnit, mercenaryItems);
+        currentUnit.ChangeUnitEquipments(currentUnit, mercenaryItems);
 
-        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.UnitIdleAnimation.SpineAnimationReference, false);
+        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
 
         MoveUnit(true);
     }
@@ -176,25 +187,88 @@ public class HiringPanel : MonoBehaviour
 
 
 
-    // Setting Up Equipments
-    void ChangeUnitEquipments(UnitHolder Panel, List<Item> mercenaryItems)
+    
+
+
+
+
+    void OnEnable()
     {
-        SkeletonGraphic skeletonGraphic = Panel.UnitObject.GetComponent<SkeletonGraphic>();
-        
-        if(Panel.equippedItems != null)
+        // When HiringPanel is initiated it will populate second object in UnitObjects
+        currentMercenary = (MercenaryManager.dictAllMercenaries[currentRace])[0];
+
+        currentUnit = UnitPanel[0];
+
+        List<Item> mercenaryItems = currentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
+
+        currentUnit.ChangeUnitEquipments(currentUnit, mercenaryItems);
+
+        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
+
+        UnitText.text = currentMercenary.UnitType.ToString();
+    }
+
+    void OnDisable()
+    {
+        NextButton.interactable = true;
+        PreviousButton.interactable = true;
+
+        UnitPanel[0].UnitObject.transform.position = UnitPanel[0].defaultPosition;
+        UnitPanel[1].UnitObject.transform.position = UnitPanel[1].defaultPosition;
+
+        UnitPanel[0].UnitObject.SetActive(true);
+        UnitPanel[1].UnitObject.SetActive(false);
+    }
+
+    public void EnableHiringPanel(MercenaryUnit mercenaryUnit)
+    {
+        targetedMercenaryUnit = mercenaryUnit;
+        gameObject.SetActive(true);
+    }
+}
+
+// Unit Holder
+[System.Serializable]
+public class UnitHolder
+{
+    public GameObject UnitObject;
+    public List<Item> equippedItems = new List<Item>();
+    public Dictionary<ItemSlot, Item> dictEquippedItems = new Dictionary<ItemSlot, Item>();
+
+     [HideInInspector] public Vector3 defaultPosition;
+
+    public void Init()
+    {
+        defaultPosition = UnitObject.transform.position;
+
+        dictEquippedItems.Add(ItemSlot.Head, null);
+        dictEquippedItems.Add(ItemSlot.Leg, null);
+        dictEquippedItems.Add(ItemSlot.MainHand, null);
+        dictEquippedItems.Add(ItemSlot.Offhand, null);
+        dictEquippedItems.Add(ItemSlot.Shoulder, null);
+        dictEquippedItems.Add(ItemSlot.TwoHanded, null);
+        dictEquippedItems.Add(ItemSlot.SecondaryWeapon, null);
+    }
+
+    // Setting Up Equipments
+    public void ChangeUnitEquipments(UnitHolder unitHolder, List<Item> mercenaryItems)
+    {
+        SkeletonGraphic skeletonGraphic = unitHolder.UnitObject.GetComponent<SkeletonGraphic>();
+
+        if (unitHolder.equippedItems != null && unitHolder.equippedItems != mercenaryItems)
         {
-            ResetEquipments(Panel, skeletonGraphic);
+            ResetEquipments(unitHolder, skeletonGraphic);
         }
 
         for (int i = 0; i < mercenaryItems.Count; i++)
         {
-            AddEquipment(Panel, skeletonGraphic, mercenaryItems[i].InitiateItem());
+            AddEquipment(unitHolder, skeletonGraphic, mercenaryItems[i].InitiateItem());
         }
     }
-    
-    void ResetEquipments(UnitHolder Panel, SkeletonGraphic skeletonGraphic)
+
+    public void ResetEquipments(UnitHolder Panel, SkeletonGraphic skeletonGraphic)
     {
-        foreach(Item item in Panel.equippedItems)
+        foreach (Item item in Panel.equippedItems)
         {
             SetAllAttachment(skeletonGraphic, Panel.dictEquippedItems[item.ItemSlot].front, true);
             SetAllAttachment(skeletonGraphic, Panel.dictEquippedItems[item.ItemSlot].side, true);
@@ -207,15 +281,15 @@ public class HiringPanel : MonoBehaviour
         Panel.equippedItems = new List<Item>();
     }
 
-    void AddEquipment(UnitHolder Panel, SkeletonGraphic skeletonGraphic, Item item)
+    public void AddEquipment(UnitHolder Panel, SkeletonGraphic skeletonGraphic, Item item)
     {
         SetAllAttachment(skeletonGraphic, item.front);
-        
+
         Panel.equippedItems.Add(item);
         Panel.dictEquippedItems[item.ItemSlot] = item;
     }
 
-    void SetAllAttachment(SkeletonGraphic skeletonGraphic, List<SpineAttachment> SpineAttachment, bool remove = false)
+    public void SetAllAttachment(SkeletonGraphic skeletonGraphic, List<SpineAttachment> SpineAttachment, bool remove = false)
     {
         for (int i = 0; i < SpineAttachment.Count; i++)
         {
@@ -223,31 +297,6 @@ public class HiringPanel : MonoBehaviour
                 skeletonGraphic.Skeleton.SetAttachment(SpineAttachment[i].SlotName, null);
             else
                 skeletonGraphic.Skeleton.SetAttachment(SpineAttachment[i].SlotName, SpineAttachment[i].AttachmentName);
-        }
-    }
-
-
-
-
-
-
-    // Unit Holder
-    [System.Serializable]
-    class UnitHolder
-    {
-        public GameObject UnitObject;
-        public List<Item> equippedItems = new List<Item>();
-        public Dictionary<ItemSlot, Item> dictEquippedItems = new Dictionary<ItemSlot, Item>();
-
-        UnitHolder()
-        {
-            dictEquippedItems.Add(ItemSlot.Head, null);
-            dictEquippedItems.Add(ItemSlot.Leg, null);
-            dictEquippedItems.Add(ItemSlot.MainHand, null);
-            dictEquippedItems.Add(ItemSlot.Offhand, null);
-            dictEquippedItems.Add(ItemSlot.Shoulder, null);
-            dictEquippedItems.Add(ItemSlot.TwoHanded, null);
-            dictEquippedItems.Add(ItemSlot.SecondaryWeapon, null);
         }
     }
 }

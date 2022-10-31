@@ -17,6 +17,9 @@ public class SceneLoader : MonoBehaviour
     public SceneReference TempLevel;
     public List<SceneReference> Levels;
 
+    public delegate void OnLevelLoaded();
+    public static OnLevelLoaded LevelLoaded;
+
     void Start()
     {
         ShopCanvas.SetActive(true);
@@ -57,6 +60,9 @@ public class SceneLoader : MonoBehaviour
         else
         {
             ShopCanvas.SetActive(false);
+
+            LevelLoaded();
+
             //LevelCanvas.SetActive(true);
         }
     }

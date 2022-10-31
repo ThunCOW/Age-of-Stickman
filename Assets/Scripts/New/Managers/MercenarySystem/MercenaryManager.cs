@@ -7,25 +7,50 @@ public class MercenaryManager : MonoBehaviour
     public List<MercenaryByRace> AllMercenaries;
     public Dictionary<UnitRace, List<Mercenary>> dictAllMercenaries = new Dictionary<UnitRace, List<Mercenary>>();
 
+    public static MercenaryManager Instance;
+
     public List<MercenaryUnit> Mercenaries;
+
+    private List<MercenarySave> _mercenarySave = new List<MercenarySave>();
+    public List<MercenarySave> MercenarySave
+    {
+        get
+        {
+            for(int i = 0; i < Mercenaries.Count; i++)
+            {
+                _mercenarySave[i].UnitRace = Mercenaries[i].CurrentMercenary.UnitRace;
+                List<Mercenary> tempList = dictAllMercenaries[_mercenarySave[i].UnitRace];
+                _mercenarySave[i].IndexOfMercenary = tempList.IndexOf(Mercenaries[i].CurrentMercenary);
+            }
+
+            return _mercenarySave;
+        }
+        set
+        {
+            _mercenarySave = value;
+
+            for (int i = 0; i < Mercenaries.Count; i++)
+            {
+                if (_mercenarySave[i].IndexOfMercenary == -1)
+                    continue;
+
+                List<Mercenary> tempList = dictAllMercenaries[_mercenarySave[i].UnitRace];
+                Mercenaries[i].CurrentMercenary = tempList[_mercenarySave[i].IndexOfMercenary];
+            }
+        }
+    }
 
     void Awake()
     {
+        Instance = this;
+
         foreach (MercenaryByRace Mercenaries in AllMercenaries)
         {
             dictAllMercenaries.Add(Mercenaries.UnitRace, Mercenaries.MercenaryList);
         }
-    }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    public void HireMercenary()
-    {
-
+        foreach (MercenaryUnit mercenaryUnit in Mercenaries)
+            _mercenarySave.Add(new MercenarySave());
     }
 }
 
@@ -33,7 +58,7 @@ public class MercenaryManager : MonoBehaviour
 public class MercenaryByRace
 {
     public UnitRace UnitRace;
-    public List<Mercenary> MercenaryList;
+    public List<Mercenary> MercenaryList = new List<Mercenary>();
 }
 
 [System.Serializable]
@@ -42,7 +67,17 @@ public class Mercenary
     public GameObject Unit;
     public int UnitPrice;
     public UnitType UnitType;
-    public BasicAnimation UnitIdleAnimation;
+    public UnitRace UnitRace;
+    public BasicAnimation PanelIdleAnimation;
+    public BasicAnimation MainMenuIdleAnimation;
+}
+
+// This class is used to serialize mercenaries by their indexes in dictionary
+[System.Serializable]
+public class MercenarySave
+{
+    public UnitRace UnitRace;
+    public int IndexOfMercenary;
 }
 
 public enum UnitType

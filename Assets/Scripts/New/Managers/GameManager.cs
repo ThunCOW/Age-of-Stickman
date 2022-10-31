@@ -1,7 +1,8 @@
+using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using System;
+
 namespace SpineControllerVersion
 {
     public class GameManager : MonoBehaviour, ISaveableJson, ISerializationCallbackReceiver
@@ -161,12 +162,8 @@ namespace SpineControllerVersion
                 Destroy(this.gameObject);
 
             LoadDataAsJson();
-        }
 
-        // Start is called before the first frame update
-        void Start()
-        {
-            
+            SceneLoader.LevelLoaded += LevelLoaded;
         }
 
         public void GoldChange(int Amount)
@@ -179,8 +176,36 @@ namespace SpineControllerVersion
             PlayerLives += Amount;
         }
 
+        void LevelLoaded()
+        {
+            StartCoroutine(SpawnMercenaries());
+        }
+        
+        IEnumerator SpawnMercenaries()
+        {
+            yield return new WaitUntil(() => Player != null);
 
+            int order = 1;
+            for (int i = 0; i < MercenaryManager.Instance.Mercenaries.Count; i++)
+            {
+                if (MercenaryManager.Instance.Mercenaries[i].CurrentMercenary.Unit == null)
+                    continue;
 
+                GameObject MercenaryGameObject = MercenaryManager.Instance.Mercenaries[i].CurrentMercenary.Unit;
+
+                float DistanceToPlayer = Random.Range(1.5f * order, 2.2f * order);
+                float spawnPosX = Player.transform.position.x - (DistanceToPlayer);
+                GameObject spawnedAllyGO = Instantiate(MercenaryGameObject, new Vector3(spawnPosX, MercenaryGameObject.transform.position.y, 0), MercenaryGameObject.transform.rotation);
+
+                AllyController spawnedAllyController = spawnedAllyGO.GetComponent<AllyController>();
+
+                spawnedAllyController.aiAgressiveness = AIAgressiveness.boss;
+
+                spawnedAllyController.DistanceToPlayer = DistanceToPlayer;
+
+                order++;
+            }
+        }
 
 
 
@@ -194,6 +219,7 @@ namespace SpineControllerVersion
         public void SaveDataAsJson()
         {
             SaveData sd = new SaveData();
+            
             if (PopulateSaveData(sd))
                 FileManager.WriteToFile(sd.ToJson());
             else
@@ -204,7 +230,7 @@ namespace SpineControllerVersion
         {
             if (PlayerEquipments.Count == 0)
                 return false;
-            //a_SaveData.equippedItems = PlayerEquipments;
+            
             PlayerEquipmentsKeys.Clear();
             foreach(Item item in PlayerEquipments)
             {
@@ -223,6 +249,11 @@ namespace SpineControllerVersion
             a_SaveData.IsSpearmasterDead = IsSpearmasterDead;
 
             a_SaveData.Level = Level;
+
+            //foreach (MercenaryUnit mercenaryUnit in MercenaryManager.Instance.Mercenaries)
+            //    a_SaveData.Mercenaries.Add(mercenaryUnit.CurrentMercenary);
+            a_SaveData.mercenarySaves = MercenaryManager.Instance.MercenarySave;
+
 
             return true;
         }
@@ -256,6 +287,12 @@ namespace SpineControllerVersion
 
             //Level = a_SaveData.Level;
             Level = 7;
+
+            //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
+            //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];
+
+            if(a_SaveData.mercenarySaves != null)
+                MercenaryManager.Instance.MercenarySave = a_SaveData.mercenarySaves;
         }
 
         void OnApplicationQuit()

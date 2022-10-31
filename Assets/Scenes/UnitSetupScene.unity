@@ -5698,21 +5698,14 @@ MonoBehaviour:
   - unit: {fileID: 5918015681238482118, guid: c2f88fb11b90ee849921820c4da3de66, type: 3}
     spawnChance: 100
     AIAgressiveness: 3
-  BossUnit: {fileID: 0}
   _spawnTimer: 5
   maxSpawn: 1
   maxEnemyOnScreen: 3
   spawnPosList:
   - {fileID: 4973821420141865720}
   mainCamera: {fileID: 245096268}
-  Spearmaster:
-    unit: {fileID: 0}
-    spawnChance: 0
-    AIAgressiveness: 0
-  Sycthemaster:
-    unit: {fileID: 0}
-    spawnChance: 0
-    AIAgressiveness: 0
+  SpearmasterPrefab: {fileID: 0}
+  SycthemasterPrefab: {fileID: 0}
 --- !u!4 &4973821420141865720
 Transform:
   m_ObjectHideFlags: 0
@@ -5868,12 +5861,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SceneLoader: {fileID: 0}
-  _gamePaused: 0
+  _disableControls: 0
   LevelBordersParent: {fileID: 0}
-  SceneViewBorders: {fileID: 0}
-  hasPlayerReachedEndOfLevel: 0
+  SceneViewBordersParent: {fileID: 0}
   EnemyUnits: []
-  PlayerUnits: []
+  AllyUnits: []
   sortManager:
     sortingOrder: []
   Player: {fileID: 0}
