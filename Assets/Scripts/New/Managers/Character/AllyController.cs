@@ -54,6 +54,12 @@ public class AllyController : UnitController
     public float DistanceToPlayer;
     MoveDirection directionToPlayer;
 
+    // Delegate
+    public delegate void OnMercenaryDead(MercenaryUnit mercenaryUnit);
+    public OnMercenaryDead MercenaryDead;
+
+    public MercenaryUnit mercenaryUnit;
+
     void Awake()
     {
         foreach (AIVariables variables in aiAgressivenessLevel.aiVariableList)
@@ -74,6 +80,34 @@ public class AllyController : UnitController
 
     protected override void CharacterControls()
     {
+        // If out of screen view and controlled by animation, we want to increase speed
+        if (speed != 0)
+        {
+            if (transform.position.x < GameManager.Instance.Player.transform.position.x)
+            {
+                if (transform.position.x < GameManager.Instance.SceneViewBordersParent.transform.GetChild(0).transform.position.x)
+                {
+                    speed = 5;
+                    return;
+                }
+                else
+                {
+                    speed = defaultSpeed;
+                }
+            }
+            else if (transform.position.x > GameManager.Instance.Player.transform.position.x)
+            {
+                if (transform.position.x > GameManager.Instance.SceneViewBordersParent.transform.GetChild(1).transform.position.x)
+                {
+                    speed = 5;
+                    return;
+                }
+                else
+                {
+                    speed = defaultSpeed;
+                }
+            }
+        }
         AIMovement();
     }
 
@@ -370,7 +404,16 @@ public class AllyController : UnitController
             currentStance = StanceList.Stand_A;*/
     }
 
+    public override void TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0)
+    {
+        base.TakeDamage(attack, DamageTaken, attackDirection);
+        if(unit.Health <= 0)
+        {
+            MercenaryDead(mercenaryUnit);
 
+            MercenaryDead -= MercenaryManager.Instance.MercenaryDead;
+        }
+    }
 
     protected override void ReStartCoroutines()
     {

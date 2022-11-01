@@ -56,6 +56,8 @@ public class SceneLoader : MonoBehaviour
             GameManager.Instance.AllyUnits = new List<Unit>();
             GameManager.Instance.sortManager = new SortManager();
             GameManager.Instance.Player = null;
+
+            GameManager.Instance.GoldGained = 0;
         }
         else
         {

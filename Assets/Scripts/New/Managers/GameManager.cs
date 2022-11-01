@@ -116,7 +116,19 @@ namespace SpineControllerVersion
 
 
         [Header("_Gold Variables_")]
-        [Space]
+        int _goldGained;
+        public int GoldGained
+        {
+            get { return _goldGained; }
+            set
+            {
+                if(value == 0)
+                {
+                    GoldChange(GoldGained, 1.5f);
+                }
+                _goldGained = value;
+            }
+        }
         public GameObject GoldPrefab;
         public List<AudioClip> CoinPickupSound;
         [SerializeField] private int _Gold;
@@ -125,11 +137,15 @@ namespace SpineControllerVersion
             get { return _Gold; }
             private set 
             {
+                if(_Gold != value)
+                    GoldText.text = value.ToString();
+                
                 _Gold = value;
-                GoldText.text = value.ToString();
             }
         }
         public TMP_Text GoldText;
+        public GameObject MinusGoldTextPrefab;
+        public GameObject NotEnoughMoneyTextPrefab;
 
 
 
@@ -166,11 +182,165 @@ namespace SpineControllerVersion
             SceneLoader.LevelLoaded += LevelLoaded;
         }
 
-        public void GoldChange(int Amount)
+
+
+
+
+
+
+        // Gold Change
+        GameObject minusGoldTextSpawn;
+        Coroutine minusGoldTextSpawnTimer;
+        Coroutine minusGoldAnimation;
+        int lastGoldAmount;
+        int lastSpentAmount;
+        public void GoldChange(int Amount, float animationTime = 0.5f)
         {
-            Gold += Amount;
+            if (Amount == 0)
+                return;
+
+            GameObject parent = GoldText.transform.parent.gameObject;
+
+            int extraSpace = -25;
+            if (Mathf.Abs(Gold) >= 10 && Mathf.Abs(Gold) < 100)
+                extraSpace = 25;
+            else if (Mathf.Abs(Gold) >= 100)
+                extraSpace = 60;
+
+            Vector3 spawnPos = new Vector3(250 + extraSpace, 0, parent.transform.position.z);
+            
+            GameObject minusGoldTextSpawnTempGO = Instantiate(MinusGoldTextPrefab, GoldText.transform.parent);
+
+            minusGoldTextSpawnTempGO.transform.localPosition = spawnPos;
+
+            string mathSign = "-";
+            if (Amount >= 0)
+                mathSign = "+";
+            minusGoldTextSpawnTempGO.GetComponent<TMP_Text>().text = mathSign + Mathf.Abs(Amount).ToString();
+
+            if (minusGoldTextSpawn != null)
+            {
+                StopCoroutine(minusGoldTextSpawnTimer);
+
+                Destroy(minusGoldTextSpawn);
+            }
+
+            minusGoldTextSpawn = minusGoldTextSpawnTempGO;
+
+            minusGoldTextSpawnTimer = StartCoroutine(TextDisappearSlowly(minusGoldTextSpawn));
+
+            if(minusGoldAnimation != null)
+            {
+                Gold = lastGoldAmount + lastSpentAmount;
+                StopCoroutine(minusGoldAnimation);
+            }
+
+            lastGoldAmount = Gold;
+            lastSpentAmount = Amount;
+            minusGoldAnimation = StartCoroutine(MinusGoldAnimation(Amount, animationTime));
+        }
+        IEnumerator MinusGoldAnimation(int amount, float animationTime = 0.5f)
+        {
+            int WaitFrame = (int)(60 * animationTime);
+            int lastGoldAmount = Gold;
+
+            float changeTextPerFrameDefault = Mathf.Abs((float)WaitFrame / (float)amount);
+            float changeAmount = amount >= 0 ? 1 : -1;
+            if(Mathf.Abs(amount) > WaitFrame)
+            {
+                changeAmount = amount / WaitFrame;
+            }
+
+
+            if (changeTextPerFrameDefault >= 1)
+            {
+                for (int i = 0; i < WaitFrame; i++)
+                {
+                    Gold = lastGoldAmount + (int)(changeAmount) * (int)(i / changeTextPerFrameDefault);
+
+                    yield return new WaitForEndOfFrame();
+                }
+                Gold = lastGoldAmount + amount;
+            }
+            else
+            {
+                for (int i = 0; i < WaitFrame; i++)
+                {
+                    Gold = lastGoldAmount + (int)(changeAmount * (i + 1));
+
+                    yield return new WaitForEndOfFrame();
+                }
+                Gold = lastGoldAmount + amount;
+            }
+        }
+        // if waitForWithoutAlphaChange is set to 0, text will start with 65% alpha and disappear within disappearTime second, if not, it will show 100 alpha for waitForWithoutAlphaChange then slowly disappear from 100 to 0
+        IEnumerator TextDisappearSlowly(GameObject TextSpawn, float waitForWithoutAlphaChange = 0, float disappearTime = 1.5f, float speed = 10)
+        {
+            TMP_Text tempText = TextSpawn.GetComponent<TMP_Text>();
+            Color tempColor = tempText.color;
+            
+            float wait = waitForWithoutAlphaChange;
+            // First Continue Without Changing Alpha
+            while(wait > 0)
+            {
+                wait -= Time.deltaTime;
+
+                TextSpawn.transform.position = new Vector3(TextSpawn.transform.position.x + (speed * Time.deltaTime), TextSpawn.transform.position.y, TextSpawn.transform.position.z);
+
+                yield return new WaitForFixedUpdate();
+            }
+
+            wait = disappearTime;
+            // Start Changing Alpha
+            while(wait > 0)
+            {
+                wait -= Time.deltaTime;
+
+                float percentage = waitForWithoutAlphaChange == 0 ? (wait / disappearTime) * 0.65f : (wait / disappearTime);
+
+                tempColor.a = percentage;
+                tempText.color = tempColor;
+
+                TextSpawn.transform.position = new Vector3(TextSpawn.transform.position.x + (speed * Time.deltaTime), TextSpawn.transform.position.y, TextSpawn.transform.position.z);
+
+                yield return new WaitForFixedUpdate();
+            }
+            Destroy(TextSpawn);
         }
 
+        GameObject notEnoughGoldTextSpawn;
+        Coroutine notEnoughGoldTextCoroutine;
+        public void NotEnoughGold()
+        {
+            int extraSpace = -100;
+            if (Mathf.Abs(Gold) >= 10 && Mathf.Abs(Gold) < 100)
+                extraSpace = -35;
+            else if (Mathf.Abs(Gold) >= 100)
+                extraSpace = 0;
+
+            GameObject NotEnoughMoneyTextSpawnTempGO = Instantiate(NotEnoughMoneyTextPrefab, GoldText.transform.parent, false);
+
+            NotEnoughMoneyTextSpawnTempGO.transform.localPosition = new Vector3(NotEnoughMoneyTextSpawnTempGO.transform.localPosition.x + extraSpace, NotEnoughMoneyTextSpawnTempGO.transform.localPosition.y, NotEnoughMoneyTextSpawnTempGO.transform.localPosition.z);
+
+            if (notEnoughGoldTextSpawn != null)
+            {
+                StopCoroutine(notEnoughGoldTextCoroutine);
+
+                Destroy(notEnoughGoldTextSpawn);
+            }
+
+            notEnoughGoldTextSpawn = NotEnoughMoneyTextSpawnTempGO;
+
+            notEnoughGoldTextCoroutine = StartCoroutine(TextDisappearSlowly(notEnoughGoldTextSpawn, 0.7f));
+        }
+
+
+
+
+
+
+
+        // Player Lives
         public void PlayerLivesChange(int Amount)
         {
             PlayerLives += Amount;
@@ -188,7 +358,7 @@ namespace SpineControllerVersion
             int order = 1;
             for (int i = 0; i < MercenaryManager.Instance.Mercenaries.Count; i++)
             {
-                if (MercenaryManager.Instance.Mercenaries[i].CurrentMercenary.Unit == null)
+                if (MercenaryManager.Instance.Mercenaries[i].CurrentMercenary == null)
                     continue;
 
                 GameObject MercenaryGameObject = MercenaryManager.Instance.Mercenaries[i].CurrentMercenary.Unit;
@@ -202,6 +372,10 @@ namespace SpineControllerVersion
                 spawnedAllyController.aiAgressiveness = AIAgressiveness.boss;
 
                 spawnedAllyController.DistanceToPlayer = DistanceToPlayer;
+
+                spawnedAllyController.mercenaryUnit = MercenaryManager.Instance.Mercenaries[i];
+
+                spawnedAllyController.MercenaryDead += MercenaryManager.Instance.MercenaryDead;
 
                 order++;
             }

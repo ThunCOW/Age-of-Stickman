@@ -12,7 +12,7 @@ public class MercenaryUnit : MonoBehaviour
     [SerializeField] Button HireMercenaryButton;
 
     [Space]
-    [SerializeField] Mercenary _currentMercenary;
+    Mercenary _currentMercenary = null;
     public Mercenary CurrentMercenary
     {
         get { return _currentMercenary; }
@@ -20,7 +20,7 @@ public class MercenaryUnit : MonoBehaviour
         {
             _currentMercenary = value;
 
-            if(CurrentMercenary.Unit == null)
+            if(CurrentMercenary == null)
             {
                 HireMercenaryImage.SetActive(true);
                 MercenaryGameobject.SetActive(false);
@@ -47,7 +47,7 @@ public class MercenaryUnit : MonoBehaviour
 
     void Start()
     {
-        if(CurrentMercenary.Unit == null)
+        if(CurrentMercenary == null)
         {
             HireMercenaryImage.SetActive(true);
             MercenaryGameobject.SetActive(false);
@@ -65,7 +65,7 @@ public class MercenaryUnit : MonoBehaviour
 
     void OnEnable()
     {
-        if(CurrentMercenary.Unit == null)
+        if(CurrentMercenary == null)
         {
             HireMercenaryImage.SetActive(true);
             MercenaryGameobject.SetActive(false);

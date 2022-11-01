@@ -42,9 +42,16 @@ public class HiringPanel : MonoBehaviour
 
     public void HireMercenary()
     {
-        targetedMercenaryUnit.CurrentMercenary = currentMercenary;
+        if(GameManager.Instance.Gold >= currentMercenary.UnitPrice)
+        {
+            targetedMercenaryUnit.CurrentMercenary = currentMercenary;
 
-        GameManager.Instance.GoldChange(-currentMercenary.UnitPrice);
+            GameManager.Instance.GoldChange(-currentMercenary.UnitPrice);
+        }
+        else
+        {
+            GameManager.Instance.NotEnoughGold();
+        }
     }
 
 

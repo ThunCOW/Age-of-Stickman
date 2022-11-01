@@ -73,8 +73,7 @@ public class AIController : UnitController
         }
         else
         {
-
-            if (PlayerController.hasPlayerReachedEndOfLevel)
+            if (unit.Projectile != null || PlayerController.hasPlayerReachedEndOfLevel)
                 StartCoroutine(MoveInsideCameraView());
             else
                 StartCoroutine(AIActionDecision());

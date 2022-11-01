@@ -16,6 +16,7 @@ public enum MoveDirection
 
 public class UnitController : MonoBehaviour
 {
+    BoxCollider2D boxCollider2;
 
     public SkeletonAnimation spineSkeletonAnimation;
 
@@ -55,6 +56,8 @@ public class UnitController : MonoBehaviour
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        boxCollider2 = GetComponent<BoxCollider2D>();
+
         unit = GetComponent<Unit>();
 
         spineSkeletonAnimation.state.Event += HandleAnimationStateEvent;
@@ -175,7 +178,7 @@ public class UnitController : MonoBehaviour
         unit.target.unitController.TakeDamage(currentAttack, damageDealt, dir);
     }
 
-    public void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0)
+    public virtual void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0)
     {
         if(blockTrigger)
         {
@@ -185,10 +188,12 @@ public class UnitController : MonoBehaviour
         unit.Health -= DamageTaken;
         if (unit.Health <= 0)
         {
+            boxCollider2.enabled = false;
+
             if(isBoss)
             {
                 //canMove = false;
-
+                
                 BossDead();
 
                 unit.target.unitController.BossDead();
@@ -766,7 +771,7 @@ public class UnitController : MonoBehaviour
 
     }
 
-    void OnDestroy()
+    protected virtual void OnDestroy()
     {
         GameManager.EnableAllControls -= GameContinue;
         GameManager.DisableAllControls -= GamePaused;

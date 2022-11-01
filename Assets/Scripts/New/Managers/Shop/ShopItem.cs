@@ -1,3 +1,4 @@
+using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -38,11 +39,15 @@ public class ShopItem : MonoBehaviour
     public void UpgradeItem()
     {
         // TODO : Brings up if we want to buy page
-        if(SpineControllerVersion.GameManager.Instance.Gold >= ItemPrice)
+        if(GameManager.Instance.Gold >= ItemPrice)
         {
-            SpineControllerVersion.GameManager.Instance.GoldChange(-ItemPrice);
+            GameManager.Instance.GoldChange(-ItemPrice);
 
             shopPanel.ItemUpgrade(ItemCategory);
+        }
+        else
+        {
+            GameManager.Instance.NotEnoughGold();
         }
     }
 }

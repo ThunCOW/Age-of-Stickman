@@ -18,9 +18,17 @@ public class MercenaryManager : MonoBehaviour
         {
             for(int i = 0; i < Mercenaries.Count; i++)
             {
-                _mercenarySave[i].UnitRace = Mercenaries[i].CurrentMercenary.UnitRace;
-                List<Mercenary> tempList = dictAllMercenaries[_mercenarySave[i].UnitRace];
-                _mercenarySave[i].IndexOfMercenary = tempList.IndexOf(Mercenaries[i].CurrentMercenary);
+                if (Mercenaries[i].CurrentMercenary == null)
+                {
+                    _mercenarySave[i].UnitRace = 0;
+                    _mercenarySave[i].IndexOfMercenary = -1;
+                }
+                else
+                {
+                    _mercenarySave[i].UnitRace = Mercenaries[i].CurrentMercenary.UnitRace;
+                    List<Mercenary> tempList = dictAllMercenaries[_mercenarySave[i].UnitRace];
+                    _mercenarySave[i].IndexOfMercenary = tempList.IndexOf(Mercenaries[i].CurrentMercenary);
+                }
             }
 
             return _mercenarySave;
@@ -32,13 +40,17 @@ public class MercenaryManager : MonoBehaviour
             for (int i = 0; i < Mercenaries.Count; i++)
             {
                 if (_mercenarySave[i].IndexOfMercenary == -1)
+                {
+                    Mercenaries[i].CurrentMercenary = null;
                     continue;
+                }
 
                 List<Mercenary> tempList = dictAllMercenaries[_mercenarySave[i].UnitRace];
                 Mercenaries[i].CurrentMercenary = tempList[_mercenarySave[i].IndexOfMercenary];
             }
         }
     }
+
 
     void Awake()
     {
@@ -51,6 +63,11 @@ public class MercenaryManager : MonoBehaviour
 
         foreach (MercenaryUnit mercenaryUnit in Mercenaries)
             _mercenarySave.Add(new MercenarySave());
+    }
+
+    public void MercenaryDead(MercenaryUnit mercenaryUnit)
+    {
+        Mercenaries[Mercenaries.IndexOf(mercenaryUnit)].CurrentMercenary = null;
     }
 }
 

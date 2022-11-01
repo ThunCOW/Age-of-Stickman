@@ -408,7 +408,7 @@ public class PlayerController : UnitController
         {
             if (collision.gameObject.tag == GameManager.GOLD_TAG)
             {
-                GameManager.Instance.GoldChange(+1);
+                GameManager.Instance.GoldGained++;
                 Destroy(collision.gameObject);
                 SoundManager.Instance.PlayEffect(GameManager.Instance.
                     CoinPickupSound[Random.Range(0, GameManager.Instance.CoinPickupSound.Count)]);

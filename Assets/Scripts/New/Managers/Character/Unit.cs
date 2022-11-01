@@ -135,28 +135,34 @@ public class Unit : MonoBehaviour
         
         float closestX = 5000;
 
+        // If its Ally unit, it only targets enemies within camera view, if it continues to fight out of camera view it continues until target is dead,
+        // and then if still outside of view it targets closest enemy unit like enemies instead of running back to player
         bool isAllyOutOfView = false;
         if(CompareTag(GameManager.ALLY_TAG))
         {
-            if(transform.position.x < GameManager.Instance.Player.transform.position.x)
+            if(target != null)
             {
-                if (transform.position.x < GameManager.Instance.SceneViewBordersParent.transform.GetChild(0).transform.position.x && target != null)
+                if(transform.position.x < GameManager.Instance.Player.transform.position.x)
                 {
-                    Debug.Log("EMTERES");
-                    isAllyOutOfView = true;
-                    return;
+                    if (target.transform.position.x < GameManager.Instance.SceneViewBordersParent.transform.GetChild(0).transform.position.x)
+                    {
+                        isAllyOutOfView = true;
+                        if (target.Health <= 0)
+                            target = null;
+                        else
+                            return;
+                    }
                 }
-                else
+                else if(transform.position.x > GameManager.Instance.Player.transform.position.x)
                 {
-
-                }
-            }
-            else if(transform.position.x > GameManager.Instance.Player.transform.position.x)
-            {
-                if (transform.position.x > GameManager.Instance.SceneViewBordersParent.transform.GetChild(1).transform.position.x && target != null)
-                {
-                    isAllyOutOfView = true;
-                    return;
+                    if (target.transform.position.x > GameManager.Instance.SceneViewBordersParent.transform.GetChild(1).transform.position.x)
+                    {
+                        isAllyOutOfView = true;
+                        if (target.Health <= 0)
+                            target = null;
+                        else
+                            return;
+                    }
                 }
             }
         }

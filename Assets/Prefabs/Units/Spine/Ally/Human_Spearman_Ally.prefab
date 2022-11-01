@@ -426,7 +426,6 @@ GameObject:
   - component: {fileID: 6248090491408798402}
   - component: {fileID: 6248090491408798401}
   - component: {fileID: 6248090491408798400}
-  - component: {fileID: 6248090491408798415}
   - component: {fileID: 2042143813875772605}
   - component: {fileID: 6248090491408798414}
   - component: {fileID: 6248090491408798413}
@@ -493,7 +492,7 @@ MonoBehaviour:
   _Health: 0
   Damage: 25
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
-  unitController: {fileID: 6248090491408798415}
+  unitController: {fileID: 2042143813875772605}
   unitInventory: {fileID: 6248090491408798401}
   _animationList: {fileID: 0}
   activeAnimations:
@@ -519,25 +518,6 @@ MonoBehaviour:
     BreakStance: []
   target: {fileID: 0}
   Projectile: {fileID: 0}
---- !u!114 &6248090491408798415
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6248090491408798412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5c913bc0bf9ad1542bceeb8eff12fb82, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spineSkeletonAnimation: {fileID: 6248090490880151932}
-  isAnimationStarted: 0
-  extraSpeed: 0
-  speed: 2
-  isBoss: 0
-  _aiAgressiveness: 2
-  aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!114 &2042143813875772605
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,6 +538,7 @@ MonoBehaviour:
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
   DistanceToPlayer: 0
+  mercenaryUnit: {fileID: 0}
 --- !u!50 &6248090491408798414
 Rigidbody2D:
   serializedVersion: 4
