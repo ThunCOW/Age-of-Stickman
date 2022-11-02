@@ -14,7 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: 
   swooshSoundEffect:
-    soundEffectsList: []
+    soundEffectsList:
+    - {fileID: 8300000, guid: 64801497c029d94499965533ef8c6845, type: 3}
   hitSoundEffect:
     soundEffectsList:
-    - {fileID: 8300000, guid: 4ef6e6fbcbf2dff4499ac0cdfbc9ad60, type: 3}
+    - {fileID: 8300000, guid: 0e3d1614d85995544bb32802fcdb28c3, type: 3}
+    - {fileID: 8300000, guid: aea443ace5310f049ab04d253fb2b62c, type: 3}
+    - {fileID: 8300000, guid: 8f6feb3af8cd93b4aa1d798a9b82ed3c, type: 3}
+    - {fileID: 8300000, guid: 12d9dc4937a70b947ab80a8068f74a9d, type: 3}
+    - {fileID: 8300000, guid: 6b00199dadc3baa47922bf9c7d29fbe8, type: 3}
+    - {fileID: 8300000, guid: b4e8c041e50c7994f8fa53c81d91a5d0, type: 3}
+    - {fileID: 8300000, guid: 514b71e4338452d4e890ca0220cb0195, type: 3}
+    - {fileID: 8300000, guid: 78b2a9c2d4ade1d4eb8347a4946eeed6, type: 3}
+    - {fileID: 8300000, guid: aa6c3b3d7adc575408308e25e5e9ff11, type: 3}
+    - {fileID: 8300000, guid: a55ffc25d6da8974aa76cc2fbe70f535, type: 3}

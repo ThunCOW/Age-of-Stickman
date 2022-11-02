@@ -8,6 +8,9 @@ public class SoundManager : MonoBehaviour
 
     [SerializeField] private AudioSource musicSource, effectSource;
 
+    [Header("Singular Used Sounds")]
+    public List<AudioClip> ShieldHitSound;
+
     void Awake()
     {
         if (Instance == null)

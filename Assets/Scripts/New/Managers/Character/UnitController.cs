@@ -69,6 +69,9 @@ public class UnitController : MonoBehaviour
 
         GameManager.DisableAllControls += GamePaused;
         GameManager.EnableAllControls += GameContinue;
+
+        EquipmentManager tempEM = GetComponent<EquipmentManager>();
+        tempEM.OnArrowRelease += ProjectileRelease;
     }
 
     // Update is called once per frame
@@ -140,8 +143,6 @@ public class UnitController : MonoBehaviour
         // If target is in damage distance, succesfully landed the hit.
         if (Mathf.Abs(unit.target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x) < currentAttack.Reach)
         {
-            currentAttack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
-
             //float temp = Random.Range(0, unit.Damage / 2);
             //Debug.Log("Unit damage = " + unit.Damage + " / unit damage half = " + (unit.Damage / 2) + " / random = " + temp);
             float softDamage = Random.Range(0, unit.Damage / 2) + Random.Range(0, unit.Damage / 2);
@@ -167,8 +168,6 @@ public class UnitController : MonoBehaviour
         else
             dir = (int)MoveDirection.right;
 
-        currentAttack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
-
         float softDamage = Random.Range(0, unit.Damage / 2) + Random.Range(0, unit.Damage / 2);
         int damageDealt = (int)(softDamage * Random.Range(1, currentAttack.DamageMultiplierMax));
 
@@ -177,14 +176,24 @@ public class UnitController : MonoBehaviour
 
         unit.target.unitController.TakeDamage(currentAttack, damageDealt, dir);
     }
+    public void ProjectileRelease()
+    {
+        Instantiate(unit.Projectile, unit.gameObject.transform);
+
+        currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+    }
 
     public virtual void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0)
     {
         if(blockTrigger)
         {
-            // Show block message and play block sound
+            SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
+
             return;
         }
+
+        attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+
         unit.Health -= DamageTaken;
         if (unit.Health <= 0)
         {

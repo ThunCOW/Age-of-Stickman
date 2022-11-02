@@ -24,7 +24,6 @@ public class Projectile : MonoBehaviour
         transform.parent = null;
         
         projectileDir = parentUnit.transform.localScale.x > 0 ? 1 : -1;
-
     }
 
     void FixedUpdate()

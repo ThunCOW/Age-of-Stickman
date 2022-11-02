@@ -28,6 +28,7 @@ public class ShopItem : MonoBehaviour
             ItemPrice = _item.ItemPrice;
         }
     }
+    public List<AudioClip> ItemSound;
 
     [HideInInspector] [SerializeField] private ShopPanel shopPanel;
 
@@ -44,6 +45,8 @@ public class ShopItem : MonoBehaviour
             GameManager.Instance.GoldChange(-ItemPrice);
 
             shopPanel.ItemUpgrade(ItemCategory);
+
+            SoundManager.Instance.PlayEffect(ItemSound[Random.Range(0, ItemSound.Count)]);
         }
         else
         {

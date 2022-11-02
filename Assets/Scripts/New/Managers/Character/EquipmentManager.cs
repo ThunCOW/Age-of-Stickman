@@ -17,6 +17,9 @@ public class EquipmentManager : MonoBehaviour
 
     public Item secondaryWeapon;
 
+    public delegate void OnProjectileRelease();
+    public OnProjectileRelease OnArrowRelease;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -278,7 +281,7 @@ public class EquipmentManager : MonoBehaviour
             case "ProjectileRelease":
                 if (equippedItems[ItemSlot.TwoHanded] != null)
                 {
-                    Instantiate(unit.Projectile, unit.gameObject.transform);
+                    OnArrowRelease();
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, null);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[1].SlotName, null);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[2].SlotName, null);

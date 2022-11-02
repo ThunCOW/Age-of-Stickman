@@ -8,6 +8,8 @@ using SpineControllerVersion;
 
 public class HiringPanel : MonoBehaviour
 {
+    public AudioClip CoinClicking;
+
     [SerializeField] MercenaryManager MercenaryManager;
 
     [Space]
@@ -47,6 +49,8 @@ public class HiringPanel : MonoBehaviour
             targetedMercenaryUnit.CurrentMercenary = currentMercenary;
 
             GameManager.Instance.GoldChange(-currentMercenary.UnitPrice);
+
+            SoundManager.Instance.PlayEffect(CoinClicking);
         }
         else
         {

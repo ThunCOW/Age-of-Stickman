@@ -116,6 +116,8 @@ namespace SpineControllerVersion
 
 
         [Header("_Gold Variables_")]
+
+        public List<AudioClip> CoinClickingAfterLevel;
         int _goldGained;
         public int GoldGained
         {
@@ -125,10 +127,13 @@ namespace SpineControllerVersion
                 if(value == 0)
                 {
                     GoldChange(GoldGained, 1.5f);
+                    
+                    if(GoldGained != 0) SoundManager.Instance.PlayEffect(CoinClickingAfterLevel[Random.Range(0, CoinClickingAfterLevel.Count)]);
                 }
                 _goldGained = value;
             }
         }
+
         public GameObject GoldPrefab;
         public List<AudioClip> CoinPickupSound;
         [SerializeField] private int _Gold;
