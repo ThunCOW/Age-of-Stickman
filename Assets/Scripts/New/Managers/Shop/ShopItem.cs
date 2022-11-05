@@ -1,5 +1,4 @@
 using SpineControllerVersion;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,22 +18,35 @@ public class ShopItem : MonoBehaviour
         {
             _item = value;
 
-            ItemImageUI.overrideSprite = _item.ItemSprite;
-            ItemImageUI.SetNativeSize();
-
-            ItemQualityImageUI.overrideSprite = _item.ItemQualitySprite;
-            ItemQualityImageUI.SetNativeSize();
-
             ItemPrice = _item.ItemPrice;
         }
     }
+
     public List<AudioClip> ItemSound;
+
+    // What is going on here is pretty much i wanted to make simple upgrade screen so a single upgrade item with Item as identifier(key)
+    // is being used to work with load and save system while ItemList is being used to upgrade/add items to PlayerEquipments in GameManger
+    [Header("Items It Contains")]
+    public List<Item> ItemsList;
 
     [HideInInspector] [SerializeField] private ShopPanel shopPanel;
 
     void OnValidate()
     {
         shopPanel = GetComponentInParent<ShopPanel>();    
+    }
+
+    public void SetShopItem(ShopItemList shopItemList)
+    {
+        Item = shopItemList.Items[0];
+
+        ItemImageUI.overrideSprite = shopItemList.ItemSprite;
+        ItemImageUI.SetNativeSize();
+
+        ItemQualityImageUI.overrideSprite = shopItemList.ItemQualitySprite;
+        ItemQualityImageUI.SetNativeSize();
+        
+        ItemsList = shopItemList.Items;
     }
 
     public void UpgradeItem()

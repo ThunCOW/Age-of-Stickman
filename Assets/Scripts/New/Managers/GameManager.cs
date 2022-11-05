@@ -85,12 +85,25 @@ namespace SpineControllerVersion
         private List<int> _PlayerEquipmentsKeys = new List<int>();
         private List<int> PlayerEquipmentsKeys
         {
-            get { return _PlayerEquipmentsKeys; }
-            set
+            get //Called when Saving
+            {
+                _PlayerEquipmentsKeys.Clear();
+                foreach (Item item in PlayerEquipments)
+                {
+                    int index = AllEquipments.Equipments.IndexOf(item);
+                    if (index == -1)
+                        return null;
+
+                    _PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(item));
+                    //if (SecondaryWeapon != null) PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(SecondaryWeapon));
+                }
+                return _PlayerEquipmentsKeys; 
+            }
+            set //Called when Loading
             {
                 _PlayerEquipmentsKeys = value;
                 PlayerEquipments.Clear();
-                foreach(int i in PlayerEquipmentsKeys)
+                foreach(int i in _PlayerEquipmentsKeys)
                 {
                     PlayerEquipments.Add(AllEquipments.Equipments[i]);
                 }
@@ -410,17 +423,9 @@ namespace SpineControllerVersion
             if (PlayerEquipments.Count == 0)
                 return false;
             
-            PlayerEquipmentsKeys.Clear();
-            foreach(Item item in PlayerEquipments)
-            {
-                int index = AllEquipments.Equipments.IndexOf(item);
-                if (index == -1)
-                    return false;
-
-                PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(item));
-                //if (SecondaryWeapon != null) PlayerEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(SecondaryWeapon));
-            }
             a_SaveData.equippedItemIndexs = PlayerEquipmentsKeys;
+            if (a_SaveData.equippedItemIndexs == null)              // Means there is a problem finding item/s ( maybe AllItem SO does not contain one of the item etc.)
+                return false;
 
             a_SaveData.PlayerLives = PlayerLives;
             a_SaveData.Gold = Gold;
@@ -459,7 +464,7 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = a_SaveData.Gold;
+            Gold = 100;
 
             //IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
             IsSpearmasterDead = false;

@@ -1,10 +1,8 @@
 using Spine;
 using Spine.Unity;
 using SpineControllerVersion;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class EquipmentManager : MonoBehaviour
 {

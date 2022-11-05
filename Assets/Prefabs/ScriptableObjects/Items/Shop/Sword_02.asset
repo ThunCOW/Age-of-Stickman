@@ -14,13 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: bb916c92eaaded44397d079bc000aa0d
   ItemName: Sword
+  HealthBonus: 0
+  DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 3
   ItemSprite: {fileID: 21300000, guid: 229a5746ac778e249bb878097cf77b27, type: 3}
   ItemQualitySprite: {fileID: 21300000, guid: 0eb7b743684333848aef79f02b8b8fb7, type: 3}
   front:
   - SlotName: Weapon/OneHand_Sword_00
-    AttachmentName: Weapon/OneHand_Sword_04
+    AttachmentName: Weapon/OneHand_Sword_05
   side: []
   back: []
+  back2: []
   AnimationList: {fileID: 11400000, guid: 7c09e085246b48d42bbdbf6f4233b1b8, type: 2}

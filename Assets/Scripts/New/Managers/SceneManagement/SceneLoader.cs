@@ -20,6 +20,8 @@ public class SceneLoader : MonoBehaviour
     public delegate void OnLevelLoaded();
     public static OnLevelLoaded LevelLoaded;
 
+    UnitHolder MainMenuPlayer;
+
     void Start()
     {
         ShopCanvas.SetActive(true);

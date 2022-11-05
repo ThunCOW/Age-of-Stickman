@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
+  m_Name: Shield_04
+  m_EditorClassIdentifier: 
+  id: 40bc9337b83669243bf8c62e51c0bbb2
+  ItemName: Shield
+  HealthBonus: 0
+  DamageBonus: 0
+  ItemPrice: 0
+  ItemSlot: 4
+  ItemSprite: {fileID: 21300000, guid: 781f3f60c5cb0d3428b298d73c77317d, type: 3}
+  ItemQualitySprite: {fileID: 21300000, guid: faebe32556b4d104d991995f95920cb2, type: 3}
+  front:
+  - SlotName: Shield/ShieldLong_00
+    AttachmentName: Shield/ShieldLong_60
+  - SlotName: Shield/ShieldCircle_01
+    AttachmentName: Shield/ShieldCircle_01
+  side:
+  - SlotName: Shield/ShieldLong_03
+    AttachmentName: Shield/ShieldLong_61
+  back: []
+  back2: []

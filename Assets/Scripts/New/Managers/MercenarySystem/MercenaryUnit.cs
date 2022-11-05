@@ -1,3 +1,4 @@
+using Spine;
 using Spine.Unity;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,10 @@ using UnityEngine.UI;
 public class MercenaryUnit : MonoBehaviour
 {
     public UnitHolder SpineUnitHolder;
+
+    [Space]
+    [SerializeField] SkeletonGraphic skeletonGraphic;
+    [SerializeField] BasicAnimation idleAnimation;
 
     [Space]
     [SerializeField] Button HireMercenaryButton;
@@ -25,7 +30,6 @@ public class MercenaryUnit : MonoBehaviour
                 HireMercenaryImage.SetActive(true);
                 MercenaryGameobject.SetActive(false);
                 HireMercenaryButton.interactable = true;
-                
                 return;
             }
 
@@ -37,7 +41,7 @@ public class MercenaryUnit : MonoBehaviour
 
             SpineUnitHolder.ChangeUnitEquipments(SpineUnitHolder, mercenaryItems);
 
-            SpineUnitHolder.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, CurrentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
+            skeletonGraphic.AnimationState.SetAnimation(0, idleAnimation.SpineAnimationReference, false);
         }
     }
 
@@ -56,6 +60,48 @@ public class MercenaryUnit : MonoBehaviour
         {
             MercenaryGameobject.SetActive(true);
             HireMercenaryImage.SetActive(false);
+        }
+        
+        skeletonGraphic.AnimationState.Event += HandleAnimationStateEvent;
+    }
+
+    private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
+    {
+        //Debug.Log("Event fired! " + e.Data.Name);
+
+        switch(e.Data.Name)
+        {
+            case "Main Menu/Arrowhead_Hide":
+                if (CurrentMercenary.UnitType == UnitType.Archer)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment("Weapon/Bow_Arrow_00_0", null);
+                    skeletonGraphic.Skeleton.SetAttachment("Weapon/Bow_Arrow_00_3", null);
+                }
+                break;
+            case "Main Menu/ShowSecondArrow":
+                if (CurrentMercenary.UnitType == UnitType.Archer)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment("Weapon/Bow_Arrow_00_3", "Weapon/Bow_Arrow_00_0");
+                    skeletonGraphic.Skeleton.SetAttachment("Weapon/Bow_Arrow_00_4", "Weapon/Bow_Arrow_00_1");
+                    skeletonGraphic.Skeleton.SetAttachment("Weapon/Bow_Arrow_00_5", "Weapon/Bow_Arrow_00_2");
+                }
+                else
+                {
+                    skeletonGraphic.Skeleton.SetAttachment("Weapon/Bow_Arrow_00_3", null);
+                    skeletonGraphic.Skeleton.SetAttachment("Weapon/Bow_Arrow_00_4", null);
+                    skeletonGraphic.Skeleton.SetAttachment("Weapon/Bow_Arrow_00_5", null);
+                }
+                break;
+            case "Armor Triggers/Shoulder_Back":
+                if (SpineUnitHolder.dictEquippedItems[ItemSlot.Shoulder] != null)
+                {
+                    skeletonGraphic.Skeleton.SetAttachment(SpineUnitHolder.dictEquippedItems[ItemSlot.Shoulder].front[0].SlotName, null);
+                    skeletonGraphic.Skeleton.SetAttachment(SpineUnitHolder.dictEquippedItems[ItemSlot.Shoulder].back[0].SlotName, SpineUnitHolder.dictEquippedItems[ItemSlot.Shoulder].back[0].AttachmentName);
+                    skeletonGraphic.Skeleton.SetAttachment(SpineUnitHolder.dictEquippedItems[ItemSlot.Shoulder].back[1].SlotName, SpineUnitHolder.dictEquippedItems[ItemSlot.Shoulder].back[1].AttachmentName);
+                }
+                break;
+            default:
+                break;
         }
     }
 
@@ -81,7 +127,7 @@ public class MercenaryUnit : MonoBehaviour
 
             SpineUnitHolder.ChangeUnitEquipments(SpineUnitHolder, mercenaryItems);
 
-            SpineUnitHolder.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, CurrentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
+            //SpineUnitHolder.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, CurrentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
         }
     }
 }
