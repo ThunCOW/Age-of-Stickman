@@ -23,7 +23,7 @@ MonoBehaviour:
   front:
   - SlotName: Shield/ShieldLong_00
     AttachmentName: Shield/ShieldLong_70
-  - SlotName: Shield/ShieldLong_00
+  - SlotName: Shield/ShieldCircle_01
     AttachmentName: Shield/ShieldLong_73
   side:
   - SlotName: Shield/ShieldLong_03

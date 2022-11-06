@@ -16,9 +16,7 @@ public class FpsController : MonoBehaviour
     }
 
     void Start()
-    {
-        QualitySettings.vSyncCount = 0;
-        Application.targetFrameRate = 60;
+    {  
         StartCoroutine(FPSCounter());
     }
 

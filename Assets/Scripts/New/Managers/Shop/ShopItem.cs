@@ -1,5 +1,6 @@
 using SpineControllerVersion;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,9 +8,12 @@ public class ShopItem : MonoBehaviour
 {
     public Image ItemImageUI;                                    // Reference to the image in main menu canvas
     public Image ItemQualityImageUI;                             // Reference to the quality of the item under item image
-    public ShopItemCategory ItemCategory;
-    public int ItemPrice;
+    public GameObject MaxTextGameObject;
 
+    [Space]
+    public ShopItemCategory ItemCategory;
+
+    [Space]
     [SerializeField] private Item _item;                        // Item reference
     public Item Item
     {
@@ -17,26 +21,15 @@ public class ShopItem : MonoBehaviour
         set
         {
             _item = value;
-
-            ItemPrice = _item.ItemPrice;
         }
     }
 
-    public List<AudioClip> ItemSound;
-
-    // What is going on here is pretty much i wanted to make simple upgrade screen so a single upgrade item with Item as identifier(key)
-    // is being used to work with load and save system while ItemList is being used to upgrade/add items to PlayerEquipments in GameManger
+    // What is going on here is pretty much i wanted to make simple upgrade screen so a single upgrade item box with Item as identifier(key)
+    // is being used to work with load and save system while ItemList is being used to upgrade/add items to PlayerEquipments in GameManager
     [Header("Items It Contains")]
     public List<Item> ItemsList;
 
-    [HideInInspector] [SerializeField] private ShopPanel shopPanel;
-
-    void OnValidate()
-    {
-        shopPanel = GetComponentInParent<ShopPanel>();    
-    }
-
-    public void SetShopItem(ShopItemList shopItemList)
+    public virtual void SetShopItem(ShopItemList shopItemList, bool maxItemLevelReached = false)
     {
         Item = shopItemList.Items[0];
 
@@ -47,23 +40,9 @@ public class ShopItem : MonoBehaviour
         ItemQualityImageUI.SetNativeSize();
         
         ItemsList = shopItemList.Items;
-    }
 
-    public void UpgradeItem()
-    {
-        // TODO : Brings up if we want to buy page
-        if(GameManager.Instance.Gold >= ItemPrice)
-        {
-            GameManager.Instance.GoldChange(-ItemPrice);
-
-            shopPanel.ItemUpgrade(ItemCategory);
-
-            SoundManager.Instance.PlayEffect(ItemSound[Random.Range(0, ItemSound.Count)]);
-        }
-        else
-        {
-            GameManager.Instance.NotEnoughGold();
-        }
+        if (maxItemLevelReached)
+            MaxTextGameObject.SetActive(true);
     }
 }
 

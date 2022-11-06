@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
+  m_Name: Shoulder_03 1
+  m_EditorClassIdentifier: 
+  id: 7b78816d99f7b7a4392dddefeec4af3b
+  ItemName: Shoulder
+  HealthBonus: 0
+  DamageBonus: 0
+  ItemPrice: 0
+  ItemSlot: 1
+  ItemSprite: {fileID: 21300000, guid: c58ad8222795a5645be1b252f5725121, type: 3}
+  ItemQualitySprite: {fileID: 21300000, guid: faebe32556b4d104d991995f95920cb2, type: 3}
+  front:
+  - SlotName: Armor/Human/Shoulder
+    AttachmentName: Armor/Human/Shoulder_5
+  - SlotName: Armor/Human/Arm_1
+    AttachmentName: Armor/Human/Arm_4
+  side:
+  - SlotName: Armor/Human/Shoulder _1_Side
+    AttachmentName: Armor/Human/Shoulder_5_Side
+  back:
+  - SlotName: Armor/Human/Shoulder_1_Back
+    AttachmentName: Armor/Human/Shoulder_5_Backk
+  - SlotName: Armor/Human/Shoulder_1_Backk
+    AttachmentName: Armor/Human/Shoulder_5_Back
+  back2: []

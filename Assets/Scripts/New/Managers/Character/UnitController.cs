@@ -3,9 +3,7 @@ using Spine.Unity;
 using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public enum MoveDirection
 {
@@ -34,6 +32,7 @@ public class UnitController : MonoBehaviour
     protected MoveDirection direction = MoveDirection.waiting;
 
     protected bool blockTrigger = false;
+    private bool resurrectionState = false;
 
     bool _changeStance = false;
     protected bool changeStance
@@ -191,12 +190,34 @@ public class UnitController : MonoBehaviour
 
             return;
         }
+        if(resurrectionState)
+        {
+            attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+
+            return;
+        }
 
         attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
         unit.Health -= DamageTaken;
         if (unit.Health <= 0)
         {
+            if(unit.CompareTag(GameManager.PLAYER_TAG))
+            {
+                if (GameManager.Instance.PlayerLives == 0)
+                {
+                    // Player Dies bring up you are dead screen
+                }
+                else
+                {
+                    // Player Lives Decreases
+                    GameManager.Instance.PlayerLivesChange(-1);
+
+                    StartCoroutine(PlayerDown());
+                    return;
+                }
+            }
+
             boxCollider2.enabled = false;
 
             if(isBoss)
@@ -253,8 +274,58 @@ public class UnitController : MonoBehaviour
             if (tempDeathAnim is DeathByDismemberAnimation)
                 DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
             
-            if(gameObject.CompareTag(GameManager.ENEMY_TAG)) 
-                GoldDrop();
+            // Dead enemies drop gold ( boss tag exc )
+            if(gameObject.CompareTag(GameManager.ENEMY_TAG))
+            {
+                // There should be a chance for enemy to drop like 10 gold and play gold sound at higher levels
+
+                //GameManager.Instance.Level
+
+                int goldAmount = 0;
+                int dropChance = 0;
+                dropChance = Random.Range(0, 100);
+                if(GameManager.Instance.Level <= 3)
+                {
+                    if(dropChance > 80)
+                    {
+                        goldAmount = 1;
+                        goldAmount -= Random.Range(0, 2);
+                        goldAmount += Random.Range(0, 2);
+
+                        GoldDrop(goldAmount);
+                    }
+                }
+                else if(GameManager.Instance.Level > 3 && GameManager.Instance.Level <= 7)
+                {
+                    if(dropChance > 70)
+                    {
+                        goldAmount = 2;
+                        goldAmount -= Random.Range(0, 2);
+                        goldAmount += Random.Range(0, 2);
+                        GoldDrop(goldAmount);
+                    }
+                }
+                else if(GameManager.Instance.Level > 7 && GameManager.Instance.Level <= 16)
+                {
+                    if (dropChance > 60)
+                    {
+                        goldAmount = 3;
+                        goldAmount -= Random.Range(0, 3);
+                        goldAmount += Random.Range(0, 4);
+                        GoldDrop(goldAmount);
+                    }
+                }
+                else
+                {
+                    if (dropChance > 50)
+                    {
+                        goldAmount = 4;
+                        goldAmount -= Random.Range(0, 4);
+                        goldAmount += Random.Range(0, 5);
+                        GoldDrop(goldAmount);
+                    }
+                }
+            }
 
 
             if(Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
@@ -337,6 +408,42 @@ public class UnitController : MonoBehaviour
         }
     }
 
+    private IEnumerator PlayerDown()
+    {
+        // Play down animation
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion[0].SpineAnimationReference, false);
+        boxCollider2.enabled = false;
+        
+        unit.CheckUnitDirection();
+        StopAllCoroutines();
+        
+        canMove = false;
+
+        GameManager.Instance.AllyUnits.Remove(unit);
+        
+        yield return new WaitForSeconds(3);
+
+        // Resurrect Animation
+        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.WalkAttack[0].SpineAnimationReference, false);
+        yield return new WaitForSpineAnimationComplete(track);
+        // Wait until resurrection animation ends
+
+        // Player regains control
+        boxCollider2.enabled = true;
+        
+        ReStartCoroutines();
+        
+        canMove = true;
+        
+        GameManager.Instance.AllyUnits.Add(unit);
+        //
+
+        resurrectionState = true;
+        // Play untouchble animation
+        yield return new WaitForSeconds(3);
+        resurrectionState = false;
+    }
+
     private void DismemberBody(DeathByDismemberAnimation deathAnimation)
     {
         if (deathAnimation.CutPart != null)
@@ -361,26 +468,37 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    private void GoldDrop()
+    private void GoldDrop(int SpawnAmount)
     {
-        // Spawn Body Part and set initial position and scales
-        Vector3 goldPos = GameManager.Instance.GoldPrefab.transform.position;
-        GameObject gold = Instantiate(GameManager.Instance.GoldPrefab, gameObject.transform);
-        gold.transform.localPosition = new Vector3(goldPos.x, goldPos.y, goldPos.z);
-        gold.transform.localScale = new Vector3(gold.transform.parent.transform.localScale.x, 1, 1);
-        gold.transform.parent = null;
+        List<GameObject> tempSpawnObjects = new List<GameObject>();
 
-        // Randomize a fling degree and get vector equivalent
-        float degree = Random.Range(0, 180);
-        float degreeToRad = degree * Mathf.Deg2Rad;
-        Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+        int i = 0;
+        // Spawn Gold and set initial position and scales
+        for (; i < SpawnAmount; i++)
+        {
+            Vector3 goldPos = GameManager.Instance.GoldPrefab.transform.position;
+            GameObject gold = Instantiate(GameManager.Instance.GoldPrefab, gameObject.transform);
+            gold.transform.localPosition = new Vector3(goldPos.x, goldPos.y, goldPos.z);
+            gold.transform.localScale = new Vector3(gold.transform.parent.transform.localScale.x, 1, 1);
+            gold.transform.parent = null;
+            tempSpawnObjects.Add(gold);
+        }
+        
+        i--;
+        for(; i >= 0; --i)
+        {
+            // Randomize a fling degree and get vector equivalent
+            float degree = Random.Range(0, 180);
+            float degreeToRad = degree * Mathf.Deg2Rad;
+            Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
 
-        // Add speed on X and Y axis calculated above, force amount is also randomized
-        gold.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 301));
+            // Add speed on X and Y axis calculated above, force amount is also randomized
+            tempSpawnObjects[i].GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 301));
 
-        // Add torque to make it spin around
-        int torqDir = radToVec2.x > 0 ? -1 : 1;
-        gold.GetComponent<Rigidbody2D>().AddTorque(Random.Range(5, 15) * torqDir, ForceMode2D.Force);
+            // Add torque to make it spin around
+            int torqDir = radToVec2.x > 0 ? -1 : 1;
+            tempSpawnObjects[i].GetComponent<Rigidbody2D>().AddTorque(Random.Range(5, 15) * torqDir, ForceMode2D.Force);
+        }
     }
 
     protected IEnumerator StunnedFor(CloseCombatAnimation attack)

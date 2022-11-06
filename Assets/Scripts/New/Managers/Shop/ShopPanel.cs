@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ShopPanel : MonoBehaviour
 {
@@ -10,12 +11,14 @@ public class ShopPanel : MonoBehaviour
     public List<Item> ShieldList;
     public List<Item> ArmorList;
     public Dictionary<ShopItemCategory, List<Item>> ItemUpgradeDict = new Dictionary<ShopItemCategory, List<Item>>();
-    
+
+    [Header("____________Slot Script Assignment_________")]
     public UpgradeScreen Weapon;
     public UpgradeScreen Shield;
     public UpgradeScreen Armor;
     public Dictionary<ShopItemCategory, UpgradeScreen> UpgradeScreenDict = new Dictionary<ShopItemCategory, UpgradeScreen>();
 
+    [Header("____________Items List____________")]
     public List<ShopItemList> _WeaponList;
     public List<ShopItemList> _ShieldList;
     public List<ShopItemList> _ArmorList;
@@ -40,14 +43,42 @@ public class ShopPanel : MonoBehaviour
 
     public void ItemUpgrade(ShopItemCategory shopItemCategory)
     {
-        var lastItemIndex = 0;
+        var lastItemIndex = -1;
 
-        lastItemIndex = ItemUpgradeDict[shopItemCategory].IndexOf(UpgradeScreenDict[shopItemCategory].EquippedItemSlot.Item);
+        //lastItemIndex = ItemUpgradeDict[shopItemCategory].IndexOf(UpgradeScreenDict[shopItemCategory].EquippedItemSlot.Item);
+        
+        for(int i = 0; i < _ItemUpgradeDict[shopItemCategory].Count; i++)
+        {
+            bool indexFound = false;
+            for(int u = 0; u < _ItemUpgradeDict[shopItemCategory][i].Items.Count; u++)
+            {
+                if (_ItemUpgradeDict[shopItemCategory][i].Items[u] == UpgradeScreenDict[shopItemCategory].EquippedItemSlot.Item)
+                {
+                    indexFound = true;
+                    break;
+                }
+            }
+            if (indexFound)
+            {
+                lastItemIndex = i;
+                break;
+            }
+        }
+        //if(lastItemIndex == -1) lastItemIndex = 
 
-        if (ItemUpgradeDict[shopItemCategory].Count <= lastItemIndex + 2)
+        //for (int i = 0; i < _ArmorList.Count; i++)
+        //{
+        //    if (_ArmorList[i].Items.Contains(item))
+        //    {
+        //        lastItemIndex = i;
+        //        break;
+        //    }
+        //}
+
+        if (_ItemUpgradeDict[shopItemCategory].Count <= lastItemIndex + 2)
         {
             // TODO : max item upgrade reached
-            UpgradeScreenDict[shopItemCategory].EquippedItemSlot.SetShopItem(_ItemUpgradeDict[shopItemCategory][lastItemIndex + 1]);
+            UpgradeScreenDict[shopItemCategory].EquippedItemSlot.SetShopItem(_ItemUpgradeDict[shopItemCategory][lastItemIndex + 1], true);
             //UpgradeScreenDict[shopItemCategory].EquippedItemSlot.Item = ItemUpgradeDict[shopItemCategory][lastItemIndex + 1];
             //UpgradeScreenDict[shopItemCategory].EquippedItemSlot.ItemsList = _ItemUpgradeDict[shopItemCategory][lastItemIndex + 1].Items;
             UpgradeScreenDict[shopItemCategory].PurchasableItemSlot.GetComponent<Button>().enabled = false;
@@ -104,7 +135,7 @@ public class ShopPanel : MonoBehaviour
                     if (_ArmorList.Count == lastItemIndex + 1)
                     {
                         // Max item upgrade reached
-                        UpgradeScreenDict[ShopItemCategory.Armor].PurchasableItemSlot.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Armor][lastItemIndex]);
+                        UpgradeScreenDict[ShopItemCategory.Armor].PurchasableItemSlot.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Armor][lastItemIndex], true);
 
                         //UpgradeScreenDict[ShopItemCategory.Armor].PurchasableItemSlot.Item = item;
                         UpgradeScreenDict[ShopItemCategory.Armor].PurchasableItemSlot.GetComponent<Button>().enabled = false;
@@ -133,7 +164,7 @@ public class ShopPanel : MonoBehaviour
                     if (_WeaponList.Count == lastItemIndex + 1)
                     {
                         // Max item upgrade reached
-                        UpgradeScreenDict[ShopItemCategory.Weapon].PurchasableItemSlot.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Weapon][lastItemIndex]);
+                        UpgradeScreenDict[ShopItemCategory.Weapon].PurchasableItemSlot.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Weapon][lastItemIndex], true);
 
                         //UpgradeScreenDict[ShopItemCategory.Weapon].PurchasableItemSlot.Item = item;
                         UpgradeScreenDict[ShopItemCategory.Weapon].PurchasableItemSlot.GetComponent<Button>().enabled = false;
@@ -162,7 +193,7 @@ public class ShopPanel : MonoBehaviour
                     if (_ShieldList.Count == lastItemIndex + 1)
                     {
                         // Max item upgrade reached
-                        UpgradeScreenDict[ShopItemCategory.Shield].PurchasableItemSlot.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Shield][lastItemIndex]);
+                        UpgradeScreenDict[ShopItemCategory.Shield].PurchasableItemSlot.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Shield][lastItemIndex], true);
                         
                         //UpgradeScreenDict[ShopItemCategory.Shield].PurchasableItemSlot.Item = item;
                         UpgradeScreenDict[ShopItemCategory.Shield].PurchasableItemSlot.GetComponent<Button>().enabled = false;
@@ -260,4 +291,5 @@ public class ShopItemList
     public List<Item> Items;
     public Sprite ItemSprite;
     public Sprite ItemQualitySprite;
+    public int ItemPrice;
 }

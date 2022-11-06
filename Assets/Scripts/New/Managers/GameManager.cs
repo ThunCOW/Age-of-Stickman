@@ -182,7 +182,10 @@ namespace SpineControllerVersion
 
         void Awake()
         {
-            for(int i = 0; i < AllEquipments.Equipments.Count; i++)
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+
+            for (int i = 0; i < AllEquipments.Equipments.Count; i++)
             {
                 //AllEquipmentsDict.Add(i, AllEquipments[i]);
             }
@@ -464,13 +467,12 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = 100;
+            Gold = a_SaveData.Gold;
 
             //IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
             IsSpearmasterDead = false;
 
-            //Level = a_SaveData.Level;
-            Level = 7;
+            Level = a_SaveData.Level;
 
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];

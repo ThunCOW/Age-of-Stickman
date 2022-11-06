@@ -22,7 +22,7 @@ MonoBehaviour:
   ItemQualitySprite: {fileID: 21300000, guid: 9b123d960aac5fe428fdd58a5e3f78f2, type: 3}
   front:
   - SlotName: Weapon/OneHand_Sword_00
-    AttachmentName: Weapon/OneHand_Sword_05
+    AttachmentName: Weapon/OneHand_Sword_09
   - SlotName: Weapon/Spear_0
     AttachmentName: Weapon/Spear_4
   side: []
