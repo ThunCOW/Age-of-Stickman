@@ -123,17 +123,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!114 &504444836 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1436393145132031147, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-  m_PrefabInstance: {fileID: 946470749}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d572cd301497b4041933adf30086a35e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &594071591
 GameObject:
   m_ObjectHideFlags: 0
@@ -337,17 +326,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &800203884 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6815078842645750175, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-  m_PrefabInstance: {fileID: 946470749}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d572cd301497b4041933adf30086a35e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &946470749
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -356,128 +334,12 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: Armor.PurchasableItemSlot
-      value: 
-      objectReference: {fileID: 800203884}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: Shield.PurchasableItemSlot
-      value: 
-      objectReference: {fileID: 504444836}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: Weapon.PurchasableItemSlot
-      value: 
-      objectReference: {fileID: 2118591465}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ArmorList.Array.data[0].ItemPrice
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ArmorList.Array.data[1].ItemPrice
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ArmorList.Array.data[2].ItemPrice
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ArmorList.Array.data[3].ItemPrice
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ArmorList.Array.data[4].ItemPrice
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: _ArmorList.Array.data[5].ItemPrice
-      value: 50
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: _ArmorList.Array.data[6].ItemPrice
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ArmorList.Array.data[7].ItemPrice
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ShieldList.Array.data[0].ItemPrice
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ShieldList.Array.data[1].ItemPrice
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ShieldList.Array.data[2].ItemPrice
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ShieldList.Array.data[3].ItemPrice
-      value: 45
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ShieldList.Array.data[4].ItemPrice
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _WeaponList.Array.data[0].ItemPrice
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _WeaponList.Array.data[1].ItemPrice
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _WeaponList.Array.data[2].ItemPrice
       value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _WeaponList.Array.data[3].ItemPrice
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _WeaponList.Array.data[4].ItemPrice
-      value: 100
-      objectReference: {fileID: 0}
-    - target: {fileID: 233273639, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 2118591465}
-    - target: {fileID: 233273639, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpgradeItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 233273639, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ShopItemPurchasable, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 631738110, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 504444836}
-    - target: {fileID: 631738110, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpgradeItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 631738110, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ShopItemPurchasable, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 2075859970, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 800203884}
-    - target: {fileID: 2075859970, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: UpgradeItem
-      objectReference: {fileID: 0}
-    - target: {fileID: 2075859970, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: ShopItemPurchasable, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _PlayerLives
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7700336283338286803, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_RootOrder
@@ -770,17 +632,6 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 621d4f15b104508489667296d54859f2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
---- !u!114 &2118591465 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6769133704925914224, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-  m_PrefabInstance: {fileID: 946470749}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d572cd301497b4041933adf30086a35e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &8165572107925285197
 Transform:
   m_ObjectHideFlags: 0

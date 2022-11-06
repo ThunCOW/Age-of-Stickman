@@ -213,6 +213,9 @@ public class UnitController : MonoBehaviour
                     // Player Lives Decreases
                     GameManager.Instance.PlayerLivesChange(-1);
 
+                    unit.CheckUnitDirection();
+                    StopAllCoroutines();
+
                     StartCoroutine(PlayerDown());
                     return;
                 }
@@ -305,7 +308,7 @@ public class UnitController : MonoBehaviour
                         GoldDrop(goldAmount);
                     }
                 }
-                else if(GameManager.Instance.Level > 7 && GameManager.Instance.Level <= 16)
+                else if(GameManager.Instance.Level > 7 && GameManager.Instance.Level <= 15)
                 {
                     if (dropChance > 60)
                     {
@@ -317,9 +320,9 @@ public class UnitController : MonoBehaviour
                 }
                 else
                 {
-                    if (dropChance > 50)
+                    if (dropChance > 40)
                     {
-                        goldAmount = 4;
+                        goldAmount = 6;
                         goldAmount -= Random.Range(0, 4);
                         goldAmount += Random.Range(0, 5);
                         GoldDrop(goldAmount);
@@ -414,9 +417,6 @@ public class UnitController : MonoBehaviour
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion[0].SpineAnimationReference, false);
         boxCollider2.enabled = false;
         
-        unit.CheckUnitDirection();
-        StopAllCoroutines();
-        
         canMove = false;
 
         GameManager.Instance.AllyUnits.Remove(unit);
@@ -424,10 +424,11 @@ public class UnitController : MonoBehaviour
         yield return new WaitForSeconds(3);
 
         // Resurrect Animation
-        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.WalkAttack[0].SpineAnimationReference, false);
+        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, false);
         yield return new WaitForSpineAnimationComplete(track);
         // Wait until resurrection animation ends
 
+        unit.Health = unit.HealthMax;
         // Player regains control
         boxCollider2.enabled = true;
         
@@ -440,7 +441,7 @@ public class UnitController : MonoBehaviour
 
         resurrectionState = true;
         // Play untouchble animation
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSeconds(6);
         resurrectionState = false;
     }
 

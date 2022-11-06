@@ -820,13 +820,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: fd998a6a390a91a439028726577c292c, type: 2}
   Weapon:
     EquippedItemSlot: {fileID: 1719444802}
-    PurchasableItemSlot: {fileID: 0}
+    PurchasableItemSlot: {fileID: 6769133704925914224}
   Shield:
     EquippedItemSlot: {fileID: 1450014731}
-    PurchasableItemSlot: {fileID: 0}
+    PurchasableItemSlot: {fileID: 1436393145132031147}
   Armor:
     EquippedItemSlot: {fileID: 1577530068}
-    PurchasableItemSlot: {fileID: 0}
+    PurchasableItemSlot: {fileID: 6815078842645750175}
   _WeaponList:
   - Items:
     - {fileID: 11400000, guid: 4e6e418542059574da8cbd2f9e170dd3, type: 2}
@@ -837,22 +837,22 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 78c626bba7051e64caa1b98198959aef, type: 2}
     ItemSprite: {fileID: -751495580, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 9b123d960aac5fe428fdd58a5e3f78f2, type: 3}
-    ItemPrice: 0
+    ItemPrice: 20
   - Items:
     - {fileID: 11400000, guid: 4291dca077c436c45b9d0734ae98eada, type: 2}
     ItemSprite: {fileID: -457879690, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 0eb7b743684333848aef79f02b8b8fb7, type: 3}
-    ItemPrice: 0
+    ItemPrice: 50
   - Items:
     - {fileID: 11400000, guid: ac94bbac5e18cdc46bdd9678da831831, type: 2}
     ItemSprite: {fileID: -1758492373, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 70b04b8d1ca6a1c48947f7bf47572207, type: 3}
-    ItemPrice: 0
+    ItemPrice: 70
   - Items:
     - {fileID: 11400000, guid: f547fd72c162be84480df77743d9f850, type: 2}
     ItemSprite: {fileID: -986775512, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 44b11f7d5d52f6d469f5bd2de32517fc, type: 3}
-    ItemPrice: 0
+    ItemPrice: 100
   _ShieldList:
   - Items:
     - {fileID: 11400000, guid: 9a4532666b36cb649910a981c60a7127, type: 2}
@@ -863,22 +863,22 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 926768ee1ad2ea54097c9859adc878f9, type: 2}
     ItemSprite: {fileID: -1275276139, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 9b123d960aac5fe428fdd58a5e3f78f2, type: 3}
-    ItemPrice: 0
+    ItemPrice: 15
   - Items:
     - {fileID: 11400000, guid: 7e1281a734140944eae98bc94e204312, type: 2}
     ItemSprite: {fileID: -982295377, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 0eb7b743684333848aef79f02b8b8fb7, type: 3}
-    ItemPrice: 0
+    ItemPrice: 25
   - Items:
     - {fileID: 11400000, guid: 40bc9337b83669243bf8c62e51c0bbb2, type: 2}
     ItemSprite: {fileID: 1669806333, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 70b04b8d1ca6a1c48947f7bf47572207, type: 3}
-    ItemPrice: 0
+    ItemPrice: 45
   - Items:
     - {fileID: 11400000, guid: 077e331cf16599c45a82b602a82ddfc6, type: 2}
     ItemSprite: {fileID: -1812337543, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 44b11f7d5d52f6d469f5bd2de32517fc, type: 3}
-    ItemPrice: 0
+    ItemPrice: 80
   _ArmorList:
   - Items:
     - {fileID: 11400000, guid: b1fc2bd4187aa664a89015e2417393c0, type: 2}
@@ -891,49 +891,49 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 63b2ccb70874ecb479a2f489d87cfaac, type: 2}
     ItemSprite: {fileID: -1037644119, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: faebe32556b4d104d991995f95920cb2, type: 3}
-    ItemPrice: 0
+    ItemPrice: 10
   - Items:
     - {fileID: 11400000, guid: f71f9fe088890ee49bb3bd4eaa7a2bb6, type: 2}
     - {fileID: 11400000, guid: 63b2ccb70874ecb479a2f489d87cfaac, type: 2}
     - {fileID: 11400000, guid: 06e63552187b2b942a8d4537fb94e355, type: 2}
     ItemSprite: {fileID: -1071700168, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 0eb7b743684333848aef79f02b8b8fb7, type: 3}
-    ItemPrice: 0
+    ItemPrice: 15
   - Items:
     - {fileID: 11400000, guid: 07e5b6b8b8389a043b31e8f77fad61e7, type: 2}
     - {fileID: 11400000, guid: e8974952b9c095e4c939eec0f4cf8a2d, type: 2}
     - {fileID: 11400000, guid: 06e63552187b2b942a8d4537fb94e355, type: 2}
     ItemSprite: {fileID: -701009063, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 0ad5feb51d152d148beb8936248aa059, type: 3}
-    ItemPrice: 0
+    ItemPrice: 20
   - Items:
     - {fileID: 11400000, guid: 2d0ff8da6536c3049ba6a85c138da1d5, type: 2}
     - {fileID: 11400000, guid: e8974952b9c095e4c939eec0f4cf8a2d, type: 2}
     - {fileID: 11400000, guid: 7194cab3d7a462249bd9e7d5023fb15b, type: 2}
     ItemSprite: {fileID: -1715382793, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 70b04b8d1ca6a1c48947f7bf47572207, type: 3}
-    ItemPrice: 0
+    ItemPrice: 30
   - Items:
     - {fileID: 11400000, guid: 299f168f435b7024095ff7ebe417cfd0, type: 2}
     - {fileID: 11400000, guid: 614714d245085dc40ab5ed5dd0b09d98, type: 2}
     - {fileID: 11400000, guid: 7194cab3d7a462249bd9e7d5023fb15b, type: 2}
     ItemSprite: {fileID: 1014126037, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 4332e8065dcfa684e8c6967f17d5a28f, type: 3}
-    ItemPrice: 0
+    ItemPrice: 50
   - Items:
     - {fileID: 11400000, guid: a4b2f921bf74a6c49a369fc1b1f756d2, type: 2}
     - {fileID: 11400000, guid: 614714d245085dc40ab5ed5dd0b09d98, type: 2}
     - {fileID: 11400000, guid: c3b99342a939e9b498c045bb8b80b9c8, type: 2}
     ItemSprite: {fileID: 286386336, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: 44b11f7d5d52f6d469f5bd2de32517fc, type: 3}
-    ItemPrice: 0
+    ItemPrice: 60
   - Items:
     - {fileID: 11400000, guid: 1b214cc6f2edebe4aa247ab6828aa31e, type: 2}
     - {fileID: 11400000, guid: 614714d245085dc40ab5ed5dd0b09d98, type: 2}
     - {fileID: 11400000, guid: bcd419d67b610784daee461a6c554b96, type: 2}
     ItemSprite: {fileID: -1723705221, guid: dd85da6f53e7b59499270257ab4b680d, type: 3}
     ItemQualitySprite: {fileID: 21300000, guid: d65723564c547d84c918b57ecb8dad95, type: 3}
-    ItemPrice: 0
+    ItemPrice: 80
 --- !u!1 &196777669
 GameObject:
   m_ObjectHideFlags: 0
@@ -1386,8 +1386,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ShopItem, Assembly-CSharp
+      - m_Target: {fileID: 6769133704925914224}
+        m_TargetAssemblyTypeName: ShopItemPurchasable, Assembly-CSharp
         m_MethodName: UpgradeItem
         m_Mode: 1
         m_Arguments:
@@ -2466,8 +2466,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ShopItem, Assembly-CSharp
+      - m_Target: {fileID: 1436393145132031147}
+        m_TargetAssemblyTypeName: ShopItemPurchasable, Assembly-CSharp
         m_MethodName: UpgradeItem
         m_Mode: 1
         m_Arguments:
@@ -6115,8 +6115,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ShopItem, Assembly-CSharp
+      - m_Target: {fileID: 6815078842645750175}
+        m_TargetAssemblyTypeName: ShopItemPurchasable, Assembly-CSharp
         m_MethodName: UpgradeItem
         m_Mode: 1
         m_Arguments:
@@ -7766,7 +7766,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9a4532666b36cb649910a981c60a7127, type: 2}
   - {fileID: 11400000, guid: b1fc2bd4187aa664a89015e2417393c0, type: 2}
   - {fileID: 11400000, guid: 2b36ce8ae338e0149a4ef321fabf8926, type: 2}
-  _PlayerLives: 0
+  _PlayerLives: 3
   CoinClickingAfterLevel:
   - {fileID: 8300000, guid: 8e6aeeea5e4a8c244ad09d561e2eb70f, type: 3}
   GoldPrefab: {fileID: 7026553871909760441, guid: d3d4dbc1f5775694c83a940964669686, type: 3}
