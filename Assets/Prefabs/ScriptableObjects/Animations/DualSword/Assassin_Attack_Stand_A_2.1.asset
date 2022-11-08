@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Assassin
   AnimationName: Attack_Stand_A_2.1
-  SpineAnimationReference: {fileID: 11400000, guid: e2bb78d7c22380b43a2913b7050848f3, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 68b6f0b52cec89e44a63bc1bdd334646, type: 2}
   _PrefixChangeCheck: Assassin
   _AnimationNameChangeCheck: Attack_Stand_A_2.1
   speedCurve:
@@ -23,10 +23,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
   attackType: 0
   animationMovementType: 0
-  DamageMultiplierMax: 1.6
+  DamageMultiplierMax: 1
   Reach: 2.58
+  MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -2.361

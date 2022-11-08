@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 63b2ccb70874ecb479a2f489d87cfaac
   ItemName: Leg
-  HealthBonus: 0
+  HealthBonus: 20
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 2

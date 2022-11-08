@@ -1,3 +1,4 @@
+using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -110,10 +111,9 @@ namespace SpineControllerVersion
             }
         }
         public List<Item> PlayerEquipments;
-
+            
         //public Item SecondaryWeapon;
 
-        
         [SerializeField] private int _PlayerLives;
         public int PlayerLives
         {
@@ -124,7 +124,7 @@ namespace SpineControllerVersion
             }
         }
 
-
+        public UnitHolder mainMenuPlayer;
 
 
 
@@ -152,7 +152,14 @@ namespace SpineControllerVersion
         [SerializeField] private int _Gold;
         public int Gold
         {
-            get { return _Gold; }
+            get 
+            {
+                if (minusGoldAnimation != null)
+                {
+                    return lastGoldAmount + lastSpentAmount;
+                }
+                return _Gold; 
+            }
             private set 
             {
                 if(_Gold != value)
@@ -182,14 +189,6 @@ namespace SpineControllerVersion
 
         void Awake()
         {
-            QualitySettings.vSyncCount = 0;
-            Application.targetFrameRate = 60;
-
-            for (int i = 0; i < AllEquipments.Equipments.Count; i++)
-            {
-                //AllEquipmentsDict.Add(i, AllEquipments[i]);
-            }
-
             if (Instance == null)
             {
                 Instance = this;
@@ -198,12 +197,20 @@ namespace SpineControllerVersion
             else
                 Destroy(this.gameObject);
 
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 60;
+
             LoadDataAsJson();
+
+
 
             SceneLoader.LevelLoaded += LevelLoaded;
         }
 
-
+        void Start()
+        {
+            mainMenuPlayer.ChangeUnitEquipments(mainMenuPlayer, PlayerEquipments);
+        }
 
 
 
@@ -254,6 +261,7 @@ namespace SpineControllerVersion
             {
                 Gold = lastGoldAmount + lastSpentAmount;
                 StopCoroutine(minusGoldAnimation);
+                minusGoldAnimation = null;
             }
 
             lastGoldAmount = Gold;
@@ -293,6 +301,7 @@ namespace SpineControllerVersion
                 }
                 Gold = lastGoldAmount + amount;
             }
+            minusGoldAnimation = null;
         }
         // if waitForWithoutAlphaChange is set to 0, text will start with 65% alpha and disappear within disappearTime second, if not, it will show 100 alpha for waitForWithoutAlphaChange then slowly disappear from 100 to 0
         IEnumerator TextDisappearSlowly(GameObject TextSpawn, float waitForWithoutAlphaChange = 0, float disappearTime = 1.5f, float speed = 10)
@@ -326,6 +335,8 @@ namespace SpineControllerVersion
 
                 yield return new WaitForFixedUpdate();
             }
+            minusGoldTextSpawn = null;
+
             Destroy(TextSpawn);
         }
 
@@ -467,7 +478,7 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = a_SaveData.Gold;
+            Gold = 200;
 
             //IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
             IsSpearmasterDead = false;

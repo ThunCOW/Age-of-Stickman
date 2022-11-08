@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
   m_Name: Leg 1
   m_EditorClassIdentifier: 
-  id: d7a956d9c18c5e94aa48715118545a3e
+  id: 2b36ce8ae338e0149a4ef321fabf8926
   ItemName: Leg
+  HealthBonus: 10
+  DamageBonus: 0
+  ItemPrice: 0
   ItemSlot: 2
+  ItemSprite: {fileID: 0}
+  ItemQualitySprite: {fileID: 0}
   front:
   - SlotName: Armor/Human/Leg_L_1
     AttachmentName: Armor/Human/Leg_1
@@ -22,3 +27,4 @@ MonoBehaviour:
     AttachmentName: Armor/Human/Leg_1
   side: []
   back: []
+  back2: []

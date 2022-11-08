@@ -28,7 +28,7 @@ public class EquipmentManager : MonoBehaviour
 
         if(GetComponent<UnitController>() is PlayerController)
         {
-            startingItems = new List<Item>();
+            startingItems.Clear();
             startingItems.AddRange(GameManager.Instance.PlayerEquipments);
         }
 

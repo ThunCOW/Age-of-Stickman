@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: TwoHandAxe
   AnimationName: Attack_Running_A_1 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: f1e420aaeed61e44490e29f3fc035175, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: c2cb23d8cd6c6d343976c1c8fb0f8b8e, type: 2}
   _PrefixChangeCheck: TwoHandAxe
   _AnimationNameChangeCheck: Attack_Running_A_1 UNITY
   speedCurve:
@@ -64,7 +64,7 @@ MonoBehaviour:
   SetupKeys: 0
   attackType: 0
   animationMovementType: 0
-  DamageMultiplierMax: 1
+  DamageMultiplierMax: 1.5
   Reach: 3
   MinDistanceLimit: 0
   PushDistance: 0

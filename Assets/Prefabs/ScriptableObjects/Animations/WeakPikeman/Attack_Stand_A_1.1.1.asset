@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Farmer
   AnimationName: Attack_Stand_A_1.1.1
-  SpineAnimationReference: {fileID: 11400000, guid: 01d39358e0d175d4cbdf119dc5928ea6, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 3be3a66c10411324ea2d719eaccda36e, type: 2}
   _PrefixChangeCheck: Farmer
   _AnimationNameChangeCheck: Attack_Stand_A_1.1.1
   speedCurve:
@@ -34,4 +34,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 0
   hitHeightPosiiton: 0
-  SoundObject: {fileID: 0}
+  SoundObject: {fileID: 11400000, guid: 929929fea9c2ef849bf553a896dffb90, type: 2}

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 29d0792572859aa49aabb441eb079922
   ItemName: Shield
-  HealthBonus: 35
+  HealthBonus: 0
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 4
@@ -29,3 +29,4 @@ MonoBehaviour:
   - SlotName: Shield/ShieldCircle_03
     AttachmentName: Shield/ShieldCircle_03
   back: []
+  back2: []

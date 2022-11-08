@@ -142,10 +142,35 @@ public class UnitController : MonoBehaviour
         // If target is in damage distance, succesfully landed the hit.
         if (Mathf.Abs(unit.target.GetComponent<BoxCollider2D>().ClosestPoint(transform.position).x - transform.position.x) < currentAttack.Reach)
         {
-            //float temp = Random.Range(0, unit.Damage / 2);
-            //Debug.Log("Unit damage = " + unit.Damage + " / unit damage half = " + (unit.Damage / 2) + " / random = " + temp);
-            float softDamage = Random.Range(0, unit.Damage / 2) + Random.Range(0, unit.Damage / 2);
-            int damageDealt = (int)(softDamage * Random.Range(1, currentAttack.DamageMultiplierMax));
+            int chance = Random.Range(0, 100);
+            
+            float softDamage = unit.Damage * 0.1f;
+            // low damage 15%
+            if(chance <= 14)
+            {
+                softDamage += Random.Range(0, unit.Damage * 0.9f);
+            }
+            // normal damage 40%
+            else if(chance >= 15 && chance < 65)
+            {
+                softDamage += unit.Damage * 0.4f;
+                softDamage += Random.Range(0, unit.Damage / 2);
+                softDamage -= Random.Range(0, unit.Damage / 2);
+            }
+            // high damage 45%
+            else
+            {
+                softDamage += unit.Damage * 0.6f;
+                softDamage += Random.Range(0, unit.Damage * 0.3f);
+            }
+            int damageDealt = (int)(softDamage);
+
+            damageDealt = Random.Range(0, 100) >= 50 ? (int)(softDamage) : ((int)(softDamage * currentAttack.DamageMultiplierMax));
+
+            if (unit.CompareTag(GameManager.PLAYER_TAG)) Debug.Log(damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+
+            //float softDamage = Random.Range(0, unit.Damage / 2) + Random.Range(0, unit.Damage / 2);
+            //int damageDealt = (int)(softDamage * Random.Range(1, currentAttack.DamageMultiplierMax));
             //Debug.Log("Soft Damage = " + softDamage + " / Damage Dealth = " + damageDealt + " / DamageMultiplier = " + currentAttack.DamageMultiplierMax);
 
             if (currentAttack.DamageMultiplierMax == 0)
@@ -903,5 +928,100 @@ public class UnitController : MonoBehaviour
     {
         GameManager.EnableAllControls -= GameContinue;
         GameManager.DisableAllControls -= GamePaused;
+    }
+
+    void Test()
+    {
+        List<double> damage = new List<double>();
+        Dictionary<int, List<double>> dictDmg = new Dictionary<int, List<double>>();
+        dictDmg.Add(0, new List<double>());
+        dictDmg.Add(1, new List<double>());
+        dictDmg.Add(2, new List<double>());
+
+        int dmg = 100;
+
+        //for (int y = 0; y < 10; y++)
+        //{
+            //damage.Clear();
+            for (int i = 0; i < 100; i++)
+            {
+                System.Random rand = new System.Random(System.Guid.NewGuid().GetHashCode());
+                int chance = rand.Next(0, 100);
+
+                double softDamage = dmg * 0.1;
+                // low damage 15%
+                if (chance <= 14)
+                {
+                    //System.Console.Write("Risky Damage\n");
+                    softDamage += rand.NextDouble() * dmg * 0.9;
+
+                    dictDmg[0].Add(softDamage);
+                }
+                // normal damage 50%
+                else if (chance >= 15 && chance < 65)
+                {
+                    //System.Console.Write("Normal Damage\n");
+                    softDamage += dmg * 0.4f;
+                    softDamage += (rand.NextDouble() / 2) * dmg;
+                    softDamage -= (rand.NextDouble() / 2) * dmg;
+
+                    dictDmg[1].Add(softDamage);
+                }
+                // high damage 35%
+                else
+                {
+                    //System.Console.Write("High Damage\n");
+                    softDamage += dmg * 0.6;
+                    softDamage += rand.NextDouble() * dmg * 0.3;
+
+                    dictDmg[2].Add(softDamage);
+                }
+
+                damage.Add(softDamage);
+            }
+
+            damage.Sort();
+            int biggerThanSeventy = 0;
+            int smallerThanThirty = 0;
+            foreach (double d in damage)
+            {
+                if (d >= 70)
+                    biggerThanSeventy++;
+                if (d <= 30)
+                    smallerThanThirty++;
+                //System.Console.Write("Damage = " + d + "\n");
+            }
+            System.Console.Write("70 >= " + biggerThanSeventy + "\n");
+            System.Console.Write("30 to 70 = " + (100 - biggerThanSeventy - smallerThanThirty) + "\n");
+            System.Console.Write("30 <= " + smallerThanThirty + "\n");
+
+            System.Console.Write("\n\n");
+
+            dictDmg[0].Sort();
+            System.Console.Write("Risky Damage Amount = " + dictDmg[0].Count + "\n");
+            foreach (double d in dictDmg[0])
+            {
+                System.Console.Write("Damage = " + d + "\n");
+            }
+
+            System.Console.Write("\n\n");
+
+            dictDmg[1].Sort();
+            System.Console.Write("Normal Damage Amount = " + dictDmg[1].Count + "\n");
+            foreach (double d in dictDmg[1])
+            {
+                System.Console.Write("Damage = " + d + "\n");
+            }
+
+            System.Console.Write("\n\n");
+
+            dictDmg[2].Sort();
+            System.Console.Write("High Damage Amount = " + dictDmg[2].Count + "\n");
+            foreach (double d in dictDmg[2])
+            {
+                System.Console.Write("Damage = " + d + "\n");
+            }
+            
+        //}
     }
 }

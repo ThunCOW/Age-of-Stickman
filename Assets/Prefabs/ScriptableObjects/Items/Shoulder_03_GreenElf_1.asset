@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 05a6c2596f95ae749bfb079d399d9883
   ItemName: Shoulder
-  HealthBonus: 50
+  HealthBonus: 0
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 1
@@ -33,3 +33,4 @@ MonoBehaviour:
     AttachmentName: Armor/Green_Elf/Shoulder_1_Back
   - SlotName: Armor/Green_Elf/Shoulder_1_Backk
     AttachmentName: Armor/Green_Elf/Shoulder_1_Backk
+  back2: []

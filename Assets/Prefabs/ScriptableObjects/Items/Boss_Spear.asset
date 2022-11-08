@@ -22,7 +22,8 @@ MonoBehaviour:
   ItemQualitySprite: {fileID: 0}
   front:
   - SlotName: Weapon/Spear_04
-    AttachmentName: Weapon/Spear_04
+    AttachmentName: Weapon/Spear_04 SMALL
   side: []
   back: []
+  back2: []
   AnimationList: {fileID: 11400000, guid: 0bd8c5781fe0d6e44a238bae9e165777, type: 2}

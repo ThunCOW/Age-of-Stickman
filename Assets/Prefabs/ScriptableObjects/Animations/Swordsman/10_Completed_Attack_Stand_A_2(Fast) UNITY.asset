@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_Stand_A_2(Fast) UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 755ca4307ce855f4eaa3daa5a8ac0bff, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 8cee345ed7b9f1a4c93c26d0fa8a53bf, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_Stand_A_2(Fast) UNITY
   speedCurve:
@@ -23,10 +23,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
   attackType: 0
   animationMovementType: 0
-  DamageMultiplierMax: 1.4
+  DamageMultiplierMax: 1
   Reach: 2.58
+  MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -2.361

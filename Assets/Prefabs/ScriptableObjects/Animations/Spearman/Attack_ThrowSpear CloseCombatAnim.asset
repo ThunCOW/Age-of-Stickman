@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_ThrowSpear
-  SpineAnimationReference: {fileID: 11400000, guid: 0b9702cfbd92f814ba83fdeac0eeae80, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: d13542bd3d53a614e927b4c0b761adab, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_ThrowSpear
   speedCurve:
@@ -28,7 +28,7 @@ MonoBehaviour:
   SetupKeys: 0
   attackType: 0
   animationMovementType: 0
-  DamageMultiplierMax: 0
+  DamageMultiplierMax: 1
   Reach: 0
   MinDistanceLimit: 0
   PushDistance: 0

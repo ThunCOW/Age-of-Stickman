@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 3f081c21755637942983dbe247d6dd3a
   ItemName: Shoulder
-  HealthBonus: 50
+  HealthBonus: 0
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 1
@@ -33,3 +33,4 @@ MonoBehaviour:
     AttachmentName: Armor/Red_Demon/Shoulder_1_Back
   - SlotName: Armor/Red_Demon/Shoulder_1_Backk
     AttachmentName: Armor/Red_Demon/Shoulder_1_Backk
+  back2: []

@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 78c626bba7051e64caa1b98198959aef
   ItemName: Sword
   HealthBonus: 0
-  DamageBonus: 25
+  DamageBonus: 130
   ItemPrice: 0
   ItemSlot: 3
   ItemSprite: {fileID: 21300000, guid: 2d918632d7b39a34f8c1453224ea55d6, type: 3}
@@ -24,7 +24,7 @@ MonoBehaviour:
   - SlotName: Weapon/OneHand_Sword_00
     AttachmentName: Weapon/OneHand_Sword_09
   - SlotName: Weapon/Spear_0
-    AttachmentName: Weapon/Spear_4
+    AttachmentName: Weapon/Spear_04 SMALL
   side: []
   back: []
   back2: []

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_Walk_A_2 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 83e51e3131814734db8b66097cee99ff, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 221433c39dba5bd4596b057d197bb738, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_Walk_A_2 UNITY
   speedCurve:
@@ -64,7 +64,7 @@ MonoBehaviour:
   SetupKeys: 0
   attackType: 0
   animationMovementType: 1
-  DamageMultiplierMax: 2
+  DamageMultiplierMax: 1.5
   Reach: 2.41
   MinDistanceLimit: 0
   PushDistance: 0

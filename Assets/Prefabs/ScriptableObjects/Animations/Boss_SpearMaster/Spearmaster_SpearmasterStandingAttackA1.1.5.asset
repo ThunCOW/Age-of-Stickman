@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Spearmaster
   AnimationName: SpearmasterStandingAttackA1.1.5
-  SpineAnimationReference: {fileID: 11400000, guid: a83d167cfbd59eb4dabecf70319da522, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: e016e3bb82906ff4596509308ad0dc73, type: 2}
   _PrefixChangeCheck: Spearmaster
   _AnimationNameChangeCheck: SpearmasterStandingAttackA1.1.5
   speedCurve:
@@ -86,10 +86,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
   attackType: 0
   animationMovementType: 1
   DamageMultiplierMax: 1.5
   Reach: 2.58
+  MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -1.746

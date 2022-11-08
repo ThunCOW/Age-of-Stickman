@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_ThrowableRepeat
-  SpineAnimationReference: {fileID: 11400000, guid: 094bff520dbfd514a90482576c19622d, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: e6095318765109647bfe928c2041328a, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_ThrowableRepeat
   speedCurve:
@@ -28,7 +28,7 @@ MonoBehaviour:
   SetupKeys: 0
   attackType: 0
   animationMovementType: 0
-  DamageMultiplierMax: 1.3
+  DamageMultiplierMax: 1
   Reach: 8
   MinDistanceLimit: 3
   PushDistance: 0

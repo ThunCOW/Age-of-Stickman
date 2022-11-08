@@ -1,9 +1,7 @@
 using SpineControllerVersion;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 public class ShopPanel : MonoBehaviour
 {
@@ -109,6 +107,7 @@ public class ShopPanel : MonoBehaviour
             }
             if(newItem) GameManager.Instance.PlayerEquipments.Add(UpgradeScreenDict[shopItemCategory].EquippedItemSlot.ItemsList[q]);
         }
+        GameManager.Instance.mainMenuPlayer.ChangeUnitEquipments(GameManager.Instance.mainMenuPlayer, GameManager.Instance.PlayerEquipments);
     }
 
     public void SetStartingItems()

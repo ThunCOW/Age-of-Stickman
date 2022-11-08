@@ -1,1111 +1,1111 @@
 
 skeleton.png
-size: 4096,2048
+size: 4096,1024
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 Armor/Green_Elf/Arm_1
-  rotate: true
-  xy: 3618, 1921
+  rotate: false
+  xy: 2546, 452
   size: 33, 65
   orig: 33, 65
   offset: 0, 0
   index: -1
 Armor/Green_Elf/Leg_1
   rotate: true
-  xy: 505, 1890
+  xy: 2757, 747
   size: 37, 87
   orig: 37, 87
   offset: 0, 0
   index: -1
 Armor/Green_Elf/Shoulder _1_Side
-  rotate: true
-  xy: 238, 1902
+  rotate: false
+  xy: 2826, 245
   size: 36, 92
   orig: 36, 92
   offset: 0, 0
   index: -1
 Armor/Green_Elf/Shoulder_1
   rotate: true
-  xy: 1726, 1880
+  xy: 2952, 747
   size: 46, 92
   orig: 46, 92
   offset: 0, 0
   index: -1
 Armor/Green_Elf/Shoulder_1_Back
-  rotate: true
-  xy: 1820, 1880
+  rotate: false
+  xy: 2734, 245
   size: 46, 92
   orig: 46, 92
   offset: 0, 0
   index: -1
 Armor/Green_Elf/Shoulder_1_Backk
-  rotate: true
-  xy: 3749, 1920
+  rotate: false
+  xy: 2888, 474
   size: 34, 48
   orig: 34, 48
   offset: 0, 0
   index: -1
 Armor/Human/Arm_1
   rotate: true
-  xy: 175, 1947
+  xy: 2330, 517
   size: 27, 52
   orig: 27, 52
   offset: 0, 0
   index: -1
 Armor/Human/Arm_2
   rotate: true
-  xy: 2919, 1925
+  xy: 2277, 515
   size: 29, 51
   orig: 29, 51
   offset: 0, 0
   index: -1
 Armor/Human/Arm_3
   rotate: true
-  xy: 3848, 1955
+  xy: 2384, 518
   size: 26, 56
   orig: 26, 56
   offset: 0, 0
   index: -1
 Armor/Human/Arm_4
   rotate: true
-  xy: 229, 1946
+  xy: 1445, 72
   size: 28, 52
   orig: 28, 52
   offset: 0, 0
   index: -1
 Armor/Human/Helmet_1
   rotate: false
-  xy: 2672, 1618
+  xy: 2746, 6
   size: 114, 103
   orig: 114, 103
   offset: 0, 0
   index: -1
 Armor/Human/Helmet_2
-  rotate: false
-  xy: 3762, 1582
+  rotate: true
+  xy: 1730, 26
   size: 130, 128
   orig: 130, 128
   offset: 0, 0
   index: -1
 Armor/Human/Helmet_3
-  rotate: false
-  xy: 3180, 1603
+  rotate: true
+  xy: 2862, 2
   size: 119, 118
   orig: 119, 118
   offset: 0, 0
   index: -1
 Armor/Human/Helmet_4
-  rotate: false
-  xy: 2920, 1610
+  rotate: true
+  xy: 2643, 111
   size: 128, 111
   orig: 128, 111
   offset: 0, 0
   index: -1
 Armor/Human/Helmet_4_1
-  rotate: false
-  xy: 3050, 1610
+  rotate: true
+  xy: 2734, 339
   size: 128, 111
   orig: 128, 111
   offset: 0, 0
   index: -1
 Armor/Human/Leg_1
-  rotate: true
-  xy: 489, 1956
+  rotate: false
+  xy: 1888, 543
   size: 25, 59
   orig: 25, 59
   offset: 0, 0
   index: -1
 Armor/Human/Leg_2
   rotate: true
-  xy: 2972, 1925
+  xy: 2218, 515
   size: 29, 57
   orig: 29, 57
   offset: 0, 0
   index: -1
 Armor/Human/Leg_2_1
   rotate: true
-  xy: 3111, 1924
+  xy: 1418, 240
   size: 30, 78
   orig: 30, 78
   offset: 0, 0
   index: -1
 Armor/Human/Leg_2_2
   rotate: true
-  xy: 3799, 1919
+  xy: 1418, 272
   size: 34, 82
   orig: 34, 82
   offset: 0, 0
   index: -1
 Armor/Human/Leg_3
   rotate: true
-  xy: 3031, 1925
+  xy: 1418, 177
   size: 29, 78
   orig: 29, 78
   offset: 0, 0
   index: -1
 Armor/Human/Leg_4
   rotate: true
-  xy: 3191, 1924
+  xy: 1418, 208
   size: 30, 78
   orig: 30, 78
   offset: 0, 0
   index: -1
 Armor/Human/Leg_5
   rotate: true
-  xy: 283, 1940
+  xy: 2057, 515
   size: 27, 101
   orig: 27, 101
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder _1_Side
-  rotate: true
-  xy: 3883, 1919
+  rotate: false
+  xy: 2906, 151
   size: 34, 92
   orig: 34, 92
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_1
-  rotate: true
-  xy: 1218, 1884
+  rotate: false
+  xy: 2782, 245
   size: 42, 92
   orig: 42, 92
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_1_Back
-  rotate: true
-  xy: 1312, 1884
+  rotate: false
+  xy: 2942, 152
   size: 42, 91
   orig: 42, 91
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_1_Backk
-  rotate: true
-  xy: 3271, 1924
+  rotate: false
+  xy: 1860, 100
   size: 30, 56
   orig: 30, 56
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_2
   rotate: true
-  xy: 1405, 1883
+  xy: 1395, 308
   size: 43, 105
   orig: 43, 105
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_2_1
   rotate: true
-  xy: 1512, 1883
+  xy: 2255, 614
   size: 43, 105
   orig: 43, 105
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_2_Back
-  rotate: true
-  xy: 1619, 1883
+  rotate: false
+  xy: 2701, 4
   size: 43, 105
   orig: 43, 105
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_2_Backk
-  rotate: true
-  xy: 3977, 1918
+  rotate: false
+  xy: 2509, 452
   size: 35, 65
   orig: 35, 65
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_2_Side
-  rotate: true
-  xy: 1004, 1887
+  rotate: false
+  xy: 2660, 3
   size: 39, 106
   orig: 39, 106
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_3
   rotate: true
-  xy: 3930, 1860
+  xy: 2362, 688
   size: 56, 92
   orig: 56, 92
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_4
-  rotate: true
-  xy: 3876, 1786
+  rotate: false
+  xy: 2847, 349
   size: 72, 120
   orig: 72, 120
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5
-  rotate: true
-  xy: 1769, 1737
+  rotate: false
+  xy: 2832, 123
   size: 72, 120
   orig: 72, 120
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5_1_Back
-  rotate: true
-  xy: 1891, 1735
+  rotate: false
+  xy: 2756, 120
   size: 74, 123
   orig: 74, 123
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5_1_Backk
-  rotate: true
-  xy: 3329, 1924
+  rotate: false
+  xy: 1860, 42
   size: 30, 56
   orig: 30, 56
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5_2_Backk
   rotate: true
-  xy: 2967, 1870
+  xy: 2710, 469
   size: 53, 123
   orig: 53, 123
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5_Back
   rotate: true
-  xy: 3092, 1869
+  xy: 2902, 795
   size: 53, 91
   orig: 53, 91
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5_Backk
   rotate: true
-  xy: 3998, 1785
+  xy: 1418, 102
   size: 73, 74
   orig: 73, 74
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5_Side
   rotate: true
-  xy: 2, 1852
+  xy: 1942, 544
   size: 58, 118
   orig: 58, 118
   offset: 0, 0
   index: -1
 Armor/Red_Demon/Arm_1
-  rotate: true
-  xy: 550, 1956
+  rotate: false
+  xy: 1915, 543
   size: 25, 59
   orig: 25, 59
   offset: 0, 0
   index: -1
 Armor/Red_Demon/Leg_1
-  rotate: true
-  xy: 175, 1909
+  rotate: false
+  xy: 1851, 541
   size: 35, 61
   orig: 35, 61
   offset: 0, 0
   index: -1
 Armor/Red_Demon/Shoulder _1_Side
   rotate: true
-  xy: 1112, 1886
+  xy: 2846, 747
   size: 40, 104
   orig: 40, 104
   offset: 0, 0
   index: -1
 Armor/Red_Demon/Shoulder_1
   rotate: true
-  xy: 3434, 1866
+  xy: 2362, 631
   size: 55, 92
   orig: 55, 92
   offset: 0, 0
   index: -1
 Armor/Red_Demon/Shoulder_1_Back
   rotate: true
-  xy: 3528, 1864
+  xy: 2616, 467
   size: 55, 92
   orig: 55, 92
   offset: 0, 0
   index: -1
 Armor/Red_Demon/Shoulder_1_Backk
   rotate: true
-  xy: 3387, 1924
+  xy: 2160, 514
   size: 30, 56
   orig: 30, 56
   offset: 0, 0
   index: -1
 Body/ARCHER_0_CHEST_0
   rotate: true
-  xy: 3445, 1923
+  xy: 2780, 524
   size: 31, 171
   orig: 31, 171
   offset: 0, 0
   index: -1
 Body/CHAR_0_CHEST_0
   rotate: true
-  xy: 2602, 1956
+  xy: 1884, 514
   size: 25, 171
   orig: 25, 171
   offset: 0, 0
   index: -1
 Body/CHAR_0_FOOT_L_0
-  rotate: false
-  xy: 2775, 1956
+  rotate: true
+  xy: 1418, 63
   size: 37, 25
   orig: 37, 25
   offset: 0, 0
   index: -1
 Body/CHAR_0_FOOT_R_0
-  rotate: false
-  xy: 2775, 1956
+  rotate: true
+  xy: 1418, 63
   size: 37, 25
   orig: 37, 25
   offset: 0, 0
   index: -1
 Body/CHAR_0_HAND_L_0
   rotate: true
-  xy: 2814, 1956
+  xy: 2611, 524
   size: 25, 167
   orig: 25, 167
   offset: 0, 0
   index: -1
 Body/CHAR_0_HAND_R_0
   rotate: true
-  xy: 2814, 1956
+  xy: 2611, 524
   size: 25, 167
   orig: 25, 167
   offset: 0, 0
   index: -1
 Body/CHAR_0_HEAD_0
   rotate: false
-  xy: 3956, 1681
+  xy: 2864, 245
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 Body/CHAR_0_LEG_R_0
   rotate: true
-  xy: 2983, 1956
+  xy: 1659, 514
   size: 25, 223
   orig: 25, 223
   offset: 0, 0
   index: -1
 Body/CHAR_0_Leg_L_0
   rotate: true
-  xy: 2983, 1956
+  xy: 1659, 514
   size: 25, 223
   orig: 25, 223
   offset: 0, 0
   index: -1
 Body/CHAR_1_CHEST_0
   rotate: true
-  xy: 611, 1956
-  size: 25, 171
-  orig: 25, 171
+  xy: 964, 338
+  size: 13, 85
+  orig: 13, 85
   offset: 0, 0
   index: -1
 Body/CHAR_1_CHEST_1
   rotate: true
-  xy: 3906, 1955
-  size: 26, 172
-  orig: 26, 172
+  xy: 1051, 338
+  size: 13, 85
+  orig: 13, 85
   offset: 0, 0
   index: -1
 Body/CHAR_1_FOOT_L_0
-  rotate: false
-  xy: 784, 1956
-  size: 37, 25
-  orig: 37, 25
+  rotate: true
+  xy: 841, 29
+  size: 19, 13
+  orig: 19, 13
   offset: 0, 0
   index: -1
 Body/CHAR_1_FOOT_R_0
-  rotate: false
-  xy: 784, 1956
-  size: 37, 25
-  orig: 37, 25
+  rotate: true
+  xy: 841, 29
+  size: 19, 13
+  orig: 19, 13
   offset: 0, 0
   index: -1
 Body/CHAR_1_HAND_L_0
   rotate: true
-  xy: 823, 1956
-  size: 25, 167
-  orig: 25, 167
+  xy: 951, 394
+  size: 13, 84
+  orig: 13, 84
   offset: 0, 0
   index: -1
 Body/CHAR_1_HAND_R_0
   rotate: true
-  xy: 823, 1956
-  size: 25, 167
-  orig: 25, 167
+  xy: 951, 394
+  size: 13, 84
+  orig: 13, 84
   offset: 0, 0
   index: -1
 Body/CHAR_1_HEAD_0
   rotate: true
-  xy: 2788, 1614
-  size: 107, 130
-  orig: 107, 130
+  xy: 1244, 353
+  size: 54, 65
+  orig: 54, 65
   offset: 0, 0
   index: -1
 Body/CHAR_1_LEG_L_0
   rotate: true
-  xy: 992, 1956
-  size: 25, 223
-  orig: 25, 223
+  xy: 416, 2
+  size: 13, 112
+  orig: 13, 112
   offset: 0, 0
   index: -1
 Body/CHAR_1_LEG_R_0
   rotate: true
-  xy: 992, 1956
-  size: 25, 223
-  orig: 25, 223
+  xy: 416, 2
+  size: 13, 112
+  orig: 13, 112
   offset: 0, 0
   index: -1
 Body/CHAR_2_ARCHER_CHEST_0
   rotate: true
-  xy: 2, 1912
-  size: 34, 171
-  orig: 34, 171
+  xy: 937, 36
+  size: 17, 85
+  orig: 17, 85
   offset: 0, 0
   index: -1
 Body/CHAR_2_CHEST_0
   rotate: true
-  xy: 1217, 1956
-  size: 25, 171
-  orig: 25, 171
+  xy: 1138, 338
+  size: 13, 85
+  orig: 13, 85
   offset: 0, 0
   index: -1
 Body/CHAR_2_CHEST_1
   rotate: true
-  xy: 2, 1948
-  size: 26, 171
-  orig: 26, 171
+  xy: 876, 338
+  size: 13, 86
+  orig: 13, 86
   offset: 0, 0
   index: -1
 Body/CHAR_2_CHEST_2
   rotate: true
-  xy: 1390, 1956
-  size: 25, 171
-  orig: 25, 171
+  xy: 1138, 40
+  size: 13, 85
+  orig: 13, 85
   offset: 0, 0
   index: -1
 Body/CHAR_2_FOOT_L_0
-  rotate: false
-  xy: 1563, 1956
-  size: 37, 25
-  orig: 37, 25
+  rotate: true
+  xy: 856, 29
+  size: 19, 13
+  orig: 19, 13
   offset: 0, 0
   index: -1
 Body/CHAR_2_FOOT_R_0
-  rotate: false
-  xy: 1563, 1956
-  size: 37, 25
-  orig: 37, 25
+  rotate: true
+  xy: 856, 29
+  size: 19, 13
+  orig: 19, 13
   offset: 0, 0
   index: -1
 Body/CHAR_2_HAND_L_0
   rotate: true
-  xy: 1602, 1956
-  size: 25, 167
-  orig: 25, 167
+  xy: 1037, 394
+  size: 13, 84
+  orig: 13, 84
   offset: 0, 0
   index: -1
 Body/CHAR_2_HAND_R_0
   rotate: true
-  xy: 1602, 1956
-  size: 25, 167
-  orig: 25, 167
-  offset: 0, 0
-  index: -1
-Body/CHAR_2_HEAD_0
-  rotate: false
-  xy: 3658, 1376
-  size: 204, 204
-  orig: 204, 204
+  xy: 1037, 394
+  size: 13, 84
+  orig: 13, 84
   offset: 0, 0
   index: -1
 Body/CHAR_2_HEAD_1
   rotate: false
-  xy: 3864, 1327
-  size: 204, 204
-  orig: 204, 204
+  xy: 2995, 797
+  size: 51, 51
+  orig: 51, 51
+  offset: 0, 0
+  index: -1
+Body/CHAR_2_HEAD_2
+  rotate: false
+  xy: 2607, 15
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
 Body/CHAR_2_LEG_L_0
   rotate: true
-  xy: 1771, 1956
-  size: 25, 223
-  orig: 25, 223
+  xy: 762, 338
+  size: 13, 112
+  orig: 13, 112
   offset: 0, 0
   index: -1
 Body/CHAR_2_LEG_R_0
   rotate: true
-  xy: 1771, 1956
-  size: 25, 223
-  orig: 25, 223
+  xy: 762, 338
+  size: 13, 112
+  orig: 13, 112
   offset: 0, 0
   index: -1
 Body/CHAR_3_ARCHER_CHEST_0
-  rotate: true
-  xy: 332, 1893
+  rotate: false
+  xy: 2607, 68
   size: 34, 171
   orig: 34, 171
   offset: 0, 0
   index: -1
 Body/CHAR_3_CHEST_0
   rotate: true
-  xy: 1996, 1956
-  size: 25, 171
-  orig: 25, 171
+  xy: 1225, 338
+  size: 13, 85
+  orig: 13, 85
   offset: 0, 0
   index: -1
 Body/CHAR_3_CHEST_1
   rotate: true
-  xy: 1018, 1928
-  size: 26, 171
-  orig: 26, 171
+  xy: 864, 394
+  size: 13, 85
+  orig: 13, 85
   offset: 0, 0
   index: -1
 Body/CHAR_3_FOOT_L_0
-  rotate: false
-  xy: 2169, 1956
-  size: 37, 25
-  orig: 37, 25
+  rotate: true
+  xy: 922, 34
+  size: 19, 13
+  orig: 19, 13
   offset: 0, 0
   index: -1
 Body/CHAR_3_FOOT_R_0
-  rotate: false
-  xy: 2169, 1956
-  size: 37, 25
-  orig: 37, 25
+  rotate: true
+  xy: 922, 34
+  size: 19, 13
+  orig: 19, 13
   offset: 0, 0
   index: -1
 Body/CHAR_3_HAND_L_0
   rotate: true
-  xy: 2208, 1956
-  size: 25, 167
-  orig: 25, 167
+  xy: 1123, 394
+  size: 13, 84
+  orig: 13, 84
   offset: 0, 0
   index: -1
 Body/CHAR_3_HAND_R_0
   rotate: true
-  xy: 2208, 1956
+  xy: 2442, 519
   size: 25, 167
   orig: 25, 167
   offset: 0, 0
   index: -1
 Body/CHAR_3_HEAD_0
   rotate: false
-  xy: 2793, 1230
-  size: 204, 204
-  orig: 204, 204
+  xy: 2835, 471
+  size: 51, 51
+  orig: 51, 51
   offset: 0, 0
   index: -1
 Body/CHAR_3_LEG_L_0
   rotate: true
-  xy: 2377, 1956
-  size: 25, 223
-  orig: 25, 223
+  xy: 1024, 40
+  size: 13, 112
+  orig: 13, 112
   offset: 0, 0
   index: -1
 Body/CHAR_3_LEG_R_0
   rotate: true
-  xy: 2377, 1956
-  size: 25, 223
-  orig: 25, 223
+  xy: 1024, 40
+  size: 13, 112
+  orig: 13, 112
   offset: 0, 0
   index: -1
 Crossbow
-  rotate: false
-  xy: 3622, 1864
+  rotate: true
+  xy: 630, 29
   size: 306, 53
   orig: 306, 53
   offset: 0, 0
   index: -1
 Effect/DoubleSycthe_Effect_SpinTrail_00
-  rotate: false
-  xy: 3282, 1203
+  rotate: true
+  xy: 417, 28
   size: 307, 211
   orig: 307, 211
   offset: 0, 0
   index: -1
 Effect/DoubleSycthe_Effect_SpinTrail_20
   rotate: false
-  xy: 2, 2
+  xy: 75, 337
   size: 685, 685
   orig: 685, 685
   offset: 0, 0
   index: -1
 Effect/ShieldSmash
-  rotate: false
-  xy: 3894, 1533
+  rotate: true
+  xy: 2319, 19
   size: 193, 146
   orig: 193, 146
   offset: 0, 0
   index: -1
 Effect/Sword_HitEffect
-  rotate: false
-  xy: 2, 1102
+  rotate: true
+  xy: 1348, 514
   size: 508, 250
   orig: 508, 250
   offset: 0, 0
   index: -1
 MainMenuShadow/Player_01
-  rotate: true
-  xy: 1084, 1514
+  rotate: false
+  xy: 2615, 766
   size: 140, 256
   orig: 140, 256
   offset: 0, 0
   index: -1
 MainMenuShadow/Player_Shield_01
-  rotate: true
-  xy: 1540, 1499
+  rotate: false
+  xy: 1730, 158
   size: 154, 196
   orig: 154, 196
   offset: 0, 0
   index: -1
 MainMenuShadow/Player_Weapon_01
-  rotate: true
-  xy: 2334, 1875
+  rotate: false
+  xy: 2268, 9
   size: 49, 203
   orig: 49, 203
   offset: 0, 0
   index: -1
 Shadow
-  rotate: false
-  xy: 2325, 1639
+  rotate: true
+  xy: 1634, 9
   size: 345, 94
   orig: 345, 94
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_00
   rotate: false
-  xy: 2489, 1465
+  xy: 2868, 573
   size: 172, 172
   orig: 172, 172
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_01
-  rotate: true
-  xy: 3685, 1921
+  rotate: false
+  xy: 2581, 455
   size: 33, 62
   orig: 33, 62
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_02
   rotate: false
-  xy: 2858, 1436
+  xy: 2902, 850
   size: 172, 172
   orig: 172, 172
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_03
-  rotate: true
-  xy: 1553, 1655
+  rotate: false
+  xy: 2780, 557
   size: 86, 188
   orig: 86, 188
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_10
-  rotate: false
-  xy: 512, 1078
+  rotate: true
+  xy: 2339, 746
   size: 276, 274
   orig: 276, 274
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_11
-  rotate: true
-  xy: 2514, 1240
+  rotate: false
+  xy: 1160, 59
   size: 201, 277
   orig: 201, 277
   offset: 0, 0
   index: -1
 Shield/ShieldLong_00
-  rotate: true
-  xy: 1738, 1492
+  rotate: false
+  xy: 139, 16
   size: 152, 319
   orig: 152, 319
   offset: 0, 0
   index: -1
 Shield/ShieldLong_01
   rotate: true
-  xy: 315, 1969
+  xy: 1354, 339
   size: 12, 39
   orig: 12, 39
   offset: 0, 0
   index: -1
 Shield/ShieldLong_02
   rotate: true
-  xy: 356, 1969
+  xy: 1312, 339
   size: 12, 40
   orig: 12, 40
   offset: 0, 0
   index: -1
 Shield/ShieldLong_03
-  rotate: true
-  xy: 1121, 1754
+  rotate: false
+  xy: 293, 16
   size: 68, 319
   orig: 68, 319
   offset: 0, 0
   index: -1
 Shield/ShieldLong_10
-  rotate: true
-  xy: 2999, 1219
+  rotate: false
+  xy: 863, 55
   size: 208, 281
   orig: 208, 281
   offset: 0, 0
   index: -1
 Shield/ShieldLong_11
-  rotate: true
-  xy: 1270, 1656
+  rotate: false
+  xy: 1073, 55
   size: 85, 281
   orig: 85, 281
   offset: 0, 0
   index: -1
 Shield/ShieldLong_20
-  rotate: true
-  xy: 2, 1542
+  rotate: false
+  xy: 2454, 233
   size: 138, 212
   orig: 138, 212
   offset: 0, 0
   index: -1
 Shield/ShieldLong_30
-  rotate: true
-  xy: 656, 1529
+  rotate: false
+  xy: 2467, 19
   size: 138, 212
   orig: 138, 212
   offset: 0, 0
   index: -1
 Shield/ShieldLong_40
-  rotate: true
-  xy: 870, 1529
+  rotate: false
+  xy: 2594, 241
   size: 138, 212
   orig: 138, 212
   offset: 0, 0
   index: -1
 Shield/ShieldLong_50
-  rotate: true
-  xy: 2663, 1443
+  rotate: false
+  xy: 2609, 551
   size: 169, 193
   orig: 169, 193
   offset: 0, 0
   index: -1
 Shield/ShieldLong_51
   rotate: true
-  xy: 2104, 1644
+  xy: 1311, 353
   size: 89, 219
   orig: 89, 219
   offset: 0, 0
   index: -1
 Shield/ShieldLong_60
-  rotate: true
-  xy: 3425, 1416
+  rotate: false
+  xy: 2268, 214
   size: 184, 231
   orig: 184, 231
   offset: 0, 0
   index: -1
 Shield/ShieldLong_61
-  rotate: true
-  xy: 415, 1758
+  rotate: false
+  xy: 2829, 789
   size: 71, 233
   orig: 71, 233
   offset: 0, 0
   index: -1
 Shield/ShieldLong_70
-  rotate: true
-  xy: 1342, 1503
+  rotate: false
+  xy: 2456, 548
   size: 151, 196
   orig: 151, 196
   offset: 0, 0
   index: -1
 Shield/ShieldLong_71
-  rotate: true
-  xy: 3638, 1792
+  rotate: false
+  xy: 2757, 786
   size: 70, 236
   orig: 70, 236
   offset: 0, 0
   index: -1
 Shield/ShieldLong_73
   rotate: true
-  xy: 438, 1958
+  xy: 871, 30
   size: 23, 49
   orig: 23, 49
   offset: 0, 0
   index: -1
 Weapon/BowQuiver_00
   rotate: true
-  xy: 2204, 1807
+  xy: 2232, 447
   size: 66, 275
   orig: 66, 275
   offset: 0, 0
   index: -1
 Weapon/BowQuiver_01
-  rotate: true
-  xy: 3185, 1869
+  rotate: false
+  xy: 1363, 59
   size: 53, 247
   orig: 53, 247
   offset: 0, 0
   index: -1
 Weapon/Bow_00_2
   rotate: true
-  xy: 2, 1766
+  xy: 1348, 445
   size: 67, 411
   orig: 67, 411
   offset: 0, 0
   index: -1
 Weapon/Bow_00_3
   rotate: true
-  xy: 111, 1976
+  xy: 937, 29
   size: 5, 202
   orig: 5, 202
   offset: 0, 0
   index: -1
 Weapon/Bow_01_0
-  rotate: true
-  xy: 2832, 1801
+  rotate: false
+  xy: 1986, 612
   size: 66, 410
   orig: 66, 410
   offset: 0, 0
   index: -1
 Weapon/Bow_Arrow_00_0
   rotate: true
-  xy: 2036, 1926
+  xy: 1225, 29
   size: 28, 250
   orig: 28, 250
   offset: 0, 0
   index: -1
 Weapon/Bow_Arrow_00_1
   rotate: true
-  xy: 2, 1976
+  xy: 417, 21
   size: 5, 107
   orig: 5, 107
   offset: 0, 0
   index: -1
 Weapon/Bow_Arrow_00_2
   rotate: true
-  xy: 398, 1962
+  xy: 801, 29
   size: 19, 38
   orig: 19, 38
   offset: 0, 0
   index: -1
 Weapon/LongAxe_00
   rotate: true
-  xy: 3244, 1796
+  xy: 2062, 546
   size: 66, 392
   orig: 66, 392
   offset: 0, 0
   index: -1
 Weapon/LongAxe_01
   rotate: true
-  xy: 650, 1756
+  xy: 1761, 446
   size: 66, 469
   orig: 66, 469
   offset: 0, 0
   index: -1
 Weapon/LongSycthe_00
-  rotate: true
-  xy: 3032, 1429
+  rotate: false
+  xy: 2082, 631
   size: 171, 391
   orig: 171, 391
   offset: 0, 0
   index: -1
 Weapon/OneHand_Mace_00
-  rotate: false
-  xy: 2, 1682
+  rotate: true
+  xy: 2255, 659
   size: 363, 82
   orig: 363, 82
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_00
-  rotate: false
-  xy: 2539, 1874
+  rotate: true
+  xy: 2217, 18
   size: 426, 49
   orig: 426, 49
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_01
-  rotate: false
-  xy: 732, 1825
+  rotate: true
+  xy: 801, 50
   size: 286, 60
   orig: 286, 60
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_02
-  rotate: false
-  xy: 1524, 1815
+  rotate: true
+  xy: 1569, 5
   size: 349, 63
   orig: 349, 63
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_03
-  rotate: false
-  xy: 1875, 1811
+  rotate: true
+  xy: 2, 6
   size: 327, 63
   orig: 327, 63
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_04
-  rotate: false
-  xy: 2481, 1807
+  rotate: true
+  xy: 1502, 2
   size: 349, 65
   orig: 349, 65
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_05
-  rotate: false
-  xy: 3208, 1956
+  rotate: true
+  xy: 363, 17
   size: 318, 25
   orig: 318, 25
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_06
   rotate: false
-  xy: 1743, 1646
+  xy: 1532, 356
   size: 359, 87
   orig: 359, 87
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_07
-  rotate: false
-  xy: 1442, 1743
+  rotate: true
+  xy: 67, 8
   size: 325, 70
   orig: 325, 70
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_08
-  rotate: false
-  xy: 122, 1835
+  rotate: true
+  xy: 685, 32
   size: 303, 56
   orig: 303, 56
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_09
-  rotate: false
-  xy: 427, 1831
+  rotate: true
+  xy: 743, 32
   size: 303, 56
   orig: 303, 56
   offset: 0, 0
   index: -1
 Weapon/OneHand_Sword_10
-  rotate: false
-  xy: 3528, 1956
+  rotate: true
+  xy: 390, 17
   size: 318, 25
   orig: 318, 25
   offset: 0, 0
   index: -1
 Weapon/Spear_00
   rotate: false
-  xy: 2, 1354
-  size: 2510, 109
-  orig: 2510, 109
+  xy: 139, 2
+  size: 275, 12
+  orig: 275, 12
   offset: 0, 0
   index: -1
-Weapon/Spear_04
+Weapon/Spear_04 SMALL
   rotate: false
-  xy: 2, 689
-  size: 3642, 253
-  orig: 3642, 253
+  xy: 530, 3
+  size: 338, 23
+  orig: 338, 23
   offset: 0, 0
   index: -1
 Weapon/Spear_05
-  rotate: false
-  xy: 2016, 1735
+  rotate: true
+  xy: 762, 353
   size: 669, 70
   orig: 669, 70
   offset: 0, 0
   index: -1
 Weapon/Spear_06
   rotate: false
-  xy: 386, 1929
+  xy: 870, 2
   size: 630, 25
   orig: 630, 25
   offset: 0, 0
   index: -1
 Weapon/Spear_07
-  rotate: false
-  xy: 1191, 1928
+  rotate: true
+  xy: 2026, 11
   size: 433, 26
   orig: 433, 35
   offset: 0, 5
   index: -1
 Weapon/Spear_08
-  rotate: false
-  xy: 2288, 1926
+  rotate: true
+  xy: 834, 393
   size: 629, 28
   orig: 629, 28
   offset: 0, 0
   index: -1
 Weapon/Spear_09
-  rotate: false
-  xy: 367, 1674
+  rotate: true
+  xy: 1659, 541
   size: 481, 80
   orig: 481, 80
   offset: 0, 0
   index: -1
 Weapon/Spear_10
-  rotate: false
-  xy: 1020, 1824
+  rotate: true
+  xy: 1600, 520
   size: 502, 57
   orig: 502, 57
   offset: 0, 0
   index: -1
 Weapon/Spear_11
-  rotate: false
-  xy: 3376, 1712
+  rotate: true
+  xy: 1274, 444
   size: 578, 72
   orig: 578, 72
   offset: 0, 0
   index: -1
 Weapon/Spear_12
-  rotate: false
-  xy: 2687, 1723
+  rotate: true
+  xy: 2, 335
   size: 687, 71
   orig: 687, 71
   offset: 0, 0
   index: -1
 Weapon/ThrowerSpear_00
-  rotate: true
-  xy: 216, 1541
+  rotate: false
+  xy: 1893, 6
   size: 131, 438
   orig: 131, 438
   offset: 0, 0
   index: -1
 Weapon/TwoHand_ Mace_00
-  rotate: true
-  xy: 2059, 1476
+  rotate: false
+  xy: 2054, 16
   size: 161, 428
   orig: 161, 428
   offset: 0, 0
   index: -1
 Weapon/TwoHand_Axe_00
-  rotate: true
-  xy: 850, 1669
+  rotate: false
+  xy: 1851, 604
   size: 83, 418
   orig: 83, 418
   offset: 0, 0
   index: -1
 Weapon/TwoHand_Axe_00_0
-  rotate: false
-  xy: 1914, 1876
+  rotate: true
+  xy: 1936, 604
   size: 418, 48
   orig: 418, 48
   offset: 0, 0
   index: -1
 Weapon/TwoHand_Axe_00_1
   rotate: false
-  xy: 594, 1889
+  xy: 834, 353
   size: 408, 38
   orig: 408, 38
   offset: 0, 0
   index: -1
 Weapon/TwoHand_Axe_00_2
-  rotate: false
-  xy: 1626, 1928
+  rotate: true
+  xy: 2054, 614
   size: 408, 26
   orig: 408, 26
   offset: 0, 0
   index: -1
 Weapon/TwoHand_DoubleSycthe_00
-  rotate: false
-  xy: 790, 944
+  rotate: true
+  xy: 864, 409
   size: 613, 408
   orig: 613, 408
   offset: 0, 0
   index: -1
 Weapon/TwoHand_Sword_00
-  rotate: true
-  xy: 3301, 1602
+  rotate: false
+  xy: 1741, 563
   size: 108, 459
   orig: 108, 459
   offset: 0, 0

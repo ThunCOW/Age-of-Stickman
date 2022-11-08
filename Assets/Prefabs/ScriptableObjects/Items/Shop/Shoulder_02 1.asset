@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
   m_Name: Shoulder_02 1
   m_EditorClassIdentifier: 
-  id: fd998a6a390a91a439028726577c292c
+  id: 07e5b6b8b8389a043b31e8f77fad61e7
   ItemName: Shoulder
   HealthBonus: 0
   DamageBonus: 0
@@ -27,7 +27,7 @@ MonoBehaviour:
     AttachmentName: Armor/Human/Arm_3
   side:
   - SlotName: Armor/Human/Shoulder _1_Side
-    AttachmentName: Armor/Human/Shoulder _2_Side
+    AttachmentName: Armor/Human/Shoulder_2_Side
   back:
   - SlotName: Armor/Human/Shoulder_1_Back
     AttachmentName: Armor/Human/Shoulder_2_Back

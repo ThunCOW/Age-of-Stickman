@@ -243,7 +243,7 @@ public class HiringPanel : MonoBehaviour
 public class UnitHolder
 {
     public GameObject UnitObject;
-    public List<Item> equippedItems = new List<Item>();
+    [HideInInspector] public List<Item> equippedItems = new List<Item>();
     public Dictionary<ItemSlot, Item> dictEquippedItems = new Dictionary<ItemSlot, Item>();
 
      [HideInInspector] public Vector3 defaultPosition;
@@ -262,18 +262,27 @@ public class UnitHolder
     }
 
     // Setting Up Equipments
-    public void ChangeUnitEquipments(UnitHolder unitHolder, List<Item> mercenaryItems)
+    public void ChangeUnitEquipments(UnitHolder unitHolder, List<Item> equippedItems)
     {
         SkeletonGraphic skeletonGraphic = unitHolder.UnitObject.GetComponent<SkeletonGraphic>();
 
-        if (unitHolder.equippedItems != null && unitHolder.equippedItems != mercenaryItems)
+        if (unitHolder.equippedItems != null && unitHolder.equippedItems != equippedItems)
         {
             ResetEquipments(unitHolder, skeletonGraphic);
         }
 
-        for (int i = 0; i < mercenaryItems.Count; i++)
+        for (int i = 0; i < equippedItems.Count; i++)
         {
-            AddEquipment(unitHolder, skeletonGraphic, mercenaryItems[i].InitiateItem());
+            AddEquipment(unitHolder, skeletonGraphic, equippedItems[i].InitiateItem());
+        }
+
+        
+        if (equippedItems == GameManager.Instance.PlayerEquipments)
+        {
+            if(GameManager.Instance.IsSpearmasterDead)
+                skeletonGraphic.Skeleton.SetAttachment(dictEquippedItems[ItemSlot.MainHand].front[1].SlotName, dictEquippedItems[ItemSlot.MainHand].front[1].AttachmentName);
+            else
+                skeletonGraphic.Skeleton.SetAttachment(dictEquippedItems[ItemSlot.MainHand].front[1].SlotName, null);
         }
     }
 

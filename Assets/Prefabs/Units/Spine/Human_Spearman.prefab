@@ -473,6 +473,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
   - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
   equippedItemList: []
+  secondaryWeapon: {fileID: 0}
   changeItemNow: 0
 --- !u!114 &6248090491408798400
 MonoBehaviour:
@@ -487,7 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 2773196355599170856}
-  HealthMax: 100
+  HealthMax: 130
   _Health: 0
   Damage: 25
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
@@ -498,19 +499,25 @@ MonoBehaviour:
     idle: {fileID: 0}
     Movement: {fileID: 0}
     MovementBackward: {fileID: 0}
+    BlockAttack: {fileID: 0}
+    ResetSlots: {fileID: 0}
     Hurt: {fileID: 0}
     Kicked: {fileID: 0}
     Slammed: {fileID: 0}
     KnockedDown: {fileID: 0}
     Attack: []
     WalkAttack: []
-    Death: []
+    ChangeStance:
+      Animation: {fileID: 0}
+      chance: 0
+    SwapWeapon: {fileID: 0}
     DeathAnimationByDamageRegion:
       highRegion: []
       midRegion: []
       lowRegion: []
     BreakStance: []
   target: {fileID: 0}
+  Projectile: {fileID: 0}
 --- !u!114 &6248090491408798415
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,7 +532,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spineSkeletonAnimation: {fileID: 6248090490880151932}
   isAnimationStarted: 0
+  extraSpeed: 0
   speed: 2
+  isBoss: 0
   _aiAgressiveness: 2
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &6248090491408798414

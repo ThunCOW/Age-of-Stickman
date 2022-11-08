@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_Stand_A_2(Spearman)
-  SpineAnimationReference: {fileID: 11400000, guid: d3cd35ea6512ed04a9034219d6e55d3a, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 5678d9e372760a74fb7dce3a86042c4f, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_Stand_A_2(Spearman)
   speedCurve:
@@ -23,10 +23,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
   attackType: 0
   animationMovementType: 0
-  DamageMultiplierMax: 1.5
+  DamageMultiplierMax: 1
   Reach: 3
+  MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: -2.361

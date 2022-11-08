@@ -2,11 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SpineControllerVersion;
-using Spine.Unity;
 using Spine;
+using System;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
-public class PlayerController : UnitController
+public class PlayerController : UnitController//, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
+    [SerializeField] private RectTransform joystickTransform;
+
+    [SerializeField] private float dragThreshold = 0.6f;
+    [SerializeField] private int dragMovementDistance = 85;
+    [SerializeField] private int dragOffsetDistance = 100;
+
+    public event Action<Vector2> OnMove;
+
+    public Button button;
+    /// <summary>
+    /// ////////////////////////////////////////////////////////////////////////////
+    /// </summary>
     bool attackTrigger = false;
     bool stunTrigger = false;
     Coroutine triggerCoroutine = null;
@@ -45,6 +59,7 @@ public class PlayerController : UnitController
 
         // TODO: Same S1
         canThrow = GameManager.Instance.IsSpearmasterDead;
+        
     }
 
     protected override void CharacterControls()
@@ -65,39 +80,28 @@ public class PlayerController : UnitController
             }
         }
     }
-
-    void MobileController()
-    {
-
-    }
-
+    
     void KeyboardControls()
     {
         // Space Pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            attackTrigger = true;
-            stunTrigger = false;
-
-            if (triggerCoroutine != null) StopCoroutine(triggerCoroutine);
+            AttackButtonDown();
         }
         // Space Released
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            triggerCoroutine = StartCoroutine(ResetAttackTrigger(KeyCode.Space));
+            AttackButtonUp();
         }
 
         // R pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
-            stunTrigger = true;
-            attackTrigger = false;
-
-            if (triggerCoroutine != null) StopCoroutine(triggerCoroutine);
+            StunButtonDown();
         }
         if (Input.GetKeyUp(KeyCode.R))
         {
-            triggerCoroutine = StartCoroutine(ResetAttackTrigger(KeyCode.R));
+            StunButtonUp();
         }
 
         // Movement Conditions
@@ -105,48 +109,47 @@ public class PlayerController : UnitController
         // A D Release
         if (Input.GetKeyUp(KeyCode.D) || Input.GetKeyUp(KeyCode.A))
         {
-            if (!isAnimationStarted)
-            {
-                direction = MoveDirection.waiting;
-
-                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-            }
+            MoveButtonUp();
         }
 
         // A D Pressed
         if (Input.GetKeyDown(KeyCode.D))
         {
-            if (!isAnimationStarted)
-            {
-                direction = MoveDirection.right;
-
-                SetWalkingAnimation((int)direction);
-            }
+            MoveButtonDown(((int)MoveDirection.right));
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
-            if (!isAnimationStarted)
-            {
-                direction = MoveDirection.left;
-
-                SetWalkingAnimation((int)direction);
-            }
+            MoveButtonDown(((int)MoveDirection.left));
         }
 
         // Animation Conditions
-
-        // A D Hold
-        // NonStationary Attack
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.D))
+        if (attackTrigger)
         {
-            // There isn't an animation already playing
-            if (!isAnimationStarted)
+            // Stationary Attack
+            if (direction == MoveDirection.waiting)
             {
-                if (attackTrigger)
+                // There isn't an animation already playing
+                if (!isAnimationStarted)
+                {
+                    List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
+
+                    int randomAttack = UnityEngine.Random.Range(0, tempStationaryAttack.Count);
+                    currentAttack = tempStationaryAttack[randomAttack] as CloseCombatAnimation;
+
+                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
+
+                    AttackAction();
+                }
+            }
+            // NonStationary Attack
+            else
+            {
+                // There isn't an animation already playing
+                if (!isAnimationStarted)
                 {
                     List<BasicAnimation> tempWalkAttack = unit.activeAnimations.WalkAttack;
 
-                    int randomAttack = Random.Range(0, tempWalkAttack.Count);
+                    int randomAttack = UnityEngine.Random.Range(0, tempWalkAttack.Count);
                     currentAttack = tempWalkAttack[randomAttack] as CloseCombatAnimation;
 
                     spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
@@ -155,33 +158,14 @@ public class PlayerController : UnitController
                 }
             }
         }
-        // Stationary Attack
-        else
+
+        if (stunTrigger)
         {
-            // There isn't an animation already playing
             if (!isAnimationStarted)
-            {
-                if (attackTrigger)
-                {
-                    List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
-
-                    int randomAttack = Random.Range(0, tempStationaryAttack.Count);
-                    currentAttack = tempStationaryAttack[randomAttack] as CloseCombatAnimation;
-
-                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
-
-                    AttackAction();
-                }
-            }
-        }
-
-        if (!isAnimationStarted)
-        {
-            if (stunTrigger)
             {
                 List<BasicAnimation> tempStationaryStun = unit.activeAnimations.BreakStance;
 
-                int randomAttack = Random.Range(0, tempStationaryStun.Count);
+                int randomAttack = UnityEngine.Random.Range(0, tempStationaryStun.Count);
                 BasicAnimation t = tempStationaryStun[randomAttack];
                 currentAttack = (CloseCombatAnimation)t;
 
@@ -191,70 +175,29 @@ public class PlayerController : UnitController
             }
         }
         
+
+
         // Block Button Action
-
-        if (!isAnimationStarted)
+        if (Input.GetKey(KeyCode.S))
         {
-            if (Input.GetKey(KeyCode.S))
-            {
-                canMove = false;
-                blockTrigger = true;
-
-                BasicAnimation blockAnimation = unit.activeAnimations.BlockAttack;
-
-                isAnimationStarted = true;
-
-                spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
-            }
+            DefendButtonDown();
         }
         // S Released
         if (blockTrigger && Input.GetKeyUp(KeyCode.S))
         {
-            canMove = true;
-            blockTrigger = false;
-
-            isAnimationStarted = false;
-
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-            spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
+            DefendButtonUp();
         }
 
         // Weapon Swap Animation
 
-        if (!isAnimationStarted)
+        if(Input.GetKey(KeyCode.Q))
         {
-            if(Input.GetKey(KeyCode.Q))
-            {
-                if(unit.activeAnimations.SwapWeapon != null && canThrow)
-                {
-                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false).TimeScale = 1f;
-
-                    StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.SwapWeapon.SpineAnimationReference.Animation.Duration));
-
-                    if (unit.currentStance == StanceList.Stand_A)
-                        unit.currentStance = StanceList.Stand_B;
-                    else if (unit.currentStance == StanceList.Stand_B)
-                        unit.currentStance = StanceList.Stand_A;
-                }
-            }
+            WeaponSwapButtonDown();
         }
 
-        if(!isAnimationStarted)
+        if(Input.GetKey(KeyCode.E))
         {
-            if(Input.GetKey(KeyCode.E))
-            {
-                if(unit.activeAnimations.ChangeStance.Animation != null && canThrow)
-                {
-                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false).TimeScale = 1f;
-
-                    StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference.Animation.Duration));
-
-                    if (unit.currentStance == StanceList.Stand_A)
-                        unit.currentStance = StanceList.Stand_B;
-                    else if (unit.currentStance == StanceList.Stand_B)
-                        unit.currentStance = StanceList.Stand_A;
-                }
-            }
+            ThrowButtonDown();
         }
     }
 
@@ -338,38 +281,27 @@ public class PlayerController : UnitController
         isAnimationStarted = false;                                     // direction released
 
         // Set new movement direction and look direction
-        if (Input.GetKey(KeyCode.A))
+        if (moveButton.Hold)
         {
-            direction = MoveDirection.left;
+            direction = moveButton.direction;
 
             SetWalkingAnimation((int)direction);
         }
-        else if (Input.GetKey(KeyCode.D))
+        else
         {
-            direction = MoveDirection.right;
-
-            SetWalkingAnimation((int)direction);
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
         }
-
-        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
 
-    //private IEnumerator WaitFor
     protected override void ReStartCoroutines()
     {
         attackTrigger = false;
         stunTrigger = false;
 
         // Set new movement direction and look direction
-        if (Input.GetKey(KeyCode.A))
+        if (moveButton.Hold)
         {
-            direction = MoveDirection.left;
-
-            SetWalkingAnimation((int)direction);
-        }
-        else if (Input.GetKey(KeyCode.D))
-        {
-            direction = MoveDirection.right;
+            direction = moveButton.direction;
 
             SetWalkingAnimation((int)direction);
         }
@@ -379,20 +311,13 @@ public class PlayerController : UnitController
     }
     private IEnumerator CheckDirection()
     {
-        yield return new WaitForSeconds(Random.Range(0.1f, 0.25f));
+        yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.25f));
 
         if (!isAnimationStarted && GameManager.Instance.DisableControls == false)
         {
-            // Set new movement direction and look direction
-            if (Input.GetKey(KeyCode.A))
+            if(moveButton.Hold)
             {
-                direction = MoveDirection.left;
-
-                SetWalkingAnimation((int)direction);
-            }
-            else if (Input.GetKey(KeyCode.D))
-            {
-                direction = MoveDirection.right;
+                direction = moveButton.direction;
 
                 SetWalkingAnimation((int)direction);
             }
@@ -411,7 +336,7 @@ public class PlayerController : UnitController
                 GameManager.Instance.GoldGained++;
                 Destroy(collision.gameObject);
                 SoundManager.Instance.PlayEffect(GameManager.Instance.
-                    CoinPickupSound[Random.Range(0, GameManager.Instance.CoinPickupSound.Count)]);
+                    CoinPickupSound[UnityEngine.Random.Range(0, GameManager.Instance.CoinPickupSound.Count)]);
             }
         }
     }
@@ -454,6 +379,197 @@ public class PlayerController : UnitController
         
         GameManager.Instance.SceneLoader.FinishLevel();
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// /////////////////////////////////////// Joystick
+    /// </summary>
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        joystickTransform.anchoredPosition = Vector2.zero;
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        Vector2 offset;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(joystickTransform, eventData.position, null, out offset);
+
+        offset = Vector2.ClampMagnitude(offset, dragOffsetDistance);
+        joystickTransform.anchoredPosition = offset;
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// /////////////////////////////////// Buttons - Movement
+    /// </summary>
+    class MoveButton
+    {
+        public bool Hold;
+        public MoveDirection direction;
+    }
+    MoveButton moveButton = new MoveButton();
+    public void MoveButtonDown(int Direction)
+    {
+        moveButton.Hold = true;
+        moveButton.direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
+
+        if (!isAnimationStarted)
+        {
+            direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
+
+            SetWalkingAnimation((int)direction);
+        }
+    }
+    public void MoveButtonUp()
+    {
+        moveButton.Hold = false;
+
+        if (!isAnimationStarted)
+        {
+            direction = MoveDirection.waiting;
+
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+        }
+    }
+
+
+    /// <summary>
+    /// /////////////////////////////////// Attack
+    /// </summary>
+    public void AttackButtonDown()
+    {
+        attackTrigger = true;
+        stunTrigger = false;
+
+        if (triggerCoroutine != null) StopCoroutine(triggerCoroutine);
+    }
+    public void AttackButtonUp()
+    {
+        triggerCoroutine = StartCoroutine(ResetAttackTrigger(KeyCode.Space));
+    }
+
+    /// <summary>
+    /// //////////////////////////////////// Defend
+    /// </summary>
+    public void DefendButtonDown()
+    {
+        if (!isAnimationStarted)
+        {
+            canMove = false;
+            blockTrigger = true;
+
+            BasicAnimation blockAnimation = unit.activeAnimations.BlockAttack;
+
+            isAnimationStarted = true;
+
+            spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
+        }
+    }
+    public void DefendButtonUp()
+    {
+        if(blockTrigger)
+        {
+            canMove = true;
+            blockTrigger = false;
+
+            isAnimationStarted = false;
+
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+            spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
+        }
+    }
+
+    /// <summary>
+    /// ///////////////////////////////////// Kick
+    /// </summary>
+    public void StunButtonDown()
+    {
+        stunTrigger = true;
+        attackTrigger = false;
+
+        if (triggerCoroutine != null) StopCoroutine(triggerCoroutine);
+    }
+    public void StunButtonUp()
+    {
+        triggerCoroutine = StartCoroutine(ResetAttackTrigger(KeyCode.R));
+    }
+
+    /// <summary>
+    /// /////////////////////////////////// SWAP WEAPON
+    /// </summary>
+    public void WeaponSwapButtonDown()
+    {
+        if (!isAnimationStarted)
+        {
+            if (unit.activeAnimations.SwapWeapon != null && canThrow)
+            {
+                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false).TimeScale = 1f;
+
+                StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.SwapWeapon.SpineAnimationReference.Animation.Duration));
+
+                if (unit.currentStance == StanceList.Stand_A)
+                    unit.currentStance = StanceList.Stand_B;
+                else if (unit.currentStance == StanceList.Stand_B)
+                    unit.currentStance = StanceList.Stand_A;
+            }
+        }
+    }
+
+    /// <summary>
+    /// ///////////////////////////////////// THROW WEAPON
+    /// </summary>
+    public void ThrowButtonDown()
+    {
+        if (!isAnimationStarted)
+        {
+            if (unit.activeAnimations.ChangeStance.Animation != null && canThrow)
+            {
+                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false).TimeScale = 1f;
+
+                StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference.Animation.Duration));
+
+                if (unit.currentStance == StanceList.Stand_A)
+                    unit.currentStance = StanceList.Stand_B;
+                else if (unit.currentStance == StanceList.Stand_B)
+                    unit.currentStance = StanceList.Stand_A;
+            }
+        }
+    }
+
+
+
+
+
+
 
 
 

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Double_Scythe
   AnimationName: DoubleSyctheAttackWalkingA1.1.2
-  SpineAnimationReference: {fileID: 11400000, guid: 5828382da8c9b344db9954c27ff87d04, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 06a58d3bc4c4846478e587faeee1646e, type: 2}
   _PrefixChangeCheck: Double_Scythe
   _AnimationNameChangeCheck: DoubleSyctheAttackWalkingA1.1.2
   speedCurve:
@@ -46,7 +46,7 @@ MonoBehaviour:
   SetupKeys: 0
   attackType: 0
   animationMovementType: 0
-  DamageMultiplierMax: 2
+  DamageMultiplierMax: 1.5
   Reach: 2
   MinDistanceLimit: 0
   PushDistance: 0

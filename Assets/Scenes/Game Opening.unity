@@ -333,13 +333,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ArmorList.Array.data[5].ItemPrice
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 174019209, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
-      propertyPath: _ArmorList.Array.data[6].ItemPrice
-      value: 50
+    - target: {fileID: 672413500, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_Camera
+      value: 
+      objectReference: {fileID: 8165572107925285298}
+    - target: {fileID: 7453803247684439446, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_Name
+      value: SkeletonGraphic (skeleton)
       objectReference: {fileID: 0}
     - target: {fileID: 7700336283338286803, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_RootOrder
