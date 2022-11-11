@@ -321,6 +321,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3f081c21755637942983dbe247d6dd3a, type: 2}
   - {fileID: 11400000, guid: 85676dcb2705d514b9763dfa1ff2e8d9, type: 2}
   equippedItemList: []
+  secondaryWeapon: {fileID: 0}
   changeItemNow: 0
 --- !u!114 &2291736290699059868
 MonoBehaviour:
@@ -335,9 +336,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 7999536797236497780}
-  HealthMax: 100
+  HealthMax: 400
   _Health: 0
-  Damage: 25
+  Damage: 150
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   unitController: {fileID: 2291736290699059859}
   unitInventory: {fileID: 2291736290699059869}
@@ -357,13 +358,14 @@ MonoBehaviour:
     ChangeStance:
       Animation: {fileID: 0}
       chance: 0
+    SwapWeapon: {fileID: 0}
     DeathAnimationByDamageRegion:
       highRegion: []
       midRegion: []
       lowRegion: []
     BreakStance: []
   target: {fileID: 0}
-  throwableReturn: {fileID: 0}
+  Projectile: {fileID: 0}
 --- !u!114 &2291736290699059859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,6 +382,7 @@ MonoBehaviour:
   isAnimationStarted: 0
   extraSpeed: 0
   speed: 2
+  isBoss: 0
   _aiAgressiveness: 2
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &2291736290699059858

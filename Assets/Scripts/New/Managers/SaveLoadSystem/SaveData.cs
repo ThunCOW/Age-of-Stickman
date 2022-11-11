@@ -12,6 +12,8 @@ public class SaveData
     public int Level;
     public bool IsSpearmasterDead;
 
+    public PlayerControls PlayerControls;
+
     //public List<Mercenary> Mercenaries = new List<Mercenary>();
     public List<MercenarySave> mercenarySaves;
 

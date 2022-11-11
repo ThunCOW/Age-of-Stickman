@@ -1776,7 +1776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 158307827073829555}
-  HealthMax: 150
+  HealthMax: 50
   _Health: 0
   Damage: 0
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
@@ -1829,6 +1829,7 @@ MonoBehaviour:
   dragOffsetDistance: 100
   button: {fileID: 0}
   canThrow: 1
+  ResurrectAnimation: {fileID: 11400000, guid: a5682c026625d3744acb68f68f737463, type: 2}
 --- !u!61 &8615564714106964965
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1891,6 +1892,16 @@ MonoBehaviour:
   skelAnim: {fileID: 8615564714039348847}
   ShadowObject: {fileID: 7467918463023935844}
   HealthBar: {fileID: 777053081335208818}
+  InGameMovements:
+  - startingPoint: -10.5
+    distance: 7.2
+    activateWhen: 0
+    DisabledGameObjects:
+    - {fileID: 576644090}
+    - {fileID: 1478688721}
+    - {fileID: 1187743713}
+    - {fileID: 510344990}
+    - {fileID: 1150862788}
   SpearmasterDead: {fileID: 11400000, guid: a2c06b33437281e42975910028761fd2, type: 2}
 --- !u!1001 &6496542209462677724
 PrefabInstance:

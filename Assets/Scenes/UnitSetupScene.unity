@@ -758,6 +758,37 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &820277118
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 820277119}
+  m_Layer: 9
+  m_Name: SpawnPoint_1 (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 2974397684917235467, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &820277119
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 820277118}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 12.302161, y: 0.0073599815, z: 3.9109476}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5699723316815012464}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &895459083
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,10 +2319,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555471585315600}
   ItemQualityImageUI: {fileID: 3894555471477109440}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 1
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!224 &3894555471096469079
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2453,10 +2484,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555472696434713}
   ItemQualityImageUI: {fileID: 3894555472445357554}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 2
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!222 &3894555471228968075
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2733,10 +2764,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555472392767749}
   ItemQualityImageUI: {fileID: 3894555472724727456}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 0
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!224 &3894555471366032226
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3217,10 +3248,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555471538787256}
   ItemQualityImageUI: {fileID: 3894555471695204671}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 2
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!224 &3894555471705813597
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3998,6 +4029,9 @@ MonoBehaviour:
   Armor:
     EquippedItemSlot: {fileID: 3894555471228968073}
     PurchasableItemSlot: {fileID: 3894555471705813596}
+  _WeaponList: []
+  _ShieldList: []
+  _ArmorList: []
 --- !u!224 &3894555471971908821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4240,10 +4274,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555472167254903}
   ItemQualityImageUI: {fileID: 3894555472171043205}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 0
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!1 &3894555472078329720
 GameObject:
   m_ObjectHideFlags: 0
@@ -5000,10 +5034,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555470935015345}
   ItemQualityImageUI: {fileID: 3894555472692922185}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 1
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!224 &3894555472476807329
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5695,7 +5729,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnUnitList:
-  - unit: {fileID: 5918015681238482118, guid: c2f88fb11b90ee849921820c4da3de66, type: 3}
+  - unit: {fileID: 5918015681238482118, guid: 407870d33eb783541acb897272f65dc5, type: 3}
     spawnChance: 100
     AIAgressiveness: 3
   _spawnTimer: 5
@@ -5703,6 +5737,7 @@ MonoBehaviour:
   maxEnemyOnScreen: 3
   spawnPosList:
   - {fileID: 4973821420141865720}
+  - {fileID: 820277119}
   mainCamera: {fileID: 245096268}
   SpearmasterPrefab: {fileID: 0}
   SycthemasterPrefab: {fileID: 0}
@@ -5750,6 +5785,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4973821420141865720}
+  - {fileID: 820277119}
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5865,6 +5901,7 @@ MonoBehaviour:
   LevelBordersParent: {fileID: 0}
   SceneViewBordersParent: {fileID: 0}
   EnemyUnits: []
+  LeftSpawn: []
   AllyUnits: []
   sortManager:
     sortingOrder: []
@@ -5872,6 +5909,11 @@ MonoBehaviour:
   AllEquipments: {fileID: 11400000, guid: a3a106d766366f746a0e86a2e7f835be, type: 2}
   PlayerEquipments: []
   _PlayerLives: 0
+  mainMenuPlayer:
+    UnitObject: {fileID: 0}
+    equippedItems: []
+    defaultLocalPosition: {x: 0, y: 0, z: 0}
+  CoinClickingAfterLevel: []
   GoldPrefab: {fileID: 7026553871909760441, guid: d3d4dbc1f5775694c83a940964669686, type: 3}
   CoinPickupSound:
   - {fileID: 8300000, guid: 98e2b7aef95c6344b89fb07812215b3f, type: 3}
@@ -5881,6 +5923,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 6938d915a47388f4bafd13e18916d420, type: 3}
   _Gold: 0
   GoldText: {fileID: 3894555471857014152}
+  MinusGoldTextPrefab: {fileID: 0}
+  NotEnoughMoneyTextPrefab: {fileID: 0}
   IsSpearmasterDead: 0
   Level: 0
 --- !u!4 &6688173773033638030

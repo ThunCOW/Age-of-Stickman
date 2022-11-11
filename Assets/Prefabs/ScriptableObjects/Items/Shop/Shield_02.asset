@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 926768ee1ad2ea54097c9859adc878f9
   ItemName: Shield
-  HealthBonus: 0
+  HealthBonus: 40
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 4

@@ -116,7 +116,7 @@ public class Unit : MonoBehaviour
         }
     }
 
-    protected IEnumerator GetClosestUnitSearchCycle(float waitTime = 0)
+    public IEnumerator GetClosestUnitSearchCycle(float waitTime = 0)
     {
         yield return new WaitForSeconds(waitTime);
 

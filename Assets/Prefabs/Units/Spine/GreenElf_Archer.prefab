@@ -487,9 +487,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HealthBar: {fileID: 1492869963834282822}
-  HealthMax: 100
+  HealthMax: 250
   _Health: 0
-  Damage: 25
+  Damage: 50
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   unitController: {fileID: 1703918253564249572}
   unitInventory: {fileID: 1703918253564249578}

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
   m_Name: Shoulder_03 2
   m_EditorClassIdentifier: 
-  id: 7b78816d99f7b7a4392dddefeec4af3b
+  id: a4b2f921bf74a6c49a369fc1b1f756d2
   ItemName: Shoulder
-  HealthBonus: 0
+  HealthBonus: 180
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 1

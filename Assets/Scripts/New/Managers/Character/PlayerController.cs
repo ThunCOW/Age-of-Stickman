@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using SpineControllerVersion;
 using Spine;
-using System;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Spine.Unity;
 
-public class PlayerController : UnitController//, IPointerDownHandler, IPointerUpHandler, IDragHandler
+public class PlayerController : UnitController, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
     [SerializeField] private RectTransform joystickTransform;
 
-    [SerializeField] private float dragThreshold = 0.6f;
-    [SerializeField] private int dragMovementDistance = 85;
-    [SerializeField] private int dragOffsetDistance = 100;
-
-    public event Action<Vector2> OnMove;
+    private Vector3 joystickDefaultPositionScreen;
+    [SerializeField] private int joystickDragOffsetDistance;
+    //[SerializeField] private float dragThreshold = 0.6f;
+    //[SerializeField] private int dragMovementDistance = 85;
 
     public Button button;
     /// <summary>
@@ -31,6 +30,8 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
     public static OnBossTrigger BossTrigger;
 
     public static bool hasPlayerReachedEndOfLevel;
+
+    [SerializeField] SpeedDependantAnimation ResurrectAnimation;
 
     void OnValidate()
     {
@@ -56,6 +57,10 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
 
         if (LeftWallPosition == null || RightWallPosition == null)
             Debug.LogError("Failed to find level borders, make sure they are in scene");
+
+        joystickDefaultPositionScreen =  joystickTransform.position;
+
+        Debug.Log(joystickDefaultPositionScreen);
 
         // TODO: Same S1
         canThrow = GameManager.Instance.IsSpearmasterDead;
@@ -125,12 +130,12 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
         // Animation Conditions
         if (attackTrigger)
         {
-            // Stationary Attack
-            if (direction == MoveDirection.waiting)
+            if (!isAnimationStarted)
             {
-                // There isn't an animation already playing
-                if (!isAnimationStarted)
+                // Stationary Attack
+                if (direction == MoveDirection.waiting)
                 {
+                // There isn't an animation already playing
                     List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
 
                     int randomAttack = UnityEngine.Random.Range(0, tempStationaryAttack.Count);
@@ -140,13 +145,10 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
 
                     AttackAction();
                 }
-            }
-            // NonStationary Attack
-            else
-            {
-                // There isn't an animation already playing
-                if (!isAnimationStarted)
+                // NonStationary Attack
+                else
                 {
+                    // There isn't an animation already playing
                     List<BasicAnimation> tempWalkAttack = unit.activeAnimations.WalkAttack;
 
                     int randomAttack = UnityEngine.Random.Range(0, tempWalkAttack.Count);
@@ -268,6 +270,180 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
         StartCoroutine(SpeedDuringAnimation(currentAttack));
         StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
     }
+
+    public override void TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0)
+    {
+        if (blockTrigger)
+        {
+            SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
+
+            return;
+        }
+        if (resurrectionState)
+        {
+            attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+
+            return;
+        }
+
+        attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+
+        unit.Health -= DamageTaken;
+        if (unit.Health <= 0)
+        {
+            if (GameManager.Instance.PlayerLives == 0)
+            {
+                // Player Dies bring up you are dead screen
+                
+                boxCollider2.enabled = false;
+                
+                canMove = false;
+
+                int randomDeath = 0;
+                List<DeathAnimation> deathAnimation;
+                DeathAnimation tempDeathAnim = null;
+                switch (attack.attackRegion)
+                {
+                    case HitRegion.High:
+                        deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
+                        randomDeath = Random.Range(0, deathAnimation.Count);
+                        tempDeathAnim = deathAnimation[randomDeath];
+                        spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                        break;
+                    case HitRegion.Mid:
+                        deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
+                        randomDeath = Random.Range(0, deathAnimation.Count);
+                        tempDeathAnim = deathAnimation[randomDeath];
+                        spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                        break;
+                    case HitRegion.Low:
+                        deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
+                        randomDeath = Random.Range(0, deathAnimation.Count);
+                        tempDeathAnim = deathAnimation[randomDeath];
+                        spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                        break;
+                    default:
+                        break;
+                }
+                if (tempDeathAnim is DeathByDismemberAnimation)
+                    DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+
+
+                if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
+                {
+                    GameManager.Instance.EnemyUnits.Remove(unit);
+                    // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+                    GameManager.Instance.LeftSpawn.Remove(gameObject);
+                }
+                else
+                    GameManager.Instance.AllyUnits.Remove(unit);
+
+                GameManager.Instance.sortManager.RemoveFromOrder(unit);
+            }
+            else
+            {
+                // Player Lives Decreases
+                GameManager.Instance.PlayerLivesChange(-1);
+
+                unit.CheckUnitDirection();
+                StopAllCoroutines();
+
+                StartCoroutine(PlayerDown());
+                return;
+            }
+        }
+        else if (unit.activeAnimations.Hurt == null)
+        {
+            if (attack.attackType == AttackType.Casual)
+            {
+                // boss dont stop movement in hits
+            }
+            else
+            {
+                unit.CheckUnitDirection();
+
+                StopAllCoroutines();
+                StartCoroutine(StunnedFor(attack));
+            }
+        }
+        else
+        {
+            unit.CheckUnitDirection();
+
+            StopAllCoroutines();
+            StartCoroutine(StunnedFor(attack));
+        }
+
+        if (attack.attackType != AttackType.Kick && attack.attackType != AttackType.Shield)
+        {
+            GameObject blood_go = Instantiate(unit.bloodObject);
+            blood_go.transform.position = new Vector3(transform.position.x, attack.hitHeightPosiiton, unit.bloodObject.transform.position.z);
+        }
+
+        // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+        if (CompareTag(GameManager.ENEMY_TAG))
+            GameManager.Instance.LeftSpawn.Remove(gameObject);
+    }
+
+    private IEnumerator PlayerDown()
+    {
+        // Play down animation
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.DeathAnimationByDamageRegion.midRegion[0].SpineAnimationReference, false);
+        
+        boxCollider2.enabled = false;
+
+        canMove = false;
+
+        GameManager.Instance.AllyUnits.Remove(unit);
+
+        yield return new WaitForSeconds(3);
+
+        // Resurrect Animation
+        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimation.SpineAnimationReference, false);
+        StartCoroutine(SpeedDuringAnimation(ResurrectAnimation));
+        
+        yield return new WaitForSpineAnimationEnd(track);
+        // Wait until resurrection animation ends
+
+        unit.Health = 1;
+        // Player regains control
+        boxCollider2.enabled = true;
+
+        ReStartCoroutines();
+        StartCoroutine(unit.GetClosestUnitSearchCycle());
+        StartCoroutine(HealthResurrection());
+        canMove = true;
+
+        GameManager.Instance.AllyUnits.Add(unit);
+
+        resurrectionState = true;
+
+        // Play untouchble animation
+        yield return new WaitForSeconds(6);
+        resurrectionState = false;
+    }
+
+    private IEnumerator HealthResurrection()
+    {
+        // 0.5 seconds to get health back to 100% 
+        // 0.5 * 1000/5 ___ 200 * time
+        float countdown = 0;
+        yield return new WaitForEndOfFrame();
+        while(unit.Health < unit.HealthMax || countdown < 0.5f)
+        {
+            countdown += Time.deltaTime;
+            
+            float percentage = countdown / 0.5f;
+            
+            unit.Health = ((int)(unit.HealthMax * percentage));
+            
+            yield return new WaitForEndOfFrame();
+        }
+        unit.Health = unit.HealthMax;
+    }
+
+    
+
     protected IEnumerator WaitForEndOfAnimation(float animationDuration)
     {
         speed = 0f;                                                     // speed is now controlled by speed curve
@@ -398,20 +574,67 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
     public void OnPointerUp(PointerEventData eventData)
     {
         joystickTransform.anchoredPosition = Vector2.zero;
+
+        moveButton.Hold = false;
+
+        if (!isAnimationStarted)
+        {
+            direction = MoveDirection.waiting;
+
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        Vector2 offset;
-        RectTransformUtility.ScreenPointToLocalPointInRectangle(joystickTransform, eventData.position, null, out offset);
+        // eventData.position gives click(pointer) screen position, joystickDefaultPositionScreen is UI joystick screen position, take the difference to calculate distance from center
+        Vector3 screenPos = new Vector3(eventData.position.x - joystickDefaultPositionScreen.x, eventData.position.y - joystickDefaultPositionScreen.y, 0);
 
-        offset = Vector2.ClampMagnitude(offset, dragOffsetDistance);
-        joystickTransform.anchoredPosition = offset;
+        // clamp it to desired offset if bigger than it is
+        Vector3 distance = Vector3.ClampMagnitude(screenPos, joystickDragOffsetDistance);
+
+        // new position is default position(center of circle) + calculated distance
+        Vector3 newPos = joystickDefaultPositionScreen + distance;
+
+        // Limit Y increase to 0.6 out of 1 for look
+        if(distance.y / joystickDragOffsetDistance >= 0.3f)
+            newPos = new Vector3(newPos.x, joystickDefaultPositionScreen.y + distance.y * 0.3f, newPos.z);
+        else if(distance.y / joystickDragOffsetDistance <= -0.3f)
+            newPos = new Vector3(newPos.x, joystickDefaultPositionScreen.y + distance.y * 0.3f, newPos.z);
+
+        // set Joystick position 
+        joystickTransform.position = newPos;
+
+
+        if(distance.x / joystickDragOffsetDistance >= 0.3f)
+        {
+            moveButton.Hold = true;
+            moveButton.direction = MoveDirection.right;
+        }
+        else if(distance.x / joystickDragOffsetDistance <= -0.3f)
+        {
+            moveButton.Hold = true;
+            moveButton.direction = MoveDirection.left;
+        }
+        else
+        {
+            moveButton.Hold = false;
+
+            if (!isAnimationStarted)
+            {
+                direction = MoveDirection.waiting;
+
+                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+            }
+        }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-
+        if (Vector3.Distance(joystickDefaultPositionScreen, eventData.position) >= joystickDragOffsetDistance)
+            joystickTransform.position = Vector3.ClampMagnitude(eventData.position, joystickDragOffsetDistance);
+        else
+            joystickTransform.position = eventData.position;
     }
 
 
@@ -431,23 +654,26 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
     /// <summary>
     /// /////////////////////////////////// Buttons - Movement
     /// </summary>
-    class MoveButton
+    class ButtonHold
     {
         public bool Hold;
+    }
+    class MovementButtonHold : ButtonHold
+    {
         public MoveDirection direction;
     }
-    MoveButton moveButton = new MoveButton();
+    MovementButtonHold moveButton = new MovementButtonHold();
     public void MoveButtonDown(int Direction)
     {
         moveButton.Hold = true;
         moveButton.direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
 
-        if (!isAnimationStarted)
-        {
-            direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
-
-            SetWalkingAnimation((int)direction);
-        }
+        //if (!isAnimationStarted)
+        //{
+        //    direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
+        //
+        //    SetWalkingAnimation((int)direction);
+        //}
     }
     public void MoveButtonUp()
     {
@@ -456,7 +682,7 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
         if (!isAnimationStarted)
         {
             direction = MoveDirection.waiting;
-
+        
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
         }
     }
@@ -480,8 +706,10 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
     /// <summary>
     /// //////////////////////////////////// Defend
     /// </summary>
+    Coroutine DefendButtonCoroutine;
     public void DefendButtonDown()
     {
+        DefendButtonCoroutine = StartCoroutine(DefendButtonHoldDetection());
         if (!isAnimationStarted)
         {
             canMove = false;
@@ -506,6 +734,24 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
             spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
         }
+        else
+            StopCoroutine(DefendButtonCoroutine);
+    }
+
+    IEnumerator DefendButtonHoldDetection()
+    {
+        while(isAnimationStarted)
+        {
+            yield return new WaitForEndOfFrame();
+        }
+        canMove = false;
+        blockTrigger = true;
+
+        BasicAnimation blockAnimation = unit.activeAnimations.BlockAttack;
+
+        isAnimationStarted = true;
+
+        spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
     }
 
     /// <summary>
@@ -592,4 +838,11 @@ public class PlayerController : UnitController//, IPointerDownHandler, IPointerU
                 break;
         }
     }
+}
+
+public enum PlayerControls
+{
+    JoystickControls,
+    ArrowControls,
+    Keyboard
 }

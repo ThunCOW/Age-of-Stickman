@@ -15,7 +15,7 @@ MonoBehaviour:
   id: 78c626bba7051e64caa1b98198959aef
   ItemName: Sword
   HealthBonus: 0
-  DamageBonus: 130
+  DamageBonus: 100
   ItemPrice: 0
   ItemSlot: 3
   ItemSprite: {fileID: 21300000, guid: 2d918632d7b39a34f8c1453224ea55d6, type: 3}

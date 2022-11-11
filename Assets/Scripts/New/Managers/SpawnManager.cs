@@ -95,10 +95,13 @@ public class SpawnManager : MonoBehaviour
         nextSpawnTimer -= Time.deltaTime;
         if (nextSpawnTimer <= 0f)                            //start spawning
         {
-
-            int randNumber = Random.Range(0, spawnPosList.Count);
-
-            Vector2 spawnPos = spawnPosList[randNumber].position;
+            //Vector2 spawnPos = spawnPosList[Random.Range(0, spawnPosList.Count)].position;
+            int randNumber = Random.Range(0, 100);
+            Vector2 spawnPos;
+            if (GameManager.Instance.LeftSpawn.Count < 2)
+                spawnPos = randNumber >= 80 ? spawnPosList[1].position : spawnPosList[0].position;
+            else
+                spawnPos = spawnPosList[0].position;
 
             GameObject nextEnemyPrefab = null;
             AIAgressiveness nextEnemyAgressiveness = 0;
@@ -123,6 +126,7 @@ public class SpawnManager : MonoBehaviour
             }
             GameObject spawnedEnemyGO = Instantiate(nextEnemyPrefab, new Vector3(spawnPos.x, nextEnemyPrefab.transform.position.y, 0), nextEnemyPrefab.transform.rotation);
 
+
             AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
             spawnedEnemyUnit.aiAgressiveness = nextEnemyAgressiveness;
 
@@ -132,6 +136,10 @@ public class SpawnManager : MonoBehaviour
                 nextSpawnTimer = spawnTimer * 2;
             else
                 nextSpawnTimer = spawnTimer;
+            
+            // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+            if (spawnPos == (Vector2)spawnPosList[1].position)
+                GameManager.Instance.LeftSpawn.Add(spawnedEnemyGO);
         }
     }
 

@@ -14,7 +14,7 @@ public enum MoveDirection
 
 public class UnitController : MonoBehaviour
 {
-    BoxCollider2D boxCollider2;
+    protected BoxCollider2D boxCollider2;
 
     public SkeletonAnimation spineSkeletonAnimation;
 
@@ -32,7 +32,7 @@ public class UnitController : MonoBehaviour
     protected MoveDirection direction = MoveDirection.waiting;
 
     protected bool blockTrigger = false;
-    private bool resurrectionState = false;
+    protected bool resurrectionState = false;
 
     bool _changeStance = false;
     protected bool changeStance
@@ -257,7 +257,9 @@ public class UnitController : MonoBehaviour
                 unit.target.unitController.BossDead();
 
                 if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
+                {
                     GameManager.Instance.EnemyUnits.Remove(unit);
+                }
                 else
                     GameManager.Instance.AllyUnits.Remove(unit);
 
@@ -317,7 +319,7 @@ public class UnitController : MonoBehaviour
                     if(dropChance > 80)
                     {
                         goldAmount = 1;
-                        goldAmount -= Random.Range(0, 2);
+                        goldAmount += Random.Range(0, 2);
                         goldAmount += Random.Range(0, 2);
 
                         GoldDrop(goldAmount);
@@ -356,8 +358,12 @@ public class UnitController : MonoBehaviour
             }
 
 
-            if(Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
+            if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
+            {
                 GameManager.Instance.EnemyUnits.Remove(unit);
+                // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+                GameManager.Instance.LeftSpawn.Remove(gameObject);
+            }
             else
                 GameManager.Instance.AllyUnits.Remove(unit);
 
@@ -390,6 +396,10 @@ public class UnitController : MonoBehaviour
             GameObject blood_go = Instantiate(unit.bloodObject);
             blood_go.transform.position = new Vector3(transform.position.x, attack.hitHeightPosiiton, unit.bloodObject.transform.position.z);
         }
+
+        // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+        if (CompareTag(GameManager.ENEMY_TAG))
+            GameManager.Instance.LeftSpawn.Remove(gameObject);
     }
 
     public void BossDead()
@@ -470,7 +480,7 @@ public class UnitController : MonoBehaviour
         resurrectionState = false;
     }
 
-    private void DismemberBody(DeathByDismemberAnimation deathAnimation)
+    protected void DismemberBody(DeathByDismemberAnimation deathAnimation)
     {
         if (deathAnimation.CutPart != null)
         {

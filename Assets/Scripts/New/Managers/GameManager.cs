@@ -15,7 +15,7 @@ namespace SpineControllerVersion
         public static OnControlsDsiabled DisableAllControls;
         public static OnControlsDsiabled EnableAllControls;
 
-
+        
 
         [Header("_Various Variables_")]
         public SceneLoader SceneLoader;
@@ -51,6 +51,7 @@ namespace SpineControllerVersion
 
         [Header("_Unit Assignments_")]
         public List<Unit> EnemyUnits = new List<Unit>();
+        [HideInInspector] public List<GameObject> LeftSpawn; // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
         public List<Unit> AllyUnits = new List<Unit>();
 
         [HideInInspector] public SortManager sortManager = new SortManager();
@@ -111,7 +112,8 @@ namespace SpineControllerVersion
             }
         }
         public List<Item> PlayerEquipments;
-            
+
+        public PlayerControls PlayerControls;
         //public Item SecondaryWeapon;
 
         [SerializeField] private int _PlayerLives;
@@ -452,6 +454,7 @@ namespace SpineControllerVersion
             //    a_SaveData.Mercenaries.Add(mercenaryUnit.CurrentMercenary);
             a_SaveData.mercenarySaves = MercenaryManager.Instance.MercenarySave;
 
+            a_SaveData.PlayerControls = PlayerControls;
 
             return true;
         }
@@ -477,7 +480,7 @@ namespace SpineControllerVersion
             //PlayerEquipments = a_SaveData.equippedItems;
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
-            PlayerLives = a_SaveData.PlayerLives;
+            PlayerLives = 3;
             Gold = 200;
 
             //IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
@@ -490,6 +493,8 @@ namespace SpineControllerVersion
 
             if(a_SaveData.mercenarySaves != null)
                 MercenaryManager.Instance.MercenarySave = a_SaveData.mercenarySaves;
+
+            PlayerControls = a_SaveData.PlayerControls;
         }
 
         void OnApplicationQuit()

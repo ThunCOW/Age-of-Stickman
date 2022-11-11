@@ -39,6 +39,8 @@ public class HiringPanel : MonoBehaviour
     {
         UnitPanel[0].Init();
         UnitPanel[1].Init();
+
+        NextUnitPanelLocation = Screen.width * 0.13177083333f; // (NextUnitPanelLocation in 1920widt)
     }
 
 
@@ -46,11 +48,25 @@ public class HiringPanel : MonoBehaviour
     {
         if(GameManager.Instance.Gold >= currentMercenary.UnitPrice)
         {
-            targetedMercenaryUnit.CurrentMercenary = currentMercenary;
+            if(targetedMercenaryUnit.CurrentMercenary == null)
+            {
+                targetedMercenaryUnit.CurrentMercenary = currentMercenary;
 
-            GameManager.Instance.GoldChange(-currentMercenary.UnitPrice);
+                GameManager.Instance.GoldChange(-currentMercenary.UnitPrice);
 
-            SoundManager.Instance.PlayEffect(CoinClicking);
+                SoundManager.Instance.PlayEffect(CoinClicking);
+            }
+            else
+            {
+                if(targetedMercenaryUnit.CurrentMercenary != currentMercenary)
+                {
+                    targetedMercenaryUnit.CurrentMercenary = currentMercenary;
+
+                    GameManager.Instance.GoldChange(-currentMercenary.UnitPrice);
+
+                    SoundManager.Instance.PlayEffect(CoinClicking);
+                }
+            }
         }
         else
         {
@@ -77,7 +93,7 @@ public class HiringPanel : MonoBehaviour
 
         currentUnit.ChangeUnitEquipments(currentUnit, mercenaryItems);
 
-        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
+        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, true);
 
         MoveUnit(false);
     }
@@ -95,7 +111,7 @@ public class HiringPanel : MonoBehaviour
 
         currentUnit.ChangeUnitEquipments(currentUnit, mercenaryItems);
 
-        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
+        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, true);
 
         MoveUnit(true);
     }
@@ -122,6 +138,7 @@ public class HiringPanel : MonoBehaviour
         return mercenaryList[nextMercIndex];
     }
 
+    float NextUnitPanelLocation;
     UnitHolder PrepareNextUnit(bool isMovingRight)
     {
         UnitHolder nextUnit = UnitPanel[0] == currentUnit ? UnitPanel[1] : UnitPanel[0];
@@ -129,12 +146,12 @@ public class HiringPanel : MonoBehaviour
         if(isMovingRight)
         {
             if (nextUnit.UnitObject.transform.position.x >= currentUnit.UnitObject.transform.position.x)
-                nextUnit.UnitObject.transform.position = new Vector3(nextUnit.UnitObject.transform.position.x - 253 * 2, nextUnit.UnitObject.transform.position.y, nextUnit.UnitObject.transform.position.z);
+                nextUnit.UnitObject.transform.position = new Vector3(nextUnit.UnitObject.transform.position.x - NextUnitPanelLocation * 2, nextUnit.UnitObject.transform.position.y, nextUnit.UnitObject.transform.position.z);
         }
         else
         {
             if (nextUnit.UnitObject.transform.position.x <= currentUnit.UnitObject.transform.position.x)
-                nextUnit.UnitObject.transform.position = new Vector3(nextUnit.UnitObject.transform.position.x + 253 * 2, nextUnit.UnitObject.transform.position.y, nextUnit.UnitObject.transform.position.z);
+                nextUnit.UnitObject.transform.position = new Vector3(nextUnit.UnitObject.transform.position.x + NextUnitPanelLocation * 2, nextUnit.UnitObject.transform.position.y, nextUnit.UnitObject.transform.position.z);
         }
 
         nextUnit.UnitObject.SetActive(true);
@@ -146,19 +163,20 @@ public class HiringPanel : MonoBehaviour
     {
         if(isMovingRight)
         {
-            StartCoroutine(MoveHorizontal(UnitPanel[0].UnitObject, (int)MoveDirection.right));
+            isActive = StartCoroutine(MoveHorizontal(UnitPanel[0].UnitObject, (int)MoveDirection.right));
             StartCoroutine(MoveHorizontal(UnitPanel[1].UnitObject, (int)MoveDirection.right));
         }
         else
         {
-            StartCoroutine(MoveHorizontal(UnitPanel[0].UnitObject, (int)MoveDirection.left));
+            isActive = StartCoroutine(MoveHorizontal(UnitPanel[0].UnitObject, (int)MoveDirection.left));
             StartCoroutine(MoveHorizontal(UnitPanel[1].UnitObject, (int)MoveDirection.left));
         }
     }
 
+    Coroutine isActive;
     IEnumerator MoveHorizontal(GameObject unitObject, int direction)
     {
-        float newPos = unitObject.transform.position.x + (direction) * 253;
+        float newPos = unitObject.transform.position.x + (direction) * NextUnitPanelLocation;
 
         while(unitObject.transform.position.x != newPos)
         {
@@ -188,6 +206,8 @@ public class HiringPanel : MonoBehaviour
         PreviousButton.interactable = true;
 
         UnitText.text = currentMercenary.UnitType.ToString();
+
+        isActive = null;
     }
 
 
@@ -201,8 +221,6 @@ public class HiringPanel : MonoBehaviour
     
 
 
-
-
     void OnEnable()
     {
         // When HiringPanel is initiated it will populate second object in UnitObjects
@@ -214,18 +232,24 @@ public class HiringPanel : MonoBehaviour
 
         currentUnit.ChangeUnitEquipments(currentUnit, mercenaryItems);
 
-        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
+        currentUnit.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, currentMercenary.PanelIdleAnimation.SpineAnimationReference, true);
 
         UnitText.text = currentMercenary.UnitType.ToString();
     }
 
     void OnDisable()
     {
+        if(isActive != null)
+        {
+            StopAllCoroutines();
+            isActive = null;
+        }
+
         NextButton.interactable = true;
         PreviousButton.interactable = true;
 
-        UnitPanel[0].UnitObject.transform.position = UnitPanel[0].defaultPosition;
-        UnitPanel[1].UnitObject.transform.position = UnitPanel[1].defaultPosition;
+        UnitPanel[0].UnitObject.transform.localPosition = UnitPanel[0].defaultLocalPosition;
+        UnitPanel[1].UnitObject.transform.localPosition = UnitPanel[1].defaultLocalPosition;
 
         UnitPanel[0].UnitObject.SetActive(true);
         UnitPanel[1].UnitObject.SetActive(false);
@@ -233,8 +257,22 @@ public class HiringPanel : MonoBehaviour
 
     public void EnableHiringPanel(MercenaryUnit mercenaryUnit)
     {
+        if(gameObject.activeSelf)
+        {
+            if (mercenaryUnit == targetedMercenaryUnit)
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+            OnDisable();
+            OnEnable();
+        }
+        else
+            gameObject.SetActive(true);
+
         targetedMercenaryUnit = mercenaryUnit;
-        gameObject.SetActive(true);
+        
+        transform.position = new Vector3(mercenaryUnit.transform.position.x + 209, transform.position.y, transform.position.z);
     }
 }
 
@@ -246,11 +284,12 @@ public class UnitHolder
     [HideInInspector] public List<Item> equippedItems = new List<Item>();
     public Dictionary<ItemSlot, Item> dictEquippedItems = new Dictionary<ItemSlot, Item>();
 
-     [HideInInspector] public Vector3 defaultPosition;
+     [HideInInspector] public Vector3 defaultLocalPosition;
 
     public void Init()
     {
-        defaultPosition = UnitObject.transform.position;
+        RectTransform rectTransform = (RectTransform)UnitObject.transform;
+        defaultLocalPosition = rectTransform.localPosition;
 
         dictEquippedItems.Add(ItemSlot.Head, null);
         dictEquippedItems.Add(ItemSlot.Leg, null);

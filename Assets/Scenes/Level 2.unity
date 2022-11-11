@@ -1557,6 +1557,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LevelManager
       objectReference: {fileID: 0}
+    - target: {fileID: 6042994806285449347, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: maxSpawn
       value: 99

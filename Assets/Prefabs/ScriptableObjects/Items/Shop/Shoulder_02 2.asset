@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 2d0ff8da6536c3049ba6a85c138da1d5
   ItemName: Shoulder
-  HealthBonus: 0
+  HealthBonus: 120
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 1
