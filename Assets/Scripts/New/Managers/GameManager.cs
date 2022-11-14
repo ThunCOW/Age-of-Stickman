@@ -113,7 +113,21 @@ namespace SpineControllerVersion
         }
         public List<Item> PlayerEquipments;
 
-        public PlayerControls PlayerControls;
+        private PlayerControls _PlayerControls;
+        public PlayerControls PlayerControls
+        {
+            get { return _PlayerControls; }
+            set
+            {
+                _PlayerControls = value;
+                if(Player != null)
+                {
+                    // in game RN
+                    PlayerController tempPlayerController = Player.unitController as PlayerController;
+                    tempPlayerController.LoadControls();
+                }
+            }
+        }
         //public Item SecondaryWeapon;
 
         [SerializeField] private int _PlayerLives;
@@ -454,7 +468,11 @@ namespace SpineControllerVersion
             //    a_SaveData.Mercenaries.Add(mercenaryUnit.CurrentMercenary);
             a_SaveData.mercenarySaves = MercenaryManager.Instance.MercenarySave;
 
+            Debug.Log(PlayerControls.ToString());
             a_SaveData.PlayerControls = PlayerControls;
+
+            a_SaveData.MusicVolume = SoundManager.Instance.MusicVolume;
+            a_SaveData.SFXVolume = SoundManager.Instance.SFXVolume;
 
             return true;
         }
@@ -495,13 +513,23 @@ namespace SpineControllerVersion
                 MercenaryManager.Instance.MercenarySave = a_SaveData.mercenarySaves;
 
             PlayerControls = a_SaveData.PlayerControls;
+
+            SoundManager.Instance.MusicVolume = a_SaveData.MusicVolume;
+            SoundManager.Instance.SFXVolume = a_SaveData.SFXVolume;
         }
 
         void OnApplicationQuit()
         {
-            SaveDataAsJson();    
+            //SaveDataAsJson();    
         }
 
+        public void SaveGame()
+        {
+            if(Player == null)
+            {
+                SaveDataAsJson();
+            }
+        }
 #if UNITY_ANDROID && !UNITY_EDITOR
         void OnApplicationPause(bool pause)
         {

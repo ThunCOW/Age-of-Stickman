@@ -9,17 +9,19 @@ using Spine.Unity;
 
 public class PlayerController : UnitController, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
+    /*
+     * ************************************************************ Movement Control Settings
+    */
     [SerializeField] private RectTransform joystickTransform;
 
     private Vector3 joystickDefaultPositionScreen;
     [SerializeField] private int joystickDragOffsetDistance;
-    //[SerializeField] private float dragThreshold = 0.6f;
-    //[SerializeField] private int dragMovementDistance = 85;
 
-    public Button button;
-    /// <summary>
-    /// ////////////////////////////////////////////////////////////////////////////
-    /// </summary>
+    public GameObject ArrowControls;
+    public GameObject JoystickControls;
+    /*
+     * ************************************************************ 
+    */
     bool attackTrigger = false;
     bool stunTrigger = false;
     Coroutine triggerCoroutine = null;
@@ -60,11 +62,31 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         joystickDefaultPositionScreen =  joystickTransform.position;
 
-        Debug.Log(joystickDefaultPositionScreen);
-
         // TODO: Same S1
         canThrow = GameManager.Instance.IsSpearmasterDead;
-        
+
+        LoadControls();
+    }
+
+    public void LoadControls()
+    {
+        switch (GameManager.Instance.PlayerControls)
+        {
+            case PlayerControls.JoystickControls:
+                ArrowControls.SetActive(false);
+                JoystickControls.SetActive(true);
+                break;
+            case PlayerControls.ArrowControls:
+                JoystickControls.SetActive(false);
+                ArrowControls.SetActive(true);
+                break;
+            case PlayerControls.Keyboard:
+                ArrowControls.SetActive(false);
+                JoystickControls.SetActive(false);
+                break;
+            default:
+                break;
+        }
     }
 
     protected override void CharacterControls()
@@ -581,7 +603,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         {
             direction = MoveDirection.waiting;
 
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+            if (spineSkeletonAnimation.AnimationName != unit.activeAnimations.idle.SpineAnimationReference.name) 
+                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
         }
     }
 
@@ -597,14 +620,13 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         Vector3 newPos = joystickDefaultPositionScreen + distance;
 
         // Limit Y increase to 0.6 out of 1 for look
-        if(distance.y / joystickDragOffsetDistance >= 0.3f)
-            newPos = new Vector3(newPos.x, joystickDefaultPositionScreen.y + distance.y * 0.3f, newPos.z);
-        else if(distance.y / joystickDragOffsetDistance <= -0.3f)
-            newPos = new Vector3(newPos.x, joystickDefaultPositionScreen.y + distance.y * 0.3f, newPos.z);
+        if(distance.y / joystickDragOffsetDistance > 0)
+            newPos = new Vector3(newPos.x, joystickDefaultPositionScreen.y + distance.y * 0.25f, newPos.z);
+        else if(distance.y / joystickDragOffsetDistance < 0)
+            newPos = new Vector3(newPos.x, joystickDefaultPositionScreen.y + distance.y * 0.25f, newPos.z);
 
         // set Joystick position 
         joystickTransform.position = newPos;
-
 
         if(distance.x / joystickDragOffsetDistance >= 0.3f)
         {
@@ -624,17 +646,54 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             {
                 direction = MoveDirection.waiting;
 
-                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+                if(spineSkeletonAnimation.AnimationName != unit.activeAnimations.idle.SpineAnimationReference.name) 
+                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
             }
         }
     }
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        if (Vector3.Distance(joystickDefaultPositionScreen, eventData.position) >= joystickDragOffsetDistance)
-            joystickTransform.position = Vector3.ClampMagnitude(eventData.position, joystickDragOffsetDistance);
+        // eventData.position gives click(pointer) screen position, joystickDefaultPositionScreen is UI joystick screen position, take the difference to calculate distance from center
+        Vector3 screenPos = new Vector3(eventData.position.x - joystickDefaultPositionScreen.x, eventData.position.y - joystickDefaultPositionScreen.y, 0);
+
+        // clamp it to desired offset if bigger than it is
+        Vector3 distance = Vector3.ClampMagnitude(screenPos, joystickDragOffsetDistance);
+
+        // new position is default position(center of circle) + calculated distance
+        Vector3 newPos = joystickDefaultPositionScreen + distance;
+
+        // Limit Y increase to 0.6 out of 1 for look
+        if (distance.y / joystickDragOffsetDistance > 0)
+            newPos = new Vector3(newPos.x, joystickDefaultPositionScreen.y + distance.y * 0.25f, newPos.z);
+        else if (distance.y / joystickDragOffsetDistance < 0)
+            newPos = new Vector3(newPos.x, joystickDefaultPositionScreen.y + distance.y * 0.25f, newPos.z);
+
+        // set Joystick position 
+        joystickTransform.position = newPos;
+
+        if (distance.x / joystickDragOffsetDistance >= 0.3f)
+        {
+            moveButton.Hold = true;
+            moveButton.direction = MoveDirection.right;
+        }
+        else if (distance.x / joystickDragOffsetDistance <= -0.3f)
+        {
+            moveButton.Hold = true;
+            moveButton.direction = MoveDirection.left;
+        }
         else
-            joystickTransform.position = eventData.position;
+        {
+            moveButton.Hold = false;
+
+            if (!isAnimationStarted)
+            {
+                direction = MoveDirection.waiting;
+
+                if (spineSkeletonAnimation.AnimationName != unit.activeAnimations.idle.SpineAnimationReference.name)
+                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+            }
+        }
     }
 
 
@@ -668,12 +727,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         moveButton.Hold = true;
         moveButton.direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
 
-        //if (!isAnimationStarted)
-        //{
-        //    direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
-        //
-        //    SetWalkingAnimation((int)direction);
-        //}
+        if (!isAnimationStarted)
+        {
+            direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
+        
+            SetWalkingAnimation((int)direction);
+        }
     }
     public void MoveButtonUp()
     {

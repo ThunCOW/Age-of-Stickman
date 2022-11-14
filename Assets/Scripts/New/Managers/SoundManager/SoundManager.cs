@@ -6,6 +6,8 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
+    public int MusicVolume, SFXVolume = 0;
+
     [SerializeField] private AudioSource musicSource, effectSource;
 
     [Header("Singular Used Sounds")]

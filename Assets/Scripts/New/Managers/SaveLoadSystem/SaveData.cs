@@ -17,6 +17,9 @@ public class SaveData
     //public List<Mercenary> Mercenaries = new List<Mercenary>();
     public List<MercenarySave> mercenarySaves;
 
+    public int MusicVolume;
+    public int SFXVolume;
+
     //public static SaveData saveData = new SaveData();
 
     public string ToJson()
