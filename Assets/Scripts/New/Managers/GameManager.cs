@@ -1,12 +1,13 @@
 using Spine.Unity;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 
 namespace SpineControllerVersion
 {
-    public class GameManager : MonoBehaviour, ISaveableJson, ISerializationCallbackReceiver
+    public class GameManager : MonoBehaviour, ISaveableJson
     {
         public static GameManager Instance;
 
@@ -113,6 +114,25 @@ namespace SpineControllerVersion
         }
         public List<Item> PlayerEquipments;
 
+        private List<int> _DefaultEquipmentsKeys = new List<int>();
+        private List<int> DefaultEquipmentsKeys
+        {
+            get
+            {
+                _DefaultEquipmentsKeys.Clear();
+                foreach (Item item in DefaultEquipments)
+                {
+                    int index = AllEquipments.Equipments.IndexOf(item);
+                    if (index == -1)
+                        return null;
+
+                    _DefaultEquipmentsKeys.Add(AllEquipments.Equipments.IndexOf(item));
+                }
+                return _DefaultEquipmentsKeys;
+            }
+        }
+        [SerializeField] private List<Item> DefaultEquipments;
+
         private PlayerControls _PlayerControls;
         public PlayerControls PlayerControls
         {
@@ -129,7 +149,11 @@ namespace SpineControllerVersion
             }
         }
         //public Item SecondaryWeapon;
+        public UnitHolder mainMenuPlayer;
 
+
+
+        [Header("_Player Lives Variables_")]
         [SerializeField] private int _PlayerLives;
         public int PlayerLives
         {
@@ -137,10 +161,20 @@ namespace SpineControllerVersion
             private set
             {
                 _PlayerLives = value;
+                if (_PlayerLives > 3)
+                    _PlayerLives = 3;
+
+                if (_PlayerLives == 3)
+                    BuyLiveButton.SetActive(false);
+                else
+                    BuyLiveButton.SetActive(true);
+
+
+                PlayerLivesText.text = _PlayerLives.ToString();
             }
         }
-
-        public UnitHolder mainMenuPlayer;
+        public TMP_Text PlayerLivesText;
+        public GameObject BuyLiveButton;
 
 
 
@@ -165,6 +199,7 @@ namespace SpineControllerVersion
 
         public GameObject GoldPrefab;
         public List<AudioClip> CoinPickupSound;
+        public AudioClip CoinClicking;                          // Used for hiring and buying lives
         [SerializeField] private int _Gold;
         public int Gold
         {
@@ -394,6 +429,15 @@ namespace SpineControllerVersion
             PlayerLives += Amount;
         }
 
+        public void BuyLives()
+        {
+            PlayerLives++;
+
+            GoldChange(-10);
+
+            SoundManager.Instance.PlayEffect(CoinClicking);
+        }
+
         void LevelLoaded()
         {
             StartCoroutine(SpawnMercenaries());
@@ -468,7 +512,6 @@ namespace SpineControllerVersion
             //    a_SaveData.Mercenaries.Add(mercenaryUnit.CurrentMercenary);
             a_SaveData.mercenarySaves = MercenaryManager.Instance.MercenarySave;
 
-            Debug.Log(PlayerControls.ToString());
             a_SaveData.PlayerControls = PlayerControls;
 
             a_SaveData.MusicVolume = SoundManager.Instance.MusicVolume;
@@ -490,18 +533,20 @@ namespace SpineControllerVersion
             else
             {
                 // No save is found, new game
+                CreateFreshSaveData();
+                
+                LoadDataAsJson();
             }
         }
         
         public void LoadFromSaveData(SaveData a_SaveData)
         {
-            //PlayerEquipments = a_SaveData.equippedItems;
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
-            PlayerLives = 3;
-            Gold = 200;
-
-            //IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
+            PlayerLives = a_SaveData.PlayerLives;
+            Gold = a_SaveData.Gold;
+            
+            IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
             IsSpearmasterDead = false;
 
             Level = a_SaveData.Level;
@@ -518,9 +563,52 @@ namespace SpineControllerVersion
             SoundManager.Instance.SFXVolume = a_SaveData.SFXVolume;
         }
 
+        public void CreateFreshSaveData()
+        {
+            SaveData sd = new SaveData();
+            
+            if (FreshSaveData(sd))
+                FileManager.WriteToFile(sd.ToJson());
+            else
+                Debug.LogError("Failed to save game data");
+        }
+
+        public bool FreshSaveData(SaveData a_SaveData)
+        {
+            if (DefaultEquipments.Count == 0)
+                return false;
+
+            a_SaveData.equippedItemIndexs = DefaultEquipmentsKeys;
+            if (a_SaveData.equippedItemIndexs == null)              // Means there is a problem finding item/s ( maybe AllItem SO does not contain one of the item etc.)
+                return false;
+
+            a_SaveData.PlayerLives = 3;
+
+            a_SaveData.Gold = 0;
+
+            a_SaveData.Level = 0;
+
+            a_SaveData.IsSpearmasterDead = false;
+
+            List<MercenarySave> tempMercSaveList = new List<MercenarySave>();
+            MercenarySave tempMercSave = new MercenarySave();
+            tempMercSave.UnitRace = 0;
+            tempMercSave.IndexOfMercenary = -1;
+            tempMercSaveList.Add(tempMercSave);
+            tempMercSaveList.Add(tempMercSave);
+            a_SaveData.mercenarySaves = MercenaryManager.Instance.MercenarySave;
+
+            a_SaveData.PlayerControls = PlayerControls.JoystickControls;
+
+            a_SaveData.MusicVolume = 5;
+            a_SaveData.SFXVolume = 5;
+
+            return true;
+        }
+
         void OnApplicationQuit()
         {
-            //SaveDataAsJson();    
+            //SaveDataAsJson();
         }
 
         public void SaveGame()
@@ -539,21 +627,6 @@ namespace SpineControllerVersion
             }
         }
 #endif
-
-        public void ResetGameData()
-        {
-
-        }
-
-        public void OnBeforeSerialize()
-        {
-            
-        }
-
-        public void OnAfterDeserialize()
-        {
-            
-        }
     }
 
     [System.Serializable]

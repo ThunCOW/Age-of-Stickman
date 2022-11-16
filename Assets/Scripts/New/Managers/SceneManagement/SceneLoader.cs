@@ -59,7 +59,7 @@ public class SceneLoader : MonoBehaviour
             GameManager.Instance.sortManager = new SortManager();
             GameManager.Instance.Player = null;
 
-            GameManager.Instance.GoldGained = 0;
+            GameManager.Instance.GoldGained =+ 15;
         }
         else
         {
