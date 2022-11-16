@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: Boss_SyctheMaster
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 380e33ebbd5207c498e2c6b297b98073, type: 2}
+      Movement: {fileID: 11400000, guid: fb87ed1efc93189439d121d5ca23c42c, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 0}
+      Kicked: {fileID: 11400000, guid: 77c4697044b3dba4a8f36cd3dfd1af17, type: 2}
+      Slammed: {fileID: 11400000, guid: 77c4697044b3dba4a8f36cd3dfd1af17, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 1857c387c9726ae4ea5dd5fdb188bb07, type: 2}
+      - {fileID: 11400000, guid: 813bc372fcaad5642beedccf350e6381, type: 2}
+      - {fileID: 11400000, guid: 7e9b877d2b6d27b47a340dfce7fc7ae5, type: 2}
+      - {fileID: 11400000, guid: 7e9b877d2b6d27b47a340dfce7fc7ae5, type: 2}
+      - {fileID: 11400000, guid: 7e9b877d2b6d27b47a340dfce7fc7ae5, type: 2}
+      WalkAttack:
+      - {fileID: 11400000, guid: ff5f7006f7c1589429dd26e5f1390770, type: 2}
+      ChangeStance:
+        Animation: {fileID: 11400000, guid: 6aa47cb6482672a469af7fbcf830fd3f, type: 2}
+        chance: 25
+      DeathAnimationByDamageRegion:
+        highRegion: []
+        midRegion: []
+        lowRegion: []
+      BreakStance: []
+  - Stance: 2
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 52498c0cb79f6a14aa5c5c492e333588, type: 2}
+      Movement: {fileID: 11400000, guid: eaa720e5efae5304798f632dec511c6a, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 0}
+      Kicked: {fileID: 11400000, guid: 70f8254840841e046a4fc6e244127076, type: 2}
+      Slammed: {fileID: 11400000, guid: 70f8254840841e046a4fc6e244127076, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 3be36f9e01397b34bb04887da57ce0ba, type: 2}
+      - {fileID: 11400000, guid: 97e826fc4f08da84bbc6af268afe4bce, type: 2}
+      - {fileID: 11400000, guid: fa1369762bb612843bc1c51a21df0236, type: 2}
+      WalkAttack:
+      - {fileID: 11400000, guid: b9c44362dbb949845925e7ed57c8e2ec, type: 2}
+      ChangeStance:
+        Animation: {fileID: 11400000, guid: 66083b7db4d39fc42bb59f0388552b0e, type: 2}
+        chance: 50
+      DeathAnimationByDamageRegion:
+        highRegion: []
+        midRegion: []
+        lowRegion: []
+      BreakStance: []

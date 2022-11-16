@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c5c3fa30a596a4ea3b616783c75d35, type: 3}
+  m_Name: Assassin_Attack_Stand_A_3.2
+  m_EditorClassIdentifier: 
+  Prefix: Assassin
+  AnimationName: Attack_Stand_A_3.2
+  SpineAnimationReference: {fileID: 11400000, guid: 11c4763d4b932fa489dd16e49f1cc97d, type: 2}
+  _PrefixChangeCheck: Assassin
+  _AnimationNameChangeCheck: Attack_Stand_A_3.2
+  speedCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
+  attackType: 0
+  animationMovementType: 0
+  DamageMultiplierMax: 1
+  Reach: 2.58
+  MinDistanceLimit: 0
+  PushDistance: 0
+  attackRegion: 1
+  hitHeightPosiiton: -2.361
+  SoundObject: {fileID: 11400000, guid: 87e30564fb2a33d4283c2faa0e99ac8a, type: 2}

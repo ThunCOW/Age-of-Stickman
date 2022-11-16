@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: SpearThrower
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 3276a84ba1cac224cbb9fddd9de535c7, type: 2}
+      Movement: {fileID: 11400000, guid: 6d067ed3b5a39ad4b8b6d1e233f2382e, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 11400000, guid: 03521e6f43a341045a8596156971ec7b, type: 2}
+      Kicked: {fileID: 11400000, guid: 3617cfd59d7f645498664939b0542a52, type: 2}
+      Slammed: {fileID: 11400000, guid: ca6b0eceb867da94bb68ed30f21799f4, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 14fa420722d7a5c439b595bf8e119b51, type: 2}
+      - {fileID: 11400000, guid: cc7a7a233d52b0048ab44bb87c362481, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
+      WalkAttack: []
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: 0
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: a0f536d0aae1dd94e867aca8c6e57827, type: 2}
+        - {fileID: 11400000, guid: 2664a8c500f5a1f4bae8436182a8110b, type: 2}
+        - {fileID: 11400000, guid: c671675b2f37eb94a9b774a96bde5e4d, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: 50d8a7bfd847298418faf27a2cc05349, type: 2}
+        - {fileID: 11400000, guid: a0f536d0aae1dd94e867aca8c6e57827, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 50d8a7bfd847298418faf27a2cc05349, type: 2}
+      BreakStance:
+      - {fileID: 11400000, guid: c36d14dbe58368948a4bfa9a01e40f14, type: 2}
+      - {fileID: 11400000, guid: 213c24f849431424a9c455dc8d390fab, type: 2}
+    extraSpeed: 0

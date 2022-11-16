@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
+  m_Name: Spear_Demon_2
+  m_EditorClassIdentifier: 
+  id: 4da4f52753c8c274ebc874237c449c40
+  ItemName: SpearThrow
+  HealthBonus: 0
+  DamageBonus: 0
+  ItemPrice: 0
+  ItemSlot: 3
+  ItemSprite: {fileID: 0}
+  ItemQualitySprite: {fileID: 0}
+  front:
+  - SlotName: Weapon/Spear_0
+    AttachmentName: Weapon/Spear_02
+  - SlotName: Weapon/ThrowerSpear_00
+    AttachmentName: Weapon/ThrowerSpear_00
+  side: []
+  back: []
+  back2: []
+  AnimationList: {fileID: 11400000, guid: 00199201196e5424888aecf6eaedbca2, type: 2}

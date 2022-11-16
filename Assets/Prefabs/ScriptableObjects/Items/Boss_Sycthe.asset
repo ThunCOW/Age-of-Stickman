@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
+  m_Name: Boss_Sycthe
+  m_EditorClassIdentifier: 
+  id: cfef3c2d1d1109142b4e937261f809d9
+  ItemName: 
+  HealthBonus: 0
+  DamageBonus: 0
+  ItemPrice: 0
+  ItemSlot: 5
+  ItemSprite: {fileID: 0}
+  ItemQualitySprite: {fileID: 0}
+  front:
+  - SlotName: Weapon/TwoHand_DoubleSycthe_00
+    AttachmentName: Weapon/TwoHand_DoubleSycthe_00
+  side: []
+  back: []
+  AnimationList: {fileID: 11400000, guid: bff6b0116528c6a41b780632f2dd67f8, type: 2}

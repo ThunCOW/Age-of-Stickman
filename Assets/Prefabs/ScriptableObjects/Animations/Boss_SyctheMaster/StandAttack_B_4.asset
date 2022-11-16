@@ -1,0 +1,82 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c5c3fa30a596a4ea3b616783c75d35, type: 3}
+  m_Name: StandAttack_B_4
+  m_EditorClassIdentifier: 
+  Prefix: Double_Scythe
+  AnimationName: DoubleSyctheAttackStandingE1.1.4.2 UNITY
+  SpineAnimationReference: {fileID: 11400000, guid: 7a3f910393984a840a0329bffb2534b2, type: 2}
+  _PrefixChangeCheck: Double_Scythe
+  _AnimationNameChangeCheck: DoubleSyctheAttackStandingE1.1.4.2 UNITY
+  speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.001
+      inSlope: -0.010000001
+      outSlope: -0.010000001
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.1
+      value: 0
+      inSlope: -0.0025000002
+      outSlope: 0.23452045
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.1085595
+    - serializedVersion: 3
+      time: 0.25
+      value: -40
+      inSlope: 0.010125382
+      outSlope: 0.010125382
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.4
+      value: 0
+      inSlope: -0.29629242
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.24897227
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.6666
+      value: 0
+      inSlope: -0
+      outSlope: 0
+      tangentMode: 5
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
+  attackType: 0
+  animationMovementType: 0
+  DamageMultiplierMax: 1
+  Reach: 2
+  MinDistanceLimit: 0
+  PushDistance: 0
+  attackRegion: 1
+  hitHeightPosiiton: 0
+  SoundObject: {fileID: 11400000, guid: 22245e52e1e8dc2438b3f4a25a4c6566, type: 2}

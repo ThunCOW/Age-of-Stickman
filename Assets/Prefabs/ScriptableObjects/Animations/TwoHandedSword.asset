@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: TwoHandedSword
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 98adbec0f7e9cf8409a1b6d5fa6f099c, type: 2}
+      Movement: {fileID: 11400000, guid: 2ee0576949a332c4d92095cf2ff95818, type: 2}
+      MovementBackward: {fileID: 0}
+      Hurt: {fileID: 11400000, guid: bffbe51614ff0fe409b1fc62e901aa7e, type: 2}
+      Kicked: {fileID: 0}
+      Slammed: {fileID: 0}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 3bf3c6304b28dbf44a6793324621116c, type: 2}
+      - {fileID: 11400000, guid: 18253dc8efc43e24eaf467b87b5c5010, type: 2}
+      - {fileID: 11400000, guid: 5e18e1302a99bb54c9166a9f43b2800b, type: 2}
+      WalkAttack: []
+      Death: []
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: 2300583a3979d7b4a8c38a3dc91765de, type: 2}
+        - {fileID: 11400000, guid: 3bfaa54f9a61ca04a95f002373051123, type: 2}
+        - {fileID: 11400000, guid: 1ae1f9ab91b9a7c4897d315c35471357, type: 2}
+        - {fileID: 11400000, guid: 46c7acdb0273189408aae834c127a009, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: 17f0873359f924e478d365de69d82737, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 17f0873359f924e478d365de69d82737, type: 2}
+      StunVariations:
+      - {fileID: 11400000, guid: 46260135f772fe243800eb9c1fdeda77, type: 2}
+      - {fileID: 11400000, guid: d99ee38348f151b4da35014b35adbbfa, type: 2}
+      BreakStance:
+      - {fileID: 11400000, guid: b2ae09de9baa2b84288961b51a39303a, type: 2}

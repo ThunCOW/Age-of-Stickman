@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: TwoHandedAxe B
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 8d29213776d2d364facfc236a6310c18, type: 2}
+      Movement: {fileID: 11400000, guid: 8d29213776d2d364facfc236a6310c18, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 0}
+      Kicked: {fileID: 0}
+      Slammed: {fileID: 0}
+      KnockedDown: {fileID: 0}
+      Attack: []
+      WalkAttack: []
+      ChangeStance:
+        Animation: {fileID: 11400000, guid: d3265218c2cf51b49a90bee06f6478bf, type: 2}
+        chance: 100
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
+        - {fileID: 11400000, guid: b5c77480060726841b57f80d202b2ac0, type: 2}
+        - {fileID: 11400000, guid: caa2f523e0f5ff24ca9990dc112f3387, type: 2}
+        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
+        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
+        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+      BreakStance: []
+    extraSpeed: 1
+  - Stance: 2
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 205769e131d7c1f44adbfc47e29a686e, type: 2}
+      Movement: {fileID: 11400000, guid: e42132f7ca500ef439e0e6d2b71d294a, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 11400000, guid: acbeeddb5476c5746be34054ebee0309, type: 2}
+      Kicked: {fileID: 11400000, guid: 924e1f179f5fda949b9db01b74c9e844, type: 2}
+      Slammed: {fileID: 11400000, guid: 12792634789e3b04790930c731d85f0a, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: b9ceae49a0bd9e94a82430c0e1aa5466, type: 2}
+      - {fileID: 11400000, guid: 2a23a2f9a46c4684289d5ff429377c46, type: 2}
+      WalkAttack: []
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: -1
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
+        - {fileID: 11400000, guid: b5c77480060726841b57f80d202b2ac0, type: 2}
+        - {fileID: 11400000, guid: caa2f523e0f5ff24ca9990dc112f3387, type: 2}
+        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
+        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
+        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+      BreakStance:
+      - {fileID: 11400000, guid: 4593b20a789a7c54eaa74181781362fa, type: 2}
+    extraSpeed: 0

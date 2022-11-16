@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
+  m_Name: SwordSpear 2
+  m_EditorClassIdentifier: 
+  id: 78c626bba7051e64caa1b98198959aef
+  ItemName: Sword
+  HealthBonus: 0
+  DamageBonus: 100
+  ItemPrice: 0
+  ItemSlot: 3
+  ItemSprite: {fileID: 21300000, guid: 2d918632d7b39a34f8c1453224ea55d6, type: 3}
+  ItemQualitySprite: {fileID: 21300000, guid: 9b123d960aac5fe428fdd58a5e3f78f2, type: 3}
+  front:
+  - SlotName: Weapon/OneHand_Sword_00
+    AttachmentName: Weapon/OneHand_Sword_09
+  - SlotName: Weapon/Spear_0
+    AttachmentName: Weapon/Spear_04 SMALL
+  side: []
+  back: []
+  back2: []
+  AnimationList: {fileID: 11400000, guid: bc641a2ad681e024eac062aeebcca07e, type: 2}
