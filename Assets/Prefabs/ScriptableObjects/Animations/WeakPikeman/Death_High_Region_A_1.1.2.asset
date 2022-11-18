@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Farmer
   AnimationName: Death_High_Region_A_1.1.2
-  SpineAnimationReference: {fileID: 11400000, guid: 5f34bd303cb0b2c4d87a38417415a943, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 186c406154d915e4bbbdadecb94389f8, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: Farmer
   _AnimationNameChangeCheck: Death_High_Region_A_1.1.2
   deathType: 0

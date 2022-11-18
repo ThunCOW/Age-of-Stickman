@@ -623,7 +623,7 @@ namespace SpineControllerVersion
         {
             if (pause)
             {
-                SaveDataAsJson();
+                //SaveDataAsJson();
             }
         }
 #endif

@@ -3,7 +3,6 @@ using Spine.Unity;
 using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
@@ -122,13 +121,6 @@ public class  CinematicAction: MonoBehaviour
                 break;
             case "Game Event/Game_Continue":
                 GameManager.Instance.DisableControls = false;
-                break;
-
-            case "Game Event/Spearmaster_Dead":
-                GameManager.Instance.IsSpearmasterDead = true;
-                GameManager.Instance.Player.GetComponent<EquipmentManager>().ShowSecondaryWeapon();
-                GameManager.Instance.Player.currentStance = StanceList.Stand_B;
-
                 break;
             case "Shadow Events/Shadow_Hide":
                 ShadowObject.SetActive(false);

@@ -6,8 +6,31 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
-    public int MusicVolume, SFXVolume = 0;
+    private int _MusicVolume;
+    public int MusicVolume
+    {
+        get { return _MusicVolume; }
+        set
+        {
+            _MusicVolume = value;
 
+            musicSource.volume = ((float)_MusicVolume / (float)8) * 0.1f;
+        }
+    }
+
+    private int _SFXVolume;
+    public int SFXVolume
+    {
+        get { return _SFXVolume; }
+        set
+        {
+            _SFXVolume = value;
+
+            effectSource.volume = ((float)_SFXVolume / (float)8) * 0.25f;
+        }
+    }
+
+    
     [SerializeField] private AudioSource musicSource, effectSource;
 
     [Header("Singular Used Sounds")]

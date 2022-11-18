@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Death_Region_Mid_A_1(Spearman) UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 7808d8430c9aa5348aabf94d1d36665a, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 5226d12bcefea574b94c4d26967c1895, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Death_Region_Mid_A_1(Spearman) UNITY
   deathType: 1

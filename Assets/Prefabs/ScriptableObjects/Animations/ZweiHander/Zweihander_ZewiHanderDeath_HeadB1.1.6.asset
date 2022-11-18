@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Zweihander
   AnimationName: ZewiHanderDeath_HeadB1.1.6
-  SpineAnimationReference: {fileID: 11400000, guid: dc84e0d744310b145b9764ec4768e398, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 91502c2a50325094985ea1d2225b3d58, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: Zweihander
   _AnimationNameChangeCheck: ZewiHanderDeath_HeadB1.1.6
   deathType: 0

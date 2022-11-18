@@ -13,6 +13,7 @@ public class BasicAnimation : ScriptableObject
     public string Prefix;                                               // The folder name where animations are in Spine
     public string AnimationName;                                        // Animation name to find auto
     public AnimationReferenceAsset SpineAnimationReference;             // Animation Reference
+    public AnimationClip ShadowAnimation;                               // Adding shadow animations here
 
     [SerializeField]
     [HideInInspector]

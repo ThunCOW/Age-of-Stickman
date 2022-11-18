@@ -277,6 +277,9 @@ public class AllyController : UnitController
                 else if (selectedAnim is SpeedDependantAnimation)
                     StartCoroutine(SpeedDuringAnimation(selectedAnim as SpeedDependantAnimation));
 
+                if (currentAttack.ShadowAnimation != null)
+                    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+
                 return;
             }
         }
@@ -333,6 +336,9 @@ public class AllyController : UnitController
             StartCoroutine(AIActionDecision(waitTime));
 
             StartCoroutine(SpeedDuringAnimation(currentAttack));
+
+            if (currentAttack.ShadowAnimation != null)
+                ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
         }
         else
         {
@@ -393,6 +399,9 @@ public class AllyController : UnitController
         StartCoroutine(AIActionDecision(waitTime)); // waits until animation ends, so does not make decisions during animation
 
         StartCoroutine(SpeedDuringAnimation(attack));
+
+        if (attack.ShadowAnimation != null)
+            ShadowAnimator.Play(attack.ShadowAnimation.name);
 
         // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
         //if (attack.rangedSpawnPrefab != null)

@@ -17,6 +17,7 @@ public class UnitController : MonoBehaviour
     protected BoxCollider2D boxCollider2;
 
     public SkeletonAnimation spineSkeletonAnimation;
+    public Animator ShadowAnimator;
 
     protected Unit unit;
 
@@ -53,6 +54,13 @@ public class UnitController : MonoBehaviour
     public OnControlsDisabled ResetAttachments;
 
     // Start is called before the first frame update
+
+    protected virtual void OnValidate()
+    {
+        if (ShadowAnimator == null)
+            ShadowAnimator = GetComponentInChildren<Animator>();
+    }
+
     protected virtual void Start()
     {
         boxCollider2 = GetComponent<BoxCollider2D>();
@@ -239,9 +247,8 @@ public class UnitController : MonoBehaviour
                     GameManager.Instance.PlayerLivesChange(-1);
 
                     unit.CheckUnitDirection();
-                    StopAllCoroutines();
-
-                    StartCoroutine(PlayerDown());
+                    StopRoutine();
+                    //StopAllCoroutines();
                     return;
                 }
             }
@@ -271,7 +278,8 @@ public class UnitController : MonoBehaviour
                 return;
             }
             unit.CheckUnitDirection();
-            StopAllCoroutines();
+            StopRoutine();
+            //StopAllCoroutines();
 
             canMove = false;
 
@@ -285,18 +293,24 @@ public class UnitController : MonoBehaviour
                     randomDeath = Random.Range(0, deathAnimation.Count);
                     tempDeathAnim = deathAnimation[randomDeath];
                     spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                    if (tempDeathAnim.ShadowAnimation != null)
+                        ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
                     break;
                 case HitRegion.Mid:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
                     randomDeath = Random.Range(0, deathAnimation.Count);
                     tempDeathAnim = deathAnimation[randomDeath];
                     spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                    if (tempDeathAnim.ShadowAnimation != null)
+                        ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
                     break;
                 case HitRegion.Low:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
                     randomDeath = Random.Range(0, deathAnimation.Count);
                     tempDeathAnim = deathAnimation[randomDeath];
                     spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                    if (tempDeathAnim.ShadowAnimation != null)
+                        ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
                     break;
                 default:
                     break;
@@ -379,7 +393,8 @@ public class UnitController : MonoBehaviour
             {
                 unit.CheckUnitDirection();
 
-                StopAllCoroutines();
+                StopRoutine();
+                //StopAllCoroutines();
                 StartCoroutine(StunnedFor(attack));
             }
         }
@@ -387,7 +402,8 @@ public class UnitController : MonoBehaviour
         {
             unit.CheckUnitDirection();
 
-            StopAllCoroutines();
+            StopRoutine();
+            //StopAllCoroutines();
             StartCoroutine(StunnedFor(attack));
         }
 
@@ -404,7 +420,8 @@ public class UnitController : MonoBehaviour
 
     public void BossDead()
     {
-        StopAllCoroutines();
+        StopRoutine();
+        //StopAllCoroutines();
 
         CinematicAction cAnim = GetComponent<CinematicAction>();
 
@@ -444,40 +461,6 @@ public class UnitController : MonoBehaviour
 
             StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, false));
         }
-    }
-
-    private IEnumerator PlayerDown()
-    {
-        // Play down animation
-        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion[0].SpineAnimationReference, false);
-        boxCollider2.enabled = false;
-        
-        canMove = false;
-
-        GameManager.Instance.AllyUnits.Remove(unit);
-        
-        yield return new WaitForSeconds(3);
-
-        // Resurrect Animation
-        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, false);
-        yield return new WaitForSpineAnimationComplete(track);
-        // Wait until resurrection animation ends
-
-        unit.Health = unit.HealthMax;
-        // Player regains control
-        boxCollider2.enabled = true;
-        
-        ReStartCoroutines();
-        
-        canMove = true;
-        
-        GameManager.Instance.AllyUnits.Add(unit);
-        //
-
-        resurrectionState = true;
-        // Play untouchble animation
-        yield return new WaitForSeconds(6);
-        resurrectionState = false;
     }
 
     protected void DismemberBody(DeathByDismemberAnimation deathAnimation)
@@ -607,6 +590,11 @@ public class UnitController : MonoBehaviour
     }
 
     protected virtual void ReStartCoroutines() { }
+
+    protected virtual void StopRoutine()
+    {
+        StopAllCoroutines();
+    }
 
     // Changes the speed during animation
     protected IEnumerator SpeedDuringAnimation(CloseCombatAnimation Attack)
@@ -866,7 +854,12 @@ public class UnitController : MonoBehaviour
             changeStance = false;
         }
 
-        if(continueIdle) spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+        if (continueIdle)
+        {
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            GameManager.Instance.DisableControls = false;
+        }
     }
 
     protected IEnumerator PlayCasualAnimation(BasicAnimation Animation)

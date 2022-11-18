@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Assassin
   AnimationName: Death_High_Region_A_2 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 525b36c888e2bec428f3508a9416e392, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 5c6f450da3d9ece4dacd531f61e35d74, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: Assassin
   _AnimationNameChangeCheck: Death_High_Region_A_2 UNITY
   deathType: 0

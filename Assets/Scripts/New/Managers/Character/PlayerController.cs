@@ -34,9 +34,11 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     public static bool hasPlayerReachedEndOfLevel;
 
     [SerializeField] SpeedDependantAnimation ResurrectAnimation;
+    private bool isWaitingForRes;
 
-    void OnValidate()
+    protected override void OnValidate()
     {
+        base.OnValidate();
         /*if (LeftWallPosition == null || RightWallPosition == null)
         {
             GameObject go = GameObject.FindGameObjectWithTag("LevelBorders");
@@ -152,7 +154,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         // Animation Conditions
         if (attackTrigger)
         {
-            if (!isAnimationStarted)
+            if (!isAnimationStarted && !blockTrigger)
             {
                 // Stationary Attack
                 if (direction == MoveDirection.waiting)
@@ -166,6 +168,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                     spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
 
                     AttackAction();
+
+                    if (currentAttack.ShadowAnimation != null)
+                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
                 }
                 // NonStationary Attack
                 else
@@ -179,13 +184,16 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                     spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
 
                     AttackAction();
+
+                    if (currentAttack.ShadowAnimation != null)
+                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
                 }
             }
         }
 
         if (stunTrigger)
         {
-            if (!isAnimationStarted)
+            if (!isAnimationStarted && !blockTrigger)
             {
                 List<BasicAnimation> tempStationaryStun = unit.activeAnimations.BreakStance;
 
@@ -196,6 +204,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
 
                 AttackAction();
+
+                if (currentAttack.ShadowAnimation != null)
+                    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
             }
         }
         
@@ -416,6 +427,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         canMove = false;
 
+        isWaitingForRes = true;
+
         GameManager.Instance.AllyUnits.Remove(unit);
 
         yield return new WaitForSeconds(3);
@@ -427,6 +440,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         yield return new WaitForSpineAnimationEnd(track);
         // Wait until resurrection animation ends
 
+        isWaitingForRes = false;
+
         unit.Health = 1;
         // Player regains control
         boxCollider2.enabled = true;
@@ -434,9 +449,10 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         ReStartCoroutines();
         StartCoroutine(unit.GetClosestUnitSearchCycle());
         StartCoroutine(HealthResurrection());
-        canMove = true;
-
+        
         GameManager.Instance.AllyUnits.Add(unit);
+        
+        canMove = true;
 
         resurrectionState = true;
 
@@ -458,7 +474,10 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             float percentage = countdown / 0.5f;
             
             unit.Health = ((int)(unit.HealthMax * percentage));
-            
+
+            if (unit.Health <= 0)
+                unit.Health = 1;
+
             yield return new WaitForEndOfFrame();
         }
         unit.Health = unit.HealthMax;
@@ -491,6 +510,13 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
     }
 
+    protected override void StopRoutine()
+    {
+        base.StopRoutine();
+
+        triggerCoroutine = null;
+        DefendButtonCoroutine = null;
+    }
     protected override void ReStartCoroutines()
     {
         attackTrigger = false;
@@ -511,7 +537,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     {
         yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.25f));
 
-        if (!isAnimationStarted && GameManager.Instance.DisableControls == false)
+        if (!isAnimationStarted && GameManager.Instance.DisableControls == false && !blockTrigger)
         {
             if(moveButton.Hold)
             {
@@ -574,7 +600,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true);
 
         yield return new WaitForSeconds(2.5f);
-        
+
+        GameManager.Instance.DisableControls = false;
+
         GameManager.Instance.SceneLoader.FinishLevel();
     }
 
@@ -603,7 +631,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         {
             direction = MoveDirection.waiting;
 
-            if (spineSkeletonAnimation.AnimationName != unit.activeAnimations.idle.SpineAnimationReference.name) 
+            if (spineSkeletonAnimation.state.GetCurrent(1).Animation != unit.activeAnimations.idle.SpineAnimationReference.Animation && canMove)
                 spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
         }
     }
@@ -646,7 +674,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             {
                 direction = MoveDirection.waiting;
 
-                if(spineSkeletonAnimation.AnimationName != unit.activeAnimations.idle.SpineAnimationReference.name) 
+                if(spineSkeletonAnimation.state.GetCurrent(1).Animation != unit.activeAnimations.idle.SpineAnimationReference.Animation && canMove) 
                     spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
             }
         }
@@ -690,7 +718,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             {
                 direction = MoveDirection.waiting;
 
-                if (spineSkeletonAnimation.AnimationName != unit.activeAnimations.idle.SpineAnimationReference.name)
+                if (spineSkeletonAnimation.state.GetCurrent(1).Animation != unit.activeAnimations.idle.SpineAnimationReference.Animation && canMove)
                     spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
             }
         }
@@ -727,7 +755,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         moveButton.Hold = true;
         moveButton.direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
 
-        if (!isAnimationStarted)
+        if (!isAnimationStarted && !blockTrigger)
         {
             direction = Direction == 1 ? MoveDirection.right : MoveDirection.left;
         
@@ -737,12 +765,16 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     public void MoveButtonUp()
     {
         moveButton.Hold = false;
+        moveButton.direction = MoveDirection.waiting;
 
         if (!isAnimationStarted)
         {
             direction = MoveDirection.waiting;
-        
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            if (!blockTrigger)
+            {
+                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+            }
         }
     }
 
@@ -769,37 +801,10 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     public void DefendButtonDown()
     {
         DefendButtonCoroutine = StartCoroutine(DefendButtonHoldDetection());
-        if (!isAnimationStarted)
-        {
-            canMove = false;
-            blockTrigger = true;
-
-            BasicAnimation blockAnimation = unit.activeAnimations.BlockAttack;
-
-            isAnimationStarted = true;
-
-            spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
-        }
     }
-    public void DefendButtonUp()
-    {
-        if(blockTrigger)
-        {
-            canMove = true;
-            blockTrigger = false;
-
-            isAnimationStarted = false;
-
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-            spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
-        }
-        else
-            StopCoroutine(DefendButtonCoroutine);
-    }
-
     IEnumerator DefendButtonHoldDetection()
     {
-        while(isAnimationStarted)
+        while (isAnimationStarted || GameManager.Instance.DisableControls)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -808,9 +813,20 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         BasicAnimation blockAnimation = unit.activeAnimations.BlockAttack;
 
-        isAnimationStarted = true;
-
         spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
+    }
+    public void DefendButtonUp()
+    {
+        if(blockTrigger)
+        {
+            canMove = true;
+            blockTrigger = false;
+
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+            spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
+        }
+        else
+            StopCoroutine(DefendButtonCoroutine);
     }
 
     /// <summary>
@@ -862,6 +878,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
                 StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference.Animation.Duration));
 
+                if (currentAttack.ShadowAnimation != null)
+                    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+
                 if (unit.currentStance == StanceList.Stand_A)
                     unit.currentStance = StanceList.Stand_B;
                 else if (unit.currentStance == StanceList.Stand_B)
@@ -893,6 +912,13 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             case "Weapon Triggers/WeaponSecondary_CanThrow":
                 canThrow = true;
                 break;
+
+            case "Game Event/Spearmaster_Dead":
+                GameManager.Instance.IsSpearmasterDead = true;
+                GameManager.Instance.Player.GetComponent<EquipmentManager>().ShowSecondaryWeapon();
+                GameManager.Instance.Player.currentStance = StanceList.Stand_B;
+                break;
+
             default:
                 break;
         }

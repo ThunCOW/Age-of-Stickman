@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Assassin
   AnimationName: Attack_Walk_A_2 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: ecb52771c1118c44f9f599c2988883a0, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 21b81b7160ec93546aeca7ff7a37d88d, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: c2d7cc2d0bf465448b82eace3ebdbb20, type: 2}
   _PrefixChangeCheck: Assassin
   _AnimationNameChangeCheck: Attack_Walk_A_2 UNITY
   speedCurve:

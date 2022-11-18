@@ -290,6 +290,9 @@ public class AIController : UnitController
                 else if (selectedAnim is SpeedDependantAnimation)
                     StartCoroutine(SpeedDuringAnimation(selectedAnim as SpeedDependantAnimation));
 
+                if (selectedAnim.ShadowAnimation != null)
+                    ShadowAnimator.Play(selectedAnim.ShadowAnimation.name);
+
                 return;
             }
         }
@@ -347,6 +350,8 @@ public class AIController : UnitController
 
             StartCoroutine(SpeedDuringAnimation(currentAttack));
 
+            if (currentAttack.ShadowAnimation != null)
+                ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
             // TODO RANGED ATTACK
             // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
             //if (currentAttack.rangedSpawnPrefab != null)
@@ -421,6 +426,9 @@ public class AIController : UnitController
         StartCoroutine(AIActionDecision(waitTime)); // waits until animation ends, so does not make decisions during animation
 
         StartCoroutine(SpeedDuringAnimation(attack));
+
+        if (attack.ShadowAnimation != null)
+            ShadowAnimator.Play(attack.ShadowAnimation.name);
 
         // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
         //if (attack.rangedSpawnPrefab != null)

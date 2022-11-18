@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Attack_Walk_A_1 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: e56cfa8464d27bf49b4d8962ceb0db76, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 327eb7ed1a309704bb9b42e11b0a4b1d, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: c2d7cc2d0bf465448b82eace3ebdbb20, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Attack_Walk_A_1 UNITY
   speedCurve:
