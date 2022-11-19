@@ -88,7 +88,7 @@ public class UnitController : MonoBehaviour
         {
             if (unit.Health > 0) // Only if alive
             {
-                if (idleing == true && unit.target != null) unit.CheckUnitDirection();        // Turns towards target while in idle only
+                if (idleing == true && unit.target != null) unit.SetUnitDirection();        // Turns towards target while in idle only
 
                 CharacterControls();
             }
@@ -191,6 +191,8 @@ public class UnitController : MonoBehaviour
             currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
         }
     }
+
+    // Moved over to Projectile script
     public void ProjectileDamage()
     {
         int dir;
@@ -207,20 +209,23 @@ public class UnitController : MonoBehaviour
             Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
 
         unit.target.unitController.TakeDamage(currentAttack, damageDealt, dir);
-    }
+    }       
+
     public void ProjectileRelease()
     {
-        Instantiate(unit.Projectile, unit.gameObject.transform);
+        GameObject projectile = Instantiate(unit.Projectile, unit.gameObject.transform);
+        projectile.GetComponent<Projectile>().projectileAttack = currentAttack;
 
         currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
     }
 
-    public virtual void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0)
+    public virtual void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false)
     {
         if(blockTrigger)
         {
             SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
-
+            
+            //unit.SetUnitDirection(attackDirection * -1);
             return;
         }
         if(resurrectionState)
@@ -246,7 +251,7 @@ public class UnitController : MonoBehaviour
                     // Player Lives Decreases
                     GameManager.Instance.PlayerLivesChange(-1);
 
-                    unit.CheckUnitDirection();
+                    unit.SetUnitDirection(attackDirection * -1);
                     StopRoutine();
                     //StopAllCoroutines();
                     return;
@@ -277,7 +282,7 @@ public class UnitController : MonoBehaviour
                     //GameManager.Instance.sortManager.RemoveFromOrder(unit);
                 return;
             }
-            unit.CheckUnitDirection();
+            unit.SetUnitDirection(attackDirection * -1);
             StopRoutine();
             //StopAllCoroutines();
 
@@ -330,7 +335,7 @@ public class UnitController : MonoBehaviour
                 dropChance = Random.Range(0, 100);
                 if(GameManager.Instance.Level <= 3)
                 {
-                    if(dropChance > 80)
+                    if(dropChance > 60)
                     {
                         goldAmount = 1;
                         goldAmount += Random.Range(0, 2);
@@ -341,7 +346,7 @@ public class UnitController : MonoBehaviour
                 }
                 else if(GameManager.Instance.Level > 3 && GameManager.Instance.Level <= 7)
                 {
-                    if(dropChance > 70)
+                    if(dropChance > 50)
                     {
                         goldAmount = 2;
                         goldAmount -= Random.Range(0, 2);
@@ -351,7 +356,7 @@ public class UnitController : MonoBehaviour
                 }
                 else if(GameManager.Instance.Level > 7 && GameManager.Instance.Level <= 15)
                 {
-                    if (dropChance > 60)
+                    if (dropChance > 50)
                     {
                         goldAmount = 3;
                         goldAmount -= Random.Range(0, 3);
@@ -391,7 +396,7 @@ public class UnitController : MonoBehaviour
             }
             else
             {
-                unit.CheckUnitDirection();
+                unit.SetUnitDirection();
 
                 StopRoutine();
                 //StopAllCoroutines();
@@ -400,7 +405,7 @@ public class UnitController : MonoBehaviour
         }
         else
         {
-            unit.CheckUnitDirection();
+            if(!isProjectile) unit.SetUnitDirection();
 
             StopRoutine();
             //StopAllCoroutines();
@@ -528,10 +533,13 @@ public class UnitController : MonoBehaviour
 
         speed = 0f;                                                     // speed is now controlled by speed curve
 
-        if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
-            direction = MoveDirection.left;
-        else
-            direction = MoveDirection.right;
+        if(unit.target != null)
+        {
+            if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
+                direction = MoveDirection.left;
+            else
+                direction = MoveDirection.right;
+        }
 
         if(changeStance)
         {

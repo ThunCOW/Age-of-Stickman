@@ -1,56 +1,10 @@
+using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using SpineControllerVersion;
-using static UnityEngine.GraphicsBuffer;
 
-public class AllyController : UnitController
+public class AllyController : AIController
 {
-    /// <summary>
-    /// Holds the predetermined distance to target after making the decision in AIActionDecision or MoveAndAttack,
-    /// gets resetted to 0 in AIMovement after closing the distance or passing it.
-    /// </summary>
-    private float newDistanceToTarget;
-
-    private float hitDistanceToTarget = 2f;
-
-    private bool preparingAttack = false;   // prevents decision making during movement attack
-
-    [SerializeField] private AIAgressiveness _aiAgressiveness;
-    public AIAgressiveness aiAgressiveness
-    {
-        get { return _aiAgressiveness; }
-        set
-        {
-            _aiAgressiveness = value;
-
-            switch (value)
-            {
-                case AIAgressiveness.low:
-                    aiVariable = aiVariables[AIAgressiveness.low];
-                    break;
-                case AIAgressiveness.medium:
-                    aiVariable = aiVariables[AIAgressiveness.medium];
-                    break;
-                case AIAgressiveness.high:
-                    aiVariable = aiVariables[AIAgressiveness.high];
-                    break;
-                case AIAgressiveness.boss:
-                    aiVariable = aiVariables[AIAgressiveness.boss];
-                    //attacks
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    public AIAgressivenessLevel aiAgressivenessLevel;
-    private AIVariables aiVariable;
-    private Dictionary<AIAgressiveness, AIVariables> aiVariables = new Dictionary<AIAgressiveness, AIVariables>();
-
-    private Transform ScreenLeftBorder;
-    private Transform ScreenRightBorder;
-
     public float DistanceToPlayer;
     MoveDirection directionToPlayer;
 
@@ -60,22 +14,20 @@ public class AllyController : UnitController
 
     public MercenaryUnit mercenaryUnit;
 
-    void Awake()
-    {
-        foreach (AIVariables variables in aiAgressivenessLevel.aiVariableList)
-        {
-            aiVariables.Add(variables.aIAgressivenesses, variables);
-        }
-    }
-
     protected override void Start()
     {
         base.Start();
 
+    }
+
+    protected override void AIStart()
+    {
         ScreenLeftBorder = GameManager.Instance.SceneViewBordersParent.transform.GetChild(0);
         ScreenRightBorder = GameManager.Instance.SceneViewBordersParent.transform.GetChild(1);
 
         StartCoroutine(AIActionDecision());
+
+        StartCoroutine(SuperDumbStopMovementWhenPlayerDiesCheck());
     }
 
     protected override void CharacterControls()
@@ -142,7 +94,7 @@ public class AllyController : UnitController
         }
     }
 
-    private IEnumerator AIActionDecision(float waitTime = 0)
+    protected override IEnumerator AIActionDecision(float waitTime = 0)
     {
         while (GameManager.Instance.DisableControls)
             yield return null;
@@ -154,47 +106,11 @@ public class AllyController : UnitController
 
         if (unit.target != null)
         {
-            int rand = 0;
-
-            rand = 0;
-
-            if (rand <= aiVariable.AttackChance) // is going to attack
-            {
-                AttackDecision();
-            }
-            else
-            {
-                // If a unit is very close to target unit, it does not move closer anymore
-                if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < hitDistanceToTarget)
-                {
-                    idleing = true;
-
-                    waitTime = Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
-                    waitTime += Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
-                    StartCoroutine(AIActionDecision(waitTime));
-                }
-                else
-                {
-                    idleing = false;
-
-                    if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
-                        direction = MoveDirection.right;
-                    else
-                        direction = MoveDirection.left;
-
-                    if (spineSkeletonAnimation.AnimationName != unit.activeAnimations.Movement.SpineAnimationReference.name)
-                        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true).TimeScale = 1f;
-
-                    newDistanceToTarget = Random.Range(0, Mathf.Abs(transform.position.x - unit.target.transform.position.x));
-                    // if too close to player ( within hit distance ) set new movement position to hit distance
-                    if (newDistanceToTarget <= hitDistanceToTarget)
-                        newDistanceToTarget = hitDistanceToTarget - 0.3f;
-                }
-            }
+            AttackDecision();
         }
         else
         {
-            while(unit.target == null)
+            while (unit.target == null)
             {
                 if (Mathf.Abs(transform.position.x - GameManager.Instance.Player.transform.position.x) <= DistanceToPlayer)
                 {
@@ -205,28 +121,28 @@ public class AllyController : UnitController
                         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
 
                     yield return new WaitForSeconds(Random.Range(0, 0.5f));
-                    
+
                     continue;
                 }
-                
+
                 if (spineSkeletonAnimation.state.GetCurrent(1).Animation != unit.activeAnimations.Movement.SpineAnimationReference.Animation)
                     spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true).TimeScale = 1f;
 
                 directionToPlayer = transform.position.x > GameManager.Instance.Player.transform.position.x ? MoveDirection.left : MoveDirection.right;
 
-                transform.position = new Vector3(transform.position.x + ((int)directionToPlayer * speed ) * Time.deltaTime, transform.position.y, transform.position.z);
-                if(directionToPlayer == MoveDirection.right)
+                transform.position = new Vector3(transform.position.x + ((int)directionToPlayer * speed) * Time.deltaTime, transform.position.y, transform.position.z);
+                if (directionToPlayer == MoveDirection.right)
                 {
                     if (transform.position.x > GameManager.Instance.Player.transform.position.x - DistanceToPlayer)
                         transform.position = new Vector2(GameManager.Instance.Player.transform.position.x - DistanceToPlayer + 0.05f, transform.position.y);
                 }
-                else if(directionToPlayer == MoveDirection.left)
+                else if (directionToPlayer == MoveDirection.left)
                 {
                     if (transform.position.x < GameManager.Instance.Player.transform.position.x + DistanceToPlayer)
                         transform.position = new Vector2(GameManager.Instance.Player.transform.position.x + DistanceToPlayer - 0.05f, transform.position.y);
                 }
 
-                CheckUnitDirection();
+                GetUnitDirectionTowardsPlayer();
 
                 yield return new WaitForFixedUpdate();
             }
@@ -236,7 +152,7 @@ public class AllyController : UnitController
         }
     }
 
-    public void CheckUnitDirection()
+    public void GetUnitDirectionTowardsPlayer()
     {
         // i.e if target is more on the right but unit is looking left, turn it right
         int lookDir = transform.position.x > GameManager.Instance.Player.transform.position.x ? -1 : 1;
@@ -244,7 +160,7 @@ public class AllyController : UnitController
         transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
     }
 
-    private void AttackDecision()
+    /*private void AttackDecision()
     {
         float waitTime = 0;
 
@@ -343,12 +259,14 @@ public class AllyController : UnitController
         else
         {
             // if it is not close enough to attack
+            unit.SetUnitDirection();
+
             StartCoroutine(MoveAndAttack(currentAttack));
         }
-    }
+    }*/
 
     // Activates movement and waits until in reach distance, and attacks
-    private IEnumerator MoveAndAttack(CloseCombatAnimation attack)
+    /*private IEnumerator MoveAndAttack(CloseCombatAnimation attack)
     {
         direction = unit.GetDirectionRelativeToTarget();
 
@@ -364,21 +282,21 @@ public class AllyController : UnitController
         while (wait)
         {
             waitMax -= Time.deltaTime;
-
+            
             if (direction == MoveDirection.waiting)
                 wait = false;
             else if (unit.target == null)
                 wait = false;
-            else if (waitMax <= 0)
+            else if(waitMax <= 0)
             {
                 // Enough waited, think for different action
+                // I think i added this to make bosses that can leap work while following player
                 if (changeStance == true) changeStance = false;
                 AttackDecision();
                 yield break;
             }
             yield return null;
         }
-        yield return new WaitUntil(() => direction == MoveDirection.waiting || unit.target == null);
         // target died, if there is no target stop moving forward
         if (unit.target == null)
         {
@@ -387,6 +305,7 @@ public class AllyController : UnitController
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
             preparingAttack = false;
             idleing = true;
+            StartCoroutine(AIActionDecision()); // waits until animation ends, so does not make decisions during animation
             yield break;
         }
 
@@ -411,21 +330,16 @@ public class AllyController : UnitController
             currentStance = StanceList.Stand_B;
         if (currentStance == StanceList.Stand_B_transition_A)
             currentStance = StanceList.Stand_A;*/
-    }
+    //}
 
-    public override void TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0)
+    public override void TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
     {
         base.TakeDamage(attack, DamageTaken, attackDirection);
-        if(unit.Health <= 0)
+        if (unit.Health <= 0)
         {
             MercenaryDead(mercenaryUnit);
 
             MercenaryDead -= MercenaryManager.Instance.MercenaryDead;
         }
-    }
-
-    protected override void ReStartCoroutines()
-    {
-        StartCoroutine(AIActionDecision());
     }
 }

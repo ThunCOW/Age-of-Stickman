@@ -10,13 +10,13 @@ public class AIController : UnitController
     /// Holds the predetermined distance to target after making the decision in AIActionDecision or MoveAndAttack,
     /// gets resetted to 0 in AIMovement after closing the distance or passing it.
     /// </summary>
-    private float newDistanceToTarget;
+    protected float newDistanceToTarget;
 
-    private float hitDistanceToTarget = 2f;
+    protected float hitDistanceToTarget = 2f;
 
-    private bool preparingAttack = false;   // prevents decision making during movement attack
+    protected bool preparingAttack = false;   // prevents decision making during movement attack
 
-    [SerializeField] private AIAgressiveness _aiAgressiveness;
+    [SerializeField] protected AIAgressiveness _aiAgressiveness;
     public AIAgressiveness aiAgressiveness
     {
         get { return _aiAgressiveness; }
@@ -45,13 +45,13 @@ public class AIController : UnitController
         }
     }
     public AIAgressivenessLevel aiAgressivenessLevel;
-    private AIVariables aiVariable;
-    private Dictionary<AIAgressiveness, AIVariables> aiVariables = new Dictionary<AIAgressiveness, AIVariables>();
+    protected AIVariables aiVariable;
+    protected Dictionary<AIAgressiveness, AIVariables> aiVariables = new Dictionary<AIAgressiveness, AIVariables>();
 
-    private Transform ScreenLeftBorder;
-    private Transform ScreenRightBorder;
+    protected Transform ScreenLeftBorder;
+    protected Transform ScreenRightBorder;
 
-    void Awake()
+    protected void Awake()
     {
         foreach (AIVariables variables in aiAgressivenessLevel.aiVariableList)
         {
@@ -63,12 +63,20 @@ public class AIController : UnitController
     {
         base.Start();
 
+        AIStart();
+    }
+
+    // Because ALLYController inherits from AIcontroller and has different start ( and i dont want to make another one for enemyAI), implementing this to get around
+    protected virtual void AIStart()
+    {
+
+
         ScreenLeftBorder = GameManager.Instance.SceneViewBordersParent.transform.GetChild(0);
         ScreenRightBorder = GameManager.Instance.SceneViewBordersParent.transform.GetChild(1);
 
         if (isBoss)
         {
-            if(gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
+            if (gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
                 StartCoroutine(SpearmasterEntrance());
         }
         else
@@ -78,43 +86,57 @@ public class AIController : UnitController
             else
                 StartCoroutine(AIActionDecision());
         }
+
+        StartCoroutine(SuperDumbStopMovementWhenPlayerDiesCheck());
     }
 
     protected override void CharacterControls()
     {
-        /*if (GameManager.Instance.hasPlayerReachedEndOfLevel)
-        {
-            if (gameObject.transform.position.x >= unit.target.transform.position.x)
-            {
-                if (gameObject.transform.position.x > RightWallPosition.transform.position.x)
-                {
-                    AIMovementPlayerAtLevelBorders();
-                }
-                else
-                {
-                    AIMovement();
-                }
-            }
-            else
-            {
-                if (gameObject.transform.position.x < LeftWallPosition.transform.position.x || Mathf.Abs(transform.position.x - unit.target.transform.position.x) <= 3)
-                {
-                    AIMovementPlayerAtLevelBorders();
-                }
-                else
-                {
-                    AIMovement();
-                }
-            }
-        }
-        else*/
-            AIMovement();
+        AIMovement();
 
         if (idleing == true) // if in idle - animation ended / movement ended / attack ended - check for unit direction relative to target position
         {
             if (unit.target != null)
             {
                 //CheckUnitDirection();
+            }
+        }
+    }
+
+    // runs all the time
+    private void AIMovement()
+    {
+        if (unit.target != null)
+        {
+            if (speed != 0)                                                                  // speed equals to zero means speed is controlled by speed curve for animation
+            {
+                float dist = Mathf.Abs(transform.position.x - GameManager.Instance.Player.transform.position.x);
+                float maxVision = 8.65f;                                                    // maxVision for player
+                if (dist > maxVision)                                                       //  if AIUnit is outside of cam, it will move faster to catch up and then slow down to normal speed level
+                {
+                    if (unit.target.unitController.speed != 0) speed = unit.target.unitController.speed * 2;
+                }
+                else
+                    speed = defaultSpeed;
+            }
+
+            // if a unit has gotten enough close or extra closer to target than it was determinted to, ready for next action ( Basically idleing )
+            if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) <= newDistanceToTarget)
+            {
+                float waitTime = Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
+                waitTime += Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
+
+                // true during MoveAndAttack session, walking happens here but aiActionDecision triggers in MoveAndAttack too, so made a boolean to check it does not trigger twice
+                //if (preparingAttack == false)
+                //{
+                //    StartCoroutine(AIActionDecision(waitTime));
+                //    idleing = true;
+                //}
+
+                direction = MoveDirection.waiting;
+                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+                newDistanceToTarget = 0;
             }
         }
     }
@@ -153,17 +175,25 @@ public class AIController : UnitController
                 }
             }
 
-            newDistanceToTarget = 32;
+            //newDistanceToTarget = 32;
+            idleing = true;
+
+            direction = MoveDirection.waiting;
+
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+
+            StartCoroutine(AIActionDecision());
         }
         else
         {
+            // Enters here ONLY if enemies are allowed to spawn when there is no alive ally/player unit
             waitTime = 0.3f;
             StartCoroutine(MoveInsideCameraView(waitTime));
         }
     }
 
     // Gets initiated at the start of the game and makes random decisions for the unit, repeats itself until it dies
-    private IEnumerator AIActionDecision(float waitTime = 0)
+    protected virtual IEnumerator AIActionDecision(float waitTime = 0)
     {
         while(GameManager.Instance.DisableControls)
             yield return null;
@@ -215,13 +245,13 @@ public class AIController : UnitController
 
             rand = Random.Range(1, 101);
 
-            if (rand <= aiVariable.AttackChance) // is going to attack
+            if (0 <= aiVariable.AttackChance) // chose to attack
             {
                 AttackDecision();
             }
-            else
+            else                              // chose to move closer
             {
-                // If a unit is very close to target unit, it does not move closer anymore
+                // If a unit is very close to target unit already, it does not move closer anymore, it idles
                 if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < hitDistanceToTarget)
                 {
                     idleing = true;
@@ -246,6 +276,16 @@ public class AIController : UnitController
                     // if too close to player ( within hit distance ) set new movement position to hit distance
                     if (newDistanceToTarget <= hitDistanceToTarget)
                         newDistanceToTarget = hitDistanceToTarget - 0.3f;
+
+                    while(direction != MoveDirection.waiting)
+                    {
+                        yield return new WaitForFixedUpdate();
+                    }
+                    idleing = true;
+
+                    waitTime = Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
+                    waitTime += Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
+                    StartCoroutine(AIActionDecision(waitTime));
                 }
             }
         }
@@ -257,7 +297,7 @@ public class AIController : UnitController
         }
     }
 
-    private void AttackDecision()
+    protected void AttackDecision()
     {
         float waitTime = 0;
 
@@ -310,6 +350,7 @@ public class AIController : UnitController
             }
         }
 
+        // if it is not going to change stance, select attack state
         if(!changeStance)
         {
             List<BasicAnimation> tempAttackAnimation = new List<BasicAnimation>();
@@ -338,9 +379,9 @@ public class AIController : UnitController
             }
         }
 
+        // if it is close enough to attack, attack and start next courutine for decision
         if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < currentAttack.Reach)
         {
-            // if it is close enough to attack, attack and start next courutine for decision
             spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
             float animationLength = currentAttack.SpineAnimationReference.Animation.Duration;
             waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
@@ -367,15 +408,15 @@ public class AIController : UnitController
         }
         else
         {
-            // if it is not close enough to attack
-            //if(MoveAndAttackCoroutine != null) StopCoroutine(MoveAndAttackCoroutine);
+            unit.SetUnitDirection();
+            
             StartCoroutine(MoveAndAttack(currentAttack));
         }
     }
 
     //Coroutine MoveAndAttackCoroutine = null;
     // Activates movement and waits until in reach distance, and attacks
-    private IEnumerator MoveAndAttack(CloseCombatAnimation attack)
+    protected IEnumerator MoveAndAttack(CloseCombatAnimation attack)
     {
         direction = unit.GetDirectionRelativeToTarget();
 
@@ -399,13 +440,14 @@ public class AIController : UnitController
             else if(waitMax <= 0)
             {
                 // Enough waited, think for different action
+                // I think i added this to make bosses that can leap work while following player
                 if (changeStance == true) changeStance = false;
                 AttackDecision();
                 yield break;
             }
             yield return null;
         }
-        yield return new WaitUntil(() => direction == MoveDirection.waiting || unit.target == null);
+        //yield return new WaitUntil(() => direction == MoveDirection.waiting || unit.target == null);
         // target died, if there is no target stop moving forward
         if (unit.target == null)
         {
@@ -414,6 +456,7 @@ public class AIController : UnitController
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
             preparingAttack = false;
             idleing = true;
+            StartCoroutine(AIActionDecision()); // waits until animation ends, so does not make decisions during animation
             yield break;
         }
 
@@ -440,42 +483,39 @@ public class AIController : UnitController
             currentStance = StanceList.Stand_A;*/
     }
 
-    // runs all the time
-    private void AIMovement()
+    protected IEnumerator SuperDumbStopMovementWhenPlayerDiesCheck()
     {
-        if (unit.target != null)
+        // Movement was handled in FixedUpdate and ran continuesly but if player was to die during enemy movement
+        // there was no way to stop movement and set animation back to idle etc ( not that i could think of ) so i am making this super dumb coroutine
+        
+        while(unit.target == null)                  // Leave while when target is found
         {
-            if (speed != 0)                                                                  // speed equals to zero means speed is controlled by speed curve for animation
-            {
-                float dist = Mathf.Abs(transform.position.x - GameManager.Instance.Player.transform.position.x);
-                float maxVision = 8.65f;                                                    // maxVision for player
-                if (dist > maxVision)                                                       //  if AIUnit is outside of cam, it will move faster to catch up and then slow down to normal speed level
-                {
-                    if (unit.target.unitController.speed != 0) speed = unit.target.unitController.speed * 2;
-                }
-                else
-                    speed = defaultSpeed;
-            }
-
-            // if a unit has gotten enough close or extra closer to target than it was determinted to, ready for next action ( Basically idleing )
-            if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) <= newDistanceToTarget)
-            {
-                float waitTime = Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
-                waitTime += Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
-
-                // activated during MoveAndAttack session, walking happens here so it does not trigger twice
-                if (preparingAttack == false)
-                {
-                    StartCoroutine(AIActionDecision(waitTime));
-                    idleing = true;
-                }
-
-                direction = MoveDirection.waiting;
-                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-
-                newDistanceToTarget = 0;
-            }
+            yield return new WaitForFixedUpdate();
         }
+
+        while(unit.target != null)                  // Leaves while when target is lost ( null )
+        {
+            yield return new WaitForFixedUpdate();
+        }
+        //yield return new WaitUntil(() => unit.target == null);
+        //yield return new WaitUntil(() => PlayerController.isWaitingForRes);     // wait until player is dead
+        
+        while(isAnimationStarted)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+
+        float waitTime = Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
+        waitTime += Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
+
+        direction = MoveDirection.waiting;
+        
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+        newDistanceToTarget = 0;
+
+        //yield return new WaitUntil(() => PlayerController.isWaitingForRes == false);
+        StartCoroutine(SuperDumbStopMovementWhenPlayerDiesCheck());
     }
 
     private void AIMovementPlayerAtLevelBorders()

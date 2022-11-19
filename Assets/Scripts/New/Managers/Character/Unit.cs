@@ -111,7 +111,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            CheckUnitDirection();
+            SetUnitDirection();
             StartCoroutine(GetClosestUnitSearchCycle());
         }
     }
@@ -233,10 +233,21 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void CheckUnitDirection()
+    /// <summary>
+    /// Automatically turns current unit towards the target(enemy)
+    /// </summary>
+    public void SetUnitDirection()
     {
         // i.e if target is more on the right but unit is looking left, turn it right
         int lookDir = transform.position.x > target.transform.position.x ? -1 : 1;
+
+        transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
+    }
+
+    public void SetUnitDirection(int lookDir)
+    {
+        if (lookDir == 0)
+            return;
 
         transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
     }

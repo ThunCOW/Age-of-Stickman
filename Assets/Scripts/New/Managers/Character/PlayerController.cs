@@ -34,7 +34,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     public static bool hasPlayerReachedEndOfLevel;
 
     [SerializeField] SpeedDependantAnimation ResurrectAnimation;
-    private bool isWaitingForRes;
+    public static bool isWaitingForRes;
 
     protected override void OnValidate()
     {
@@ -248,7 +248,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
         else
         {
-            if (!isAnimationStarted) unit.CheckUnitDirection();
+            if (!isAnimationStarted) unit.SetUnitDirection();
 
             if (dir == (int)MoveDirection.right)
             {
@@ -297,19 +297,20 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         //
         if (unit.target != null)
         {
-            unit.CheckUnitDirection();
+            unit.SetUnitDirection();
         }
 
         StartCoroutine(SpeedDuringAnimation(currentAttack));
         StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
     }
 
-    public override void TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0)
+    public override void TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
     {
         if (blockTrigger)
         {
             SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
-
+            
+            //unit.SetUnitDirection(attackDirection * -1);
             return;
         }
         if (resurrectionState)
@@ -322,9 +323,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
         unit.Health -= DamageTaken;
-        if (unit.Health <= 0)
+        
+        // Player Health below 0
+        if (unit.Health <= 0)                                                                                                   
         {
-            if (GameManager.Instance.PlayerLives == 0)
+            // Player has no lives ( DEAD )
+            if (GameManager.Instance.PlayerLives == 0)                                                                          
             {
                 // Player Dies bring up you are dead screen
                 
@@ -373,18 +377,21 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
                 GameManager.Instance.sortManager.RemoveFromOrder(unit);
             }
+            // Player is going to resurrect
             else
             {
                 // Player Lives Decreases
                 GameManager.Instance.PlayerLivesChange(-1);
 
-                unit.CheckUnitDirection();
+                unit.SetUnitDirection(attackDirection * -1);
+
                 StopAllCoroutines();
 
                 StartCoroutine(PlayerDown());
                 return;
             }
         }
+        // This part is for bossess, gonna leave it for now, only bosses dont have hurt anim
         else if (unit.activeAnimations.Hurt == null)
         {
             if (attack.attackType == AttackType.Casual)
@@ -393,15 +400,16 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             }
             else
             {
-                unit.CheckUnitDirection();
+                unit.SetUnitDirection();
 
                 StopAllCoroutines();
                 StartCoroutine(StunnedFor(attack));
             }
         }
+        // Player got hurt, 
         else
         {
-            unit.CheckUnitDirection();
+            if(!isProjectile) unit.SetUnitDirection(attackDirection * -1);
 
             StopAllCoroutines();
             StartCoroutine(StunnedFor(attack));
@@ -429,6 +437,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         isWaitingForRes = true;
 
+        isAnimationStarted = true;
+
         GameManager.Instance.AllyUnits.Remove(unit);
 
         yield return new WaitForSeconds(3);
@@ -445,6 +455,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         unit.Health = 1;
         // Player regains control
         boxCollider2.enabled = true;
+
+        isAnimationStarted = false;
 
         ReStartCoroutines();
         StartCoroutine(unit.GetClosestUnitSearchCycle());

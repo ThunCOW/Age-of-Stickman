@@ -69,24 +69,19 @@ public class SpawnManager : MonoBehaviour
         if(GameManager.Instance.DisableControls == false)
         {
             if (maxSpawn > 0) 
-                if(maxEnemyOnScreen > GameManager.Instance.EnemyUnits.Count) 
+                if(maxEnemyOnScreen > GameManager.Instance.EnemyUnits.Count && !PlayerController.isWaitingForRes) 
                     SpawnLogic();
         }
     }
 
     void SpawnLogic()
     {
-        
         if(preparingForBossSpawn)
         {
             if(GameManager.Instance.EnemyUnits.Count == 0)
                 nextSpawnTimer = nextSpawnTimer > 2 ? Random.Range(0, 1.5f) : nextSpawnTimer;
         }
-        else if(PlayerController.hasPlayerReachedEndOfLevel)
-        {
-            nextSpawnTimer = Random.Range(0, 11f);
-        }
-        else
+        else if(!PlayerController.hasPlayerReachedEndOfLevel)
         {
             if (GameManager.Instance.EnemyUnits.Count == 0)
                 nextSpawnTimer = nextSpawnTimer > 4 ? Random.Range(0, 3.5f) : nextSpawnTimer;
@@ -132,10 +127,19 @@ public class SpawnManager : MonoBehaviour
 
             maxSpawn--;
 
-            if (maxEnemyOnScreen > GameManager.Instance.EnemyUnits.Count)
-                nextSpawnTimer = spawnTimer * 2;
+
+
+            if (PlayerController.hasPlayerReachedEndOfLevel)
+            {
+                nextSpawnTimer = Random.Range(0, 11f);
+            }
             else
-                nextSpawnTimer = spawnTimer;
+            {
+                if (GameManager.Instance.EnemyUnits.Count >= maxEnemyOnScreen)
+                    nextSpawnTimer = spawnTimer * 2;
+                else
+                    nextSpawnTimer = spawnTimer;
+            }
             
             // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
             if (spawnPos == (Vector2)spawnPosList[1].position)

@@ -582,10 +582,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8708394848095586871, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
-      propertyPath: m_audioClip
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8708394848731872016, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
       propertyPath: m_Name
       value: SoundManager
@@ -634,18 +630,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
-      propertyPath: ShieldHitSound.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
-      propertyPath: ShieldHitSound.Array.data[0]
-      value: 
-      objectReference: {fileID: 8300000, guid: 08ab9a61ec56dc2459213b862e2db2b7, type: 3}
-    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
-      propertyPath: ShieldHitSound.Array.data[1]
-      value: 
-      objectReference: {fileID: 8300000, guid: 621d4f15b104508489667296d54859f2, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
 --- !u!4 &8165572107925285197
