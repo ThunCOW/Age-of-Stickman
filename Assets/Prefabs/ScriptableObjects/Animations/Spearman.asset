@@ -28,16 +28,37 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 52a4153c6abe13647a10a13bddf3ab62, type: 2}
       - {fileID: 11400000, guid: 776dc58a405f588418414ffee6bf1a5c, type: 2}
       WalkAttack: []
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: 0
+      SwapWeapon: {fileID: 0}
       DeathAnimationByDamageRegion:
         highRegion:
-        - {fileID: 11400000, guid: 168a1c79d96f1b04f9868f34f6246684, type: 2}
-        - {fileID: 11400000, guid: d41666963c089de47ac35bbf17297ed4, type: 2}
-        - {fileID: 11400000, guid: b8fa23c61d146c642b82b81a74239832, type: 2}
+        - {fileID: 11400000, guid: a0f536d0aae1dd94e867aca8c6e57827, type: 2}
+        - {fileID: 11400000, guid: 8763a3ba69cc97346bc2eab8e5e15a78, type: 2}
+        - {fileID: 11400000, guid: d1727178a37bc97409f7f79582417779, type: 2}
+        - {fileID: 11400000, guid: a203820b48088ea41be888c14b3b00cb, type: 2}
+        - {fileID: 11400000, guid: 2664a8c500f5a1f4bae8436182a8110b, type: 2}
+        - {fileID: 11400000, guid: 1605c5d244ac960439e4f48bcc5b5334, type: 2}
+        - {fileID: 11400000, guid: c92f25c3d27bce34ea6d2353aacafb2a, type: 2}
+        - {fileID: 11400000, guid: 1efd6117f61b70049b6ad5a725e4e01e, type: 2}
+        - {fileID: 11400000, guid: c671675b2f37eb94a9b774a96bde5e4d, type: 2}
         midRegion:
-        - {fileID: 11400000, guid: 2c0b63b8998b28245a1b497848406461, type: 2}
-        - {fileID: 11400000, guid: 168a1c79d96f1b04f9868f34f6246684, type: 2}
+        - {fileID: 11400000, guid: 50d8a7bfd847298418faf27a2cc05349, type: 2}
+        - {fileID: 11400000, guid: 50d8a7bfd847298418faf27a2cc05349, type: 2}
+        - {fileID: 11400000, guid: a0f536d0aae1dd94e867aca8c6e57827, type: 2}
+        - {fileID: 11400000, guid: 8763a3ba69cc97346bc2eab8e5e15a78, type: 2}
+        - {fileID: 11400000, guid: d1727178a37bc97409f7f79582417779, type: 2}
+        - {fileID: 11400000, guid: a203820b48088ea41be888c14b3b00cb, type: 2}
         lowRegion:
-        - {fileID: 11400000, guid: 2c0b63b8998b28245a1b497848406461, type: 2}
+        - {fileID: 11400000, guid: 50d8a7bfd847298418faf27a2cc05349, type: 2}
+        - {fileID: 11400000, guid: 219a2ca25ae0a344a9395c30cd44cd14, type: 2}
+        - {fileID: 11400000, guid: c48ef73481ddbfd469864dc8e3a3cb42, type: 2}
+        - {fileID: 11400000, guid: b2772fc1217d7c34da114a9d0ddb69ba, type: 2}
+        - {fileID: 11400000, guid: c0a814aa9eecae64bbb2c07fa32beda1, type: 2}
+        - {fileID: 11400000, guid: fd0456c4feb85ba499e6850e99e22955, type: 2}
+        - {fileID: 11400000, guid: c4c4235cc37a2aa42b095862f54cbd47, type: 2}
       BreakStance:
       - {fileID: 11400000, guid: 32f6b60725780ce49a26d41bdafc68f0, type: 2}
       - {fileID: 11400000, guid: 19d3aac645b25f8449c2c4f4afc22ae5, type: 2}
+    extraSpeed: 0

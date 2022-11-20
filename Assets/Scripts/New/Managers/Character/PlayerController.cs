@@ -68,6 +68,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         canThrow = GameManager.Instance.IsSpearmasterDead;
 
         LoadControls();
+
+        //SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.MovementBackward.SpineAnimationReference, 0);
+        SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
     }
 
     public void LoadControls()
@@ -95,7 +98,69 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     {
         KeyboardControls();
 
-        if(!SpawnManager.isBossSpawned)
+        // Animation Conditions
+        if (attackTrigger)
+        {
+            if (!isAnimationStarted && !blockTrigger)
+            {
+                // Stationary Attack
+                if (direction == MoveDirection.waiting)
+                {
+                    // There isn't an animation already playing
+                    List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
+
+                    int randomAttack = UnityEngine.Random.Range(0, tempStationaryAttack.Count);
+                    currentAttack = tempStationaryAttack[randomAttack] as CloseCombatAnimation;
+
+
+                    //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.idle.SpineAnimationReference.Animation.Name, currentAttack.SpineAnimationReference.Animation.Name, 0.15f);
+                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+
+                    AttackAction();
+
+                    if (currentAttack.ShadowAnimation != null)
+                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                }
+                // NonStationary Attack
+                else
+                {
+                    // There isn't an animation already playing
+                    List<BasicAnimation> tempWalkAttack = unit.activeAnimations.WalkAttack;
+
+                    int randomAttack = UnityEngine.Random.Range(0, tempWalkAttack.Count);
+                    currentAttack = tempWalkAttack[randomAttack] as CloseCombatAnimation;
+
+                    //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.Movement.SpineAnimationReference.Animation.Name, unit.activeAnimations.WalkAttack[0].SpineAnimationReference.Animation.Name, 0.15f);
+                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+
+                    AttackAction();
+
+                    if (currentAttack.ShadowAnimation != null)
+                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                }
+            }
+        }
+
+        if (stunTrigger)
+        {
+            if (!isAnimationStarted && !blockTrigger)
+            {
+                List<BasicAnimation> tempStationaryStun = unit.activeAnimations.BreakStance;
+
+                int randomAttack = UnityEngine.Random.Range(0, tempStationaryStun.Count);
+                BasicAnimation t = tempStationaryStun[randomAttack];
+                currentAttack = (CloseCombatAnimation)t;
+
+                spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
+
+                AttackAction();
+
+                if (currentAttack.ShadowAnimation != null)
+                    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+            }
+        }
+
+        if (!SpawnManager.isBossSpawned)
         {
             if(gameObject.transform.position.x <= LeftWallPosition.position.x)
             {
@@ -151,65 +216,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             MoveButtonDown(((int)MoveDirection.left));
         }
 
-        // Animation Conditions
-        if (attackTrigger)
-        {
-            if (!isAnimationStarted && !blockTrigger)
-            {
-                // Stationary Attack
-                if (direction == MoveDirection.waiting)
-                {
-                // There isn't an animation already playing
-                    List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
 
-                    int randomAttack = UnityEngine.Random.Range(0, tempStationaryAttack.Count);
-                    currentAttack = tempStationaryAttack[randomAttack] as CloseCombatAnimation;
 
-                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
-
-                    AttackAction();
-
-                    if (currentAttack.ShadowAnimation != null)
-                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
-                }
-                // NonStationary Attack
-                else
-                {
-                    // There isn't an animation already playing
-                    List<BasicAnimation> tempWalkAttack = unit.activeAnimations.WalkAttack;
-
-                    int randomAttack = UnityEngine.Random.Range(0, tempWalkAttack.Count);
-                    currentAttack = tempWalkAttack[randomAttack] as CloseCombatAnimation;
-
-                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
-
-                    AttackAction();
-
-                    if (currentAttack.ShadowAnimation != null)
-                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
-                }
-            }
-        }
-
-        if (stunTrigger)
-        {
-            if (!isAnimationStarted && !blockTrigger)
-            {
-                List<BasicAnimation> tempStationaryStun = unit.activeAnimations.BreakStance;
-
-                int randomAttack = UnityEngine.Random.Range(0, tempStationaryStun.Count);
-                BasicAnimation t = tempStationaryStun[randomAttack];
-                currentAttack = (CloseCombatAnimation)t;
-
-                spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
-
-                AttackAction();
-
-                if (currentAttack.ShadowAnimation != null)
-                    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
-            }
-        }
-        
 
 
         // Block Button Action
@@ -304,126 +312,71 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
     }
 
-    public override void TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
+    protected override void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
     {
-        if (blockTrigger)
+        // Player has no lives ( DEAD )
+        if (GameManager.Instance.PlayerLives == 0)
         {
-            SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
-            
-            //unit.SetUnitDirection(attackDirection * -1);
-            return;
-        }
-        if (resurrectionState)
-        {
-            attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+            // Player Dies bring up you are dead screen
 
-            return;
-        }
+            boxCollider2.enabled = false;
 
-        attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+            canMove = false;
 
-        unit.Health -= DamageTaken;
-        
-        // Player Health below 0
-        if (unit.Health <= 0)                                                                                                   
-        {
-            // Player has no lives ( DEAD )
-            if (GameManager.Instance.PlayerLives == 0)                                                                          
+            int randomDeath = 0;
+            List<DeathAnimation> deathAnimation;
+            DeathAnimation tempDeathAnim = null;
+            switch (attack.attackRegion)
             {
-                // Player Dies bring up you are dead screen
-                
-                boxCollider2.enabled = false;
-                
-                canMove = false;
-
-                int randomDeath = 0;
-                List<DeathAnimation> deathAnimation;
-                DeathAnimation tempDeathAnim = null;
-                switch (attack.attackRegion)
-                {
-                    case HitRegion.High:
-                        deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
-                        randomDeath = Random.Range(0, deathAnimation.Count);
-                        tempDeathAnim = deathAnimation[randomDeath];
-                        spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                        break;
-                    case HitRegion.Mid:
-                        deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
-                        randomDeath = Random.Range(0, deathAnimation.Count);
-                        tempDeathAnim = deathAnimation[randomDeath];
-                        spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                        break;
-                    case HitRegion.Low:
-                        deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
-                        randomDeath = Random.Range(0, deathAnimation.Count);
-                        tempDeathAnim = deathAnimation[randomDeath];
-                        spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                        break;
-                    default:
-                        break;
-                }
-                if (tempDeathAnim is DeathByDismemberAnimation)
-                    DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
-
-
-                if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
-                {
-                    GameManager.Instance.EnemyUnits.Remove(unit);
-                    // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
-                    GameManager.Instance.LeftSpawn.Remove(gameObject);
-                }
-                else
-                    GameManager.Instance.AllyUnits.Remove(unit);
-
-                GameManager.Instance.sortManager.RemoveFromOrder(unit);
+                case HitRegion.High:
+                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
+                    randomDeath = Random.Range(0, deathAnimation.Count);
+                    tempDeathAnim = deathAnimation[randomDeath];
+                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                    break;
+                case HitRegion.Mid:
+                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
+                    randomDeath = Random.Range(0, deathAnimation.Count);
+                    tempDeathAnim = deathAnimation[randomDeath];
+                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                    break;
+                case HitRegion.Low:
+                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
+                    randomDeath = Random.Range(0, deathAnimation.Count);
+                    tempDeathAnim = deathAnimation[randomDeath];
+                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                    break;
+                default:
+                    break;
             }
-            // Player is going to resurrect
-            else
+            if (tempDeathAnim is DeathByDismemberAnimation)
+                DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+
+
+            if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
             {
-                // Player Lives Decreases
-                GameManager.Instance.PlayerLivesChange(-1);
-
-                unit.SetUnitDirection(attackDirection * -1);
-
-                StopAllCoroutines();
-
-                StartCoroutine(PlayerDown());
-                return;
-            }
-        }
-        // This part is for bossess, gonna leave it for now, only bosses dont have hurt anim
-        else if (unit.activeAnimations.Hurt == null)
-        {
-            if (attack.attackType == AttackType.Casual)
-            {
-                // boss dont stop movement in hits
+                GameManager.Instance.EnemyUnits.Remove(unit);
+                // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+                GameManager.Instance.LeftSpawn.Remove(gameObject);
             }
             else
-            {
-                unit.SetUnitDirection();
+                GameManager.Instance.AllyUnits.Remove(unit);
 
-                StopAllCoroutines();
-                StartCoroutine(StunnedFor(attack));
-            }
+            GameManager.Instance.sortManager.RemoveFromOrder(unit);
         }
-        // Player got hurt, 
+        // Player is going to resurrect
         else
         {
-            if(!isProjectile) unit.SetUnitDirection(attackDirection * -1);
+            // Player Lives Decreases
+            GameManager.Instance.PlayerLivesChange(-1);
+
+            unit.SetUnitDirection(attackDirection * -1);
 
             StopAllCoroutines();
-            StartCoroutine(StunnedFor(attack));
-        }
 
-        if (attack.attackType != AttackType.Kick && attack.attackType != AttackType.Shield)
-        {
-            GameObject blood_go = Instantiate(unit.bloodObject);
-            blood_go.transform.position = new Vector3(transform.position.x, attack.hitHeightPosiiton, unit.bloodObject.transform.position.z);
+            StartCoroutine(PlayerDown());
+            //return;
         }
-
-        // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
-        if (CompareTag(GameManager.ENEMY_TAG))
-            GameManager.Instance.LeftSpawn.Remove(gameObject);
     }
 
     private IEnumerator PlayerDown()

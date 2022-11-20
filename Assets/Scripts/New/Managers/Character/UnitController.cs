@@ -14,12 +14,14 @@ public enum MoveDirection
 
 public class UnitController : MonoBehaviour
 {
+    [Space]
     protected BoxCollider2D boxCollider2;
 
     public SkeletonAnimation spineSkeletonAnimation;
     public Animator ShadowAnimator;
 
     protected Unit unit;
+    protected EquipmentManager equipmentManager;
 
     protected bool canMove = true;
     [HideInInspector] public bool isAnimationStarted = false;   // Animations require direction to be consistent
@@ -66,6 +68,7 @@ public class UnitController : MonoBehaviour
         boxCollider2 = GetComponent<BoxCollider2D>();
 
         unit = GetComponent<Unit>();
+        equipmentManager = GetComponent<EquipmentManager>();
 
         spineSkeletonAnimation.state.Event += HandleAnimationStateEvent;
 
@@ -79,6 +82,23 @@ public class UnitController : MonoBehaviour
 
         EquipmentManager tempEM = GetComponent<EquipmentManager>();
         tempEM.OnArrowRelease += ProjectileRelease;
+
+        SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.Movement.SpineAnimationReference, 0);
+        SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+        SetMixBetweenAnimation(unit.activeAnimations.BreakStance[0].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+        SetMixBetweenAnimation(unit.activeAnimations.BreakStance[1].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+        SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[0].SpineAnimationReference, 0);
+        SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[1].SpineAnimationReference, 0);
+
+        SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[0].SpineAnimationReference, 0);
+        SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[1].SpineAnimationReference, 0);
+
+        SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[0].SpineAnimationReference, 0);
+        SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[1].SpineAnimationReference, 0);
+        // Hurt animation should be 0
+        //foreach(BasicAnimation basicAnimation in unit.activeAnimations)
     }
 
     // Update is called once per frame
@@ -219,176 +239,37 @@ public class UnitController : MonoBehaviour
         currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
     }
 
-    public virtual void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false)
+    /// <summary>
+    /// Returns true when hit succesfully damaged
+    /// </summary>
+    public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false)
     {
         if(blockTrigger)
         {
             SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
-            
+
             //unit.SetUnitDirection(attackDirection * -1);
-            return;
+            return false;
         }
         if(resurrectionState)
         {
             attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
-            return;
+            return false;
         }
 
         attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
         unit.Health -= DamageTaken;
+
+        equipmentManager.ResetAttachments();
+
         if (unit.Health <= 0)
         {
-            if(unit.CompareTag(GameManager.PLAYER_TAG))
-            {
-                if (GameManager.Instance.PlayerLives == 0)
-                {
-                    // Player Dies bring up you are dead screen
-                }
-                else
-                {
-                    // Player Lives Decreases
-                    GameManager.Instance.PlayerLivesChange(-1);
-
-                    unit.SetUnitDirection(attackDirection * -1);
-                    StopRoutine();
-                    //StopAllCoroutines();
-                    return;
-                }
-            }
-
-            boxCollider2.enabled = false;
-
-            if(isBoss)
-            {
-                //canMove = false;
-                
-                BossDead();
-
-                unit.target.unitController.BossDead();
-
-                if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
-                {
-                    GameManager.Instance.EnemyUnits.Remove(unit);
-                }
-                else
-                    GameManager.Instance.AllyUnits.Remove(unit);
-
-                GameObject finishLevelTrigger = RightWallPosition.GetChild(0).gameObject;
-                finishLevelTrigger.transform.position = new Vector3(GameManager.Instance.Player.transform.position.x + 7.7f, finishLevelTrigger.transform.position.y, 0);
-                finishLevelTrigger.SetActive(true);
-                
-                    //GameManager.Instance.sortManager.RemoveFromOrder(unit);
-                return;
-            }
-            unit.SetUnitDirection(attackDirection * -1);
-            StopRoutine();
-            //StopAllCoroutines();
-
-            canMove = false;
-
-            int randomDeath = 0;
-            List<DeathAnimation> deathAnimation;
-            DeathAnimation tempDeathAnim = null;
-            switch (attack.attackRegion)
-            {
-                case HitRegion.High:
-                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                    if (tempDeathAnim.ShadowAnimation != null)
-                        ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
-                    break;
-                case HitRegion.Mid:
-                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                    if (tempDeathAnim.ShadowAnimation != null)
-                        ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
-                    break;
-                case HitRegion.Low:
-                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                    if (tempDeathAnim.ShadowAnimation != null)
-                        ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
-                    break;
-                default:
-                    break;
-            }
-            if (tempDeathAnim is DeathByDismemberAnimation)
-                DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
-            
-            // Dead enemies drop gold ( boss tag exc )
-            if(gameObject.CompareTag(GameManager.ENEMY_TAG))
-            {
-                // There should be a chance for enemy to drop like 10 gold and play gold sound at higher levels
-
-                //GameManager.Instance.Level
-
-                int goldAmount = 0;
-                int dropChance = 0;
-                dropChance = Random.Range(0, 100);
-                if(GameManager.Instance.Level <= 3)
-                {
-                    if(dropChance > 60)
-                    {
-                        goldAmount = 1;
-                        goldAmount += Random.Range(0, 2);
-                        goldAmount += Random.Range(0, 2);
-
-                        GoldDrop(goldAmount);
-                    }
-                }
-                else if(GameManager.Instance.Level > 3 && GameManager.Instance.Level <= 7)
-                {
-                    if(dropChance > 50)
-                    {
-                        goldAmount = 2;
-                        goldAmount -= Random.Range(0, 2);
-                        goldAmount += Random.Range(0, 2);
-                        GoldDrop(goldAmount);
-                    }
-                }
-                else if(GameManager.Instance.Level > 7 && GameManager.Instance.Level <= 15)
-                {
-                    if (dropChance > 50)
-                    {
-                        goldAmount = 3;
-                        goldAmount -= Random.Range(0, 3);
-                        goldAmount += Random.Range(0, 4);
-                        GoldDrop(goldAmount);
-                    }
-                }
-                else
-                {
-                    if (dropChance > 40)
-                    {
-                        goldAmount = 6;
-                        goldAmount -= Random.Range(0, 4);
-                        goldAmount += Random.Range(0, 5);
-                        GoldDrop(goldAmount);
-                    }
-                }
-            }
-
-
-            if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
-            {
-                GameManager.Instance.EnemyUnits.Remove(unit);
-                // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
-                GameManager.Instance.LeftSpawn.Remove(gameObject);
-            }
-            else
-                GameManager.Instance.AllyUnits.Remove(unit);
-
-            GameManager.Instance.sortManager.RemoveFromOrder(unit);
+            UnitDead(attack, attackDirection);
         }
-        else if(unit.activeAnimations.Hurt == null)
+        // This part is for bossess, gonna leave it for now, only bosses dont have hurt anim
+        else if (unit.activeAnimations.Hurt == null)
         {
             if(attack.attackType == AttackType.Casual)
             {
@@ -398,17 +279,16 @@ public class UnitController : MonoBehaviour
             {
                 unit.SetUnitDirection();
 
-                StopRoutine();
-                //StopAllCoroutines();
+                StopAllCoroutines();
                 StartCoroutine(StunnedFor(attack));
             }
         }
+        // Unit got hurt,
         else
         {
-            if(!isProjectile) unit.SetUnitDirection();
+            if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
 
-            StopRoutine();
-            //StopAllCoroutines();
+            StopAllCoroutines();
             StartCoroutine(StunnedFor(attack));
         }
 
@@ -418,12 +298,168 @@ public class UnitController : MonoBehaviour
             blood_go.transform.position = new Vector3(transform.position.x, attack.hitHeightPosiiton, unit.bloodObject.transform.position.z);
         }
 
-        // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
-        if (CompareTag(GameManager.ENEMY_TAG))
-            GameManager.Instance.LeftSpawn.Remove(gameObject);
+        if(isProjectile)
+        {
+            bool isHitFromBehind = false;
+            if (attackDirection == transform.localScale.x)
+                isHitFromBehind = true;
+            
+            equipmentManager.ArrowOnBody(isHitFromBehind);
+        }
+        
+        return true;
     }
 
-    public void BossDead()
+    protected virtual void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
+    {
+        if (unit.CompareTag(GameManager.PLAYER_TAG))
+        {
+            if (GameManager.Instance.PlayerLives == 0)
+            {
+                // Player Dies bring up you are dead screen
+            }
+            else
+            {
+                // Player Lives Decreases
+                GameManager.Instance.PlayerLivesChange(-1);
+
+                unit.SetUnitDirection(attackDirection * -1);
+                StopRoutine();
+                //StopAllCoroutines();
+                //return;
+            }
+        }
+
+        boxCollider2.enabled = false;
+
+        if (isBoss)
+        {
+            //canMove = false;
+
+            BossDead();
+
+            unit.target.unitController.BossDead();
+
+            if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
+            {
+                GameManager.Instance.EnemyUnits.Remove(unit);
+            }
+            else
+                GameManager.Instance.AllyUnits.Remove(unit);
+
+            GameObject finishLevelTrigger = RightWallPosition.GetChild(0).gameObject;
+            finishLevelTrigger.transform.position = new Vector3(GameManager.Instance.Player.transform.position.x + 7.7f, finishLevelTrigger.transform.position.y, 0);
+            finishLevelTrigger.SetActive(true);
+
+            //GameManager.Instance.sortManager.RemoveFromOrder(unit);
+            //return;
+        }
+        unit.SetUnitDirection(attackDirection * -1);
+        StopRoutine();
+
+        canMove = false;
+
+        int randomDeath = 0;
+        List<DeathAnimation> deathAnimation;
+        DeathAnimation tempDeathAnim = null;
+        switch (attack.attackRegion)
+        {
+            case HitRegion.High:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
+                randomDeath = Random.Range(0, deathAnimation.Count);
+                tempDeathAnim = deathAnimation[randomDeath];
+                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                if (tempDeathAnim.ShadowAnimation != null)
+                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+                break;
+            case HitRegion.Mid:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
+                randomDeath = Random.Range(0, deathAnimation.Count);
+                tempDeathAnim = deathAnimation[randomDeath];
+                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                if (tempDeathAnim.ShadowAnimation != null)
+                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+                break;
+            case HitRegion.Low:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
+                randomDeath = Random.Range(0, deathAnimation.Count);
+                tempDeathAnim = deathAnimation[randomDeath];
+                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                if (tempDeathAnim.ShadowAnimation != null)
+                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+                break;
+            default:
+                break;
+        }
+        if (tempDeathAnim is DeathByDismemberAnimation)
+            DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+
+        // Dead enemies drop gold ( boss tag exc )
+        if (gameObject.CompareTag(GameManager.ENEMY_TAG))
+        {
+            // There should be a chance for enemy to drop like 10 gold and play gold sound at higher levels
+
+            //GameManager.Instance.Level
+
+            int goldAmount = 0;
+            int dropChance = 0;
+            dropChance = Random.Range(0, 100);
+            if (GameManager.Instance.Level <= 3)
+            {
+                if (dropChance > 60)
+                {
+                    goldAmount = 1;
+                    goldAmount += Random.Range(0, 2);
+                    goldAmount += Random.Range(0, 2);
+
+                    GoldDrop(goldAmount);
+                }
+            }
+            else if (GameManager.Instance.Level > 3 && GameManager.Instance.Level <= 7)
+            {
+                if (dropChance > 50)
+                {
+                    goldAmount = 2;
+                    goldAmount -= Random.Range(0, 2);
+                    goldAmount += Random.Range(0, 2);
+                    GoldDrop(goldAmount);
+                }
+            }
+            else if (GameManager.Instance.Level > 7 && GameManager.Instance.Level <= 15)
+            {
+                if (dropChance > 50)
+                {
+                    goldAmount = 3;
+                    goldAmount -= Random.Range(0, 3);
+                    goldAmount += Random.Range(0, 4);
+                    GoldDrop(goldAmount);
+                }
+            }
+            else
+            {
+                if (dropChance > 40)
+                {
+                    goldAmount = 6;
+                    goldAmount -= Random.Range(0, 4);
+                    goldAmount += Random.Range(0, 5);
+                    GoldDrop(goldAmount);
+                }
+            }
+        }
+
+
+        if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
+        {
+            GameManager.Instance.EnemyUnits.Remove(unit);
+            // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+            GameManager.Instance.LeftSpawn.Remove(gameObject);
+        }
+        else
+            GameManager.Instance.AllyUnits.Remove(unit);
+
+        GameManager.Instance.sortManager.RemoveFromOrder(unit);
+    }
+    protected void BossDead()
     {
         StopRoutine();
         //StopAllCoroutines();
@@ -470,25 +506,53 @@ public class UnitController : MonoBehaviour
 
     protected void DismemberBody(DeathByDismemberAnimation deathAnimation)
     {
-        if (deathAnimation.CutPart != null)
+        // Head part
+        if(deathAnimation.BodyPart == DeathByDismemberAnimation.BodyPartType.Head)
         {
-            // Spawn Body Part and set initial position and scales
-            Vector3 cutSpawnPos = deathAnimation.CutPart.transform.position;
-            GameObject cut_part = Instantiate(deathAnimation.CutPart, gameObject.transform);
-            cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
-            cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, 1, 1);
+            if (deathAnimation.CutPart != null)
+            {
+                // Spawn Body Part and set initial position and scales
+                Vector3 cutSpawnPos = deathAnimation.CutPart.transform.position;
+                GameObject cut_part = Instantiate(deathAnimation.CutPart, gameObject.transform);
+                cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
+                cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, 1, 1);
 
-            // Randomize a fling degree and get vector equivalent
-            float degree = Random.Range(0, 180);
-            float degreeToRad = degree * Mathf.Deg2Rad;
-            Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+                // Randomize a fling degree and get vector equivalent
+                float degree = Random.Range(0, 180);
+                float degreeToRad = degree * Mathf.Deg2Rad;
+                Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
 
-            // Add speed on X and Y axis calculated above, force amount is also randomized
-            cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 500));
+                // Add speed on X and Y axis calculated above, force amount is also randomized
+                cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 500));
 
-            // Add torque to make it spin around
-            int torqDir = radToVec2.x > 0 ? -1 : 1;
-            cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
+                // Add torque to make it spin around
+                int torqDir = radToVec2.x > 0 ? -1 : 1;
+                cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
+            }
+        }
+        // Leg part
+        else
+        {
+            if (deathAnimation.CutPart != null)
+            {
+                // Spawn Body Part and set initial position and scales
+                Vector3 cutSpawnPos = deathAnimation.CutPart.transform.position;
+                GameObject cut_part = Instantiate(deathAnimation.CutPart, gameObject.transform);
+                cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
+                //cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, cut_part.transform., 1);
+
+                // Randomize a fling degree and get vector equivalent
+                float degree = Random.Range(0, -180);
+                float degreeToRad = degree * Mathf.Deg2Rad;
+                Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+
+                // Add speed on X and Y axis calculated above, force amount is also randomized
+                cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(100, 200));
+
+                // Add torque to make it spin around
+                int torqDir = radToVec2.x > 0 ? -1 : 1;
+                cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(15, 30) * torqDir, ForceMode2D.Force);
+            }
         }
     }
 
@@ -532,7 +596,7 @@ public class UnitController : MonoBehaviour
         isAnimationStarted = true;                                      // prevents direction to become 0 and stop movement (for player)
 
         speed = 0f;                                                     // speed is now controlled by speed curve
-
+        
         if(unit.target != null)
         {
             if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
@@ -568,6 +632,9 @@ public class UnitController : MonoBehaviour
             default:
                 break;
         }
+        // TODO : I set mix time every time here, it could be set in Start for once too
+        SetMixBetweenAnimation(spineSkeletonAnimation.state.GetCurrent(1).Animation.Name, stunAnimation.SpineAnimationReference.Animation.Name, 0f);
+
         spineSkeletonAnimation.state.SetAnimation(1, stunAnimation.SpineAnimationReference, false).TimeScale = 1f;
         //StartCoroutine(WaitForEndOfAnimation(stunAnimation.SpineAnimationReference.Animation.Duration));
 
@@ -890,6 +957,20 @@ public class UnitController : MonoBehaviour
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
 
+    public void SetMixBetweenAnimation(AnimationReferenceAsset from, AnimationReferenceAsset to, float mixDuration)
+    {
+        if (from == null || to == null)
+            return;
+
+        spineSkeletonAnimation.AnimationState.Data.SetMix(from.Animation.Name, to.Animation.Name, mixDuration);
+    }
+    public void SetMixBetweenAnimation(string from, string to, float mixDuration)
+    {
+        if (from == null || to == null)
+            return;
+
+        spineSkeletonAnimation.AnimationState.Data.SetMix(from, to, mixDuration);
+    }
     protected virtual void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
         switch (e.Data.Name)
@@ -941,7 +1022,7 @@ public class UnitController : MonoBehaviour
         GameManager.DisableAllControls -= GamePaused;
     }
 
-    void Test()
+    void TestDamage()
     {
         List<double> damage = new List<double>();
         Dictionary<int, List<double>> dictDmg = new Dictionary<int, List<double>>();
@@ -1035,4 +1116,5 @@ public class UnitController : MonoBehaviour
             
         //}
     }
+    
 }

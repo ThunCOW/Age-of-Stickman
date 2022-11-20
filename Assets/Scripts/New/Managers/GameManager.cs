@@ -544,7 +544,7 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = a_SaveData.Gold;
+            Gold = 200;
             
             IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
             IsSpearmasterDead = false;

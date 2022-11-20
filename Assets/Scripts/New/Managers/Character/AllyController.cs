@@ -19,7 +19,6 @@ public class AllyController : AIController
         base.Start();
 
     }
-
     protected override void AIStart()
     {
         ScreenLeftBorder = GameManager.Instance.SceneViewBordersParent.transform.GetChild(0);
@@ -332,14 +331,15 @@ public class AllyController : AIController
             currentStance = StanceList.Stand_A;*/
     //}
 
-    public override void TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
+    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
     {
-        base.TakeDamage(attack, DamageTaken, attackDirection);
         if (unit.Health <= 0)
         {
             MercenaryDead(mercenaryUnit);
 
             MercenaryDead -= MercenaryManager.Instance.MercenaryDead;
         }
+        
+        return base.TakeDamage(attack, DamageTaken, attackDirection, isProjectile);
     }
 }

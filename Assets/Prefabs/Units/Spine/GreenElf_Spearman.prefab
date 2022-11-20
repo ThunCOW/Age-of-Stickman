@@ -204,6 +204,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb055212df92eec46adbd08d9626a94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ArrowOnBody_Front: {fileID: 11400000, guid: faf8afe889bd1fc45bb85694d2f6ac3d, type: 2}
+  ArrowOnBody_Back: {fileID: 11400000, guid: e65f71d053017df4e8cfbe00f165d973, type: 2}
   startingItems:
   - {fileID: 11400000, guid: 8e13ed0e18d4e6a4290b1cb0e2e327eb, type: 2}
   - {fileID: 11400000, guid: 75270afe4cdafa24c86321561d277f1a, type: 2}

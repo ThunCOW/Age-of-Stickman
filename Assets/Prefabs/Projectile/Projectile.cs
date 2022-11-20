@@ -50,7 +50,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public void ProjectileDamage(Unit target)
+    public bool ProjectileDamage(Unit target)
     {
         float softDamage = Random.Range(0, parentUnit.Damage / 2) + Random.Range(0, parentUnit.Damage / 2);
         int damageDealt = (int)(softDamage * Random.Range(1, projectileAttack.DamageMultiplierMax));
@@ -58,7 +58,7 @@ public class Projectile : MonoBehaviour
         if (projectileAttack.DamageMultiplierMax == 0)
             Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
 
-        target.unitController.TakeDamage(projectileAttack, damageDealt, projectileDir, true);
+        return target.unitController.TakeDamage(projectileAttack, damageDealt, projectileDir, true);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -73,7 +73,11 @@ public class Projectile : MonoBehaviour
                 //parentUnit.unitController.ProjectileDamage();
                 UnitController enemyUnitController = collision.GetComponent<UnitController>();
                 Unit enemyUnit = collision.GetComponent<Unit>();
-                ProjectileDamage(enemyUnit);
+                if(ProjectileDamage(enemyUnit))
+                {
+                    // Hit connected, can delete the arrow
+                    Destroy(gameObject);
+                }
 
                 gameObject.layer = 6;                                       // I set it to blood's layer here
 

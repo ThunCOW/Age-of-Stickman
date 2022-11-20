@@ -10,14 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 41dcfb1d4a55d994299654e6bc2dcf73, type: 3}
-  m_Name: 10_Completed_Death_Region_High_A_3 UNITY
+  m_Name: 10_Completed_Death_Region_High_A_2.4 UNITY
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
-  AnimationName: Death_Region_High_A_3 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 66f3fdbd7a58aeb4fa484fb070535e62, type: 2}
-  ShadowAnimation: {fileID: 7400000, guid: 8f6d47b536a377741ada2f387140816d, type: 2}
+  AnimationName: Death_Region_High_A_2.4 UNITY
+  SpineAnimationReference: {fileID: 11400000, guid: abcdb0b027cd1cc469af4db4083e3912, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: 10_Completed
-  _AnimationNameChangeCheck: Death_Region_High_A_3 UNITY
+  _AnimationNameChangeCheck: Death_Region_High_A_2.4 UNITY
   deathType: 0
   CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
   spawnPosition: {x: 0, y: 0}
+  BodyPart: 0

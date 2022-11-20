@@ -69,8 +69,6 @@ public class AIController : UnitController
     // Because ALLYController inherits from AIcontroller and has different start ( and i dont want to make another one for enemyAI), implementing this to get around
     protected virtual void AIStart()
     {
-
-
         ScreenLeftBorder = GameManager.Instance.SceneViewBordersParent.transform.GetChild(0);
         ScreenRightBorder = GameManager.Instance.SceneViewBordersParent.transform.GetChild(1);
 
@@ -101,6 +99,15 @@ public class AIController : UnitController
                 //CheckUnitDirection();
             }
         }
+    }
+
+    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
+    {
+        // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+        if (CompareTag(GameManager.ENEMY_TAG))
+            GameManager.Instance.LeftSpawn.Remove(gameObject);
+
+        return base.TakeDamage(attack, DamageTaken, attackDirection, isProjectile);
     }
 
     // runs all the time
@@ -245,7 +252,7 @@ public class AIController : UnitController
 
             rand = Random.Range(1, 101);
 
-            if (0 <= aiVariable.AttackChance) // chose to attack
+            if (rand <= aiVariable.AttackChance) // chose to attack
             {
                 AttackDecision();
             }

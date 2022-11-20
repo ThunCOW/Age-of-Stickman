@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f285f61d37a920c4e87d022875809a14, type: 3}
-  m_Name: Death_Region_High_A_1(Spearman) UNITY
+  m_Name: Death_Region_High_A_1.2(Spearman) UNITY
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
-  AnimationName: Death_Region_High_A_1(Spearman) UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 2b875c6261b7bd14d8bf56e18e9ee8a7, type: 2}
+  AnimationName: Death_Region_High_A_1.2(Spearman) UNITY
+  SpineAnimationReference: {fileID: 11400000, guid: a770e5456ef0acd48a9455825ffb7ff4, type: 2}
   ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: 10_Completed
-  _AnimationNameChangeCheck: Death_Region_High_A_1(Spearman) UNITY
+  _AnimationNameChangeCheck: Death_Region_High_A_1.2(Spearman) UNITY
   deathType: 0

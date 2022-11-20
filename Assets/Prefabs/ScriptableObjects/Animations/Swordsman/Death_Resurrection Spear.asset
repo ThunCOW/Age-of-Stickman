@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fddc499b727203049aed2541a1668a2c, type: 3}
-  m_Name: Death_Resurrection
+  m_Name: Death_Resurrection Spear
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
-  AnimationName: Death_Player_Resurrection
-  SpineAnimationReference: {fileID: 11400000, guid: 40c48546b1bf1fc49875376c38a23539, type: 2}
+  AnimationName: Death_Player_Resurrection (Spear)
+  SpineAnimationReference: {fileID: 11400000, guid: a01629afdb4db894da46af10093538ef, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: 10_Completed
-  _AnimationNameChangeCheck: Death_Player_Resurrection
+  _AnimationNameChangeCheck: Death_Player_Resurrection (Spear)
   speedCurve:
     serializedVersion: 2
     m_Curve:

@@ -1239,67 +1239,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &1289560567
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7506749372159092623, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_Name
-      value: Arrow
-      objectReference: {fileID: 0}
-    - target: {fileID: 7506749372159092623, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_RootOrder
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.4180002
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.428
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8734997015290714112, guid: 3267d6664e726694496c53366afedc32, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 3267d6664e726694496c53366afedc32, type: 3}
 --- !u!1 &1318216630
 GameObject:
   m_ObjectHideFlags: 0
@@ -2851,11 +2790,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnUnitList:
-  - unit: {fileID: 8933617129985177258, guid: 05478c1498cccb742b8660115a2e9f93, type: 3}
+  - unit: {fileID: 1973527968238791170, guid: 22da4864e4b70dc43b867d2721ccd66c, type: 3}
     spawnChance: 100
     AIAgressiveness: 3
-  _spawnTimer: 5
-  maxSpawn: 1
+  _spawnTimer: 17.23
+  maxSpawn: 42
   maxEnemyOnScreen: 3
   spawnPosList:
   - {fileID: 4973821420141865720}
@@ -15977,6 +15916,14 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: -0.12724751
       objectReference: {fileID: 0}
+    - target: {fileID: 8615564714106964966, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
+      propertyPath: ArrowOnBody_Back
+      value: 
+      objectReference: {fileID: 11400000, guid: e65f71d053017df4e8cfbe00f165d973, type: 2}
+    - target: {fileID: 8615564714106964966, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
+      propertyPath: ArrowOnBody_Front
+      value: 
+      objectReference: {fileID: 11400000, guid: faf8afe889bd1fc45bb85694d2f6ac3d, type: 2}
     - target: {fileID: 8615564714106964967, guid: 89d30c7e635014e47b83059374778ee9, type: 3}
       propertyPath: HealthMax
       value: 715

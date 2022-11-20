@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
 {
+    public SpineAttachmentSO ArrowOnBody_Front;
+    public SpineAttachmentSO ArrowOnBody_Back;
+
     private Unit unit;
     private SkeletonAnimation skelAnim;
 
@@ -399,7 +402,7 @@ public class EquipmentManager : MonoBehaviour
         //ResetAttachments();
     }
 
-    void ResetAttachments()
+    public void ResetAttachments()
     {
         // Shoulders
         if (equippedItems[ItemSlot.Shoulder] != null)
@@ -425,5 +428,23 @@ public class EquipmentManager : MonoBehaviour
     {
         skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[1].SlotName, equippedItems[ItemSlot.MainHand].front[1].AttachmentName);
         //skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[1].SlotName, equippedItems[item.ItemSlot].front[1].AttachmentName);
+    }
+
+    public void ArrowOnBody(bool isHitBehind)
+    {
+        // entered from behind
+        if(isHitBehind)
+        {
+            int randArrow = Random.Range(0, ArrowOnBody_Back.SpineAttachmentList.Count);
+
+            skelAnim.skeleton.SetAttachment(ArrowOnBody_Back.SpineAttachmentList[randArrow].SlotName, ArrowOnBody_Back.SpineAttachmentList[randArrow].AttachmentName);
+        }
+        // entered from front
+        else
+        {
+            int randArrow = Random.Range(0, ArrowOnBody_Front.SpineAttachmentList.Count);
+
+            skelAnim.skeleton.SetAttachment(ArrowOnBody_Front.SpineAttachmentList[randArrow].SlotName, ArrowOnBody_Front.SpineAttachmentList[randArrow].AttachmentName);
+        }
     }
 }
