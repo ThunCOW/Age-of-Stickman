@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   SpineAttachmentList:
   - SlotName: Effect/ArrowHit_RedBlood_1
-    AttachmentName: Effect/ArrowHit_RedBlood_1
+    AttachmentName: Blood
   - SlotName: Effect/ArrowHit_RedBlood_2
-    AttachmentName: Effect/ArrowHit_RedBlood_2
+    AttachmentName: Blood
   - SlotName: Effect/ArrowHit_RedBlood_3
-    AttachmentName: Effect/ArrowHit_RedBlood_3
+    AttachmentName: Blood
   - SlotName: Effect/ArrowHit_RedBlood_4
-    AttachmentName: Effect/ArrowHit_RedBlood_2
+    AttachmentName: Blood
   - SlotName: Effect/ArrowHit_RedBlood_5
-    AttachmentName: Effect/ArrowHit_RedBlood_1
+    AttachmentName: Blood

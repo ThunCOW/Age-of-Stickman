@@ -345,6 +345,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: BodyPartSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 34a0e7e886e4d5944ae73dd5d19a8f58, type: 2}
     - target: {fileID: 7700336283338286801, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: MainMenu.scenePath
       value: Assets/Scenes/Main Menu.unity

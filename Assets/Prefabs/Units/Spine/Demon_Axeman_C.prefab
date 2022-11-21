@@ -347,6 +347,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb055212df92eec46adbd08d9626a94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ArrowOnBody_Front: {fileID: 0}
+  ArrowOnBody_Back: {fileID: 0}
   startingItems:
   - {fileID: 11400000, guid: 8bf87988b6828b54da525a8f7c798242, type: 2}
   - {fileID: 11400000, guid: 3f081c21755637942983dbe247d6dd3a, type: 2}
@@ -366,6 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab25f0df5f6b3254d99518efecd27ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Race: 2
   HealthBar: {fileID: 8436583898785209580}
   HealthMax: 250
   _Health: 0

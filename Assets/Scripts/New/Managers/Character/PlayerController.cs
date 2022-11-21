@@ -71,6 +71,11 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         //SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.MovementBackward.SpineAnimationReference, 0);
         SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+        for (int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+        {
+            SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+        }
     }
 
     public void LoadControls()

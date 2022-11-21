@@ -31,17 +31,32 @@ MonoBehaviour:
       ChangeStance:
         Animation: {fileID: 0}
         chance: 0
+      SwapWeapon: {fileID: 0}
       DeathAnimationByDamageRegion:
         highRegion:
         - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
+        - {fileID: 11400000, guid: 7ecf3727fbbfb7a419356de9130bd400, type: 2}
+        - {fileID: 11400000, guid: bd2d38ed1c0619c48b91259feab94ad0, type: 2}
+        - {fileID: 11400000, guid: ab3ec0ffc4e7bd0489ea213d04b52f6b, type: 2}
         - {fileID: 11400000, guid: b5c77480060726841b57f80d202b2ac0, type: 2}
-        - {fileID: 11400000, guid: caa2f523e0f5ff24ca9990dc112f3387, type: 2}
-        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+        - {fileID: 11400000, guid: b5c77480060726841b57f80d202b2ac0, type: 2}
+        - {fileID: 11400000, guid: eeb0929773d2c9b4f98dcfa976918ee7, type: 2}
+        - {fileID: 11400000, guid: a5e177b6bcec14c40abe99c9c975902f, type: 2}
+        - {fileID: 11400000, guid: 67c3ecc73fd544f4aaf8b27490844396, type: 2}
+        - {fileID: 11400000, guid: 67c3ecc73fd544f4aaf8b27490844396, type: 2}
+        - {fileID: 11400000, guid: 3a5c1a61a032a2e42ab72de5a0608aa4, type: 2}
         midRegion:
         - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
-        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+        - {fileID: 11400000, guid: 7ecf3727fbbfb7a419356de9130bd400, type: 2}
+        - {fileID: 11400000, guid: bd2d38ed1c0619c48b91259feab94ad0, type: 2}
+        - {fileID: 11400000, guid: ab3ec0ffc4e7bd0489ea213d04b52f6b, type: 2}
         lowRegion:
-        - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
-        - {fileID: 11400000, guid: e1d77cb690e226947bf663a0a8950127, type: 2}
+        - {fileID: 11400000, guid: 0cc4feda33e222e45b1543b8da2d7a79, type: 2}
+        - {fileID: 11400000, guid: b9aec6836b6af8345b53d68de2d7f0a0, type: 2}
+        - {fileID: 11400000, guid: 4f659a7ef509c344db071a628e582733, type: 2}
+        - {fileID: 11400000, guid: d6d3dadf5444e2f43963bef243a0d955, type: 2}
+        - {fileID: 11400000, guid: 505ad46a473d956439e74ccd68830870, type: 2}
+        - {fileID: 11400000, guid: 01e2f35a0c50ad14d9688baeef8342b8, type: 2}
       BreakStance:
       - {fileID: 11400000, guid: 4593b20a789a7c54eaa74181781362fa, type: 2}
+    extraSpeed: 0

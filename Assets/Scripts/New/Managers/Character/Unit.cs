@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 public class Unit : MonoBehaviour
 {
     [Header("Character Stats")]
+    public UnitRace Race;
     public GameObject HealthBar;
     public int HealthMax;
     [SerializeField] private int _Health;

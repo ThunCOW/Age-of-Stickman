@@ -8,9 +8,9 @@ public class DeathByDismemberAnimation : DeathAnimation
     public GameObject CutPart;
     public Vector2 spawnPosition;
     public BodyPartType BodyPart;
-    public enum BodyPartType
-    {
-        Head,
-        Leg
-    }
+}
+public enum BodyPartType
+{
+    Head,
+    Leg
 }

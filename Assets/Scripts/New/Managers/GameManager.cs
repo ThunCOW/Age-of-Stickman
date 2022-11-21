@@ -57,7 +57,7 @@ namespace SpineControllerVersion
 
         [HideInInspector] public SortManager sortManager = new SortManager();
 
-
+        public BodyPartSO BodyPartSO;
 
 
         // TAGS

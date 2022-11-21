@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c1c3861cc5663849a0058603fede5a8, type: 3}
+  m_Name: New Body Part SO
+  m_EditorClassIdentifier: 
+  BodyPartByRace:
+  - UnitRace: 0
+    BodyParts:
+    - BodyPartType: 0
+      BodyPartPrefab: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
+    - BodyPartType: 1
+      BodyPartPrefab: {fileID: 4076344376687555012, guid: bb7039baa04f8a746a2b6630b2772ed3, type: 3}
+  - UnitRace: 1
+    BodyParts:
+    - BodyPartType: 0
+      BodyPartPrefab: {fileID: 6763641027044615686, guid: 99639d386c73dd84ebb2a5473e6a06b0, type: 3}
+    - BodyPartType: 1
+      BodyPartPrefab: {fileID: 4076344376687555012, guid: 41ff4b29b3ffa40499af0a34f5de03af, type: 3}
+  - UnitRace: 2
+    BodyParts:
+    - BodyPartType: 0
+      BodyPartPrefab: {fileID: 6763641027044615686, guid: a39d14bc891545347b8b72c1c772dbe1, type: 3}
+    - BodyPartType: 1
+      BodyPartPrefab: {fileID: 4076344376687555012, guid: bfb93f9ff205dca40806b16836e302da, type: 3}

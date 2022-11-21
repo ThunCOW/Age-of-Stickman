@@ -86,17 +86,14 @@ public class UnitController : MonoBehaviour
         SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.Movement.SpineAnimationReference, 0);
         SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
 
-        SetMixBetweenAnimation(unit.activeAnimations.BreakStance[0].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
-        SetMixBetweenAnimation(unit.activeAnimations.BreakStance[1].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+        for(int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+        {
+            SetMixBetweenAnimation(unit.activeAnimations.BreakStance[i].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
 
-        SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[0].SpineAnimationReference, 0);
-        SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[1].SpineAnimationReference, 0);
+            SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
 
-        SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[0].SpineAnimationReference, 0);
-        SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[1].SpineAnimationReference, 0);
-
-        SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[0].SpineAnimationReference, 0);
-        SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[1].SpineAnimationReference, 0);
+            SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+        }
         // Hurt animation should be 0
         //foreach(BasicAnimation basicAnimation in unit.activeAnimations)
     }
@@ -506,10 +503,19 @@ public class UnitController : MonoBehaviour
 
     protected void DismemberBody(DeathByDismemberAnimation deathAnimation)
     {
+
+        // Instead of making directories of Race and BodyPart i just follow the orders of enum ( lazy )
+        GameObject tempRefBodyPart = GameManager.Instance.BodyPartSO.BodyPartByRace[(int)unit.Race].BodyParts[(int)deathAnimation.BodyPart].BodyPartPrefab;
+
+        // Spawn Body Part and set initial position and scales
+        Vector3 cutSpawnPos = tempRefBodyPart.transform.position;
+        GameObject cut_part = Instantiate(tempRefBodyPart, gameObject.transform);
+        cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
+        cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x * tempRefBodyPart.transform.localScale.x, tempRefBodyPart.transform.localScale.y, tempRefBodyPart.transform.localScale.z);
         // Head part
-        if(deathAnimation.BodyPart == DeathByDismemberAnimation.BodyPartType.Head)
+        if (deathAnimation.BodyPart == BodyPartType.Head)
         {
-            if (deathAnimation.CutPart != null)
+            /*if (deathAnimation.CutPart != null)
             {
                 // Spawn Body Part and set initial position and scales
                 Vector3 cutSpawnPos = deathAnimation.CutPart.transform.position;
@@ -528,31 +534,34 @@ public class UnitController : MonoBehaviour
                 // Add torque to make it spin around
                 int torqDir = radToVec2.x > 0 ? -1 : 1;
                 cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
-            }
+            }*/
+
+            // Randomize a fling degree and get vector equivalent
+            float degree = Random.Range(0, 180);
+            float degreeToRad = degree * Mathf.Deg2Rad;
+            Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+
+            // Add speed on X and Y axis calculated above, force amount is also randomized
+            cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 500));
+
+            // Add torque to make it spin around
+            int torqDir = radToVec2.x > 0 ? -1 : 1;
+            cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
         }
         // Leg part
         else
         {
-            if (deathAnimation.CutPart != null)
-            {
-                // Spawn Body Part and set initial position and scales
-                Vector3 cutSpawnPos = deathAnimation.CutPart.transform.position;
-                GameObject cut_part = Instantiate(deathAnimation.CutPart, gameObject.transform);
-                cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
-                //cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, cut_part.transform., 1);
+            // Randomize a fling degree and get vector equivalent
+            float degree = Random.Range(0, -180);
+            float degreeToRad = degree * Mathf.Deg2Rad;
+            Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
 
-                // Randomize a fling degree and get vector equivalent
-                float degree = Random.Range(0, -180);
-                float degreeToRad = degree * Mathf.Deg2Rad;
-                Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+            // Add speed on X and Y axis calculated above, force amount is also randomized
+            cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(100, 200));
 
-                // Add speed on X and Y axis calculated above, force amount is also randomized
-                cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(100, 200));
-
-                // Add torque to make it spin around
-                int torqDir = radToVec2.x > 0 ? -1 : 1;
-                cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(15, 30) * torqDir, ForceMode2D.Force);
-            }
+            // Add torque to make it spin around
+            int torqDir = radToVec2.x > 0 ? -1 : 1;
+            cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(15, 30) * torqDir, ForceMode2D.Force);
         }
     }
 
