@@ -14,14 +14,14 @@ public enum MoveDirection
 
 public class UnitController : MonoBehaviour
 {
-    [Space]
-    protected BoxCollider2D boxCollider2;
+    [HideInInspector] [SerializeField] protected BoxCollider2D boxCollider2;
+    [HideInInspector][SerializeField] protected Rigidbody2D rb2d;
 
-    public SkeletonAnimation spineSkeletonAnimation;
-    public Animator ShadowAnimator;
+    [HideInInspector] public SkeletonAnimation spineSkeletonAnimation;
+    [HideInInspector] public Animator ShadowAnimator;
 
-    protected Unit unit;
-    protected EquipmentManager equipmentManager;
+    [HideInInspector][SerializeField] protected Unit unit;
+    [HideInInspector][SerializeField] protected EquipmentManager equipmentManager;
 
     protected bool canMove = true;
     [HideInInspector] public bool isAnimationStarted = false;   // Animations require direction to be consistent
@@ -61,15 +61,22 @@ public class UnitController : MonoBehaviour
     {
         if (ShadowAnimator == null)
             ShadowAnimator = GetComponentInChildren<Animator>();
+        if (boxCollider2 == null)
+            boxCollider2 = GetComponent<BoxCollider2D>();
+        if (rb2d == null)
+            rb2d = GetComponent<Rigidbody2D>();
+        if (unit == null)
+            unit = GetComponent<Unit>();
+        if (equipmentManager == null)
+            equipmentManager = GetComponent<EquipmentManager>();
+        if (spineSkeletonAnimation == null)
+            spineSkeletonAnimation = GetComponent<SkeletonAnimation>();
+        if (ShadowAnimator == null)
+            ShadowAnimator = GetComponent<Animator>();
     }
 
     protected virtual void Start()
     {
-        boxCollider2 = GetComponent<BoxCollider2D>();
-
-        unit = GetComponent<Unit>();
-        equipmentManager = GetComponent<EquipmentManager>();
-
         spineSkeletonAnimation.state.Event += HandleAnimationStateEvent;
 
         defaultSpeed = speed;
@@ -94,8 +101,6 @@ public class UnitController : MonoBehaviour
 
             SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
         }
-        // Hurt animation should be 0
-        //foreach(BasicAnimation basicAnimation in unit.activeAnimations)
     }
 
     // Update is called once per frame
@@ -309,25 +314,9 @@ public class UnitController : MonoBehaviour
 
     protected virtual void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
     {
-        if (unit.CompareTag(GameManager.PLAYER_TAG))
-        {
-            if (GameManager.Instance.PlayerLives == 0)
-            {
-                // Player Dies bring up you are dead screen
-            }
-            else
-            {
-                // Player Lives Decreases
-                GameManager.Instance.PlayerLivesChange(-1);
-
-                unit.SetUnitDirection(attackDirection * -1);
-                StopRoutine();
-                //StopAllCoroutines();
-                //return;
-            }
-        }
-
-        boxCollider2.enabled = false;
+        //boxCollider2.enabled = false;
+        gameObject.layer = ((int)GameLayers.DeadUnit);
+        rb2d.bodyType = RigidbodyType2D.Static;
 
         if (isBoss)
         {

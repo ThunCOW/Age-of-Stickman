@@ -9,6 +9,7 @@ using Spine.Unity;
 
 public class PlayerController : UnitController, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
+    [SerializeField] private GameObject DistanceBar;
     /*
      * ************************************************************ Movement Control Settings
     */
@@ -31,7 +32,27 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     public delegate void OnBossTrigger(string BossTag);
     public static OnBossTrigger BossTrigger;
 
-    public static bool hasPlayerReachedEndOfLevel;
+    private static bool _hasPlayerReachedEndOfLevel;
+    public static bool hasPlayerReachedEndOfLevel
+    {
+        get
+        {
+            return _hasPlayerReachedEndOfLevel;
+        }
+        set
+        {
+            _hasPlayerReachedEndOfLevel = value;
+
+            if(_hasPlayerReachedEndOfLevel)
+            {
+                GameManager.Instance.ContinueToMainMenuTextSpawn();
+            }
+            else
+            {
+                GameManager.Instance.ContinueToMainMenuTextDisappear();
+            }
+        }
+    }
 
     [SerializeField] SpeedDependantAnimation ResurrectAnimation;
     public static bool isWaitingForRes;
@@ -68,6 +89,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         canThrow = GameManager.Instance.IsSpearmasterDead;
 
         LoadControls();
+
+        StartCoroutine(InitializeDistanceBar(transform.position.x));
 
         //SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.MovementBackward.SpineAnimationReference, 0);
         SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
@@ -501,6 +524,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
 
         StartCoroutine(CheckDirection());
+
+        StartCoroutine(InitializeDistanceBar());
         //StartCoroutine(GetClosestUnitSearchCycle());
     }
     private IEnumerator CheckDirection()
@@ -518,6 +543,21 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
 
         StartCoroutine(CheckDirection());
+    }
+
+    IEnumerator InitializeDistanceBar(float beginningPoint = 0)
+    {
+        float endPoint = RightWallPosition.transform.position.x;
+
+        float end = endPoint - beginningPoint;
+        while(true)
+        {
+            float start = transform.position.x - beginningPoint;
+
+            DistanceBar.transform.localScale = new Vector3(start / end, 1, 1);
+
+            yield return new WaitForFixedUpdate();
+        }
     }
 
 
@@ -544,6 +584,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 if (GameManager.Instance.EnemyUnits.Count != 0)
                 {
                     Debug.Log("Defeat All Enemies First");
+                    GameManager.Instance.ContinueAfterEnemyDeadTextSpawn();
                 }
                 else
                 {
@@ -575,8 +616,6 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         GameManager.Instance.SceneLoader.FinishLevel();
     }
-
-
 
 
 

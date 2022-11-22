@@ -21,8 +21,11 @@ public class SpawnManager : MonoBehaviour
         set { _spawnTimer = value; }
     }
     private float nextSpawnTimer;
-    public int maxSpawn;
-    public int maxEnemyOnScreen;
+    public int maxSpawn;                                                // Total amount of unit that can be spawned
+    public int maxEnemyOnScreen;                                        // Max enemy that can be alive on the screen, so that player is not overwhelmed
+    public int maxDeadEnemyOnScreen;                                    // So that dead units does not stack on screen, to prevent cluttering the screen ( looks ugly imo )
+    public int GroupSpawnCount;                                         // Player gets some time to move after a group dies
+    private int _groupSpawnCount;
 
     [HideInInspector] public List<Transform> spawnPosList;
 
@@ -59,31 +62,71 @@ public class SpawnManager : MonoBehaviour
         transform.localPosition = new Vector2(0, transform.localPosition.y);
 
         nextSpawnTimer = spawnTimer;
-        
+
+        _groupSpawnCount = GroupSpawnCount;
+
+
         PlayerController.BossTrigger += SpawnBoss;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.DisableControls == false)
+        if (GameManager.Instance.EnemyUnits.Count < maxEnemyOnScreen)
         {
-            if (maxSpawn > 0) 
-                if(maxEnemyOnScreen > GameManager.Instance.EnemyUnits.Count && !PlayerController.isWaitingForRes) 
-                    SpawnLogic();
+            if (GameManager.Instance.DisableControls == false)
+            {
+                if (!PlayerController.isWaitingForRes)
+                {
+                    if (maxSpawn > 0)
+                    {
+                        if(DeadOnScreen.DeadUnitsOnScreen.Count >= maxDeadEnemyOnScreen)
+                        {
+                            if(PlayerController.hasPlayerReachedEndOfLevel)
+                            {
+                                SpawnLogic();
+                            }
+                        }
+                        else
+                        {
+                            SpawnLogic();
+                        }
+                    }
+                }
+            }
         }
     }
 
+    float nextGroupCountDown = 10;
+    float _nextGroupCountDown = 10;
     void SpawnLogic()
     {
+        // Spawning the boss ?
         if(preparingForBossSpawn)
         {
             if(GameManager.Instance.EnemyUnits.Count == 0)
                 nextSpawnTimer = nextSpawnTimer > 2 ? Random.Range(0, 1.5f) : nextSpawnTimer;
         }
+        // If player has not reached to end yet, set spawn timer,
         else if(!PlayerController.hasPlayerReachedEndOfLevel)
         {
-            if (GameManager.Instance.EnemyUnits.Count == 0)
+            // If player has not reached to end yet, but a group is killed, wait for certain amount of time before start spawning again
+            if(_groupSpawnCount == 0)
+            {
+                if(_nextGroupCountDown > 0)
+                {
+                    _nextGroupCountDown -= Time.deltaTime;
+                    return;
+                }
+                else
+                {
+                    _groupSpawnCount = GroupSpawnCount / 2;
+                    _groupSpawnCount += Random.Range(0, GroupSpawnCount / 2);
+                    _nextGroupCountDown = nextGroupCountDown;
+                }
+            }
+            // If player has not reached to end yet, and there is no enemy on screen, spawn in within 3.5f second
+            else if (GameManager.Instance.EnemyUnits.Count == 0)
                 nextSpawnTimer = nextSpawnTimer > 4 ? Random.Range(0, 3.5f) : nextSpawnTimer;
         }
 

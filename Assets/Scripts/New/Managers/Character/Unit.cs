@@ -278,3 +278,22 @@ public enum StanceList
     Walking,
     Special
 }
+
+enum GameLayers
+{
+    Default,
+    TransparentFX,
+    IgnoreRaycast,
+    Empty,
+    Water,
+    UI,
+    Blood,
+    Blood2,
+    Ground,
+    Cut_Unit_Parts,
+    Gold,
+    Player,
+    Projectile,
+    Player_Interactible_Trigger,
+    DeadUnit,
+}
