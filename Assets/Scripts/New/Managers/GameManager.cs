@@ -632,8 +632,6 @@ namespace SpineControllerVersion
         }
 
 
-
-
         /*********************
          * Saving and Loading
         */
@@ -705,7 +703,7 @@ namespace SpineControllerVersion
             IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
             IsSpearmasterDead = false;
 
-            Level = a_SaveData.Level;
+            Level = 6;
 
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];

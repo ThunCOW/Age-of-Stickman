@@ -192,6 +192,7 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnBoss(string BossTag)
     {
+        Debug.Log("SpawnBoss");
         switch (BossTag)
         {
             case GameManager.SPEARMASTER_TAG:
@@ -208,8 +209,8 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnBossAfterNoEnemy()
     {
+        Debug.Log("SpawnBossAfterNoEnemy");
         preparingForBossSpawn = true;
-
         maxSpawn = 1;
 
         //while(maxSpawn != 0 && GameManager.Instance.EnemyUnits.Count != 0)

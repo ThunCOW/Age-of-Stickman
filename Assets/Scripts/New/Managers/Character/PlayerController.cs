@@ -549,7 +549,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     {
         float endPoint = RightWallPosition.transform.position.x;
 
-        float end = endPoint - beginningPoint;
+        float end = (endPoint - beginningPoint);
         while(true)
         {
             float start = transform.position.x - beginningPoint;
@@ -617,7 +617,10 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         GameManager.Instance.SceneLoader.FinishLevel();
     }
 
-
+    public void DestroySecondaryCanvas()
+    {
+        Destroy(GameManager.Instance.transform.GetChild(0).gameObject); ;
+    }
 
 
 
@@ -665,12 +668,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         // set Joystick position 
         joystickTransform.position = newPos;
 
-        if(distance.x / joystickDragOffsetDistance >= 0.3f)
+        if(distance.x / joystickDragOffsetDistance >= 0.8f)
         {
             moveButton.Hold = true;
             moveButton.direction = MoveDirection.right;
         }
-        else if(distance.x / joystickDragOffsetDistance <= -0.3f)
+        else if(distance.x / joystickDragOffsetDistance <= -0.8f)
         {
             moveButton.Hold = true;
             moveButton.direction = MoveDirection.left;
@@ -709,12 +712,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         // set Joystick position 
         joystickTransform.position = newPos;
 
-        if (distance.x / joystickDragOffsetDistance >= 0.3f)
+        if (distance.x / joystickDragOffsetDistance >= 0.8f)
         {
             moveButton.Hold = true;
             moveButton.direction = MoveDirection.right;
         }
-        else if (distance.x / joystickDragOffsetDistance <= -0.3f)
+        else if (distance.x / joystickDragOffsetDistance <= -0.8f)
         {
             moveButton.Hold = true;
             moveButton.direction = MoveDirection.left;
