@@ -15,10 +15,11 @@ public enum MoveDirection
 public class UnitController : MonoBehaviour
 {
     [HideInInspector] [SerializeField] protected BoxCollider2D boxCollider2;
-    [HideInInspector][SerializeField] protected Rigidbody2D rb2d;
+    [HideInInspector] [SerializeField] protected Rigidbody2D rb2d;
 
     [HideInInspector] public SkeletonAnimation spineSkeletonAnimation;
     [HideInInspector] public Animator ShadowAnimator;
+    [SerializeField] protected GameObject HealthBar;
 
     [HideInInspector][SerializeField] protected Unit unit;
     [HideInInspector][SerializeField] protected EquipmentManager equipmentManager;
@@ -101,6 +102,9 @@ public class UnitController : MonoBehaviour
 
             SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
         }
+
+        GameManager.DisableAllControls += DisableControls;
+        GameManager.EnableAllControls += EnableControls;
     }
 
     // Update is called once per frame
@@ -338,7 +342,7 @@ public class UnitController : MonoBehaviour
             finishLevelTrigger.SetActive(true);
 
             //GameManager.Instance.sortManager.RemoveFromOrder(unit);
-            //return;
+            return;
         }
         unit.SetUnitDirection(attackDirection * -1);
         StopRoutine();
@@ -448,21 +452,33 @@ public class UnitController : MonoBehaviour
     protected void BossDead()
     {
         StopRoutine();
-        //StopAllCoroutines();
 
         CinematicAction cAnim = GetComponent<CinematicAction>();
 
         if(gameObject.CompareTag(GameManager.PLAYER_TAG))
         {
-            ResetAttachments();
+            if (unit.target.CompareTag(GameManager.SPEARMASTER_TAG))
+            {
+                ResetAttachments();
             
-            GameManager.Instance.DisableControls = true;
+                GameManager.Instance.DisableControls = true;
             
-            StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
+                StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
 
-            ReStartCoroutines();
+                ReStartCoroutines();
+            }
+            else if(unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
+            {
+                ResetAttachments();
+
+                GameManager.Instance.DisableControls = true;
+
+                StartCoroutine(PlayCinematicAnimation(cAnim.SycthemasterDead, true));
+
+                ReStartCoroutines();
+            }
         }
-        else
+        else if(gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
         {
             unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
 
@@ -487,6 +503,10 @@ public class UnitController : MonoBehaviour
             }
 
             StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, false));
+        }
+        else if(gameObject.CompareTag(GameManager.SCYTHEMASTER_TAG))
+        {
+            StartCoroutine(PlayCinematicAnimation(cAnim.SycthemasterDead, false));
         }
     }
 
@@ -674,6 +694,8 @@ public class UnitController : MonoBehaviour
     {
         idleing = false;
 
+        isAnimationStarted = true;
+
         speed = 0;
         
         if(Attack.Keys.Count > 0)
@@ -763,6 +785,8 @@ public class UnitController : MonoBehaviour
 
         idleing = true;
 
+        isAnimationStarted = false;
+
         currentAttack = null;
 
         if (changeStance)
@@ -780,6 +804,8 @@ public class UnitController : MonoBehaviour
     protected IEnumerator SpeedDuringAnimation(SpeedDependantAnimation Animation)
     {
         idleing = false;
+
+        isAnimationStarted = true;
 
         speed = 0;
 
@@ -836,6 +862,8 @@ public class UnitController : MonoBehaviour
 
         idleing = true;
 
+        isAnimationStarted= false;
+
         currentAttack = null;
 
         if (changeStance)
@@ -859,6 +887,9 @@ public class UnitController : MonoBehaviour
         idleing = false;
 
         speed = 0;
+
+        if (Animation.ShadowAnimation != null)
+            ShadowAnimator.Play(Animation.ShadowAnimation.name);
 
         if (Animation.speedCurve.Evaluate(0) == 0)
         {
@@ -898,11 +929,12 @@ public class UnitController : MonoBehaviour
         
         // lasts until animation ends
         float animationCurrentTime = 0;
+        Time.timeScale = 0.2f;
         while (track.IsComplete == false)
         {
             animationCurrentTime += Time.deltaTime;
             speedRelativeToAnimation = Animation.speedCurve.Evaluate(animationCurrentTime);
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         speed = defaultSpeed;
@@ -952,6 +984,8 @@ public class UnitController : MonoBehaviour
 
         idleing = true;
 
+        isAnimationStarted = false;
+
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
 
@@ -969,6 +1003,9 @@ public class UnitController : MonoBehaviour
 
         spineSkeletonAnimation.AnimationState.Data.SetMix(from, to, mixDuration);
     }
+
+    protected virtual void DisableControls() { }
+    protected virtual void EnableControls() { }
     protected virtual void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
         switch (e.Data.Name)
@@ -998,7 +1035,12 @@ public class UnitController : MonoBehaviour
                     currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
                 }
                 break;
-
+            case "Shadow Events/Shadow_Hide":
+                ShadowAnimator.gameObject.SetActive(false);
+                break;
+            case "Shadow Events/Shadow_Show":
+                ShadowAnimator.gameObject.SetActive(true);
+                break;
             default:
                 break;
         }

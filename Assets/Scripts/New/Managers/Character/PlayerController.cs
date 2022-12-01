@@ -188,6 +188,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             }
         }
 
+        // When there is no boss player movement restricted with walls
         if (!SpawnManager.isBossSpawned)
         {
             if(gameObject.transform.position.x <= LeftWallPosition.position.x)
@@ -330,7 +331,16 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     }
     protected void AttackAction()
     {
+        //if(currentAttack.attackType == AttackType.Casual)
+        //{
+        //    if(unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
+        //    {
+        //        if(unit.target.Health> 0) 
+        //        {
         //
+        //        }
+        //    }
+        //}
         if (unit.target != null)
         {
             unit.SetUnitDirection();
@@ -919,6 +929,37 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
 
 
+    protected override void DisableControls()
+    {
+        StopRoutine();
+        HealthBar.SetActive(false);
+
+        //canMove = false;
+
+        //spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+    }
+
+    protected override void EnableControls()
+    {
+        if (GetComponent<Unit>().Health > 0)
+            HealthBar.SetActive(true);
+
+        canMove = true;
+
+        idleing = true;
+
+        isAnimationStarted = false;                                     // direction released (for player)
+
+        speed = defaultSpeed;                                                 // speed is now set to default speed level
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        currentAttack = null;
+
+        ReStartCoroutines();
+    }
 
     protected override void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {

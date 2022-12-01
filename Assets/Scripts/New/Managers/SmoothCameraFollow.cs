@@ -55,7 +55,7 @@ public class SmoothCameraFollow : MonoBehaviour
 
         StartCoroutine(WaitUntilPlayerReachesEnd());
 
-        SpawnManager.SpearmasterSpawn += BossSpawn;
+        SpawnManager.SpawnBossEvent += BossSpawn;
     }
 
     // Update is called once per frame

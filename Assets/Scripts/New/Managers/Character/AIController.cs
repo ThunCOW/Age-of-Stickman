@@ -328,7 +328,7 @@ public class AIController : UnitController
         {
             // X % chance to kick
             bool kick = Random.Range(0, 5) == 0;
-            if (kick == true)
+            if (false)
             {
                 List<BasicAnimation> tempBreakAnimation = unit.activeAnimations.BreakStance;
 
@@ -507,17 +507,16 @@ public class AIController : UnitController
         // Movement was handled in FixedUpdate and ran continuesly but if player was to die during enemy movement
         // there was no way to stop movement and set animation back to idle etc ( not that i could think of ) so i am making this super dumb coroutine
         
-        while(unit.target == null)                  // Leave while when target is found
+        while(unit.target == null)                  // Leaves while when target is found
         {
             yield return new WaitForFixedUpdate();
         }
 
-        while(unit.target != null)                  // Leaves while when target is lost ( null )
+        while(unit.target != null)                  // Leavess while when target is lost ( null )
         {
             yield return new WaitForFixedUpdate();
         }
-        //yield return new WaitUntil(() => unit.target == null);
-        //yield return new WaitUntil(() => PlayerController.isWaitingForRes);     // wait until player is dead
+        // wait until player is dead
         
         while(isAnimationStarted)
         {
@@ -624,16 +623,35 @@ public class AIController : UnitController
 
     IEnumerator SycthemasterEntrance()
     {
-        gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference.Animation.Name, "Cinematic/SYCTHEMASTER_ENTRANCE", 0);
+        SetMixBetweenAnimation("Double_Scythe/DoubleSyctheAttackStandingE1.1.4.2 UNITY", "Double_Scythe/DoubleSyctheWalkA2.1.3.1", 0);
+        SetMixBetweenAnimation("Double_Scythe/DoubleSyctheAttackStandingE1.1.4.2 UNITY", "Double_Scythe/DoubleSyctheIdle", 0);
+
+        yield return new WaitForSeconds(5);
+
         TrackEntry anim = spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/SYCTHEMASTER_ENTRANCE", false);
+
+        yield return new WaitForFixedUpdate();
+
+        gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        transform.position = new Vector3(GameManager.Instance.Player.transform.position.x + 12.75f/2, transform.position.y);
+
+        yield return new WaitForSpineAnimationComplete(anim);
+
+        transform.position = new Vector3(GameManager.Instance.Player.transform.position.x + 12.75f, transform.position.y, 0);
+
+        yield return new WaitForSeconds(2);
+
+        anim = spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/SYCTHEMASTER_ENTRANCE2", false);
 
         yield return new WaitForSpineAnimationComplete(anim);
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
-
+        
         GameManager.Instance.DisableControls = false;
 
         StartCoroutine(AIActionDecision());
+        yield return null;
     }
 }
 
