@@ -1,4 +1,6 @@
 using Newtonsoft.Json.Linq;
+using Spine;
+using Spine.Unity;
 using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,8 +76,18 @@ public class AIController : UnitController
 
         if (isBoss)
         {
-            if (gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
-                StartCoroutine(SpearmasterEntrance());
+            //if (gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
+            switch (gameObject.tag)
+            {
+                case GameManager.SPEARMASTER_TAG:
+                    StartCoroutine(SpearmasterEntrance());
+                    break;
+                case GameManager.SCYTHEMASTER_TAG:
+                    StartCoroutine(SycthemasterEntrance());
+                    break;
+                default:
+                    break;
+            }
         }
         else
         {
@@ -604,6 +616,20 @@ public class AIController : UnitController
         spineSkeletonAnimation.state.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 5);
 
         yield return new WaitForSeconds(6);
+
+        GameManager.Instance.DisableControls = false;
+
+        StartCoroutine(AIActionDecision());
+    }
+
+    IEnumerator SycthemasterEntrance()
+    {
+        gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        TrackEntry anim = spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/SYCTHEMASTER_ENTRANCE", false);
+
+        yield return new WaitForSpineAnimationComplete(anim);
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
 
         GameManager.Instance.DisableControls = false;
 

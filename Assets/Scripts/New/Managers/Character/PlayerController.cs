@@ -579,6 +579,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     {
         if(gameObject.tag == GameManager.PLAYER_TAG)
         {
+            //Debug.Log(trigger.gameObject.tag);
             if(trigger.gameObject.tag == GameManager.FINISH_LEVEL_TAG)
             {
                 if (GameManager.Instance.EnemyUnits.Count != 0)
@@ -595,7 +596,14 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             {
                 trigger.gameObject.SetActive(false);
 
-                BossTrigger(GameManager.SPEARMASTER_TAG);
+                BossTrigger(GameManager.SPEARMASTER_SPAWN_TAG);
+            }
+            else if(trigger.gameObject.tag == GameManager.SCYTHEMASTER_SPAWN_TAG)
+            {
+
+                trigger.gameObject.SetActive(false);
+
+                BossTrigger(GameManager.SCYTHEMASTER_SPAWN_TAG);
             }
         }
     }

@@ -77,7 +77,7 @@ namespace SpineControllerVersion
 
         public const string FINISH_LEVEL_TAG = "FinishLevelTrigger";
         public const string SPEARMASTER_SPAWN_TAG = "SpearmasterBossTrigger";
-        public const string SCYTHEMASTER_SPAWN_TAG = "SycthemasterBossTrigger";
+        public const string SCYTHEMASTER_SPAWN_TAG = "ScythemasterBossTrigger";
 
         public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG };
         public static List<string> ALLY_TAGS = new List<string> { ALLY_TAG, PLAYER_TAG };
@@ -698,12 +698,12 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = 200;
+            Gold = 600;
             
             IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
             IsSpearmasterDead = false;
 
-            Level = 6;
+            Level = 17;
 
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];

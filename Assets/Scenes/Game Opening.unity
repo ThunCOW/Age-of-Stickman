@@ -285,7 +285,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: fec6dbb4b8c429348a51a65fe69aeb84, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 05cff7ad725e0474bb5cc7deb8225523, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -341,6 +341,10 @@ PrefabInstance:
     - target: {fileID: 8647516, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 159990749, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 174019208, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_Pivot.x
@@ -510,6 +514,10 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2140154281, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2140154282, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -547,6 +555,10 @@ PrefabInstance:
       value: 172
       objectReference: {fileID: 0}
     - target: {fileID: 279967687289133109, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1225888005184022312, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
@@ -646,6 +658,10 @@ PrefabInstance:
       propertyPath: ContinueAfterEnemyDeadTextPrefab
       value: 
       objectReference: {fileID: 8877901790439675743, guid: f18b796e66064bc4685990320599e7a0, type: 3}
+    - target: {fileID: 7700336283338286801, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: Levels.Array.size
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 7700336283338286801, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: MainMenu.scenePath
       value: Assets/Scenes/Main Menu.unity

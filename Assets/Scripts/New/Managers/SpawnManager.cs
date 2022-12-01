@@ -195,12 +195,13 @@ public class SpawnManager : MonoBehaviour
         Debug.Log("SpawnBoss");
         switch (BossTag)
         {
-            case GameManager.SPEARMASTER_TAG:
+            
+            case GameManager.SPEARMASTER_SPAWN_TAG:
                 StartCoroutine(SpawnBossAfterNoEnemy());
 
                 break;
-            case GameManager.SCYTHEMASTER_TAG:
-
+            case GameManager.SCYTHEMASTER_SPAWN_TAG:
+                StartCoroutine(SpawnSycthemasterAfterNoEnemy());
                 break;
             default:
                 break;
@@ -213,10 +214,6 @@ public class SpawnManager : MonoBehaviour
         preparingForBossSpawn = true;
         maxSpawn = 1;
 
-        //while(maxSpawn != 0 && GameManager.Instance.EnemyUnits.Count != 0)
-        //{
-        //    yield return new WaitForFixedUpdate();
-        //}
         yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
 
         GameManager.Instance.DisableControls = true;
@@ -231,6 +228,31 @@ public class SpawnManager : MonoBehaviour
 
         float spawnPosX = GameManager.Instance.Player.transform.position.x + 13.5f + 10; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
         GameObject spawnedEnemyGO = Instantiate(SpearmasterPrefab, new Vector3(spawnPosX, SpearmasterPrefab.transform.position.y, 0), SpearmasterPrefab.transform.rotation);
+
+        AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
+        spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+    }
+
+    IEnumerator SpawnSycthemasterAfterNoEnemy()
+    {
+        Debug.Log("SpawnSycthemasterAfterNoEnemy");
+        preparingForBossSpawn = true;
+        maxSpawn = 1;
+
+        yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
+
+        GameManager.Instance.DisableControls = true;
+
+        isBossSpawned = true;
+
+        GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
+
+        SpearmasterSpawn();
+
+        yield return new WaitForSeconds(6);
+
+        float spawnPosX = GameManager.Instance.Player.transform.position.x + 12.35f;
+        GameObject spawnedEnemyGO = Instantiate(SycthemasterPrefab, new Vector3(spawnPosX, SycthemasterPrefab.transform.position.y, 0), SycthemasterPrefab.transform.rotation);
 
         AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;

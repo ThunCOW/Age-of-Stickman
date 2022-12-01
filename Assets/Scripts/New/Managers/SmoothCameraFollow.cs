@@ -55,7 +55,7 @@ public class SmoothCameraFollow : MonoBehaviour
 
         StartCoroutine(WaitUntilPlayerReachesEnd());
 
-        SpawnManager.SpearmasterSpawn += SpearmasterSpawn;
+        SpawnManager.SpearmasterSpawn += BossSpawn;
     }
 
     // Update is called once per frame
@@ -149,12 +149,12 @@ public class SmoothCameraFollow : MonoBehaviour
         }
     }
 
-    void SpearmasterSpawn()
+    void BossSpawn()
     {
-        StartCoroutine(SpearmasterSpawnInitialCameraMovement());
+        StartCoroutine(InitialCameraSlide());
     }
 
-    IEnumerator SpearmasterSpawnInitialCameraMovement()
+    IEnumerator InitialCameraSlide()
     {
         canMoveCam = false;
 
