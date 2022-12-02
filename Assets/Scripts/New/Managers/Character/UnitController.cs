@@ -506,6 +506,8 @@ public class UnitController : MonoBehaviour
         }
         else if(gameObject.CompareTag(GameManager.SCYTHEMASTER_TAG))
         {
+            unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
+
             StartCoroutine(PlayCinematicAnimation(cAnim.SycthemasterDead, false));
         }
     }
@@ -929,7 +931,7 @@ public class UnitController : MonoBehaviour
         
         // lasts until animation ends
         float animationCurrentTime = 0;
-        Time.timeScale = 0.2f;
+        //Time.timeScale = 0.2f;
         while (track.IsComplete == false)
         {
             animationCurrentTime += Time.deltaTime;

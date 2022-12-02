@@ -931,12 +931,28 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     protected override void DisableControls()
     {
-        StopRoutine();
-        HealthBar.SetActive(false);
+        moveButton.Hold = false;
+        moveButton.direction = MoveDirection.waiting;
+        direction = MoveDirection.waiting;
+        triggerCoroutine = null;
+        DefendButtonCoroutine = null;
+
 
         //canMove = false;
 
-        //spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+        idleing = false;
+
+        isAnimationStarted = true;                                     // direction released (for player)
+
+        //speed = 0;                                                 // speed is now set to default speed level
+
+        //speedRelativeToAnimation = 0;
+
+        //currentAttack = null;
+
+        //HealthBar.SetActive(false);
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
     }
 
     protected override void EnableControls()
@@ -944,21 +960,21 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         if (GetComponent<Unit>().Health > 0)
             HealthBar.SetActive(true);
 
-        canMove = true;
+        //canMove = true;
 
         idleing = true;
 
         isAnimationStarted = false;                                     // direction released (for player)
 
-        speed = defaultSpeed;                                                 // speed is now set to default speed level
+        //speed = defaultSpeed;                                                 // speed is now set to default speed level
 
-        speedRelativeToAnimation = 0;
+        //speedRelativeToAnimation = 0;
 
-        direction = MoveDirection.waiting;
+        //direction = MoveDirection.waiting;
 
-        currentAttack = null;
+        //currentAttack = null;
 
-        ReStartCoroutines();
+        //ReStartCoroutines();
     }
 
     protected override void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
