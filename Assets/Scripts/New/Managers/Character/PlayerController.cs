@@ -336,10 +336,11 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             unit.SetUnitDirection();
         }
 
-        float x = currentAttack.speedCurve.Evaluate(0);
+        
         AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
         StartCoroutine(SpeedDuringAnimation(trackEntry, currentAttack.speedCurve));
-        StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
+        //StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
+        StartCoroutine(WaitForEndOfAnimation(trackEntry));
     }
 
     protected override void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
@@ -502,6 +503,38 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         else
         {
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+        }
+    }
+
+    protected IEnumerator WaitForEndOfAnimation(TrackEntry trackEntry)
+    {
+        yield return new WaitForSpineAnimationEnd(trackEntry);  // (not sure) possibly so direction below works
+
+        Debug.Log("enters WaitForEndOfAnimation");
+        if(!isAnimationStarted)
+        {
+            if(!blockTrigger)
+            {
+                if (moveButton.Hold)
+                {
+                    direction = moveButton.direction;
+                }
+
+                if(!attackTrigger)
+                {
+                    // Set new movement direction and look direction
+                    if (moveButton.Hold)
+                    {
+                        SetWalkingAnimation((int)direction);
+                    }
+                    else
+                    {
+                        direction = MoveDirection.waiting;
+
+                        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+                    }
+                }
+            }
         }
     }
 

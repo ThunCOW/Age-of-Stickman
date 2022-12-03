@@ -32,7 +32,7 @@ public class UnitController : MonoBehaviour
     public float speed; // default moving speed assigned in inspector
     protected float defaultSpeed; // stores default speed
     protected float speedRelativeToAnimation; // speed for animations
-    protected MoveDirection direction = MoveDirection.waiting;
+      protected MoveDirection direction = MoveDirection.waiting;
 
     protected bool blockTrigger = false;
     protected bool resurrectionState = false;
@@ -741,6 +741,7 @@ public class UnitController : MonoBehaviour
 
             yield return new WaitForSpineAnimationComplete(trackEntry);
 
+            Debug.Log("leaved SpeedDuringAnimation 1");
             if (changeStance)
             {
                 if (unit.currentStance == StanceList.Stand_A)
@@ -756,6 +757,8 @@ public class UnitController : MonoBehaviour
             idleing = true;
 
             currentAttack = null;
+
+            isAnimationStarted = false;
 
             yield break;
         }
@@ -774,9 +777,9 @@ public class UnitController : MonoBehaviour
         {
             animationCurrentTime += Time.deltaTime;
             speedRelativeToAnimation = speedCurve.Evaluate(animationCurrentTime);
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
-
+        Debug.Log("leaved SpeedDuringAnimation 2");
         if (changeStance)
         {
             if (unit.currentStance == StanceList.Stand_A)
