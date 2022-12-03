@@ -142,9 +142,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
 
                     //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.idle.SpineAnimationReference.Animation.Name, currentAttack.SpineAnimationReference.Animation.Name, 0.15f);
-                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+                    TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                    AttackAction();
+                    AttackAction(trackEntry);
 
                     if (currentAttack.ShadowAnimation != null)
                         ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
@@ -159,9 +159,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                     currentAttack = tempWalkAttack[randomAttack] as CloseCombatAnimation;
 
                     //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.Movement.SpineAnimationReference.Animation.Name, unit.activeAnimations.WalkAttack[0].SpineAnimationReference.Animation.Name, 0.15f);
-                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+                    TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                    AttackAction();
+                    AttackAction(trackEntry);
 
                     if (currentAttack.ShadowAnimation != null)
                         ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
@@ -179,9 +179,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 BasicAnimation t = tempStationaryStun[randomAttack];
                 currentAttack = (CloseCombatAnimation)t;
 
-                spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                AttackAction();
+                AttackAction(trackEntry);
 
                 if (currentAttack.ShadowAnimation != null)
                     ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
@@ -329,24 +329,16 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 break;
         }
     }
-    protected void AttackAction()
+    protected void AttackAction(TrackEntry trackEntry)
     {
-        //if(currentAttack.attackType == AttackType.Casual)
-        //{
-        //    if(unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
-        //    {
-        //        if(unit.target.Health> 0) 
-        //        {
-        //
-        //        }
-        //    }
-        //}
         if (unit.target != null)
         {
             unit.SetUnitDirection();
         }
 
-        StartCoroutine(SpeedDuringAnimation(currentAttack));
+        float x = currentAttack.speedCurve.Evaluate(0);
+        AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
+        StartCoroutine(SpeedDuringAnimation(trackEntry, currentAttack.speedCurve));
         StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
     }
 
@@ -435,10 +427,10 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         yield return new WaitForSeconds(3);
 
         // Resurrect Animation
-        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimation.SpineAnimationReference, false);
-        StartCoroutine(SpeedDuringAnimation(ResurrectAnimation));
-        
-        yield return new WaitForSpineAnimationEnd(track);
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimation.SpineAnimationReference, false);
+        StartCoroutine(SpeedDuringAnimation(trackEntry, ResurrectAnimation.speedCurve));
+
+        yield return new WaitForSpineAnimationEnd(trackEntry);
         // Wait until resurrection animation ends
 
         isWaitingForRes = false;

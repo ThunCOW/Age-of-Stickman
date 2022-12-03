@@ -651,12 +651,13 @@ public class UnitController : MonoBehaviour
         // TODO : I set mix time every time here, it could be set in Start for once too
         SetMixBetweenAnimation(spineSkeletonAnimation.state.GetCurrent(1).Animation.Name, stunAnimation.SpineAnimationReference.Animation.Name, 0f);
 
-        spineSkeletonAnimation.state.SetAnimation(1, stunAnimation.SpineAnimationReference, false).TimeScale = 1f;
+        TrackEntry end = spineSkeletonAnimation.state.SetAnimation(1, stunAnimation.SpineAnimationReference, false);
         //StartCoroutine(WaitForEndOfAnimation(stunAnimation.SpineAnimationReference.Animation.Duration));
 
         float animationLength = stunAnimation.SpineAnimationReference.Animation.Duration;
         float animationCurrentTime = 0;
-        while (animationLength > animationCurrentTime)
+        //while (animationLength > animationCurrentTime)
+        while (!end.IsComplete)
         {
             animationCurrentTime += Time.deltaTime;
             speedRelativeToAnimation = stunAnimation.speedCurve.Evaluate(animationCurrentTime);
@@ -687,18 +688,124 @@ public class UnitController : MonoBehaviour
         StopAllCoroutines();
     }
 
-    // Changes the speed during animation
-    protected IEnumerator SpeedDuringAnimation(CloseCombatAnimation Attack)
+    protected void AnimationSpeedCurveKeyframeSetup(AnimationCurve speedCurve, List<int> keys, List<float> values)
+    {
+        if (keys.Count > 0)
+        {
+            Keyframe[] keyframe = speedCurve.keys;
+            if (unit.target != null)
+            {
+                float time = speedCurve[keys[keys.Count - 1]].time - speedCurve[keys[0]].time;
+                float animSpeed = (Mathf.Abs(transform.position.x - unit.target.transform.position.x) - 2f) / time;
+                //Debug.Log("Time = " + time + " / Speed = " + animSpeed + " / CurPos = " + transform.position.x + " / NextPos = " + transform.position.x + (time * animSpeed));
+
+                //Debug.Log("Time Dif = " + time + " / move = " + time * 32);
+                //Debug.Log("Current Distance = " + transform.position.x + " / next position = " +  (transform.position.x + (time * 32)));
+                // calculate distance to target and find speed
+
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    keyframe[keys[i]].value = animSpeed;
+                    //Debug.Log(speedCurve.keys[keys[i]].value + " / " + values[i]);
+                }
+                speedCurve.keys = keyframe;
+            }
+            else
+            {
+                for (int i = 0; i < keys.Count; i++)
+                {
+                    keyframe[keys[i]].value = values[i];
+                    //Debug.Log(speedCurve.keys[keys[i]].value + " / " + values[i]);
+                }
+                speedCurve.keys = keyframe;
+            }
+        }
+    }
+
+    /// if there isn't a speedcurve or speedcurve is empty, it works like a stationary animation
+    protected IEnumerator SpeedDuringAnimation(TrackEntry trackEntry, AnimationCurve speedCurve)
     {
         idleing = false;
 
         isAnimationStarted = true;
 
         speed = 0;
-        
-        if(Attack.Keys.Count > 0)
+
+        float x = currentAttack.speedCurve.Evaluate(0);
+        // If animation does not have a speedcurve its a stationary animation
+        if (speedCurve == null || speedCurve.Evaluate(0) == 0)
         {
-            if(unit.target != null)
+            speed = defaultSpeed;
+
+            direction = MoveDirection.waiting;
+
+            yield return new WaitForSpineAnimationComplete(trackEntry);
+
+            if (changeStance)
+            {
+                if (unit.currentStance == StanceList.Stand_A)
+                    unit.currentStance = StanceList.Stand_B;
+                else if (unit.currentStance == StanceList.Stand_B)
+                    unit.currentStance = StanceList.Stand_A;
+
+                changeStance = false;
+            }
+
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            idleing = true;
+
+            currentAttack = null;
+
+            yield break;
+        }
+
+        // Am Checking for what reason ???
+        if (unit.target != null)
+        {
+            if (transform.position.x < unit.target.transform.position.x)     // if target is more on the right, unit direction is right
+                direction = MoveDirection.right;
+            else
+                direction = MoveDirection.left;
+        }
+
+        float animationCurrentTime = 0;
+        while (!trackEntry.IsComplete)
+        {
+            animationCurrentTime += Time.deltaTime;
+            speedRelativeToAnimation = speedCurve.Evaluate(animationCurrentTime);
+            yield return null;
+        }
+
+        if (changeStance)
+        {
+            if (unit.currentStance == StanceList.Stand_A)
+                unit.currentStance = StanceList.Stand_B;
+            else if (unit.currentStance == StanceList.Stand_B)
+                unit.currentStance = StanceList.Stand_A;
+
+            changeStance = false;
+        }
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+        speed = defaultSpeed;
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        idleing = true;
+
+        isAnimationStarted = false;
+
+        currentAttack = null;
+    }
+    protected IEnumerator PlayCinematicAnimation(SpeedDependantAnimation Animation, bool continueIdle = false)
+    {
+        /*if (Attack.Keys.Count > 0)
+        {
+            if (unit.target != null)
             {
                 float time = Attack.speedCurve[Attack.Keys[Attack.Keys.Count - 1]].time - Attack.speedCurve[Attack.Keys[0]].time;
                 float animSpeed = (Mathf.Abs(transform.position.x - unit.target.transform.position.x) - 2f) / time;
@@ -728,166 +835,11 @@ public class UnitController : MonoBehaviour
                 }
                 Attack.speedCurve.keys = keyframe;
             }
-        }
-        
-        if (Attack.speedCurve.Evaluate(0) == 0)
-        {
-            speed = defaultSpeed;
+        }*/
 
-            direction = MoveDirection.waiting;
 
-            yield return new WaitForSeconds(Attack.SpineAnimationReference.Animation.Duration);
-
-            if (changeStance)
-            {
-                if (unit.currentStance == StanceList.Stand_A)
-                    unit.currentStance = StanceList.Stand_B;
-                else if (unit.currentStance == StanceList.Stand_B)
-                    unit.currentStance = StanceList.Stand_A;
-
-                changeStance = false;
-            }
-
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-
-            idleing = true;
-
-            currentAttack = null;
-
-            isAnimationStarted = false;
-            yield break;
-        }
-
-        // Check for what ???
-        if (unit.target != null)
-        {
-            if (transform.position.x < unit.target.transform.position.x)     // if target is more on the right, unit direction is right
-                direction = MoveDirection.right;
-            else
-                direction = MoveDirection.left;
-        }
-
-        // lasts until animation ends
-        float animationLength = Attack.SpineAnimationReference.Animation.Duration;
-        float animationCurrentTime = 0;
-        while (animationLength >= animationCurrentTime)
-        {
-            animationCurrentTime += Time.deltaTime;
-            speedRelativeToAnimation = Attack.speedCurve.Evaluate(animationCurrentTime);
-            yield return null;
-        }
-
-        if (changeStance)
-        {
-            if (unit.currentStance == StanceList.Stand_A)
-                unit.currentStance = StanceList.Stand_B;
-            else if (unit.currentStance == StanceList.Stand_B)
-                unit.currentStance = StanceList.Stand_A;
-
-            changeStance = false;
-        }
-
-        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-
-        speed = defaultSpeed;
-
-        speedRelativeToAnimation = 0;
-
-        direction = MoveDirection.waiting;
-
-        idleing = true;
-
-        isAnimationStarted = false;
-
-        currentAttack = null;
-    }
-    protected IEnumerator SpeedDuringAnimation(SpeedDependantAnimation Animation)
-    {
-        idleing = false;
-
-        isAnimationStarted = true;
-
-        speed = 0;
-
-        if (Animation.speedCurve.Evaluate(0) == 0)
-        {
-            speed = defaultSpeed;
-
-            direction = MoveDirection.waiting;
-
-            yield return new WaitForSeconds(Animation.SpineAnimationReference.Animation.Duration);
-
-            if (changeStance)
-            {
-                if (unit.currentStance == StanceList.Stand_A)
-                    unit.currentStance = StanceList.Stand_B;
-                else if (unit.currentStance == StanceList.Stand_B)
-                    unit.currentStance = StanceList.Stand_A;
-
-                changeStance = false;
-            }
-
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-
-            idleing = true;
-
-            currentAttack = null;
-
-            isAnimationStarted = false;
-
-            yield break;
-        }
-
-        // Check for what ???
-        if (unit.target != null)
-        {
-            if (transform.position.x < unit.target.transform.position.x)     // if target is more on the right, unit direction is right
-                direction = MoveDirection.right;
-            else
-                direction = MoveDirection.left;
-        }
-
-        // lasts until animation ends
-        float animationLength = Animation.SpineAnimationReference.Animation.Duration;
-        float animationCurrentTime = 0;
-        while (animationLength >= animationCurrentTime)
-        {
-            animationCurrentTime += Time.deltaTime;
-            speedRelativeToAnimation = Animation.speedCurve.Evaluate(animationCurrentTime);
-            yield return null;
-        }
-
-        if (changeStance)
-        {
-            if (unit.currentStance == StanceList.Stand_A)
-                unit.currentStance = StanceList.Stand_B;
-            else if (unit.currentStance == StanceList.Stand_B)
-                unit.currentStance = StanceList.Stand_A;
-
-            changeStance = false;
-        }
-
-        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-
-        speed = defaultSpeed;
-
-        speedRelativeToAnimation = 0;
-
-        direction = MoveDirection.waiting;
-
-        idleing = true;
-
-        isAnimationStarted= false;
-
-        currentAttack = null;
-    }
-
-    protected IEnumerator PlayCinematicAnimation(SpeedDependantAnimation Animation, bool continueIdle = false)
-    {
         TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, Animation.SpineAnimationReference, false);
         var completeOrEnd = WaitForSpineAnimation.AnimationEventTypes.Complete | WaitForSpineAnimation.AnimationEventTypes.End;
-
-        //isAnimationStarted = true;
 
         idleing = false;
 
@@ -903,6 +855,10 @@ public class UnitController : MonoBehaviour
             direction = MoveDirection.waiting;
 
             yield return new WaitForSpineAnimation(track, completeOrEnd);
+            
+            idleing = true;
+
+            currentAttack = null;
 
             if (changeStance)
             {
@@ -915,12 +871,6 @@ public class UnitController : MonoBehaviour
             }
 
             if (continueIdle) spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-
-            idleing = true;
-
-            currentAttack = null;
-
-            isAnimationStarted = false;
 
             yield break;
         }
@@ -944,6 +894,18 @@ public class UnitController : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
+        speed = defaultSpeed;
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        idleing = true;
+
+        currentAttack = null;
+
+        isAnimationStarted = false;                                     // direction released (for player)
+
         if (changeStance)
         {
             if (unit.currentStance == StanceList.Stand_A)
@@ -960,18 +922,6 @@ public class UnitController : MonoBehaviour
 
             GameManager.Instance.DisableControls = false;
         }
-
-        speed = defaultSpeed;
-
-        speedRelativeToAnimation = 0;
-
-        direction = MoveDirection.waiting;
-
-        idleing = true;
-
-        currentAttack = null;
-
-        isAnimationStarted = false;                                     // direction released (for player)
     }
 
     public void SetMixBetweenAnimation(AnimationReferenceAsset from, AnimationReferenceAsset to, float mixDuration)
@@ -993,7 +943,6 @@ public class UnitController : MonoBehaviour
     protected virtual void EnableControls() { }
     protected virtual void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
-        Debug.Log(e.Data.Name);
         switch (e.Data.Name)
         {
             case "MeleeAttack":

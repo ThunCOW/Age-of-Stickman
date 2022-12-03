@@ -252,7 +252,7 @@ namespace SpineControllerVersion
             else
                 Destroy(this.gameObject);
 
-            //QualitySettings.vSyncCount = 0;
+            QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
 
             LoadDataAsJson();
