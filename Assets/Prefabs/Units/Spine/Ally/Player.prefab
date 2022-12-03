@@ -2070,7 +2070,6 @@ MonoBehaviour:
   rb2d: {fileID: 8615564714106964962}
   spineSkeletonAnimation: {fileID: 8615564714039348847}
   ShadowAnimator: {fileID: 5341417363139780984}
-  HealthBar: {fileID: 777053081335208818}
   unit: {fileID: 8615564714106964967}
   equipmentManager: {fileID: 8615564714106964966}
   isAnimationStarted: 0

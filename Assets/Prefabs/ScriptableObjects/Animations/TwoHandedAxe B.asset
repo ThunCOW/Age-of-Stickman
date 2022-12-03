@@ -32,10 +32,6 @@ MonoBehaviour:
       SwapWeapon: {fileID: 0}
       DeathAnimationByDamageRegion:
         highRegion:
-        - {fileID: 11400000, guid: cab0148d37c4531438b91572c78a10ab, type: 2}
-        - {fileID: 11400000, guid: 7ecf3727fbbfb7a419356de9130bd400, type: 2}
-        - {fileID: 11400000, guid: bd2d38ed1c0619c48b91259feab94ad0, type: 2}
-        - {fileID: 11400000, guid: ab3ec0ffc4e7bd0489ea213d04b52f6b, type: 2}
         - {fileID: 11400000, guid: b5c77480060726841b57f80d202b2ac0, type: 2}
         - {fileID: 11400000, guid: b5c77480060726841b57f80d202b2ac0, type: 2}
         - {fileID: 11400000, guid: eeb0929773d2c9b4f98dcfa976918ee7, type: 2}

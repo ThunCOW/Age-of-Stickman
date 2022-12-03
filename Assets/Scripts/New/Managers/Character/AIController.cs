@@ -612,9 +612,9 @@ public class AIController : UnitController
         yield return new WaitForSeconds(3);
 
         spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/Spearmaster_Entrance_Part 2", false).TimeScale = 1f;
-        spineSkeletonAnimation.state.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 5);
+        spineSkeletonAnimation.state.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 0.5f);
 
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(3.5f);
 
         GameManager.Instance.DisableControls = false;
 

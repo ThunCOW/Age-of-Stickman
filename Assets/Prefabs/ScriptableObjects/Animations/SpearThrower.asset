@@ -62,10 +62,6 @@ MonoBehaviour:
       SwapWeapon: {fileID: 0}
       DeathAnimationByDamageRegion:
         highRegion:
-        - {fileID: 11400000, guid: a0f536d0aae1dd94e867aca8c6e57827, type: 2}
-        - {fileID: 11400000, guid: 8763a3ba69cc97346bc2eab8e5e15a78, type: 2}
-        - {fileID: 11400000, guid: d1727178a37bc97409f7f79582417779, type: 2}
-        - {fileID: 11400000, guid: a203820b48088ea41be888c14b3b00cb, type: 2}
         - {fileID: 11400000, guid: 2664a8c500f5a1f4bae8436182a8110b, type: 2}
         - {fileID: 11400000, guid: 2664a8c500f5a1f4bae8436182a8110b, type: 2}
         - {fileID: 11400000, guid: 1605c5d244ac960439e4f48bcc5b5334, type: 2}
@@ -81,8 +77,6 @@ MonoBehaviour:
         - {fileID: 11400000, guid: d1727178a37bc97409f7f79582417779, type: 2}
         - {fileID: 11400000, guid: a203820b48088ea41be888c14b3b00cb, type: 2}
         lowRegion:
-        - {fileID: 11400000, guid: 50d8a7bfd847298418faf27a2cc05349, type: 2}
-        - {fileID: 11400000, guid: 50d8a7bfd847298418faf27a2cc05349, type: 2}
         - {fileID: 11400000, guid: 219a2ca25ae0a344a9395c30cd44cd14, type: 2}
         - {fileID: 11400000, guid: c48ef73481ddbfd469864dc8e3a3cb42, type: 2}
         - {fileID: 11400000, guid: b2772fc1217d7c34da114a9d0ddb69ba, type: 2}

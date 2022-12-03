@@ -80,12 +80,20 @@ public class SpawnManager : MonoBehaviour
                 {
                     if (maxSpawn > 0)
                     {
+                        // Means there is too many dead body on screen
                         if(DeadOnScreen.DeadUnitsOnScreen.Count >= maxDeadEnemyOnScreen)
                         {
+                            // If player is at the end of level, continue to spawn
                             if(PlayerController.hasPlayerReachedEndOfLevel)
                             {
                                 SpawnLogic();
                             }
+                        }
+                        // If dead unit on screen limit is not reached but total amount of alive + dead enemy unit
+                        // is bigger than limit + 1 ( can have 1 more spawn than limit, not more than that )
+                        else if(DeadOnScreen.DeadUnitsOnScreen.Count + GameManager.Instance.EnemyUnits.Count >= maxDeadEnemyOnScreen + 1)
+                        {
+                            SpawnLogic();
                         }
                         else
                         {
@@ -224,7 +232,7 @@ public class SpawnManager : MonoBehaviour
         
         SpawnBossEvent();
 
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(4.5f);
 
         float spawnPosX = GameManager.Instance.Player.transform.position.x + 13.5f + 10; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
         GameObject spawnedEnemyGO = Instantiate(SpearmasterPrefab, new Vector3(spawnPosX, SpearmasterPrefab.transform.position.y, 0), SpearmasterPrefab.transform.rotation);
