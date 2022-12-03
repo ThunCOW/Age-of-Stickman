@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Death_Region_High_A_2.1 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: a8e6971ce38767440a36e1a68d470945, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 8bde8e62a4e55c848b8e917b3a988413, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Death_Region_High_A_2.1 UNITY
   deathType: 0

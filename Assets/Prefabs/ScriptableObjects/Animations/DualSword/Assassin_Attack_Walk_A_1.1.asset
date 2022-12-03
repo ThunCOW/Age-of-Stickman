@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Assassin
   AnimationName: Attack_Walk_A_1.1
-  SpineAnimationReference: {fileID: 11400000, guid: 393b3079f6a66e64a85c949c90b32c1b, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: f2f43f99bffb96d4894f45e0cad6aad7, type: 2}
+  ShadowAnimation: {fileID: 7400000, guid: c2d7cc2d0bf465448b82eace3ebdbb20, type: 2}
   _PrefixChangeCheck: Assassin
   _AnimationNameChangeCheck: Attack_Walk_A_1.1
   speedCurve:
@@ -59,10 +60,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
+  Keys: 
+  Values: []
+  SetupKeys: 0
   attackType: 0
   animationMovementType: 1
   DamageMultiplierMax: 1.5
   Reach: 2.82
+  MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 0
   hitHeightPosiiton: -1.609

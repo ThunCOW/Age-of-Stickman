@@ -88,11 +88,11 @@ public class SettingsManager : MonoBehaviour
 
     public void OpenSettings()
     {
-
+        Time.timeScale = 0;
     }
 
     public void CloseSettings()
     {
-
+        Time.timeScale = 1;
     }
 }

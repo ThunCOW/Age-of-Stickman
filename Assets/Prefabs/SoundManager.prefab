@@ -170,7 +170,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 1418c96c9f45d38468f25d07e5b38d9f, type: 3}
+  m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0.1
   m_Pitch: 1
@@ -304,3 +304,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   musicSource: {fileID: 8708394848095586871}
   effectSource: {fileID: 8708394847902967758}
+  ShieldHitSound:
+  - {fileID: 8300000, guid: 08ab9a61ec56dc2459213b862e2db2b7, type: 3}
+  - {fileID: 8300000, guid: 621d4f15b104508489667296d54859f2, type: 3}

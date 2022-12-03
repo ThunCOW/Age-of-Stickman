@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace SpineControllerVersion
 {
@@ -51,13 +52,16 @@ namespace SpineControllerVersion
 
 
         [Header("_Unit Assignments_")]
-        public List<Unit> EnemyUnits = new List<Unit>();
+        public List<Unit> EnemyUnits;
         [HideInInspector] public List<GameObject> LeftSpawn; // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
-        public List<Unit> AllyUnits = new List<Unit>();
+        public List<Unit> AllyUnits;
+
+        [HideInInspector] public List<GameObject> DeadEnemyUnits;
+        [HideInInspector] public List<GameObject> DeadAllyUnits;
 
         [HideInInspector] public SortManager sortManager = new SortManager();
 
-
+        public BodyPartSO BodyPartSO;
 
 
         // TAGS
@@ -73,7 +77,7 @@ namespace SpineControllerVersion
 
         public const string FINISH_LEVEL_TAG = "FinishLevelTrigger";
         public const string SPEARMASTER_SPAWN_TAG = "SpearmasterBossTrigger";
-        public const string SCYTHEMASTER_SPAWN_TAG = "SycthemasterBossTrigger";
+        public const string SCYTHEMASTER_SPAWN_TAG = "ScythemasterBossTrigger";
 
         public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG };
         public static List<string> ALLY_TAGS = new List<string> { ALLY_TAG, PLAYER_TAG };
@@ -237,7 +241,7 @@ namespace SpineControllerVersion
 
 
 
-
+        // Awake and Start
         void Awake()
         {
             if (Instance == null)
@@ -248,16 +252,13 @@ namespace SpineControllerVersion
             else
                 Destroy(this.gameObject);
 
-            QualitySettings.vSyncCount = 0;
+            //QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
 
             LoadDataAsJson();
 
-
-
             SceneLoader.LevelLoaded += LevelLoaded;
         }
-
         void Start()
         {
             mainMenuPlayer.ChangeUnitEquipments(mainMenuPlayer, PlayerEquipments);
@@ -267,7 +268,95 @@ namespace SpineControllerVersion
 
 
 
-        // Gold Change
+
+
+        // Continue Text And Canvas Spawn
+        public GameObject ContinueToMainMenuImagePrefab;
+        public GameObject ContinueAfterEnemyDeadTextPrefab;
+        
+        GameObject continueToMainMenuImageSpawn;
+        Coroutine continueToMainMenuImageRoutine;
+        Coroutine continueToMainMenuImageDespawnRoutine;
+        GameObject continueAfterEnemyDeadTextSpawn;
+        Coroutine continueAfterEnemyDeadTextRoutine;
+        Coroutine continueAfterEnemyDeadTextDespawnRoutine;
+        public void ContinueToMainMenuTextSpawn()
+        {
+            GameObject continueToMainMenuSpawnTempGO = Instantiate(ContinueToMainMenuImagePrefab);
+
+            if (continueToMainMenuImageSpawn != null)
+            {
+                if (continueToMainMenuImageRoutine != null) StopCoroutine(continueToMainMenuImageRoutine);
+                if (continueToMainMenuImageDespawnRoutine != null) StopCoroutine(continueToMainMenuImageDespawnRoutine);
+            
+                Destroy(continueToMainMenuImageSpawn);
+            }
+
+            continueToMainMenuImageSpawn = continueToMainMenuSpawnTempGO;
+
+            continueToMainMenuImageRoutine = StartCoroutine(ImageAppearSlowly(continueToMainMenuImageSpawn.transform.GetChild(0).gameObject, 1.5f, 1.5f, -10));
+        }
+
+        public void ContinueToMainMenuTextDisappear()
+        {
+            // not spawned which shouldnt enter here
+            if(continueToMainMenuImageSpawn == null)
+            {
+                return;
+            }
+            if (continueToMainMenuImageRoutine != null) StopCoroutine(continueToMainMenuImageRoutine);
+
+            continueToMainMenuImageDespawnRoutine = StartCoroutine(ImageDisappearSlowly(continueToMainMenuImageSpawn.transform.GetChild(0).gameObject, 1.5f));
+        }
+        
+        public void ContinueAfterEnemyDeadTextSpawn()
+        {
+            GameObject continueAfterEnemyDeadTextSpawnTempGO = Instantiate(ContinueAfterEnemyDeadTextPrefab);
+
+            if(continueAfterEnemyDeadTextSpawn != null)
+            {
+                if (continueAfterEnemyDeadTextRoutine != null) StopCoroutine(continueAfterEnemyDeadTextRoutine);
+                if (continueAfterEnemyDeadTextDespawnRoutine != null) StopCoroutine(continueAfterEnemyDeadTextDespawnRoutine);
+
+                Destroy(continueAfterEnemyDeadTextSpawn);
+            }
+
+            continueAfterEnemyDeadTextSpawn = continueAfterEnemyDeadTextSpawnTempGO;
+
+            continueAfterEnemyDeadTextRoutine = StartCoroutine(TextAppearSlowly(continueAfterEnemyDeadTextSpawn.transform.GetChild(0).gameObject, 1.5f, 1.5f, -10));
+
+            StartCoroutine(ContinueWhenEnemyDeadEnd());
+        }
+
+        private IEnumerator ContinueWhenEnemyDeadEnd()
+        {
+            while(EnemyUnits.Count > 0)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+
+            ContinueAfterEnemyDeadTextDisappear();
+        }
+
+        public void ContinueAfterEnemyDeadTextDisappear()
+        {
+            // shouldnt enter here
+            if(continueAfterEnemyDeadTextSpawn == null)
+            {
+                return;
+            }
+            if (continueAfterEnemyDeadTextRoutine != null) StopCoroutine(continueAfterEnemyDeadTextRoutine);
+
+            continueAfterEnemyDeadTextDespawnRoutine = StartCoroutine(TextDisappearSlowly(continueAfterEnemyDeadTextSpawn.transform.GetChild(0).gameObject, 0, 1, 0));
+        }
+
+        
+
+
+
+
+
+        // Gold Change And Canvas Spawns
         GameObject minusGoldTextSpawn;
         Coroutine minusGoldTextSpawnTimer;
         Coroutine minusGoldAnimation;
@@ -354,12 +443,19 @@ namespace SpineControllerVersion
             }
             minusGoldAnimation = null;
         }
-        // if waitForWithoutAlphaChange is set to 0, text will start with 65% alpha and disappear within disappearTime second, if not, it will show 100 alpha for waitForWithoutAlphaChange then slowly disappear from 100 to 0
-        IEnumerator TextDisappearSlowly(GameObject TextSpawn, float waitForWithoutAlphaChange = 0, float disappearTime = 1.5f, float speed = 10)
+        /// <summary>
+        /// if waitForWithoutAlphaChange is set to 0, text will start with 65% alpha and disappear within disappearTime second, if not, it will show 100 alpha for waitForWithoutAlphaChange then slowly disappear from 100 to 0
+        /// </summary>
+        /// <param name="TextSpawn"></param>
+        /// <param name="waitForWithoutAlphaChange"></param>
+        /// <param name="disappearTime"></param>
+        /// <param name="speed"></param>
+        /// <returns></returns>
+        public IEnumerator TextDisappearSlowly(GameObject TextSpawn, float waitForWithoutAlphaChange = 0, float disappearTime = 1.5f, float speed = 10)
         {
             TMP_Text tempText = TextSpawn.GetComponent<TMP_Text>();
             Color tempColor = tempText.color;
-            
+
             float wait = waitForWithoutAlphaChange;
             // First Continue Without Changing Alpha
             while(wait > 0)
@@ -371,7 +467,7 @@ namespace SpineControllerVersion
                 yield return new WaitForFixedUpdate();
             }
 
-            wait = disappearTime;
+            wait = (tempColor.a / 1) * disappearTime;
             // Start Changing Alpha
             while(wait > 0)
             {
@@ -386,11 +482,73 @@ namespace SpineControllerVersion
 
                 yield return new WaitForFixedUpdate();
             }
-            minusGoldTextSpawn = null;
 
             Destroy(TextSpawn);
         }
+        public IEnumerator TextAppearSlowly(GameObject TextSpawn, float movementTime = 1.5f, float waitUntilFullAlpha = 1.5f, float speed = 10)
+        {
+            TMP_Text tempText = TextSpawn.GetComponent<TMP_Text>();
+            Color tempColor = tempText.color;
 
+            float wait = movementTime;
+            // Start Changing Alpha
+            while (wait > 0)
+            {
+                wait -= Time.deltaTime;
+
+                //float percentage = waitUntilFullAlpha == 0 ? (wait / disappearTime) * 0.65f : (wait / disappearTime);
+                float percentage = waitUntilFullAlpha == 0 ? 1 : (waitUntilFullAlpha - wait) / waitUntilFullAlpha;
+                percentage = percentage > 100 ? 100 : percentage;
+
+                tempColor.a = percentage;
+                tempText.color = tempColor;
+
+                TextSpawn.transform.position = new Vector3(TextSpawn.transform.position.x + (speed * Time.deltaTime), TextSpawn.transform.position.y, TextSpawn.transform.position.z);
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        public IEnumerator ImageAppearSlowly(GameObject ImageSpawn, float movementTime = 1.5f, float waitUntilFullAlpha = 1.5f, float speed = 10)
+        {
+            Image tempImage = ImageSpawn.GetComponent<Image>();
+            Color tempColor = tempImage.color;
+
+            float wait = movementTime;
+            // Start Changing Alpha
+            while (wait > 0)
+            {
+                wait -= Time.deltaTime;
+
+                //float percentage = waitUntilFullAlpha == 0 ? (wait / disappearTime) * 0.65f : (wait / disappearTime);
+                float percentage = waitUntilFullAlpha == 0 ? 1 : (waitUntilFullAlpha - wait) / waitUntilFullAlpha;
+                percentage = percentage > 100 ? 100 : percentage;
+
+                tempColor.a = percentage;
+                tempImage.color = tempColor;
+
+                ImageSpawn.transform.position = new Vector3(ImageSpawn.transform.position.x + (speed * Time.deltaTime), ImageSpawn.transform.position.y, ImageSpawn.transform.position.z);
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        public IEnumerator ImageDisappearSlowly(GameObject Image, float disappearTime = 1.5f)
+        {
+            Image tempImage = Image.GetComponent<Image>();
+            Color tempColor = tempImage.color;
+
+            float wait = (tempColor.a / 1) * disappearTime;                             // If image does not have maximum alpha, set time according to that
+            while (wait > 0)
+            {
+                wait -= Time.deltaTime;
+
+                float percentage = wait / disappearTime;
+
+                tempColor.a = percentage;
+                tempImage.color = tempColor;
+
+                yield return new WaitForFixedUpdate();
+            }
+        }
         GameObject notEnoughGoldTextSpawn;
         Coroutine notEnoughGoldTextCoroutine;
         public void NotEnoughGold()
@@ -472,10 +630,6 @@ namespace SpineControllerVersion
                 order++;
             }
         }
-
-
-
-
 
 
         /*********************
@@ -596,7 +750,7 @@ namespace SpineControllerVersion
             tempMercSave.IndexOfMercenary = -1;
             tempMercSaveList.Add(tempMercSave);
             tempMercSaveList.Add(tempMercSave);
-            a_SaveData.mercenarySaves = MercenaryManager.Instance.MercenarySave;
+            a_SaveData.mercenarySaves = tempMercSaveList;
 
             a_SaveData.PlayerControls = PlayerControls.JoystickControls;
 
@@ -623,7 +777,7 @@ namespace SpineControllerVersion
         {
             if (pause)
             {
-                SaveDataAsJson();
+                //SaveDataAsJson();
             }
         }
 #endif

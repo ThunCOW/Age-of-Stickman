@@ -302,6 +302,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae595cdf1b2ab8c46af2430d179cf2d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rb2d: {fileID: 2318235749759994684}
+  boxcol2d: {fileID: 7959950828103613288}
   RangedAttackSoundSO: {fileID: 0}
   projectileSpeed: 36
 --- !u!210 &6956244535523826061

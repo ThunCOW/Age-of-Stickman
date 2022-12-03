@@ -1,0 +1,69 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: Swordsman_Old
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 9eb78451891ad9647b24bb2d44870559, type: 2}
+      Movement: {fileID: 11400000, guid: 1be99ec54e1580f469216af983d7cc33, type: 2}
+      MovementBackward: {fileID: 11400000, guid: c934f6c52fe5f9948ad4ac0862089e78, type: 2}
+      BlockAttack: {fileID: 11400000, guid: 515ba48d2ecd1c14b900402e42283d2a, type: 2}
+      ResetSlots: {fileID: 11400000, guid: 689ff9f67ae5f3249ade6fa50c2081fc, type: 2}
+      Hurt: {fileID: 11400000, guid: de4dfeffec33d984885acf796643287d, type: 2}
+      Kicked: {fileID: 11400000, guid: 9e03c13a6457c0f408621003048557b9, type: 2}
+      Slammed: {fileID: 11400000, guid: b15dc9fa10aceeb4e99f06aa76b9be5b, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 9b2c1b8d3102c16458aa9e16d9f6ad59, type: 2}
+      - {fileID: 11400000, guid: 77460c2139b57bf4db96c61fa46662a3, type: 2}
+      WalkAttack:
+      - {fileID: 11400000, guid: 1db459df200cd8443abbfe952af2548b, type: 2}
+      - {fileID: 11400000, guid: 27891db1e2267de42bf71fe7a67d2d33, type: 2}
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: 0
+      SwapWeapon: {fileID: 0}
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: 057d40cc3d7154747b19bda01ce0b6c0, type: 2}
+        - {fileID: 11400000, guid: c5875eef7f4ca4f44b1d2b927439d205, type: 2}
+        - {fileID: 11400000, guid: 4b8983fbee66ea2479b5500f01dc892d, type: 2}
+        - {fileID: 11400000, guid: 7bdb5ddf35858024bb912ade8b9b4ca8, type: 2}
+        - {fileID: 11400000, guid: 9270fe37d24b7b943b21ae3019132537, type: 2}
+        - {fileID: 11400000, guid: 9270fe37d24b7b943b21ae3019132537, type: 2}
+        - {fileID: 11400000, guid: e2c5e3192d9914b4ea8eff1de98f947c, type: 2}
+        - {fileID: 11400000, guid: c4c4784404b4fae40b969cd5ee1c328a, type: 2}
+        - {fileID: 11400000, guid: 924633687cf67364ab8f5956f461a392, type: 2}
+        - {fileID: 11400000, guid: 924633687cf67364ab8f5956f461a392, type: 2}
+        - {fileID: 11400000, guid: d07f669bf27812b41bc0bd09da12426d, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
+        - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
+        - {fileID: 11400000, guid: 057d40cc3d7154747b19bda01ce0b6c0, type: 2}
+        - {fileID: 11400000, guid: c5875eef7f4ca4f44b1d2b927439d205, type: 2}
+        - {fileID: 11400000, guid: 4b8983fbee66ea2479b5500f01dc892d, type: 2}
+        - {fileID: 11400000, guid: 7bdb5ddf35858024bb912ade8b9b4ca8, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
+        - {fileID: 11400000, guid: 5670c4c98da89664e9ffddcd67510737, type: 2}
+        - {fileID: 11400000, guid: e333aeabfeaba214eb711dfbfdc3e905, type: 2}
+        - {fileID: 11400000, guid: 721cb73ea85d7b246afeb83525e486ee, type: 2}
+        - {fileID: 11400000, guid: 3f886520b75791145a0e1b8725ca7789, type: 2}
+        - {fileID: 11400000, guid: 997f370e43317a04c8de0f8df9ad4508, type: 2}
+        - {fileID: 11400000, guid: ab56929058ef6c944bdf8a6af0d4d4f1, type: 2}
+        - {fileID: 11400000, guid: 73f26bacc512c6c4580189183022e1dd, type: 2}
+      BreakStance:
+      - {fileID: 11400000, guid: 32fd807559c5e90408d316d8a4d84980, type: 2}
+      - {fileID: 11400000, guid: e3fcfed9212494c4fb5285d68c0207bf, type: 2}
+    extraSpeed: 0

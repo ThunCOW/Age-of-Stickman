@@ -7,6 +7,7 @@ using UnityEngine.Serialization;
 public class Unit : MonoBehaviour
 {
     [Header("Character Stats")]
+    public UnitRace Race;
     public GameObject HealthBar;
     public int HealthMax;
     [SerializeField] private int _Health;
@@ -111,7 +112,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            CheckUnitDirection();
+            SetUnitDirection();
             StartCoroutine(GetClosestUnitSearchCycle());
         }
     }
@@ -233,10 +234,21 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void CheckUnitDirection()
+    /// <summary>
+    /// Automatically turns current unit towards the target(enemy)
+    /// </summary>
+    public void SetUnitDirection()
     {
         // i.e if target is more on the right but unit is looking left, turn it right
         int lookDir = transform.position.x > target.transform.position.x ? -1 : 1;
+
+        transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
+    }
+
+    public void SetUnitDirection(int lookDir)
+    {
+        if (lookDir == 0)
+            return;
 
         transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
     }
@@ -265,4 +277,23 @@ public enum StanceList
     Stand_B_transition_A,
     Walking,
     Special
+}
+
+enum GameLayers
+{
+    Default,
+    TransparentFX,
+    IgnoreRaycast,
+    Empty,
+    Water,
+    UI,
+    Blood,
+    Blood2,
+    Ground,
+    Cut_Unit_Parts,
+    Gold,
+    Player,
+    Projectile,
+    Player_Interactible_Trigger,
+    DeadUnit,
 }

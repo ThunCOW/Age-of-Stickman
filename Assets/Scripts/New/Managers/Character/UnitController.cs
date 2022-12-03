@@ -14,11 +14,14 @@ public enum MoveDirection
 
 public class UnitController : MonoBehaviour
 {
-    protected BoxCollider2D boxCollider2;
+    [HideInInspector] [SerializeField] protected BoxCollider2D boxCollider2;
+    [HideInInspector] [SerializeField] protected Rigidbody2D rb2d;
 
-    public SkeletonAnimation spineSkeletonAnimation;
+    [HideInInspector] public SkeletonAnimation spineSkeletonAnimation;
+    [HideInInspector] public Animator ShadowAnimator;
 
-    protected Unit unit;
+    [HideInInspector][SerializeField] protected Unit unit;
+    [HideInInspector][SerializeField] protected EquipmentManager equipmentManager;
 
     protected bool canMove = true;
     [HideInInspector] public bool isAnimationStarted = false;   // Animations require direction to be consistent
@@ -53,12 +56,27 @@ public class UnitController : MonoBehaviour
     public OnControlsDisabled ResetAttachments;
 
     // Start is called before the first frame update
+
+    protected virtual void OnValidate()
+    {
+        if (ShadowAnimator == null)
+            ShadowAnimator = GetComponentInChildren<Animator>();
+        if (boxCollider2 == null)
+            boxCollider2 = GetComponent<BoxCollider2D>();
+        if (rb2d == null)
+            rb2d = GetComponent<Rigidbody2D>();
+        if (unit == null)
+            unit = GetComponent<Unit>();
+        if (equipmentManager == null)
+            equipmentManager = GetComponent<EquipmentManager>();
+        if (spineSkeletonAnimation == null)
+            spineSkeletonAnimation = GetComponent<SkeletonAnimation>();
+        if (ShadowAnimator == null)
+            ShadowAnimator = GetComponent<Animator>();
+    }
+
     protected virtual void Start()
     {
-        boxCollider2 = GetComponent<BoxCollider2D>();
-
-        unit = GetComponent<Unit>();
-
         spineSkeletonAnimation.state.Event += HandleAnimationStateEvent;
 
         defaultSpeed = speed;
@@ -66,11 +84,23 @@ public class UnitController : MonoBehaviour
         LeftWallPosition = GameManager.Instance.LevelBordersParent.transform.GetChild(0);
         RightWallPosition = GameManager.Instance.LevelBordersParent.transform.GetChild(1);
 
-        GameManager.DisableAllControls += GamePaused;
-        GameManager.EnableAllControls += GameContinue;
-
         EquipmentManager tempEM = GetComponent<EquipmentManager>();
         tempEM.OnArrowRelease += ProjectileRelease;
+
+        SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.Movement.SpineAnimationReference, 0);
+        SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+        for(int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+        {
+            SetMixBetweenAnimation(unit.activeAnimations.BreakStance[i].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+            SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+
+            SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+        }
+
+        GameManager.DisableAllControls += DisableControls;
+        GameManager.EnableAllControls += EnableControls;
     }
 
     // Update is called once per frame
@@ -80,7 +110,7 @@ public class UnitController : MonoBehaviour
         {
             if (unit.Health > 0) // Only if alive
             {
-                if (idleing == true && unit.target != null) unit.CheckUnitDirection();        // Turns towards target while in idle only
+                if (idleing == true && unit.target != null) unit.SetUnitDirection();        // Turns towards target while in idle only
 
                 CharacterControls();
             }
@@ -183,6 +213,8 @@ public class UnitController : MonoBehaviour
             currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
         }
     }
+
+    // Moved over to Projectile script
     public void ProjectileDamage()
     {
         int dir;
@@ -199,177 +231,47 @@ public class UnitController : MonoBehaviour
             Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
 
         unit.target.unitController.TakeDamage(currentAttack, damageDealt, dir);
-    }
+    }       
+
     public void ProjectileRelease()
     {
-        Instantiate(unit.Projectile, unit.gameObject.transform);
+        GameObject projectile = Instantiate(unit.Projectile, unit.gameObject.transform);
+        projectile.GetComponent<Projectile>().projectileAttack = currentAttack;
 
         currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
     }
 
-    public virtual void TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0)
+    /// <summary>
+    /// Returns true when hit succesfully damaged
+    /// </summary>
+    public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false)
     {
         if(blockTrigger)
         {
             SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
 
-            return;
+            //unit.SetUnitDirection(attackDirection * -1);
+            return false;
         }
         if(resurrectionState)
         {
             attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
-            return;
+            return false;
         }
 
         attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
         unit.Health -= DamageTaken;
+
+        equipmentManager.ResetAttachments();
+
         if (unit.Health <= 0)
         {
-            if(unit.CompareTag(GameManager.PLAYER_TAG))
-            {
-                if (GameManager.Instance.PlayerLives == 0)
-                {
-                    // Player Dies bring up you are dead screen
-                }
-                else
-                {
-                    // Player Lives Decreases
-                    GameManager.Instance.PlayerLivesChange(-1);
-
-                    unit.CheckUnitDirection();
-                    StopAllCoroutines();
-
-                    StartCoroutine(PlayerDown());
-                    return;
-                }
-            }
-
-            boxCollider2.enabled = false;
-
-            if(isBoss)
-            {
-                //canMove = false;
-                
-                BossDead();
-
-                unit.target.unitController.BossDead();
-
-                if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
-                {
-                    GameManager.Instance.EnemyUnits.Remove(unit);
-                }
-                else
-                    GameManager.Instance.AllyUnits.Remove(unit);
-
-                GameObject finishLevelTrigger = RightWallPosition.GetChild(0).gameObject;
-                finishLevelTrigger.transform.position = new Vector3(GameManager.Instance.Player.transform.position.x + 7.7f, finishLevelTrigger.transform.position.y, 0);
-                finishLevelTrigger.SetActive(true);
-                
-                    //GameManager.Instance.sortManager.RemoveFromOrder(unit);
-                return;
-            }
-            unit.CheckUnitDirection();
-            StopAllCoroutines();
-
-            canMove = false;
-
-            int randomDeath = 0;
-            List<DeathAnimation> deathAnimation;
-            DeathAnimation tempDeathAnim = null;
-            switch (attack.attackRegion)
-            {
-                case HitRegion.High:
-                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                    break;
-                case HitRegion.Mid:
-                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                    break;
-                case HitRegion.Low:
-                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                    break;
-                default:
-                    break;
-            }
-            if (tempDeathAnim is DeathByDismemberAnimation)
-                DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
-            
-            // Dead enemies drop gold ( boss tag exc )
-            if(gameObject.CompareTag(GameManager.ENEMY_TAG))
-            {
-                // There should be a chance for enemy to drop like 10 gold and play gold sound at higher levels
-
-                //GameManager.Instance.Level
-
-                int goldAmount = 0;
-                int dropChance = 0;
-                dropChance = Random.Range(0, 100);
-                if(GameManager.Instance.Level <= 3)
-                {
-                    if(dropChance > 80)
-                    {
-                        goldAmount = 1;
-                        goldAmount += Random.Range(0, 2);
-                        goldAmount += Random.Range(0, 2);
-
-                        GoldDrop(goldAmount);
-                    }
-                }
-                else if(GameManager.Instance.Level > 3 && GameManager.Instance.Level <= 7)
-                {
-                    if(dropChance > 70)
-                    {
-                        goldAmount = 2;
-                        goldAmount -= Random.Range(0, 2);
-                        goldAmount += Random.Range(0, 2);
-                        GoldDrop(goldAmount);
-                    }
-                }
-                else if(GameManager.Instance.Level > 7 && GameManager.Instance.Level <= 15)
-                {
-                    if (dropChance > 60)
-                    {
-                        goldAmount = 3;
-                        goldAmount -= Random.Range(0, 3);
-                        goldAmount += Random.Range(0, 4);
-                        GoldDrop(goldAmount);
-                    }
-                }
-                else
-                {
-                    if (dropChance > 40)
-                    {
-                        goldAmount = 6;
-                        goldAmount -= Random.Range(0, 4);
-                        goldAmount += Random.Range(0, 5);
-                        GoldDrop(goldAmount);
-                    }
-                }
-            }
-
-
-            if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
-            {
-                GameManager.Instance.EnemyUnits.Remove(unit);
-                // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
-                GameManager.Instance.LeftSpawn.Remove(gameObject);
-            }
-            else
-                GameManager.Instance.AllyUnits.Remove(unit);
-
-            GameManager.Instance.sortManager.RemoveFromOrder(unit);
+            UnitDead(attack, attackDirection);
         }
-        else if(unit.activeAnimations.Hurt == null)
+        // This part is for bossess, gonna leave it for now, only bosses dont have hurt anim
+        else if (unit.activeAnimations.Hurt == null)
         {
             if(attack.attackType == AttackType.Casual)
             {
@@ -377,15 +279,16 @@ public class UnitController : MonoBehaviour
             }
             else
             {
-                unit.CheckUnitDirection();
+                unit.SetUnitDirection();
 
                 StopAllCoroutines();
                 StartCoroutine(StunnedFor(attack));
             }
         }
+        // Unit got hurt,
         else
         {
-            unit.CheckUnitDirection();
+            if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
 
             StopAllCoroutines();
             StartCoroutine(StunnedFor(attack));
@@ -397,28 +300,181 @@ public class UnitController : MonoBehaviour
             blood_go.transform.position = new Vector3(transform.position.x, attack.hitHeightPosiiton, unit.bloodObject.transform.position.z);
         }
 
-        // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
-        if (CompareTag(GameManager.ENEMY_TAG))
-            GameManager.Instance.LeftSpawn.Remove(gameObject);
+        if(isProjectile)
+        {
+            bool isHitFromBehind = false;
+            if (attackDirection == transform.localScale.x)
+                isHitFromBehind = true;
+            
+            equipmentManager.ArrowOnBody(isHitFromBehind);
+        }
+        
+        return true;
     }
 
-    public void BossDead()
+    protected virtual void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
     {
-        StopAllCoroutines();
+        //boxCollider2.enabled = false;
+        gameObject.layer = ((int)GameLayers.DeadUnit);
+        rb2d.bodyType = RigidbodyType2D.Static;
+
+        if (isBoss)
+        {
+            //canMove = false;
+
+            BossDead();
+
+            unit.target.unitController.BossDead();
+
+            if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
+            {
+                GameManager.Instance.EnemyUnits.Remove(unit);
+            }
+            else
+                GameManager.Instance.AllyUnits.Remove(unit);
+
+            GameObject finishLevelTrigger = RightWallPosition.GetChild(0).gameObject;
+            finishLevelTrigger.transform.position = new Vector3(GameManager.Instance.Player.transform.position.x + 7.7f, finishLevelTrigger.transform.position.y, 0);
+            finishLevelTrigger.SetActive(true);
+
+            //GameManager.Instance.sortManager.RemoveFromOrder(unit);
+            return;
+        }
+        unit.SetUnitDirection(attackDirection * -1);
+        StopRoutine();
+
+        canMove = false;
+
+        int randomDeath = 0;
+        List<DeathAnimation> deathAnimation;
+        DeathAnimation tempDeathAnim = null;
+        switch (attack.attackRegion)
+        {
+            case HitRegion.High:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
+                randomDeath = Random.Range(0, deathAnimation.Count);
+                tempDeathAnim = deathAnimation[randomDeath];
+                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                if (tempDeathAnim.ShadowAnimation != null)
+                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+                break;
+            case HitRegion.Mid:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
+                randomDeath = Random.Range(0, deathAnimation.Count);
+                tempDeathAnim = deathAnimation[randomDeath];
+                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                if (tempDeathAnim.ShadowAnimation != null)
+                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+                break;
+            case HitRegion.Low:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
+                randomDeath = Random.Range(0, deathAnimation.Count);
+                tempDeathAnim = deathAnimation[randomDeath];
+                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                if (tempDeathAnim.ShadowAnimation != null)
+                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+                break;
+            default:
+                break;
+        }
+        if (tempDeathAnim is DeathByDismemberAnimation)
+            DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+
+        // Dead enemies drop gold ( boss tag exc )
+        if (gameObject.CompareTag(GameManager.ENEMY_TAG))
+        {
+            // There should be a chance for enemy to drop like 10 gold and play gold sound at higher levels
+
+            //GameManager.Instance.Level
+
+            int goldAmount = 0;
+            int dropChance = 0;
+            dropChance = Random.Range(0, 100);
+            if (GameManager.Instance.Level <= 3)
+            {
+                if (dropChance > 60)
+                {
+                    goldAmount = 1;
+                    goldAmount += Random.Range(0, 2);
+                    goldAmount += Random.Range(0, 2);
+
+                    GoldDrop(goldAmount);
+                }
+            }
+            else if (GameManager.Instance.Level > 3 && GameManager.Instance.Level <= 7)
+            {
+                if (dropChance > 50)
+                {
+                    goldAmount = 2;
+                    goldAmount -= Random.Range(0, 2);
+                    goldAmount += Random.Range(0, 2);
+                    GoldDrop(goldAmount);
+                }
+            }
+            else if (GameManager.Instance.Level > 7 && GameManager.Instance.Level <= 15)
+            {
+                if (dropChance > 50)
+                {
+                    goldAmount = 3;
+                    goldAmount -= Random.Range(0, 3);
+                    goldAmount += Random.Range(0, 4);
+                    GoldDrop(goldAmount);
+                }
+            }
+            else
+            {
+                if (dropChance > 40)
+                {
+                    goldAmount = 6;
+                    goldAmount -= Random.Range(0, 4);
+                    goldAmount += Random.Range(0, 5);
+                    GoldDrop(goldAmount);
+                }
+            }
+        }
+
+
+        if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
+        {
+            GameManager.Instance.EnemyUnits.Remove(unit);
+            // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
+            GameManager.Instance.LeftSpawn.Remove(gameObject);
+        }
+        else
+            GameManager.Instance.AllyUnits.Remove(unit);
+
+        GameManager.Instance.sortManager.RemoveFromOrder(unit);
+    }
+    protected void BossDead()
+    {
+        StopRoutine();
 
         CinematicAction cAnim = GetComponent<CinematicAction>();
 
         if(gameObject.CompareTag(GameManager.PLAYER_TAG))
         {
-            ResetAttachments();
+            if (unit.target.CompareTag(GameManager.SPEARMASTER_TAG))
+            {
+                ResetAttachments();
             
-            GameManager.Instance.DisableControls = true;
+                GameManager.Instance.DisableControls = true;
             
-            StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
+                StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
 
-            ReStartCoroutines();
+                ReStartCoroutines();
+            }
+            else if(unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
+            {
+                ResetAttachments();
+
+                GameManager.Instance.DisableControls = true;
+
+                StartCoroutine(PlayCinematicAnimation(cAnim.SycthemasterDead, true));
+
+                ReStartCoroutines();
+            }
         }
-        else
+        else if(gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
         {
             unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
 
@@ -444,51 +500,48 @@ public class UnitController : MonoBehaviour
 
             StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, false));
         }
-    }
+        else if(gameObject.CompareTag(GameManager.SCYTHEMASTER_TAG))
+        {
+            unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
 
-    private IEnumerator PlayerDown()
-    {
-        // Play down animation
-        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion[0].SpineAnimationReference, false);
-        boxCollider2.enabled = false;
-        
-        canMove = false;
-
-        GameManager.Instance.AllyUnits.Remove(unit);
-        
-        yield return new WaitForSeconds(3);
-
-        // Resurrect Animation
-        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, false);
-        yield return new WaitForSpineAnimationComplete(track);
-        // Wait until resurrection animation ends
-
-        unit.Health = unit.HealthMax;
-        // Player regains control
-        boxCollider2.enabled = true;
-        
-        ReStartCoroutines();
-        
-        canMove = true;
-        
-        GameManager.Instance.AllyUnits.Add(unit);
-        //
-
-        resurrectionState = true;
-        // Play untouchble animation
-        yield return new WaitForSeconds(6);
-        resurrectionState = false;
+            StartCoroutine(PlayCinematicAnimation(cAnim.SycthemasterDead, false));
+        }
     }
 
     protected void DismemberBody(DeathByDismemberAnimation deathAnimation)
     {
-        if (deathAnimation.CutPart != null)
+
+        // Instead of making directories of Race and BodyPart i just follow the orders of enum ( lazy )
+        GameObject tempRefBodyPart = GameManager.Instance.BodyPartSO.BodyPartByRace[(int)unit.Race].BodyParts[(int)deathAnimation.BodyPart].BodyPartPrefab;
+
+        // Spawn Body Part and set initial position and scales
+        Vector3 cutSpawnPos = tempRefBodyPart.transform.position;
+        GameObject cut_part = Instantiate(tempRefBodyPart, gameObject.transform);
+        cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
+        cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x * tempRefBodyPart.transform.localScale.x, tempRefBodyPart.transform.localScale.y, tempRefBodyPart.transform.localScale.z);
+        // Head part
+        if (deathAnimation.BodyPart == BodyPartType.Head)
         {
-            // Spawn Body Part and set initial position and scales
-            Vector3 cutSpawnPos = deathAnimation.CutPart.transform.position;
-            GameObject cut_part = Instantiate(deathAnimation.CutPart, gameObject.transform);
-            cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
-            cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, 1, 1);
+            /*if (deathAnimation.CutPart != null)
+            {
+                // Spawn Body Part and set initial position and scales
+                Vector3 cutSpawnPos = deathAnimation.CutPart.transform.position;
+                GameObject cut_part = Instantiate(deathAnimation.CutPart, gameObject.transform);
+                cut_part.transform.localPosition = new Vector3(cutSpawnPos.x, cutSpawnPos.y, cutSpawnPos.z);
+                cut_part.transform.localScale = new Vector3(cut_part.transform.parent.transform.localScale.x, 1, 1);
+
+                // Randomize a fling degree and get vector equivalent
+                float degree = Random.Range(0, 180);
+                float degreeToRad = degree * Mathf.Deg2Rad;
+                Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+
+                // Add speed on X and Y axis calculated above, force amount is also randomized
+                cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(300, 500));
+
+                // Add torque to make it spin around
+                int torqDir = radToVec2.x > 0 ? -1 : 1;
+                cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
+            }*/
 
             // Randomize a fling degree and get vector equivalent
             float degree = Random.Range(0, 180);
@@ -501,6 +554,21 @@ public class UnitController : MonoBehaviour
             // Add torque to make it spin around
             int torqDir = radToVec2.x > 0 ? -1 : 1;
             cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(40, 100) * torqDir, ForceMode2D.Force);
+        }
+        // Leg part
+        else
+        {
+            // Randomize a fling degree and get vector equivalent
+            float degree = Random.Range(0, -180);
+            float degreeToRad = degree * Mathf.Deg2Rad;
+            Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+
+            // Add speed on X and Y axis calculated above, force amount is also randomized
+            cut_part.GetComponent<Rigidbody2D>().AddForce(radToVec2 * Random.Range(100, 200));
+
+            // Add torque to make it spin around
+            int torqDir = radToVec2.x > 0 ? -1 : 1;
+            cut_part.GetComponent<Rigidbody2D>().AddTorque(Random.Range(15, 30) * torqDir, ForceMode2D.Force);
         }
     }
 
@@ -544,11 +612,14 @@ public class UnitController : MonoBehaviour
         isAnimationStarted = true;                                      // prevents direction to become 0 and stop movement (for player)
 
         speed = 0f;                                                     // speed is now controlled by speed curve
-
-        if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
-            direction = MoveDirection.left;
-        else
-            direction = MoveDirection.right;
+        
+        if(unit.target != null)
+        {
+            if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
+                direction = MoveDirection.left;
+            else
+                direction = MoveDirection.right;
+        }
 
         if(changeStance)
         {
@@ -577,6 +648,9 @@ public class UnitController : MonoBehaviour
             default:
                 break;
         }
+        // TODO : I set mix time every time here, it could be set in Start for once too
+        SetMixBetweenAnimation(spineSkeletonAnimation.state.GetCurrent(1).Animation.Name, stunAnimation.SpineAnimationReference.Animation.Name, 0f);
+
         spineSkeletonAnimation.state.SetAnimation(1, stunAnimation.SpineAnimationReference, false).TimeScale = 1f;
         //StartCoroutine(WaitForEndOfAnimation(stunAnimation.SpineAnimationReference.Animation.Duration));
 
@@ -608,10 +682,17 @@ public class UnitController : MonoBehaviour
 
     protected virtual void ReStartCoroutines() { }
 
+    protected virtual void StopRoutine()
+    {
+        StopAllCoroutines();
+    }
+
     // Changes the speed during animation
     protected IEnumerator SpeedDuringAnimation(CloseCombatAnimation Attack)
     {
         idleing = false;
+
+        isAnimationStarted = true;
 
         speed = 0;
         
@@ -657,10 +738,6 @@ public class UnitController : MonoBehaviour
 
             yield return new WaitForSeconds(Attack.SpineAnimationReference.Animation.Duration);
 
-            idleing = true;
-
-            currentAttack = null;
-
             if (changeStance)
             {
                 if (unit.currentStance == StanceList.Stand_A)
@@ -673,6 +750,11 @@ public class UnitController : MonoBehaviour
 
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
 
+            idleing = true;
+
+            currentAttack = null;
+
+            isAnimationStarted = false;
             yield break;
         }
 
@@ -694,15 +776,6 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = Attack.speedCurve.Evaluate(animationCurrentTime);
             yield return null;
         }
-        speed = defaultSpeed;
-
-        speedRelativeToAnimation = 0;
-
-        direction = MoveDirection.waiting;
-
-        idleing = true;
-
-        currentAttack = null;
 
         if (changeStance)
         {
@@ -715,10 +788,24 @@ public class UnitController : MonoBehaviour
         }
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+        speed = defaultSpeed;
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        idleing = true;
+
+        isAnimationStarted = false;
+
+        currentAttack = null;
     }
     protected IEnumerator SpeedDuringAnimation(SpeedDependantAnimation Animation)
     {
         idleing = false;
+
+        isAnimationStarted = true;
 
         speed = 0;
 
@@ -729,10 +816,6 @@ public class UnitController : MonoBehaviour
             direction = MoveDirection.waiting;
 
             yield return new WaitForSeconds(Animation.SpineAnimationReference.Animation.Duration);
-
-            idleing = true;
-
-            currentAttack = null;
 
             if (changeStance)
             {
@@ -745,6 +828,12 @@ public class UnitController : MonoBehaviour
             }
 
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            idleing = true;
+
+            currentAttack = null;
+
+            isAnimationStarted = false;
 
             yield break;
         }
@@ -767,15 +856,6 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = Animation.speedCurve.Evaluate(animationCurrentTime);
             yield return null;
         }
-        speed = defaultSpeed;
-
-        speedRelativeToAnimation = 0;
-
-        direction = MoveDirection.waiting;
-
-        idleing = true;
-
-        currentAttack = null;
 
         if (changeStance)
         {
@@ -788,6 +868,18 @@ public class UnitController : MonoBehaviour
         }
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+        speed = defaultSpeed;
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        idleing = true;
+
+        isAnimationStarted= false;
+
+        currentAttack = null;
     }
 
     protected IEnumerator PlayCinematicAnimation(SpeedDependantAnimation Animation, bool continueIdle = false)
@@ -795,9 +887,14 @@ public class UnitController : MonoBehaviour
         TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, Animation.SpineAnimationReference, false);
         var completeOrEnd = WaitForSpineAnimation.AnimationEventTypes.Complete | WaitForSpineAnimation.AnimationEventTypes.End;
 
+        //isAnimationStarted = true;
+
         idleing = false;
 
         speed = 0;
+
+        if (Animation.ShadowAnimation != null)
+            ShadowAnimator.Play(Animation.ShadowAnimation.name);
 
         if (Animation.speedCurve.Evaluate(0) == 0)
         {
@@ -806,10 +903,6 @@ public class UnitController : MonoBehaviour
             direction = MoveDirection.waiting;
 
             yield return new WaitForSpineAnimation(track, completeOrEnd);
-            
-            idleing = true;
-
-            currentAttack = null;
 
             if (changeStance)
             {
@@ -822,6 +915,12 @@ public class UnitController : MonoBehaviour
             }
 
             if (continueIdle) spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            idleing = true;
+
+            currentAttack = null;
+
+            isAnimationStarted = false;
 
             yield break;
         }
@@ -837,11 +936,29 @@ public class UnitController : MonoBehaviour
         
         // lasts until animation ends
         float animationCurrentTime = 0;
+        //Time.timeScale = 0.2f;
         while (track.IsComplete == false)
         {
             animationCurrentTime += Time.deltaTime;
             speedRelativeToAnimation = Animation.speedCurve.Evaluate(animationCurrentTime);
-            yield return null;
+            yield return new WaitForFixedUpdate();
+        }
+
+        if (changeStance)
+        {
+            if (unit.currentStance == StanceList.Stand_A)
+                unit.currentStance = StanceList.Stand_B;
+            else if (unit.currentStance == StanceList.Stand_B)
+                unit.currentStance = StanceList.Stand_A;
+
+            changeStance = false;
+        }
+
+        if (continueIdle)
+        {
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            GameManager.Instance.DisableControls = false;
         }
 
         speed = defaultSpeed;
@@ -855,42 +972,28 @@ public class UnitController : MonoBehaviour
         currentAttack = null;
 
         isAnimationStarted = false;                                     // direction released (for player)
-
-        if (changeStance)
-        {
-            if (unit.currentStance == StanceList.Stand_A)
-                unit.currentStance = StanceList.Stand_B;
-            else if (unit.currentStance == StanceList.Stand_B)
-                unit.currentStance = StanceList.Stand_A;
-
-            changeStance = false;
-        }
-
-        if(continueIdle) spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
     }
 
-    protected IEnumerator PlayCasualAnimation(BasicAnimation Animation)
+    public void SetMixBetweenAnimation(AnimationReferenceAsset from, AnimationReferenceAsset to, float mixDuration)
     {
-        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, Animation.SpineAnimationReference, false);
-        var completeOrEnd = WaitForSpineAnimation.AnimationEventTypes.Complete | WaitForSpineAnimation.AnimationEventTypes.End;
+        if (from == null || to == null)
+            return;
 
-        idleing = false;
+        spineSkeletonAnimation.AnimationState.Data.SetMix(from.Animation.Name, to.Animation.Name, mixDuration);
+    }
+    public void SetMixBetweenAnimation(string from, string to, float mixDuration)
+    {
+        if (from == null || to == null)
+            return;
 
-        isAnimationStarted = true;
-
-        speed = 0;
-
-        direction = MoveDirection.waiting;
-
-        yield return new WaitForSpineAnimation(track, completeOrEnd);
-
-        idleing = true;
-
-        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+        spineSkeletonAnimation.AnimationState.Data.SetMix(from, to, mixDuration);
     }
 
+    protected virtual void DisableControls() { }
+    protected virtual void EnableControls() { }
     protected virtual void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
+        Debug.Log(e.Data.Name);
         switch (e.Data.Name)
         {
             case "MeleeAttack":
@@ -918,29 +1021,24 @@ public class UnitController : MonoBehaviour
                     currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
                 }
                 break;
-
+            case "Shadow Events/Shadow_Hide":
+                ShadowAnimator.gameObject.SetActive(false);
+                break;
+            case "Shadow Events/Shadow_Show":
+                ShadowAnimator.gameObject.SetActive(true);
+                break;
             default:
                 break;
         }
     }
 
-    void GamePaused()
-    {
-
-    }
-
-    void GameContinue()
-    {
-
-    }
-
     protected virtual void OnDestroy()
     {
-        GameManager.EnableAllControls -= GameContinue;
-        GameManager.DisableAllControls -= GamePaused;
+        GameManager.EnableAllControls -= EnableControls;
+        GameManager.DisableAllControls -= DisableControls;
     }
 
-    void Test()
+    void TestDamage()
     {
         List<double> damage = new List<double>();
         Dictionary<int, List<double>> dictDmg = new Dictionary<int, List<double>>();
@@ -1034,4 +1132,5 @@ public class UnitController : MonoBehaviour
             
         //}
     }
+    
 }

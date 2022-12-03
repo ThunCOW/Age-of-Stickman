@@ -21,8 +21,11 @@ public class SpawnManager : MonoBehaviour
         set { _spawnTimer = value; }
     }
     private float nextSpawnTimer;
-    public int maxSpawn;
-    public int maxEnemyOnScreen;
+    public int maxSpawn;                                                // Total amount of unit that can be spawned
+    public int maxEnemyOnScreen;                                        // Max enemy that can be alive on the screen, so that player is not overwhelmed
+    public int maxDeadEnemyOnScreen;                                    // So that dead units does not stack on screen, to prevent cluttering the screen ( looks ugly imo )
+    public int GroupSpawnCount;                                         // Player gets some time to move after a group dies
+    private int _groupSpawnCount;
 
     [HideInInspector] public List<Transform> spawnPosList;
 
@@ -35,7 +38,7 @@ public class SpawnManager : MonoBehaviour
     public static bool isBossSpawned;
 
     public delegate void OnSpawnBoss();
-    public static OnSpawnBoss SpearmasterSpawn;
+    public static OnSpawnBoss SpawnBossEvent;
 
     bool preparingForBossSpawn;
 
@@ -59,36 +62,79 @@ public class SpawnManager : MonoBehaviour
         transform.localPosition = new Vector2(0, transform.localPosition.y);
 
         nextSpawnTimer = spawnTimer;
-        
+
+        _groupSpawnCount = GroupSpawnCount;
+
+
         PlayerController.BossTrigger += SpawnBoss;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(GameManager.Instance.DisableControls == false)
+        if (GameManager.Instance.EnemyUnits.Count < maxEnemyOnScreen)
         {
-            if (maxSpawn > 0) 
-                if(maxEnemyOnScreen > GameManager.Instance.EnemyUnits.Count) 
-                    SpawnLogic();
+            if (GameManager.Instance.DisableControls == false)
+            {
+                if (!PlayerController.isWaitingForRes)
+                {
+                    if (maxSpawn > 0)
+                    {
+                        // Means there is too many dead body on screen
+                        if(DeadOnScreen.DeadUnitsOnScreen.Count >= maxDeadEnemyOnScreen)
+                        {
+                            // If player is at the end of level, continue to spawn
+                            if(PlayerController.hasPlayerReachedEndOfLevel)
+                            {
+                                SpawnLogic();
+                            }
+                        }
+                        // If dead unit on screen limit is not reached but total amount of alive + dead enemy unit
+                        // is bigger than limit + 1 ( can have 1 more spawn than limit, not more than that )
+                        else if(DeadOnScreen.DeadUnitsOnScreen.Count + GameManager.Instance.EnemyUnits.Count >= maxDeadEnemyOnScreen + 1)
+                        {
+                            SpawnLogic();
+                        }
+                        else
+                        {
+                            SpawnLogic();
+                        }
+                    }
+                }
+            }
         }
     }
 
+    float nextGroupCountDown = 10;
+    float _nextGroupCountDown = 10;
     void SpawnLogic()
     {
-        
+        // Spawning the boss ?
         if(preparingForBossSpawn)
         {
             if(GameManager.Instance.EnemyUnits.Count == 0)
                 nextSpawnTimer = nextSpawnTimer > 2 ? Random.Range(0, 1.5f) : nextSpawnTimer;
         }
-        else if(PlayerController.hasPlayerReachedEndOfLevel)
+        // If player has not reached to end yet, set spawn timer,
+        else if(!PlayerController.hasPlayerReachedEndOfLevel)
         {
-            nextSpawnTimer = Random.Range(0, 11f);
-        }
-        else
-        {
-            if (GameManager.Instance.EnemyUnits.Count == 0)
+            // If player has not reached to end yet, but a group is killed, wait for certain amount of time before start spawning again
+            if(_groupSpawnCount == 0)
+            {
+                if(_nextGroupCountDown > 0)
+                {
+                    _nextGroupCountDown -= Time.deltaTime;
+                    return;
+                }
+                else
+                {
+                    _groupSpawnCount = GroupSpawnCount / 2;
+                    _groupSpawnCount += Random.Range(0, GroupSpawnCount / 2);
+                    _nextGroupCountDown = nextGroupCountDown;
+                }
+            }
+            // If player has not reached to end yet, and there is no enemy on screen, spawn in within 3.5f second
+            else if (GameManager.Instance.EnemyUnits.Count == 0)
                 nextSpawnTimer = nextSpawnTimer > 4 ? Random.Range(0, 3.5f) : nextSpawnTimer;
         }
 
@@ -132,10 +178,19 @@ public class SpawnManager : MonoBehaviour
 
             maxSpawn--;
 
-            if (maxEnemyOnScreen > GameManager.Instance.EnemyUnits.Count)
-                nextSpawnTimer = spawnTimer * 2;
+
+
+            if (PlayerController.hasPlayerReachedEndOfLevel)
+            {
+                nextSpawnTimer = Random.Range(0, 11f);
+            }
             else
-                nextSpawnTimer = spawnTimer;
+            {
+                if (GameManager.Instance.EnemyUnits.Count >= maxEnemyOnScreen)
+                    nextSpawnTimer = spawnTimer * 2;
+                else
+                    nextSpawnTimer = spawnTimer;
+            }
             
             // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
             if (spawnPos == (Vector2)spawnPosList[1].position)
@@ -145,30 +200,28 @@ public class SpawnManager : MonoBehaviour
 
     void SpawnBoss(string BossTag)
     {
+        Debug.Log("SpawnBoss");
         switch (BossTag)
         {
-            case GameManager.SPEARMASTER_TAG:
-                StartCoroutine(SpawnBossAfterNoEnemy());
+            
+            case GameManager.SPEARMASTER_SPAWN_TAG:
+                StartCoroutine(SpawnSpearmasterAfterNoEnemy());
 
                 break;
-            case GameManager.SCYTHEMASTER_TAG:
-
+            case GameManager.SCYTHEMASTER_SPAWN_TAG:
+                StartCoroutine(SpawnSycthemasterAfterNoEnemy());
                 break;
             default:
                 break;
         }
     }
 
-    IEnumerator SpawnBossAfterNoEnemy()
+    IEnumerator SpawnSpearmasterAfterNoEnemy()
     {
+        Debug.Log("SpawnBossAfterNoEnemy");
         preparingForBossSpawn = true;
-
         maxSpawn = 1;
 
-        //while(maxSpawn != 0 && GameManager.Instance.EnemyUnits.Count != 0)
-        //{
-        //    yield return new WaitForFixedUpdate();
-        //}
         yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
 
         GameManager.Instance.DisableControls = true;
@@ -177,15 +230,42 @@ public class SpawnManager : MonoBehaviour
 
         GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
         
-        SpearmasterSpawn();
+        SpawnBossEvent();
 
-        yield return new WaitForSeconds(6);
+        yield return new WaitForSeconds(4.5f);
 
         float spawnPosX = GameManager.Instance.Player.transform.position.x + 13.5f + 10; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
         GameObject spawnedEnemyGO = Instantiate(SpearmasterPrefab, new Vector3(spawnPosX, SpearmasterPrefab.transform.position.y, 0), SpearmasterPrefab.transform.rotation);
 
         AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+    }
+
+    IEnumerator SpawnSycthemasterAfterNoEnemy()
+    {
+        Debug.Log("SpawnSycthemasterAfterNoEnemy");
+        preparingForBossSpawn = true;
+        maxSpawn = 1;
+
+
+        float LandPosX = GameManager.Instance.Player.transform.position.x + 12.35f;
+        Vector3 spawnPos = new Vector3(GameManager.Instance.Player.transform.position.x + 25, SycthemasterPrefab.transform.position.y, 0);
+        GameObject spawnedEnemyGO = Instantiate(SycthemasterPrefab, spawnPos, SycthemasterPrefab.transform.rotation);
+
+        AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
+        spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+
+        yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 1);
+
+        spawnedEnemyGO.GetComponent<AIController>().enabled = true;
+
+        GameManager.Instance.DisableControls = true;
+
+        isBossSpawned = true;
+
+        GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
+
+        SpawnBossEvent();
     }
 
     [System.Serializable]

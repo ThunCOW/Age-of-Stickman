@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine.Serialization;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class ParallaxGroup : MonoBehaviour
 {
     public GameObject Cam;
@@ -43,7 +44,7 @@ public class ParallaxGroup : MonoBehaviour
 
     private int order, cycleTime;
 
-    void FixedUpdate()
+    void Update()
     {
         float dist = (Cam.transform.position.x * ParallaxEffect);
 

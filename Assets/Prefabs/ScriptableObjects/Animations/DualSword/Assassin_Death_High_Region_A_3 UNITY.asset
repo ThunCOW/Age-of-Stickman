@@ -9,12 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f285f61d37a920c4e87d022875809a14, type: 3}
+  m_Script: {fileID: 11500000, guid: 41dcfb1d4a55d994299654e6bc2dcf73, type: 3}
   m_Name: Assassin_Death_High_Region_A_3 UNITY
   m_EditorClassIdentifier: 
   Prefix: Assassin
   AnimationName: Death_High_Region_A_3 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: d9fd6a3193ab1b34983a141f5e972496, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 566896725b42689488912f401ea8d754, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Assassin
   _AnimationNameChangeCheck: Death_High_Region_A_3 UNITY
   deathType: 0
+  CutPart: {fileID: 0}
+  spawnPosition: {x: 0, y: 0}
+  BodyPart: 0
