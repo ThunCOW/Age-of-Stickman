@@ -527,11 +527,7 @@ PrefabInstance:
       objectReference: {fileID: 2072018965}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: GroupSpawnCount
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
-      propertyPath: maxEnemyOnScreen
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: maxDeadEnemyOnScreen

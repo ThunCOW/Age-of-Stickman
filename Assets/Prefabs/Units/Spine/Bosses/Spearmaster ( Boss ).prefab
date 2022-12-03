@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5918015681973344377}
   - component: {fileID: 5918015680494077889}
-  - component: {fileID: 7521982824957581131}
   m_Layer: 0
   m_Name: Unit_Shadow
   m_TagString: Untagged
@@ -85,26 +84,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &7521982824957581131
-Animator:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5918015680494077888}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 0}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &5918015680693387121
 GameObject:
   m_ObjectHideFlags: 0
@@ -343,12 +322,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c913bc0bf9ad1542bceeb8eff12fb82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  boxCollider2: {fileID: 5918015681238482119}
-  rb2d: {fileID: 5918015681238482116}
   spineSkeletonAnimation: {fileID: 5918015680693387126}
-  ShadowAnimator: {fileID: 7521982824957581131}
-  unit: {fileID: 5918015681238482122}
-  equipmentManager: {fileID: 5918015681238482123}
+  ShadowAnimator: {fileID: 0}
   isAnimationStarted: 0
   extraSpeed: 0
   speed: 2
@@ -419,7 +394,6 @@ MonoBehaviour:
   HealthBar: {fileID: 5491818668541902069}
   InGameMovements: []
   SpearmasterDead: {fileID: 11400000, guid: e4819a433a1b7e747b06740e6d6e5474, type: 2}
-  SycthemasterDead: {fileID: 0}
 --- !u!1001 &2077888867105331035
 PrefabInstance:
   m_ObjectHideFlags: 0

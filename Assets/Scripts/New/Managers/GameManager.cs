@@ -252,7 +252,7 @@ namespace SpineControllerVersion
             else
                 Destroy(this.gameObject);
 
-            //QualitySettings.vSyncCount = 0;
+            QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
 
             LoadDataAsJson();
@@ -325,10 +325,10 @@ namespace SpineControllerVersion
 
             continueAfterEnemyDeadTextRoutine = StartCoroutine(TextAppearSlowly(continueAfterEnemyDeadTextSpawn.transform.GetChild(0).gameObject, 1.5f, 1.5f, -10));
 
-            StartCoroutine(ContinueWhenEnemyDeadEnd());
+            StartCoroutine(ContinueWhenEnemyDead());
         }
 
-        private IEnumerator ContinueWhenEnemyDeadEnd()
+        private IEnumerator ContinueWhenEnemyDead()
         {
             while(EnemyUnits.Count > 0)
             {
@@ -698,12 +698,12 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = a_SaveData.Gold;
+            Gold = 600;
             
             IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
             IsSpearmasterDead = false;
 
-            Level = a_SaveData.Level;
+            Level = 17;
 
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];

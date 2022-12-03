@@ -931,18 +931,26 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     protected override void DisableControls()
     {
-        if (GetComponent<Unit>().Health > 0)
-            unit.HealthBar.transform.parent.gameObject.SetActive(false);
-
         moveButton.Hold = false;
         moveButton.direction = MoveDirection.waiting;
         direction = MoveDirection.waiting;
         triggerCoroutine = null;
         DefendButtonCoroutine = null;
 
+
+        //canMove = false;
+
         idleing = false;
 
         isAnimationStarted = true;                                     // direction released (for player)
+
+        //speed = 0;                                                 // speed is now set to default speed level
+
+        //speedRelativeToAnimation = 0;
+
+        //currentAttack = null;
+
+        //HealthBar.SetActive(false);
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
     }
@@ -950,11 +958,23 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     protected override void EnableControls()
     {
         if (GetComponent<Unit>().Health > 0)
-            unit.HealthBar.transform.parent.gameObject.SetActive(true);
+            HealthBar.SetActive(true);
+
+        //canMove = true;
 
         idleing = true;
 
         isAnimationStarted = false;                                     // direction released (for player)
+
+        //speed = defaultSpeed;                                                 // speed is now set to default speed level
+
+        //speedRelativeToAnimation = 0;
+
+        //direction = MoveDirection.waiting;
+
+        //currentAttack = null;
+
+        //ReStartCoroutines();
     }
 
     protected override void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
