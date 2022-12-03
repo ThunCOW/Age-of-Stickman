@@ -742,10 +742,6 @@ public class UnitController : MonoBehaviour
 
             yield return new WaitForSeconds(Attack.SpineAnimationReference.Animation.Duration);
 
-            idleing = true;
-
-            currentAttack = null;
-
             if (changeStance)
             {
                 if (unit.currentStance == StanceList.Stand_A)
@@ -757,6 +753,10 @@ public class UnitController : MonoBehaviour
             }
 
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+            idleing = true;
+
+            currentAttack = null;
 
             yield break;
         }
@@ -779,17 +779,6 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = Attack.speedCurve.Evaluate(animationCurrentTime);
             yield return null;
         }
-        speed = defaultSpeed;
-
-        speedRelativeToAnimation = 0;
-
-        direction = MoveDirection.waiting;
-
-        idleing = true;
-
-        isAnimationStarted = false;
-
-        currentAttack = null;
 
         if (changeStance)
         {
@@ -802,6 +791,18 @@ public class UnitController : MonoBehaviour
         }
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+        speed = defaultSpeed;
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        idleing = true;
+
+        isAnimationStarted = false;
+
+        currentAttack = null;
     }
     protected IEnumerator SpeedDuringAnimation(SpeedDependantAnimation Animation)
     {
