@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Farmer
   AnimationName: Death_Low_Region_B_1.1
-  SpineAnimationReference: {fileID: 11400000, guid: 0ea948f9711a6b946adeb924778f2e26, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 63eeb5b859b55e441b7a3324f0eae56f, type: 2}
   ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: Farmer
   _AnimationNameChangeCheck: Death_Low_Region_B_1.1
   deathType: 0
+  bloodAnimation: {fileID: 7400000, guid: cc945950dbe8f5a4f96ee15c9fc92bfa, type: 2}
   CutPart: {fileID: 0}
   spawnPosition: {x: 0, y: 0}
   BodyPart: 1

@@ -74,10 +74,16 @@ public class UnitController : MonoBehaviour
 
             ShadowAnimator = tempAnimator.GetComponent<Animator>();
         }
-        if(BleedingAnimator == null)
-            gameObject.transform.Find("Bleed Animator");
+        if (BleedingAnimator == null)
+        {
+            if (gameObject.transform.Find("Bleeding") == null)
+                Debug.LogError("Bleeding animator not found!, GOname:" + gameObject.name);
+            else
+                BleedingAnimator = gameObject.transform.Find("Bleeding").GetChild(0).GetComponent<Animator>();
+        }
         
         if (CompareTag(GameManager.SCYTHEMASTER_TAG) || CompareTag(GameManager.SPEARMASTER_TAG)) isBoss = true;
+
     }
 
     protected virtual void Start()
@@ -351,39 +357,38 @@ public class UnitController : MonoBehaviour
         canMove = false;
 
         int randomDeath = 0;
-        List<DeathAnimation> deathAnimation;
+        List<DeathAnimation> deathAnimation = null;
         DeathAnimation tempDeathAnim = null;
         switch (attack.attackRegion)
         {
             case HitRegion.High:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
-                randomDeath = Random.Range(0, deathAnimation.Count);
-                tempDeathAnim = deathAnimation[randomDeath];
-                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                if (tempDeathAnim.ShadowAnimation != null)
-                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
                 break;
             case HitRegion.Mid:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
-                randomDeath = Random.Range(0, deathAnimation.Count);
-                tempDeathAnim = deathAnimation[randomDeath];
-                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                if (tempDeathAnim.ShadowAnimation != null)
-                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
                 break;
             case HitRegion.Low:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
-                randomDeath = Random.Range(0, deathAnimation.Count);
-                tempDeathAnim = deathAnimation[randomDeath];
-                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                if (tempDeathAnim.ShadowAnimation != null)
-                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
                 break;
             default:
                 break;
         }
+        randomDeath = Random.Range(0, deathAnimation.Count);
+        tempDeathAnim = deathAnimation[randomDeath];
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false);
+        
+        // Dismember body part
         if (tempDeathAnim is DeathByDismemberAnimation)
             DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+        // Play shadow animation
+        if (tempDeathAnim.ShadowAnimation != null)
+            ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+        
+        // Play bleeding animation after death animation completes
+        StartCoroutine(BloodAnimationAfterDeath(trackEntry, tempDeathAnim));
+        /*
+         * *
+        */
 
         // Dead enemies drop gold ( boss tag exc )
         if (gameObject.CompareTag(GameManager.ENEMY_TAG))
@@ -449,6 +454,14 @@ public class UnitController : MonoBehaviour
             GameManager.Instance.AllyUnits.Remove(unit);
 
         GameManager.Instance.sortManager.RemoveFromOrder(unit);
+    }
+    protected IEnumerator BloodAnimationAfterDeath(TrackEntry trackEntry, DeathAnimation tempDeathAnim) // If coroutines stops this will not play
+    {
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+
+        // Play bleed animation
+        if (tempDeathAnim.bloodAnimation != null)
+            BleedingAnimator.Play(tempDeathAnim.bloodAnimation.name);
     }
     protected void BossDead()
     {

@@ -360,33 +360,39 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             canMove = false;
 
             int randomDeath = 0;
-            List<DeathAnimation> deathAnimation;
+            List<DeathAnimation> deathAnimation = null;
             DeathAnimation tempDeathAnim = null;
             switch (attack.attackRegion)
             {
                 case HitRegion.High:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
                     break;
                 case HitRegion.Mid:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
                     break;
                 case HitRegion.Low:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
                     break;
                 default:
                     break;
             }
+            randomDeath = Random.Range(0, deathAnimation.Count);
+            tempDeathAnim = deathAnimation[randomDeath];
+            TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false);
+
+            // Dismember body part
             if (tempDeathAnim is DeathByDismemberAnimation)
                 DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+            // Play shadow animation
+            if (tempDeathAnim.ShadowAnimation != null)
+                ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+
+            // Play bleeding animation after death animation completes
+            StartCoroutine(BloodAnimationAfterDeath(trackEntry, tempDeathAnim));
+
+            /*
+             * *
+            */
 
 
             if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))

@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Zweihander
   AnimationName: Death_Region_High_A_1.4 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: c56e1781c7d31df48a5415fd43059e50, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 105845531252b6a468622894968e924e, type: 2}
   ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Zweihander
   _AnimationNameChangeCheck: Death_Region_High_A_1.4 UNITY
   deathType: 0
+  bloodAnimation: {fileID: 7400000, guid: cc945950dbe8f5a4f96ee15c9fc92bfa, type: 2}
