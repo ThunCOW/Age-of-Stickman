@@ -112,7 +112,7 @@ public class Unit : MonoBehaviour
         }
         else
         {
-            SetUnitDirection();
+            TurnTowardsTarget();
             StartCoroutine(GetClosestUnitSearchCycle());
         }
     }
@@ -237,7 +237,7 @@ public class Unit : MonoBehaviour
     /// <summary>
     /// Automatically turns current unit towards the target(enemy)
     /// </summary>
-    public void SetUnitDirection()
+    public void TurnTowardsTarget()
     {
         // i.e if target is more on the right but unit is looking left, turn it right
         int lookDir = transform.position.x > target.transform.position.x ? -1 : 1;

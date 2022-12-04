@@ -482,7 +482,6 @@ namespace SpineControllerVersion
 
                 yield return new WaitForFixedUpdate();
             }
-
             Destroy(TextSpawn);
         }
         public IEnumerator TextAppearSlowly(GameObject TextSpawn, float movementTime = 1.5f, float waitUntilFullAlpha = 1.5f, float speed = 10)

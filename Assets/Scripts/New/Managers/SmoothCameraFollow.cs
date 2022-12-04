@@ -79,7 +79,7 @@ public class SmoothCameraFollow : MonoBehaviour
         //RightWallPosition.position = new Vector2(RightWallPosition.transform.position.x - 4, RightWallPosition.transform.position.y);
         RightWallCheckAtEnd += 4;
 
-        PlayerController.hasPlayerReachedEndOfLevel = true;
+        (GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel = true;
 
         StartCoroutine(IsPlayerWaitingAtEnd());
     }
@@ -96,7 +96,7 @@ public class SmoothCameraFollow : MonoBehaviour
         //RightWallPosition.position = new Vector2(RightWallPosition.transform.position.x + 4, RightWallPosition.transform.position.y);
         RightWallCheckAtEnd -= 4;
 
-        PlayerController.hasPlayerReachedEndOfLevel = false;
+        (GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel = false;
 
         StartCoroutine(WaitUntilPlayerReachesEnd());
     }

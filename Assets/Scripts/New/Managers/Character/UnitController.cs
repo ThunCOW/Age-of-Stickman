@@ -19,6 +19,8 @@ public class UnitController : MonoBehaviour
 
     [HideInInspector] public SkeletonAnimation spineSkeletonAnimation;
     [HideInInspector] public Animator ShadowAnimator;
+    [HideInInspector] public Animator BleedingAnimator;
+    
 
     [HideInInspector][SerializeField] protected Unit unit;
     [HideInInspector][SerializeField] protected EquipmentManager equipmentManager;
@@ -32,7 +34,7 @@ public class UnitController : MonoBehaviour
     public float speed; // default moving speed assigned in inspector
     protected float defaultSpeed; // stores default speed
     protected float speedRelativeToAnimation; // speed for animations
-      protected MoveDirection direction = MoveDirection.waiting;
+    protected MoveDirection direction = MoveDirection.waiting;
 
     protected bool blockTrigger = false;
     protected bool resurrectionState = false;
@@ -47,7 +49,7 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    public bool isBoss;
+    [HideInInspector] public bool isBoss;
 
     protected Transform LeftWallPosition;
     protected Transform RightWallPosition;
@@ -59,20 +61,23 @@ public class UnitController : MonoBehaviour
 
     protected virtual void OnValidate()
     {
+        if (boxCollider2 == null) boxCollider2 = GetComponent<BoxCollider2D>();
+        if (rb2d == null) rb2d = GetComponent<Rigidbody2D>();
+        if (unit == null) unit = GetComponent<Unit>();
+        if (equipmentManager == null) equipmentManager = GetComponent<EquipmentManager>();
+        if (spineSkeletonAnimation == null) spineSkeletonAnimation = GetComponent<SkeletonAnimation>();
         if (ShadowAnimator == null)
-            ShadowAnimator = GetComponentInChildren<Animator>();
-        if (boxCollider2 == null)
-            boxCollider2 = GetComponent<BoxCollider2D>();
-        if (rb2d == null)
-            rb2d = GetComponent<Rigidbody2D>();
-        if (unit == null)
-            unit = GetComponent<Unit>();
-        if (equipmentManager == null)
-            equipmentManager = GetComponent<EquipmentManager>();
-        if (spineSkeletonAnimation == null)
-            spineSkeletonAnimation = GetComponent<SkeletonAnimation>();
-        if (ShadowAnimator == null)
-            ShadowAnimator = GetComponent<Animator>();
+        {
+            Transform tempAnimator = gameObject.transform.Find("Unit_Shadow AI");
+            if(tempAnimator == null)
+                tempAnimator = gameObject.transform.Find("Unit_Shadow");
+
+            ShadowAnimator = tempAnimator.GetComponent<Animator>();
+        }
+        if(BleedingAnimator == null)
+            gameObject.transform.Find("Bleed Animator");
+        
+        if (CompareTag(GameManager.SCYTHEMASTER_TAG) || CompareTag(GameManager.SPEARMASTER_TAG)) isBoss = true;
     }
 
     protected virtual void Start()
@@ -110,7 +115,7 @@ public class UnitController : MonoBehaviour
         {
             if (unit.Health > 0) // Only if alive
             {
-                if (idleing == true && unit.target != null) unit.SetUnitDirection();        // Turns towards target while in idle only
+                if (idleing == true && unit.target != null) unit.TurnTowardsTarget();        // Turns towards target while in idle only
 
                 CharacterControls();
             }
@@ -279,7 +284,7 @@ public class UnitController : MonoBehaviour
             }
             else
             {
-                unit.SetUnitDirection();
+                unit.TurnTowardsTarget();
 
                 StopAllCoroutines();
                 StartCoroutine(StunnedFor(attack));
@@ -731,7 +736,6 @@ public class UnitController : MonoBehaviour
 
         speed = 0;
 
-        float x = currentAttack.speedCurve.Evaluate(0);
         // If animation does not have a speedcurve its a stationary animation
         if (speedCurve == null || speedCurve.Evaluate(0) == 0)
         {
@@ -741,24 +745,7 @@ public class UnitController : MonoBehaviour
 
             yield return new WaitForSpineAnimationComplete(trackEntry);
 
-            Debug.Log("leaved SpeedDuringAnimation 1");
-            if (changeStance)
-            {
-                if (unit.currentStance == StanceList.Stand_A)
-                    unit.currentStance = StanceList.Stand_B;
-                else if (unit.currentStance == StanceList.Stand_B)
-                    unit.currentStance = StanceList.Stand_A;
-
-                changeStance = false;
-            }
-
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-
-            idleing = true;
-
-            currentAttack = null;
-
-            isAnimationStarted = false;
+            EndOfAnimation();
 
             yield break;
         }
@@ -779,7 +766,11 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = speedCurve.Evaluate(animationCurrentTime);
             yield return new WaitForFixedUpdate();
         }
-        Debug.Log("leaved SpeedDuringAnimation 2");
+
+        EndOfAnimation();
+    }
+    protected virtual void EndOfAnimation()
+    {
         if (changeStance)
         {
             if (unit.currentStance == StanceList.Stand_A)
@@ -804,6 +795,7 @@ public class UnitController : MonoBehaviour
 
         currentAttack = null;
     }
+
     protected IEnumerator PlayCinematicAnimation(SpeedDependantAnimation Animation, bool continueIdle = false)
     {
         /*if (Attack.Keys.Count > 0)

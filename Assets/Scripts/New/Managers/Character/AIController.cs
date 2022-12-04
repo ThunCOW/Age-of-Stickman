@@ -91,7 +91,7 @@ public class AIController : UnitController
         }
         else
         {
-            if (unit.Projectile != null || PlayerController.hasPlayerReachedEndOfLevel)
+            if (unit.Projectile != null || (GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
                 StartCoroutine(MoveInsideCameraView());
             else
                 StartCoroutine(AIActionDecision());
@@ -225,7 +225,7 @@ public class AIController : UnitController
         if (unit.target != null)
         {
             int rand = 0;
-            if (PlayerController.hasPlayerReachedEndOfLevel)
+            if ((GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
             {
                 // new spawned units must walk within arbitary level borders, if player is close to borders (excluding right border rn) and so to enemy ( precisely 3 ) then dont move anymore
                 /*if (gameObject.transform.position.x >= unit.target.transform.position.x)
@@ -427,7 +427,7 @@ public class AIController : UnitController
         }
         else
         {
-            unit.SetUnitDirection();
+            unit.TurnTowardsTarget();
             
             StartCoroutine(MoveAndAttack(currentAttack));
         }
