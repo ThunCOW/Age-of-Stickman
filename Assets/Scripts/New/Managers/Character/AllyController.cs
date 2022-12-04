@@ -333,6 +333,8 @@ public class AllyController : AIController
 
     public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
     {
+        unit.Health -= DamageTaken;
+
         if (unit.Health <= 0)
         {
             MercenaryDead(mercenaryUnit);
@@ -340,6 +342,6 @@ public class AllyController : AIController
             MercenaryDead -= MercenaryManager.Instance.MercenaryDead;
         }
         
-        return base.TakeDamage(attack, DamageTaken, attackDirection, isProjectile);
+        return base.TakeDamage(attack, 0, attackDirection, isProjectile);
     }
 }

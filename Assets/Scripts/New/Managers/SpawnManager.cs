@@ -65,8 +65,7 @@ public class SpawnManager : MonoBehaviour
 
         _groupSpawnCount = GroupSpawnCount;
 
-
-        PlayerController.BossTrigger += SpawnBoss;
+        (GameManager.Instance.Player.unitController as PlayerController).BossTrigger += SpawnBoss;
     }
 
     // Update is called once per frame
@@ -84,7 +83,7 @@ public class SpawnManager : MonoBehaviour
                         if(DeadOnScreen.DeadUnitsOnScreen.Count >= maxDeadEnemyOnScreen)
                         {
                             // If player is at the end of level, continue to spawn
-                            if(PlayerController.hasPlayerReachedEndOfLevel)
+                            if((GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
                             {
                                 SpawnLogic();
                             }
@@ -116,7 +115,7 @@ public class SpawnManager : MonoBehaviour
                 nextSpawnTimer = nextSpawnTimer > 2 ? Random.Range(0, 1.5f) : nextSpawnTimer;
         }
         // If player has not reached to end yet, set spawn timer,
-        else if(!PlayerController.hasPlayerReachedEndOfLevel)
+        else if(!(GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
         {
             // If player has not reached to end yet, but a group is killed, wait for certain amount of time before start spawning again
             if(_groupSpawnCount == 0)
@@ -180,7 +179,7 @@ public class SpawnManager : MonoBehaviour
 
 
 
-            if (PlayerController.hasPlayerReachedEndOfLevel)
+            if ((GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
             {
                 nextSpawnTimer = Random.Range(0, 11f);
             }

@@ -9,10 +9,12 @@ using Spine.Unity;
 
 public class PlayerController : UnitController, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
+    [Header("_____________Distance Bar Variables____________")]
     [SerializeField] private GameObject DistanceBar;
     /*
      * ************************************************************ Movement Control Settings
     */
+    [Header("_____________Player Control Variables____________")]
     [SerializeField] private RectTransform joystickTransform;
 
     private Vector3 joystickDefaultPositionScreen;
@@ -27,13 +29,13 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     bool stunTrigger = false;
     Coroutine triggerCoroutine = null;
 
-    public bool canThrow = true;
+    [HideInInspector] public bool canThrow = true;
 
     public delegate void OnBossTrigger(string BossTag);
-    public static OnBossTrigger BossTrigger;
+    public OnBossTrigger BossTrigger;
 
-    private static bool _hasPlayerReachedEndOfLevel;
-    public static bool hasPlayerReachedEndOfLevel
+    private bool _hasPlayerReachedEndOfLevel;
+    public bool hasPlayerReachedEndOfLevel
     {
         get
         {
@@ -54,6 +56,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
     }
 
+    [Space]
     [SerializeField] SpeedDependantAnimation ResurrectAnimation;
     public static bool isWaitingForRes;
 
@@ -78,10 +81,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         GameManager.Instance.Player = unit;
 
-        StartCoroutine(CheckDirection());
+        StartCoroutine(CheckDirectionCoroutine());
 
         if (LeftWallPosition == null || RightWallPosition == null)
             Debug.LogError("Failed to find level borders, make sure they are in scene");
+
+        distanceBarStart = transform.position.x;
 
         joystickDefaultPositionScreen =  joystickTransform.position;
 
@@ -142,9 +147,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
 
                     //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.idle.SpineAnimationReference.Animation.Name, currentAttack.SpineAnimationReference.Animation.Name, 0.15f);
-                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+                    TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                    AttackAction();
+                    AttackAction(trackEntry);
 
                     if (currentAttack.ShadowAnimation != null)
                         ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
@@ -159,9 +164,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                     currentAttack = tempWalkAttack[randomAttack] as CloseCombatAnimation;
 
                     //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.Movement.SpineAnimationReference.Animation.Name, unit.activeAnimations.WalkAttack[0].SpineAnimationReference.Animation.Name, 0.15f);
-                    spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+                    TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                    AttackAction();
+                    AttackAction(trackEntry);
 
                     if (currentAttack.ShadowAnimation != null)
                         ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
@@ -179,9 +184,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 BasicAnimation t = tempStationaryStun[randomAttack];
                 currentAttack = (CloseCombatAnimation)t;
 
-                spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                AttackAction();
+                AttackAction(trackEntry);
 
                 if (currentAttack.ShadowAnimation != null)
                     ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
@@ -285,7 +290,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
         else
         {
-            if (!isAnimationStarted) unit.SetUnitDirection();
+            if (!isAnimationStarted) unit.TurnTowardsTarget();
 
             if (dir == (int)MoveDirection.right)
             {
@@ -329,25 +334,18 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 break;
         }
     }
-    protected void AttackAction()
+    protected void AttackAction(TrackEntry trackEntry)
     {
-        //if(currentAttack.attackType == AttackType.Casual)
-        //{
-        //    if(unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
-        //    {
-        //        if(unit.target.Health> 0) 
-        //        {
-        //
-        //        }
-        //    }
-        //}
         if (unit.target != null)
         {
-            unit.SetUnitDirection();
+            unit.TurnTowardsTarget();
         }
 
-        StartCoroutine(SpeedDuringAnimation(currentAttack));
-        StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
+        
+        AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
+        StartCoroutine(SpeedDuringAnimation(trackEntry, currentAttack.speedCurve));
+        //StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
+        //StartCoroutine(WaitForEndOfAnimation(trackEntry));
     }
 
     protected override void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
@@ -435,10 +433,10 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         yield return new WaitForSeconds(3);
 
         // Resurrect Animation
-        TrackEntry track = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimation.SpineAnimationReference, false);
-        StartCoroutine(SpeedDuringAnimation(ResurrectAnimation));
-        
-        yield return new WaitForSpineAnimationEnd(track);
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimation.SpineAnimationReference, false);
+        StartCoroutine(SpeedDuringAnimation(trackEntry, ResurrectAnimation.speedCurve));
+
+        yield return new WaitForSpineAnimationEnd(trackEntry);
         // Wait until resurrection animation ends
 
         isWaitingForRes = false;
@@ -490,12 +488,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     protected IEnumerator WaitForEndOfAnimation(float animationDuration)
     {
-        speed = 0f;                                                     // speed is now controlled by speed curve
-        isAnimationStarted = true;                                      // prevents direction to become 0 and stop movement
+        //speed = 0f;                                                     // speed is now controlled by speed curve
+        //isAnimationStarted = true;                                      // prevents direction to become 0 and stop movement
 
         yield return new WaitForSeconds(animationDuration + 0.05f);  // (not sure) possibly so direction below works
 
-        direction = MoveDirection.waiting;
+        /*direction = MoveDirection.waiting;
 
         speed = defaultSpeed;                                                 // speed is now set to default speed level
         isAnimationStarted = false;                                     // direction released
@@ -510,6 +508,45 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         else
         {
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+        }*/
+    }
+
+    protected override void EndOfAnimation()
+    {
+        base.EndOfAnimation();
+
+        if (!isAnimationStarted)
+        {
+            if (!blockTrigger)
+            {
+                if (moveButton.Hold)
+                {
+                    direction = moveButton.direction;
+                    if (unit.target == null)
+                    {
+                        transform.localScale = new Vector3((int)direction, transform.localScale.y, transform.localScale.z);
+                    }
+                    else
+                    {
+                        unit.TurnTowardsTarget();
+                    }
+                }
+
+                if (!attackTrigger)
+                {
+                    // Set new movement direction and look direction
+                    if (moveButton.Hold)
+                    {
+                        SetWalkingAnimation((int)direction);
+                    }
+                    else
+                    {
+                        direction = MoveDirection.waiting;
+
+                        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+                    }
+                }
+            }
         }
     }
 
@@ -533,12 +570,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             SetWalkingAnimation((int)direction);
         }
 
-        StartCoroutine(CheckDirection());
+        StartCoroutine(CheckDirectionCoroutine());
 
         StartCoroutine(InitializeDistanceBar());
         //StartCoroutine(GetClosestUnitSearchCycle());
     }
-    private IEnumerator CheckDirection()
+    private IEnumerator CheckDirectionCoroutine()
     {
         yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.25f));
 
@@ -551,20 +588,18 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 SetWalkingAnimation((int)direction);
             }
         }
-
-        StartCoroutine(CheckDirection());
+        StartCoroutine(CheckDirectionCoroutine());
     }
 
+    private float distanceBarStart;
     IEnumerator InitializeDistanceBar(float beginningPoint = 0)
     {
-        float endPoint = RightWallPosition.transform.position.x;
+        float endPoint = RightWallPosition.transform.position.x - distanceBarStart;
 
-        float end = (endPoint - beginningPoint);
         while(true)
         {
-            float start = transform.position.x - beginningPoint;
-
-            DistanceBar.transform.localScale = new Vector3(start / end, 1, 1);
+            DistanceBar.transform.localScale = transform.position.x <= distanceBarStart ? 
+                new Vector3(0, 1, 1) : new Vector3((transform.position.x - distanceBarStart) / endPoint, 1, 1);
 
             yield return new WaitForFixedUpdate();
         }

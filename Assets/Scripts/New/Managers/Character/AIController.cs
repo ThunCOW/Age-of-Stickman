@@ -91,7 +91,7 @@ public class AIController : UnitController
         }
         else
         {
-            if (unit.Projectile != null || PlayerController.hasPlayerReachedEndOfLevel)
+            if (unit.Projectile != null || (GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
                 StartCoroutine(MoveInsideCameraView());
             else
                 StartCoroutine(AIActionDecision());
@@ -225,7 +225,7 @@ public class AIController : UnitController
         if (unit.target != null)
         {
             int rand = 0;
-            if (PlayerController.hasPlayerReachedEndOfLevel)
+            if ((GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
             {
                 // new spawned units must walk within arbitary level borders, if player is close to borders (excluding right border rn) and so to enemy ( precisely 3 ) then dont move anymore
                 /*if (gameObject.transform.position.x >= unit.target.transform.position.x)
@@ -322,6 +322,7 @@ public class AIController : UnitController
 
         idleing = false;
 
+        TrackEntry tempTrackEntry;
         // if in kick distance, there is a chance to kick
         float kickDistance = 2f;
         if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < kickDistance)
@@ -337,17 +338,15 @@ public class AIController : UnitController
 
                 currentAttack = selectedAnim as CloseCombatAnimation;
 
-                spineSkeletonAnimation.state.SetAnimation(1, selectedAnim.SpineAnimationReference, false).TimeScale = 1f;
+                tempTrackEntry = spineSkeletonAnimation.state.SetAnimation(1, selectedAnim.SpineAnimationReference, false);
                 float animationLength = selectedAnim.SpineAnimationReference.Animation.Duration;
                 waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
                 waitTime += Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
 
                 StartCoroutine(AIActionDecision(waitTime));
 
-                if (selectedAnim is CloseCombatAnimation)
-                    StartCoroutine(SpeedDuringAnimation(selectedAnim as CloseCombatAnimation));
-                else if (selectedAnim is SpeedDependantAnimation)
-                    StartCoroutine(SpeedDuringAnimation(selectedAnim as SpeedDependantAnimation));
+                AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
+                StartCoroutine(SpeedDuringAnimation(tempTrackEntry, currentAttack.speedCurve));
 
                 if (selectedAnim.ShadowAnimation != null)
                     ShadowAnimator.Play(selectedAnim.ShadowAnimation.name);
@@ -401,14 +400,15 @@ public class AIController : UnitController
         // if it is close enough to attack, attack and start next courutine for decision
         if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < currentAttack.Reach)
         {
-            spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false).TimeScale = 1f;
+            tempTrackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
             float animationLength = currentAttack.SpineAnimationReference.Animation.Duration;
             waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
             waitTime += Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
-
+            
             StartCoroutine(AIActionDecision(waitTime));
 
-            StartCoroutine(SpeedDuringAnimation(currentAttack));
+            AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
+            StartCoroutine(SpeedDuringAnimation(tempTrackEntry, currentAttack.speedCurve));
 
             if (currentAttack.ShadowAnimation != null)
                 ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
@@ -427,7 +427,7 @@ public class AIController : UnitController
         }
         else
         {
-            unit.SetUnitDirection();
+            unit.TurnTowardsTarget();
             
             StartCoroutine(MoveAndAttack(currentAttack));
         }
@@ -479,7 +479,7 @@ public class AIController : UnitController
             yield break;
         }
 
-        spineSkeletonAnimation.state.SetAnimation(1, attack.SpineAnimationReference, false).TimeScale = 1f;
+        TrackEntry tempTrackEntry = spineSkeletonAnimation.state.SetAnimation(1, attack.SpineAnimationReference, false);
         float animationLength = attack.SpineAnimationReference.Animation.Duration;
         float waitTime = Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
         waitTime += Random.Range(animationLength / 2, (animationLength + aiVariable.maxWaitAfterAttack) / 2);
@@ -487,7 +487,8 @@ public class AIController : UnitController
 
         StartCoroutine(AIActionDecision(waitTime)); // waits until animation ends, so does not make decisions during animation
 
-        StartCoroutine(SpeedDuringAnimation(attack));
+        AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
+        StartCoroutine(SpeedDuringAnimation(tempTrackEntry, currentAttack.speedCurve));
 
         if (attack.ShadowAnimation != null)
             ShadowAnimator.Play(attack.ShadowAnimation.name);

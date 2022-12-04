@@ -7,4 +7,5 @@ using UnityEngine;
 public class DeathAnimation : BasicAnimation
 {
     public HitRegion deathType;
+    public AnimationClip bloodAnimation;
 }

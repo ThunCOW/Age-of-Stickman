@@ -6,7 +6,7 @@ filter: Linear,Linear
 repeat: none
 Armor/Green_Elf/Arm_1
   rotate: false
-  xy: 3675, 105
+  xy: 3672, 159
   size: 33, 65
   orig: 33, 65
   offset: 0, 0
@@ -41,42 +41,42 @@ Armor/Green_Elf/Shoulder_1_Back
   index: -1
 Armor/Green_Elf/Shoulder_1_Backk
   rotate: false
-  xy: 3809, 16
+  xy: 2577, 10
   size: 34, 48
   orig: 34, 48
   offset: 0, 0
   index: -1
 Armor/Human/Arm_1
   rotate: false
-  xy: 3903, 12
+  xy: 2330, 71
   size: 27, 52
   orig: 27, 52
   offset: 0, 0
   index: -1
 Armor/Human/Arm_2
-  rotate: true
-  xy: 3474, 2
+  rotate: false
+  xy: 2613, 7
   size: 29, 51
   orig: 29, 51
   offset: 0, 0
   index: -1
 Armor/Human/Arm_3
   rotate: false
-  xy: 3845, 8
+  xy: 2330, 125
   size: 26, 56
   orig: 26, 56
   offset: 0, 0
   index: -1
 Armor/Human/Arm_4
   rotate: false
-  xy: 3873, 12
+  xy: 2644, 6
   size: 28, 52
   orig: 28, 52
   offset: 0, 0
   index: -1
 Armor/Human/Helmet_1
-  rotate: false
-  xy: 2930, 232
+  rotate: true
+  xy: 2669, 221
   size: 114, 103
   orig: 114, 103
   offset: 0, 0
@@ -90,21 +90,21 @@ Armor/Human/Helmet_2
   index: -1
 Armor/Human/Helmet_3
   rotate: false
-  xy: 2390, 63
+  xy: 3062, 77
   size: 119, 118
   orig: 119, 118
   offset: 0, 0
   index: -1
 Armor/Human/Helmet_4
-  rotate: false
-  xy: 3782, 66
+  rotate: true
+  xy: 3642, 11
   size: 128, 111
   orig: 128, 111
   offset: 0, 0
   index: -1
 Armor/Human/Helmet_4_1
   rotate: false
-  xy: 3545, 45
+  xy: 2200, 70
   size: 128, 111
   orig: 128, 111
   offset: 0, 0
@@ -118,7 +118,7 @@ Armor/Human/Leg_1
   index: -1
 Armor/Human/Leg_2
   rotate: true
-  xy: 3648, 10
+  xy: 2518, 29
   size: 29, 57
   orig: 29, 57
   offset: 0, 0
@@ -139,14 +139,14 @@ Armor/Human/Leg_2_2
   index: -1
 Armor/Human/Leg_3
   rotate: false
-  xy: 3675, 172
+  xy: 3641, 146
   size: 29, 78
   orig: 29, 78
   offset: 0, 0
   index: -1
 Armor/Human/Leg_4
-  rotate: false
-  xy: 3675, 252
+  rotate: true
+  xy: 3755, 19
   size: 30, 78
   orig: 30, 78
   offset: 0, 0
@@ -180,8 +180,8 @@ Armor/Human/Shoulder_1_Back
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_1_Backk
-  rotate: true
-  xy: 3590, 13
+  rotate: false
+  xy: 2422, 2
   size: 30, 56
   orig: 30, 56
   offset: 0, 0
@@ -208,8 +208,8 @@ Armor/Human/Shoulder_2_Back
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_2_Backk
-  rotate: true
-  xy: 3710, 51
+  rotate: false
+  xy: 3452, 112
   size: 35, 65
   orig: 35, 65
   offset: 0, 0
@@ -229,15 +229,15 @@ Armor/Human/Shoulder_3
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_4
-  rotate: true
-  xy: 3352, 4
+  rotate: false
+  xy: 2422, 61
   size: 72, 120
   orig: 72, 120
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5
   rotate: false
-  xy: 2839, 215
+  xy: 2878, 215
   size: 72, 120
   orig: 72, 120
   offset: 0, 0
@@ -251,7 +251,7 @@ Armor/Human/Shoulder_5_1_Back
   index: -1
 Armor/Human/Shoulder_5_1_Backk
   rotate: false
-  xy: 3777, 8
+  xy: 2454, 2
   size: 30, 56
   orig: 30, 56
   offset: 0, 0
@@ -265,14 +265,14 @@ Armor/Human/Shoulder_5_2_Backk
   index: -1
 Armor/Human/Shoulder_5_Back
   rotate: true
-  xy: 3452, 86
+  xy: 3755, 51
   size: 53, 91
   orig: 53, 91
   offset: 0, 0
   index: -1
 Armor/Human/Shoulder_5_Backk
-  rotate: true
-  xy: 3782, 203
+  rotate: false
+  xy: 3352, 2
   size: 73, 74
   orig: 73, 74
   offset: 0, 0
@@ -293,7 +293,7 @@ Armor/Red_Demon/Arm_1
   index: -1
 Armor/Red_Demon/Leg_1
   rotate: true
-  xy: 3527, 8
+  xy: 2359, 23
   size: 35, 61
   orig: 35, 61
   offset: 0, 0
@@ -320,8 +320,8 @@ Armor/Red_Demon/Shoulder_1_Back
   offset: 0, 0
   index: -1
 Armor/Red_Demon/Shoulder_1_Backk
-  rotate: true
-  xy: 3710, 19
+  rotate: false
+  xy: 2486, 2
   size: 30, 56
   orig: 30, 56
   offset: 0, 0
@@ -370,7 +370,7 @@ Body/CHAR_0_HAND_R_0
   index: -1
 Body/CHAR_0_HEAD_0
   rotate: false
-  xy: 2735, 233
+  xy: 2774, 233
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
@@ -524,7 +524,7 @@ Body/CHAR_2_HEAD_1
   index: -1
 Body/CHAR_2_HEAD_2
   rotate: false
-  xy: 3474, 33
+  xy: 3641, 279
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
@@ -608,7 +608,7 @@ Body/CHAR_3_HAND_R_0
   index: -1
 Body/CHAR_3_HEAD_0
   rotate: false
-  xy: 3710, 88
+  xy: 3641, 226
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
@@ -683,6 +683,34 @@ Effect/ArrowHit_RedBlood_3
   orig: 124, 27
   offset: 0, 0
   index: -1
+Effect/Bleeding/Bleeding_A0001
+  rotate: true
+  xy: 3782, 106
+  size: 170, 69
+  orig: 170, 69
+  offset: 0, 0
+  index: -1
+Effect/Bleeding/Bleeding_A0002
+  rotate: true
+  xy: 3853, 7
+  size: 170, 69
+  orig: 170, 69
+  offset: 0, 0
+  index: -1
+Effect/Bleeding/Bleeding_A0003
+  rotate: false
+  xy: 2496, 71
+  size: 170, 69
+  orig: 170, 69
+  offset: 0, 0
+  index: -1
+Effect/Bleeding/Bleeding_A0004
+  rotate: false
+  xy: 3062, 6
+  size: 170, 69
+  orig: 170, 69
+  offset: 0, 0
+  index: -1
 Effect/DoubleSycthe_Effect_SpinTrail_00
   rotate: false
   xy: 2747, 811
@@ -719,8 +747,8 @@ Effect/Jump/Sycthemaster_Jump0005
   offset: 0, 0
   index: -1
 Effect/ShieldSmash
-  rotate: false
-  xy: 2735, 15
+  rotate: true
+  xy: 2521, 142
   size: 193, 146
   orig: 193, 146
   offset: 0, 0
@@ -775,22 +803,22 @@ Shield/ShieldCircle_00
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_01
-  rotate: false
-  xy: 3675, 41
+  rotate: true
+  xy: 2358, 128
   size: 33, 62
   orig: 33, 62
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_02
   rotate: false
-  xy: 3501, 158
+  xy: 2888, 23
   size: 172, 172
   orig: 172, 172
   offset: 0, 0
   index: -1
 Shield/ShieldCircle_03
   rotate: true
-  xy: 2200, 75
+  xy: 3452, 18
   size: 86, 188
   orig: 86, 188
   offset: 0, 0
@@ -859,15 +887,15 @@ Shield/ShieldLong_20
   offset: 0, 0
   index: -1
 Shield/ShieldLong_30
-  rotate: true
-  xy: 2521, 57
+  rotate: false
+  xy: 3501, 118
   size: 138, 212
   orig: 138, 212
   offset: 0, 0
   index: -1
 Shield/ShieldLong_40
   rotate: true
-  xy: 2521, 197
+  xy: 2674, 23
   size: 138, 212
   orig: 138, 212
   offset: 0, 0
