@@ -292,7 +292,7 @@ public class UnitController : MonoBehaviour
             {
                 unit.TurnTowardsTarget();
 
-                StopAllCoroutines();
+                StopRoutine();
                 StartCoroutine(StunnedFor(attack));
             }
         }
@@ -301,7 +301,7 @@ public class UnitController : MonoBehaviour
         {
             if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
 
-            StopAllCoroutines();
+            StopRoutine();
             StartCoroutine(StunnedFor(attack));
         }
 
@@ -703,6 +703,8 @@ public class UnitController : MonoBehaviour
 
     protected virtual void StopRoutine()
     {
+        changeStance = false;
+
         StopAllCoroutines();
     }
 
@@ -779,6 +781,12 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = speedCurve.Evaluate(animationCurrentTime);
             yield return new WaitForFixedUpdate();
         }
+
+        EndOfAnimation();
+    }
+    protected IEnumerator EndOfAnimation(TrackEntry trackEntry)
+    {
+        yield return new WaitForSpineAnimationComplete(trackEntry);
 
         EndOfAnimation();
     }

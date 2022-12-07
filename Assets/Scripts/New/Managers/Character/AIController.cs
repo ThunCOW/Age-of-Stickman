@@ -522,6 +522,14 @@ public class AIController : UnitController
         while(isAnimationStarted)
         {
             yield return new WaitForFixedUpdate();
+
+            // If Ai unit is outside of screen borders, we let it continue to move inside screen
+            if (gameObject.transform.position.x > ScreenRightBorder.transform.position.x ||
+                gameObject.transform.position.x < ScreenLeftBorder.transform.position.x)
+            {
+                StartCoroutine(SuperDumbStopMovementWhenPlayerDiesCheck());
+                yield break;
+            }
         }
 
         float waitTime = Random.Range(0, aiVariable.maxWaitAfterMovement / 2);
@@ -604,18 +612,23 @@ public class AIController : UnitController
     IEnumerator SpearmasterEntrance()
     {
         gameObject.transform.localScale = new Vector3(-1, 1, 1);
-        spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/Spearmaster_Entrance_Part 1", false).TimeScale = 1f;
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/Spearmaster_Entrance_Part 1", false);
         
         yield return new WaitForSeconds(0.25f);
         
         gameObject.transform.position = new Vector3(gameObject.transform.position.x - 10, gameObject.transform.position.y, 0);       // cuz it flickers and shows up in screen before transitioning to entance anim
 
-        yield return new WaitForSeconds(3);
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+        yield return new WaitForSeconds(1);
 
-        spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/Spearmaster_Entrance_Part 2", false).TimeScale = 1f;
-        spineSkeletonAnimation.state.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 0.5f);
+        trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/Spearmaster_Entrance_Part 2", false);
+        
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+        yield return new WaitForSeconds(0.5f);
+        
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
 
-        yield return new WaitForSeconds(3.5f);
+        yield return new WaitForSeconds(0.5f);
 
         GameManager.Instance.DisableControls = false;
 

@@ -490,33 +490,6 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         unit.Health = unit.HealthMax;
     }
 
-    
-
-    protected IEnumerator WaitForEndOfAnimation(float animationDuration)
-    {
-        //speed = 0f;                                                     // speed is now controlled by speed curve
-        //isAnimationStarted = true;                                      // prevents direction to become 0 and stop movement
-
-        yield return new WaitForSeconds(animationDuration + 0.05f);  // (not sure) possibly so direction below works
-
-        /*direction = MoveDirection.waiting;
-
-        speed = defaultSpeed;                                                 // speed is now set to default speed level
-        isAnimationStarted = false;                                     // direction released
-
-        // Set new movement direction and look direction
-        if (moveButton.Hold)
-        {
-            direction = moveButton.direction;
-
-            SetWalkingAnimation((int)direction);
-        }
-        else
-        {
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-        }*/
-    }
-
     protected override void EndOfAnimation()
     {
         base.EndOfAnimation();
@@ -562,6 +535,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         triggerCoroutine = null;
         DefendButtonCoroutine = null;
+        isWeaponSwapOrThrowButtonDown = false;
     }
     protected override void ReStartCoroutines()
     {
@@ -868,13 +842,18 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     /// <summary>
     /// //////////////////////////////////// Defend
     /// </summary>
+    bool DefendButtonCoroutineStarted = false;  // i could not get it to return coroutine on startcoroutine function for some reason
     Coroutine DefendButtonCoroutine;
     public void DefendButtonDown()
     {
-        DefendButtonCoroutine = StartCoroutine(DefendButtonHoldDetection());
+        if (DefendButtonCoroutineStarted == false)
+        {
+            DefendButtonCoroutine = StartCoroutine(DefendButtonHoldDetection());
+        }
     }
     IEnumerator DefendButtonHoldDetection()
     {
+        DefendButtonCoroutineStarted = true;
         while (isAnimationStarted || GameManager.Instance.DisableControls)
         {
             yield return new WaitForEndOfFrame();
@@ -898,6 +877,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
         else
             StopCoroutine(DefendButtonCoroutine);
+
+        DefendButtonCoroutineStarted = false;
     }
 
     /// <summary>
@@ -916,6 +897,42 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     }
 
     /// <summary>
+    /// ////////////////////////////////// SWAP WEAPON AND THROW SPEAR
+    /// </summary>
+    private bool isWeaponSwapOrThrowButtonDown = false;                                     // Short click = throw / Long click = swap
+    private Coroutine CoroutineWeaponSwapOrThrown;
+    public void WeaponSwapOrThrowButtonDown()
+    {
+        if (!isWeaponSwapOrThrowButtonDown)
+            CoroutineWeaponSwapOrThrown = StartCoroutine(WeaponSwapOrThrown());
+    }
+    public IEnumerator WeaponSwapOrThrown()
+    {
+        isWeaponSwapOrThrowButtonDown = true;
+        
+        float timePassed = 0f;
+        while (timePassed < 0.3f)
+        {
+            timePassed += Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        WeaponSwapButtonDown();
+        StopCoroutine(CoroutineWeaponSwapOrThrown);
+        isWeaponSwapOrThrowButtonDown = false;
+        CoroutineWeaponSwapOrThrown = null;
+    }
+    public void WeaponSwapOrThrowButtonUp()
+    {
+        if (isWeaponSwapOrThrowButtonDown)
+        {
+            ThrowButtonDown();
+            StopCoroutine(CoroutineWeaponSwapOrThrown);
+            isWeaponSwapOrThrowButtonDown = false;
+            CoroutineWeaponSwapOrThrown = null;
+        }
+    }
+    /// <summary>
     /// /////////////////////////////////// SWAP WEAPON
     /// </summary>
     public void WeaponSwapButtonDown()
@@ -924,14 +941,11 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         {
             if (unit.activeAnimations.SwapWeapon != null && canThrow)
             {
-                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false).TimeScale = 1f;
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false);
 
-                StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.SwapWeapon.SpineAnimationReference.Animation.Duration));
+                changeStance = true;
 
-                if (unit.currentStance == StanceList.Stand_A)
-                    unit.currentStance = StanceList.Stand_B;
-                else if (unit.currentStance == StanceList.Stand_B)
-                    unit.currentStance = StanceList.Stand_A;
+                StartCoroutine(EndOfAnimation(trackEntry));
             }
         }
     }
@@ -945,17 +959,14 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         {
             if (unit.activeAnimations.ChangeStance.Animation != null && canThrow)
             {
-                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false).TimeScale = 1f;
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false);
 
-                StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference.Animation.Duration));
+                changeStance = true;
 
-                if (currentAttack.ShadowAnimation != null)
-                    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                StartCoroutine(EndOfAnimation(trackEntry));
 
-                if (unit.currentStance == StanceList.Stand_A)
-                    unit.currentStance = StanceList.Stand_B;
-                else if (unit.currentStance == StanceList.Stand_B)
-                    unit.currentStance = StanceList.Stand_A;
+                //if (currentAttack.ShadowAnimation != null)
+                //    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
             }
         }
     }
