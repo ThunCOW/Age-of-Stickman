@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: TwoHandAxe
   AnimationName: Death_High_Region_A_1.1
-  SpineAnimationReference: {fileID: 11400000, guid: 3431bb815835d634f82d7522aa26b0f1, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 220df5ac88d4cf247b07762c2f3441fb, type: 2}
   ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: TwoHandAxe
   _AnimationNameChangeCheck: Death_High_Region_A_1.1
   deathType: 0
+  bloodAnimation: {fileID: 7400000, guid: cc945950dbe8f5a4f96ee15c9fc92bfa, type: 2}

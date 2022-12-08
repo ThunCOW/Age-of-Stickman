@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Zweihander
   AnimationName: Death_Region_Low_A_1.3 CUT UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 85cb22cb3a67c914b857901da046cdf8, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 85bf3e62f7a77894ab403e7ad135954b, type: 2}
   ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Zweihander
   _AnimationNameChangeCheck: Death_Region_Low_A_1.3 CUT UNITY
   deathType: 2
+  bloodAnimation: {fileID: 7400000, guid: cc945950dbe8f5a4f96ee15c9fc92bfa, type: 2}
   CutPart: {fileID: 0}
   spawnPosition: {x: 0, y: 0}
   BodyPart: 1

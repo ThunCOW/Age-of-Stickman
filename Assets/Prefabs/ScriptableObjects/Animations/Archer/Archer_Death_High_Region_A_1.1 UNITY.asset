@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Archer
   AnimationName: Death_High_Region_A_1 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 8b815a90b701ef145b711b4e0ee55719, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: b7d9923e9debf9845b13cfdc78d11f97, type: 2}
   ShadowAnimation: {fileID: 7400000, guid: 4c9ff5e3f24bbcd4d9309d481b34e5eb, type: 2}
   _PrefixChangeCheck: Archer
   _AnimationNameChangeCheck: Death_High_Region_A_1 UNITY
   deathType: 0
+  bloodAnimation: {fileID: 7400000, guid: cc945950dbe8f5a4f96ee15c9fc92bfa, type: 2}

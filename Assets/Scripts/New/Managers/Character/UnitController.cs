@@ -4,6 +4,7 @@ using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum MoveDirection
 {
@@ -74,10 +75,16 @@ public class UnitController : MonoBehaviour
 
             ShadowAnimator = tempAnimator.GetComponent<Animator>();
         }
-        if(BleedingAnimator == null)
-            gameObject.transform.Find("Bleed Animator");
+        if (BleedingAnimator == null)
+        {
+            if (gameObject.transform.Find("Bleeding") == null)
+                Debug.LogError("Bleeding animator not found!, GOname:" + gameObject.name);
+            else
+                BleedingAnimator = gameObject.transform.Find("Bleeding").GetChild(0).GetComponent<Animator>();
+        }
         
         if (CompareTag(GameManager.SCYTHEMASTER_TAG) || CompareTag(GameManager.SPEARMASTER_TAG)) isBoss = true;
+
     }
 
     protected virtual void Start()
@@ -90,7 +97,7 @@ public class UnitController : MonoBehaviour
         RightWallPosition = GameManager.Instance.LevelBordersParent.transform.GetChild(1);
 
         EquipmentManager tempEM = GetComponent<EquipmentManager>();
-        tempEM.OnArrowRelease += ProjectileRelease;
+        tempEM.ProjectileRelease += ProjectileRelease;
 
         SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.Movement.SpineAnimationReference, 0);
         SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
@@ -241,15 +248,24 @@ public class UnitController : MonoBehaviour
     public void ProjectileRelease()
     {
         GameObject projectile = Instantiate(unit.Projectile, unit.gameObject.transform);
-        projectile.GetComponent<Projectile>().projectileAttack = currentAttack;
+        
+        Projectile tempProjectile = projectile.GetComponent<Projectile>();
+        
+        tempProjectile.projectileAttack = currentAttack;
 
-        currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+        // means its a spear
+        if (tempProjectile.projectileType == ProjectileType.Spear)
+            tempProjectile.projectileAttachment = equipmentManager.equippedItems[ItemSlot.MainHand].front[1];   // 0 is sword, 1 is spear
+
+
+
+        //currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
     }
 
     /// <summary>
     /// Returns true when hit succesfully damaged
     /// </summary>
-    public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false)
+    public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
         if(blockTrigger)
         {
@@ -273,7 +289,7 @@ public class UnitController : MonoBehaviour
 
         if (unit.Health <= 0)
         {
-            UnitDead(attack, attackDirection);
+            UnitDead(attack, attackDirection, projectileAttachment);
         }
         // This part is for bossess, gonna leave it for now, only bosses dont have hurt anim
         else if (unit.activeAnimations.Hurt == null)
@@ -286,7 +302,7 @@ public class UnitController : MonoBehaviour
             {
                 unit.TurnTowardsTarget();
 
-                StopAllCoroutines();
+                StopRoutine();
                 StartCoroutine(StunnedFor(attack));
             }
         }
@@ -295,7 +311,7 @@ public class UnitController : MonoBehaviour
         {
             if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
 
-            StopAllCoroutines();
+            StopRoutine();
             StartCoroutine(StunnedFor(attack));
         }
 
@@ -317,7 +333,7 @@ public class UnitController : MonoBehaviour
         return true;
     }
 
-    protected virtual void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
+    protected virtual void UnitDead(CloseCombatAnimation attack, int attackDirection = 0, SpineAttachment projectileAttachment = null)
     {
         //boxCollider2.enabled = false;
         gameObject.layer = ((int)GameLayers.DeadUnit);
@@ -351,39 +367,52 @@ public class UnitController : MonoBehaviour
         canMove = false;
 
         int randomDeath = 0;
-        List<DeathAnimation> deathAnimation;
+        List<DeathAnimation> deathAnimation = null;
         DeathAnimation tempDeathAnim = null;
         switch (attack.attackRegion)
         {
             case HitRegion.High:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
-                randomDeath = Random.Range(0, deathAnimation.Count);
-                tempDeathAnim = deathAnimation[randomDeath];
-                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                if (tempDeathAnim.ShadowAnimation != null)
-                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
                 break;
             case HitRegion.Mid:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
-                randomDeath = Random.Range(0, deathAnimation.Count);
-                tempDeathAnim = deathAnimation[randomDeath];
-                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                if (tempDeathAnim.ShadowAnimation != null)
-                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
                 break;
             case HitRegion.Low:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
-                randomDeath = Random.Range(0, deathAnimation.Count);
-                tempDeathAnim = deathAnimation[randomDeath];
-                spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
-                if (tempDeathAnim.ShadowAnimation != null)
-                    ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+                break;
+            case HitRegion.SpearThrowBody:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowBody;
+                SetMixBetweenAnimation(spineSkeletonAnimation.AnimationState.GetCurrent(1).Animation.Name, deathAnimation[0].SpineAnimationReference.Animation.Name, 0);
+                break;
+            case HitRegion.SpearThrowHead:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowHead;
+                SetMixBetweenAnimation(spineSkeletonAnimation.AnimationState.GetCurrent(1).Animation.Name, deathAnimation[0].SpineAnimationReference.Animation.Name, 0);
                 break;
             default:
                 break;
         }
+        randomDeath = Random.Range(0, deathAnimation.Count);
+        tempDeathAnim = deathAnimation[randomDeath];
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false);
+        
+        // Dismember body part
         if (tempDeathAnim is DeathByDismemberAnimation)
             DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+        // Play shadow animation
+        if (tempDeathAnim.ShadowAnimation != null)
+            ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+        
+        // Spear
+        if (attack.attackRegion == HitRegion.SpearThrowHead)
+            equipmentManager.SpearDead(false, true, projectileAttachment);
+        else if (attack.attackRegion == HitRegion.SpearThrowBody)
+            equipmentManager.SpearDead(false, false, projectileAttachment);
+
+        // Play bleeding animation after death animation completes
+        StartCoroutine(BloodAnimationAfterDeath(trackEntry, tempDeathAnim));
+        /*
+         * *
+        */
 
         // Dead enemies drop gold ( boss tag exc )
         if (gameObject.CompareTag(GameManager.ENEMY_TAG))
@@ -449,6 +478,14 @@ public class UnitController : MonoBehaviour
             GameManager.Instance.AllyUnits.Remove(unit);
 
         GameManager.Instance.sortManager.RemoveFromOrder(unit);
+    }
+    protected IEnumerator BloodAnimationAfterDeath(TrackEntry trackEntry, DeathAnimation tempDeathAnim) // If coroutines stops this will not play
+    {
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+
+        // Play bleed animation
+        if (tempDeathAnim.bloodAnimation != null)
+            BleedingAnimator.Play(tempDeathAnim.bloodAnimation.name);
     }
     protected void BossDead()
     {
@@ -690,6 +727,8 @@ public class UnitController : MonoBehaviour
 
     protected virtual void StopRoutine()
     {
+        changeStance = false;
+
         StopAllCoroutines();
     }
 
@@ -766,6 +805,12 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = speedCurve.Evaluate(animationCurrentTime);
             yield return new WaitForFixedUpdate();
         }
+
+        EndOfAnimation();
+    }
+    protected IEnumerator EndOfAnimation(TrackEntry trackEntry)
+    {
+        yield return new WaitForSpineAnimationComplete(trackEntry);
 
         EndOfAnimation();
     }

@@ -68,6 +68,7 @@ public class UnitAnimations
 
     public List<BasicAnimation> Attack;
     public List<BasicAnimation> WalkAttack;
+    public List<BasicAnimation> ProjectileAttack;
     public ChangeStanceAction ChangeStance;
     public SpeedDependantAnimation SwapWeapon;
 
@@ -115,6 +116,16 @@ public class UnitAnimations
         {
             DeathAnimationByDamageRegion.lowRegion[i] = DeathAnimationByDamageRegion.lowRegion[i].InitializeSO() as DeathAnimation;
         }
+        
+        // Spear death
+        for(i = 0; i < DeathAnimationByDamageRegion.SpearThrowHead.Count; i++)
+        {
+            DeathAnimationByDamageRegion.SpearThrowHead[i] = DeathAnimationByDamageRegion.SpearThrowHead[i].InitializeSO() as DeathAnimation;
+        }
+        for (i = 0; i < DeathAnimationByDamageRegion.SpearThrowBody.Count; i++)
+        {
+            DeathAnimationByDamageRegion.SpearThrowBody[i] = DeathAnimationByDamageRegion.SpearThrowBody[i].InitializeSO() as DeathAnimation;
+        }
     }
 }
 
@@ -124,6 +135,8 @@ public class DeathAnimationByDamageRegion
     public List<DeathAnimation> highRegion;
     public List<DeathAnimation> midRegion;
     public List<DeathAnimation> lowRegion;
+    public List<DeathAnimation> SpearThrowHead;
+    public List<DeathAnimation> SpearThrowBody;
 }
 
 [System.Serializable]

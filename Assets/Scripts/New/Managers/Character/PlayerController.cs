@@ -348,7 +348,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         //StartCoroutine(WaitForEndOfAnimation(trackEntry));
     }
 
-    protected override void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
+    protected override void UnitDead(CloseCombatAnimation attack, int attackDirection = 0, SpineAttachment projectileAttachment = null)
     {
         // Player has no lives ( DEAD )
         if (GameManager.Instance.PlayerLives == 0)
@@ -360,33 +360,51 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             canMove = false;
 
             int randomDeath = 0;
-            List<DeathAnimation> deathAnimation;
+            List<DeathAnimation> deathAnimation = null;
             DeathAnimation tempDeathAnim = null;
             switch (attack.attackRegion)
             {
                 case HitRegion.High:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.highRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
                     break;
                 case HitRegion.Mid:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.midRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
                     break;
                 case HitRegion.Low:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
-                    randomDeath = Random.Range(0, deathAnimation.Count);
-                    tempDeathAnim = deathAnimation[randomDeath];
-                    spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false).TimeScale = 1f;
+                    break;
+                case HitRegion.SpearThrowBody:
+                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowBody;
+                    break;
+                case HitRegion.SpearThrowHead:
+                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowHead;
                     break;
                 default:
                     break;
             }
+            randomDeath = Random.Range(0, deathAnimation.Count);
+            tempDeathAnim = deathAnimation[randomDeath];
+            TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, tempDeathAnim.SpineAnimationReference, false);
+
+            // Dismember body part
             if (tempDeathAnim is DeathByDismemberAnimation)
                 DismemberBody(tempDeathAnim as DeathByDismemberAnimation);
+            // Play shadow animation
+            if (tempDeathAnim.ShadowAnimation != null)
+                ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+
+            // Spear
+            if (attack.attackRegion == HitRegion.SpearThrowHead)
+                equipmentManager.SpearDead(false, true, projectileAttachment);
+            else if (attack.attackRegion == HitRegion.SpearThrowBody)
+                equipmentManager.SpearDead(false, false, projectileAttachment);
+
+            // Play bleeding animation after death animation completes
+            StartCoroutine(BloodAnimationAfterDeath(trackEntry, tempDeathAnim));
+
+            /*
+             * *
+            */
 
 
             if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
@@ -484,33 +502,6 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         unit.Health = unit.HealthMax;
     }
 
-    
-
-    protected IEnumerator WaitForEndOfAnimation(float animationDuration)
-    {
-        //speed = 0f;                                                     // speed is now controlled by speed curve
-        //isAnimationStarted = true;                                      // prevents direction to become 0 and stop movement
-
-        yield return new WaitForSeconds(animationDuration + 0.05f);  // (not sure) possibly so direction below works
-
-        /*direction = MoveDirection.waiting;
-
-        speed = defaultSpeed;                                                 // speed is now set to default speed level
-        isAnimationStarted = false;                                     // direction released
-
-        // Set new movement direction and look direction
-        if (moveButton.Hold)
-        {
-            direction = moveButton.direction;
-
-            SetWalkingAnimation((int)direction);
-        }
-        else
-        {
-            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-        }*/
-    }
-
     protected override void EndOfAnimation()
     {
         base.EndOfAnimation();
@@ -556,6 +547,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         triggerCoroutine = null;
         DefendButtonCoroutine = null;
+        isWeaponSwapOrThrowButtonDown = false;
     }
     protected override void ReStartCoroutines()
     {
@@ -862,13 +854,18 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     /// <summary>
     /// //////////////////////////////////// Defend
     /// </summary>
+    bool DefendButtonCoroutineStarted = false;  // i could not get it to return coroutine on startcoroutine function for some reason
     Coroutine DefendButtonCoroutine;
     public void DefendButtonDown()
     {
-        DefendButtonCoroutine = StartCoroutine(DefendButtonHoldDetection());
+        if (DefendButtonCoroutineStarted == false)
+        {
+            DefendButtonCoroutine = StartCoroutine(DefendButtonHoldDetection());
+        }
     }
     IEnumerator DefendButtonHoldDetection()
     {
+        DefendButtonCoroutineStarted = true;
         while (isAnimationStarted || GameManager.Instance.DisableControls)
         {
             yield return new WaitForEndOfFrame();
@@ -892,6 +889,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
         else
             StopCoroutine(DefendButtonCoroutine);
+
+        DefendButtonCoroutineStarted = false;
     }
 
     /// <summary>
@@ -910,6 +909,42 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     }
 
     /// <summary>
+    /// ////////////////////////////////// SWAP WEAPON AND THROW SPEAR
+    /// </summary>
+    private bool isWeaponSwapOrThrowButtonDown = false;                                     // Short click = throw / Long click = swap
+    private Coroutine CoroutineWeaponSwapOrThrown;
+    public void WeaponSwapOrThrowButtonDown()
+    {
+        if (!isWeaponSwapOrThrowButtonDown)
+            CoroutineWeaponSwapOrThrown = StartCoroutine(WeaponSwapOrThrown());
+    }
+    public IEnumerator WeaponSwapOrThrown()
+    {
+        isWeaponSwapOrThrowButtonDown = true;
+        
+        float timePassed = 0f;
+        while (timePassed < 0.3f)
+        {
+            timePassed += Time.deltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        WeaponSwapButtonDown();
+        StopCoroutine(CoroutineWeaponSwapOrThrown);
+        isWeaponSwapOrThrowButtonDown = false;
+        CoroutineWeaponSwapOrThrown = null;
+    }
+    public void WeaponSwapOrThrowButtonUp()
+    {
+        if (isWeaponSwapOrThrowButtonDown)
+        {
+            ThrowButtonDown();
+            StopCoroutine(CoroutineWeaponSwapOrThrown);
+            isWeaponSwapOrThrowButtonDown = false;
+            CoroutineWeaponSwapOrThrown = null;
+        }
+    }
+    /// <summary>
     /// /////////////////////////////////// SWAP WEAPON
     /// </summary>
     public void WeaponSwapButtonDown()
@@ -918,14 +953,11 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         {
             if (unit.activeAnimations.SwapWeapon != null && canThrow)
             {
-                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false).TimeScale = 1f;
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false);
 
-                StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.SwapWeapon.SpineAnimationReference.Animation.Duration));
+                changeStance = true;
 
-                if (unit.currentStance == StanceList.Stand_A)
-                    unit.currentStance = StanceList.Stand_B;
-                else if (unit.currentStance == StanceList.Stand_B)
-                    unit.currentStance = StanceList.Stand_A;
+                StartCoroutine(EndOfAnimation(trackEntry));
             }
         }
     }
@@ -939,17 +971,16 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         {
             if (unit.activeAnimations.ChangeStance.Animation != null && canThrow)
             {
-                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false).TimeScale = 1f;
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false);
 
-                StartCoroutine(WaitForEndOfAnimation(unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference.Animation.Duration));
+                currentAttack = unit.activeAnimations.ProjectileAttack[Random.Range(0, 2)] as CloseCombatAnimation;
 
-                if (currentAttack.ShadowAnimation != null)
-                    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                changeStance = true;
 
-                if (unit.currentStance == StanceList.Stand_A)
-                    unit.currentStance = StanceList.Stand_B;
-                else if (unit.currentStance == StanceList.Stand_B)
-                    unit.currentStance = StanceList.Stand_A;
+                StartCoroutine(EndOfAnimation(trackEntry));
+
+                //if (currentAttack.ShadowAnimation != null)
+                //    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
             }
         }
     }

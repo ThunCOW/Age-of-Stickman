@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.esotericsoftware.spine.timeline": "file:C:/Users/Ekrem/Downloads/com.esotericsoftware.spine.timeline-3.8-2021-03-19/com.esotericsoftware.spine.timeline-3.8",
     "com.unity.2d.animation": "7.0.6",
     "com.unity.2d.pixel-perfect": "5.0.1",
     "com.unity.2d.psdimporter": "6.0.4",

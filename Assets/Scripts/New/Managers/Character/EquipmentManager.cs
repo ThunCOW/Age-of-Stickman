@@ -19,7 +19,7 @@ public class EquipmentManager : MonoBehaviour
     public Item secondaryWeapon;
 
     public delegate void OnProjectileRelease();
-    public OnProjectileRelease OnArrowRelease;
+    public OnProjectileRelease ProjectileRelease;
 
     // Start is called before the first frame update
     void Start()
@@ -282,7 +282,7 @@ public class EquipmentManager : MonoBehaviour
             case "ProjectileRelease":
                 if (equippedItems[ItemSlot.TwoHanded] != null)
                 {
-                    OnArrowRelease();
+                    ProjectileRelease();
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[0].SlotName, null);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[1].SlotName, null);
                     skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.TwoHanded].front[2].SlotName, null);
@@ -350,7 +350,7 @@ public class EquipmentManager : MonoBehaviour
                 }
                 break;
             case "Weapon Triggers/Weapon_Throw":
-                Instantiate(unit.Projectile, unit.gameObject.transform);
+                ProjectileRelease();
                 break;
             case "Weapon Triggers/Weapon_Front":
                 if (equippedItems[ItemSlot.TwoHanded] != null)
@@ -445,6 +445,21 @@ public class EquipmentManager : MonoBehaviour
             int randArrow = Random.Range(0, ArrowOnBody_Front.SpineAttachmentList.Count);
 
             skelAnim.skeleton.SetAttachment(ArrowOnBody_Front.SpineAttachmentList[randArrow].SlotName, ArrowOnBody_Front.SpineAttachmentList[randArrow].AttachmentName);
+        }
+    }
+
+    public void SpearOnBody(bool isHitBehind)
+    {
+
+    }
+
+    public void SpearDead(bool isHitBehind, bool isHeadShot, SpineAttachment spearAttachment)
+    {
+        skelAnim.skeleton.SetAttachment("Weapon/SpearThrow", spearAttachment.AttachmentName);
+        
+        if(isHeadShot)
+        {
+
         }
     }
 }

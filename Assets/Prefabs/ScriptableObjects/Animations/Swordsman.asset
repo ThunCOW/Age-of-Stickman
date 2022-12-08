@@ -57,6 +57,10 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 997f370e43317a04c8de0f8df9ad4508, type: 2}
         - {fileID: 11400000, guid: ab56929058ef6c944bdf8a6af0d4d4f1, type: 2}
         - {fileID: 11400000, guid: 73f26bacc512c6c4580189183022e1dd, type: 2}
+        SpearThrowHead:
+        - {fileID: 11400000, guid: b03e593b7e1545045add20669e163e53, type: 2}
+        SpearThrowBody:
+        - {fileID: 11400000, guid: 7f405aacafee9bc4e9270535c7969d82, type: 2}
       BreakStance:
       - {fileID: 11400000, guid: 32fd807559c5e90408d316d8a4d84980, type: 2}
       - {fileID: 11400000, guid: e3fcfed9212494c4fb5285d68c0207bf, type: 2}

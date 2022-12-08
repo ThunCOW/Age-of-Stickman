@@ -181,7 +181,7 @@ public class SpawnManager : MonoBehaviour
 
             if ((GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
             {
-                nextSpawnTimer = Random.Range(0, 11f);
+                nextSpawnTimer = Random.Range(4, 11f);
             }
             else
             {

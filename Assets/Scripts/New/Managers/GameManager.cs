@@ -700,7 +700,6 @@ namespace SpineControllerVersion
             Gold = a_SaveData.Gold;
             
             IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
-            IsSpearmasterDead = false;
 
             Level = a_SaveData.Level;
 

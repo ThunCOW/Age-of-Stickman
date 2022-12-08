@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Death_Region_High_A_3 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 66f3fdbd7a58aeb4fa484fb070535e62, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: dbb75c5d57cb0fc46994c8fa51277693, type: 2}
   ShadowAnimation: {fileID: 7400000, guid: 8f6d47b536a377741ada2f387140816d, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Death_Region_High_A_3 UNITY
   deathType: 0
+  bloodAnimation: {fileID: 7400000, guid: 203850aed2da8c440bf8cafd18ddbeea, type: 2}
   CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
   spawnPosition: {x: 0, y: 0}
+  BodyPart: 0

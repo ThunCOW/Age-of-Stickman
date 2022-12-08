@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Death_Region_High_A_3(Spearman) UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: ac0ab646bb2456843aadba47f482b459, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: d4e6443a43e1de344aff9af474cc0a24, type: 2}
   ShadowAnimation: {fileID: 7400000, guid: 8f6d47b536a377741ada2f387140816d, type: 2}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Death_Region_High_A_3(Spearman) UNITY
   deathType: 0
+  bloodAnimation: {fileID: 7400000, guid: 203850aed2da8c440bf8cafd18ddbeea, type: 2}
   CutPart: {fileID: 6763641027044615686, guid: 04e892aaa9553034ca34c5ae1daa4a33, type: 3}
   spawnPosition: {x: 0, y: 0}
+  BodyPart: 0
