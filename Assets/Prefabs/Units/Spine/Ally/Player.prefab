@@ -2289,6 +2289,7 @@ MonoBehaviour:
     KnockedDown: {fileID: 0}
     Attack: []
     WalkAttack: []
+    ProjectileAttack: []
     ChangeStance:
       Animation: {fileID: 0}
       chance: 0
@@ -2297,9 +2298,11 @@ MonoBehaviour:
       highRegion: []
       midRegion: []
       lowRegion: []
+      SpearThrowHead: []
+      SpearThrowBody: []
     BreakStance: []
   target: {fileID: 0}
-  Projectile: {fileID: 0}
+  Projectile: {fileID: 7860010022100989081, guid: 5443a34332a313d48874bede13bcb679, type: 3}
 --- !u!114 &8615564714106964960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2343,7 +2346,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12520099, y: -0.5935539}
+  m_Offset: {x: -0.12520099, y: -0.35324758}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -2354,7 +2357,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4081397, y: 2.1984894}
+  m_Size: {x: 0.4081397, y: 2.679102}
   m_EdgeRadius: 0
 --- !u!50 &8615564714106964962
 Rigidbody2D:

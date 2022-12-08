@@ -30,6 +30,7 @@ MonoBehaviour:
       WalkAttack:
       - {fileID: 11400000, guid: 1db459df200cd8443abbfe952af2548b, type: 2}
       - {fileID: 11400000, guid: 27891db1e2267de42bf71fe7a67d2d33, type: 2}
+      ProjectileAttack: []
       ChangeStance:
         Animation: {fileID: 0}
         chance: 0
@@ -63,6 +64,10 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 997f370e43317a04c8de0f8df9ad4508, type: 2}
         - {fileID: 11400000, guid: ab56929058ef6c944bdf8a6af0d4d4f1, type: 2}
         - {fileID: 11400000, guid: 73f26bacc512c6c4580189183022e1dd, type: 2}
+        SpearThrowHead:
+        - {fileID: 11400000, guid: b03e593b7e1545045add20669e163e53, type: 2}
+        SpearThrowBody:
+        - {fileID: 11400000, guid: 7f405aacafee9bc4e9270535c7969d82, type: 2}
       BreakStance:
       - {fileID: 11400000, guid: 32fd807559c5e90408d316d8a4d84980, type: 2}
       - {fileID: 11400000, guid: e3fcfed9212494c4fb5285d68c0207bf, type: 2}
@@ -82,6 +87,9 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 52a4153c6abe13647a10a13bddf3ab62, type: 2}
       - {fileID: 11400000, guid: 776dc58a405f588418414ffee6bf1a5c, type: 2}
       WalkAttack: []
+      ProjectileAttack:
+      - {fileID: 11400000, guid: 5ea04b96d8571654390fbf3eefde21e4, type: 2}
+      - {fileID: 11400000, guid: 329a0cc5ed82a1740accf77c34832369, type: 2}
       ChangeStance:
         Animation: {fileID: 11400000, guid: 436ce1717b089214daa9cb7642b64234, type: 2}
         chance: 0
@@ -115,6 +123,10 @@ MonoBehaviour:
         - {fileID: 11400000, guid: c0a814aa9eecae64bbb2c07fa32beda1, type: 2}
         - {fileID: 11400000, guid: fd0456c4feb85ba499e6850e99e22955, type: 2}
         - {fileID: 11400000, guid: c4c4235cc37a2aa42b095862f54cbd47, type: 2}
+        SpearThrowHead:
+        - {fileID: 11400000, guid: 5efdc489a139c7f4591c6b89570adb7d, type: 2}
+        SpearThrowBody:
+        - {fileID: 11400000, guid: 7cb8439d6a34a5d4f9e0061acb71df28, type: 2}
       BreakStance:
       - {fileID: 11400000, guid: 32f6b60725780ce49a26d41bdafc68f0, type: 2}
       - {fileID: 11400000, guid: 19d3aac645b25f8449c2c4f4afc22ae5, type: 2}

@@ -348,7 +348,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         //StartCoroutine(WaitForEndOfAnimation(trackEntry));
     }
 
-    protected override void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
+    protected override void UnitDead(CloseCombatAnimation attack, int attackDirection = 0, SpineAttachment projectileAttachment = null)
     {
         // Player has no lives ( DEAD )
         if (GameManager.Instance.PlayerLives == 0)
@@ -373,6 +373,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 case HitRegion.Low:
                     deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
                     break;
+                case HitRegion.SpearThrowBody:
+                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowBody;
+                    break;
+                case HitRegion.SpearThrowHead:
+                    deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowHead;
+                    break;
                 default:
                     break;
             }
@@ -386,6 +392,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             // Play shadow animation
             if (tempDeathAnim.ShadowAnimation != null)
                 ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
+
+            // Spear
+            if (attack.attackRegion == HitRegion.SpearThrowHead)
+                equipmentManager.SpearDead(false, true, projectileAttachment);
+            else if (attack.attackRegion == HitRegion.SpearThrowBody)
+                equipmentManager.SpearDead(false, false, projectileAttachment);
 
             // Play bleeding animation after death animation completes
             StartCoroutine(BloodAnimationAfterDeath(trackEntry, tempDeathAnim));
@@ -960,6 +972,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             if (unit.activeAnimations.ChangeStance.Animation != null && canThrow)
             {
                 TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false);
+
+                currentAttack = unit.activeAnimations.ProjectileAttack[Random.Range(0, 2)] as CloseCombatAnimation;
 
                 changeStance = true;
 

@@ -95,6 +95,7 @@ MonoBehaviour:
     KnockedDown: {fileID: 0}
     Attack: []
     WalkAttack: []
+    ProjectileAttack: []
     ChangeStance:
       Animation: {fileID: 0}
       chance: 0
@@ -103,6 +104,8 @@ MonoBehaviour:
       highRegion: []
       midRegion: []
       lowRegion: []
+      SpearThrowHead: []
+      SpearThrowBody: []
     BreakStance: []
   target: {fileID: 0}
   Projectile: {fileID: 0}
@@ -122,7 +125,7 @@ MonoBehaviour:
   rb2d: {fileID: 1973527968238791168}
   spineSkeletonAnimation: {fileID: 1973527968767109554}
   ShadowAnimator: {fileID: 5524529080591916871}
-  BleedingAnimator: {fileID: 0}
+  BleedingAnimator: {fileID: 4572261745230054683}
   unit: {fileID: 1973527968238791182}
   equipmentManager: {fileID: 1973527968238791183}
   isAnimationStarted: 0
@@ -167,7 +170,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.12520099, y: -0.42397672}
+  m_Offset: {x: -0.12520099, y: -0.20311773}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -178,7 +181,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4081397, y: 1.8593353}
+  m_Size: {x: 0.4081397, y: 2.3010533}
   m_EdgeRadius: 0
 --- !u!1 &1973527968767109557
 GameObject:
@@ -358,6 +361,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e85e67dc0d20434f9a9b8766ee0c327, type: 3}
+--- !u!95 &4572261745230054683 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 273778225041684582, guid: 3e85e67dc0d20434f9a9b8766ee0c327, type: 3}
+  m_PrefabInstance: {fileID: 4377296584611937661}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &7890469916448181917 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5854640586578981856, guid: 3e85e67dc0d20434f9a9b8766ee0c327, type: 3}

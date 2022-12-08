@@ -4,6 +4,7 @@ using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum MoveDirection
 {
@@ -96,7 +97,7 @@ public class UnitController : MonoBehaviour
         RightWallPosition = GameManager.Instance.LevelBordersParent.transform.GetChild(1);
 
         EquipmentManager tempEM = GetComponent<EquipmentManager>();
-        tempEM.OnArrowRelease += ProjectileRelease;
+        tempEM.ProjectileRelease += ProjectileRelease;
 
         SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.Movement.SpineAnimationReference, 0);
         SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
@@ -247,15 +248,24 @@ public class UnitController : MonoBehaviour
     public void ProjectileRelease()
     {
         GameObject projectile = Instantiate(unit.Projectile, unit.gameObject.transform);
-        projectile.GetComponent<Projectile>().projectileAttack = currentAttack;
+        
+        Projectile tempProjectile = projectile.GetComponent<Projectile>();
+        
+        tempProjectile.projectileAttack = currentAttack;
 
-        currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+        // means its a spear
+        if (tempProjectile.projectileType == ProjectileType.Spear)
+            tempProjectile.projectileAttachment = equipmentManager.equippedItems[ItemSlot.MainHand].front[1];   // 0 is sword, 1 is spear
+
+
+
+        //currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
     }
 
     /// <summary>
     /// Returns true when hit succesfully damaged
     /// </summary>
-    public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false)
+    public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
         if(blockTrigger)
         {
@@ -279,7 +289,7 @@ public class UnitController : MonoBehaviour
 
         if (unit.Health <= 0)
         {
-            UnitDead(attack, attackDirection);
+            UnitDead(attack, attackDirection, projectileAttachment);
         }
         // This part is for bossess, gonna leave it for now, only bosses dont have hurt anim
         else if (unit.activeAnimations.Hurt == null)
@@ -323,7 +333,7 @@ public class UnitController : MonoBehaviour
         return true;
     }
 
-    protected virtual void UnitDead(CloseCombatAnimation attack, int attackDirection = 0)
+    protected virtual void UnitDead(CloseCombatAnimation attack, int attackDirection = 0, SpineAttachment projectileAttachment = null)
     {
         //boxCollider2.enabled = false;
         gameObject.layer = ((int)GameLayers.DeadUnit);
@@ -370,6 +380,14 @@ public class UnitController : MonoBehaviour
             case HitRegion.Low:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
                 break;
+            case HitRegion.SpearThrowBody:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowBody;
+                SetMixBetweenAnimation(spineSkeletonAnimation.AnimationState.GetCurrent(1).Animation.Name, deathAnimation[0].SpineAnimationReference.Animation.Name, 0);
+                break;
+            case HitRegion.SpearThrowHead:
+                deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowHead;
+                SetMixBetweenAnimation(spineSkeletonAnimation.AnimationState.GetCurrent(1).Animation.Name, deathAnimation[0].SpineAnimationReference.Animation.Name, 0);
+                break;
             default:
                 break;
         }
@@ -384,6 +402,12 @@ public class UnitController : MonoBehaviour
         if (tempDeathAnim.ShadowAnimation != null)
             ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
         
+        // Spear
+        if (attack.attackRegion == HitRegion.SpearThrowHead)
+            equipmentManager.SpearDead(false, true, projectileAttachment);
+        else if (attack.attackRegion == HitRegion.SpearThrowBody)
+            equipmentManager.SpearDead(false, false, projectileAttachment);
+
         // Play bleeding animation after death animation completes
         StartCoroutine(BloodAnimationAfterDeath(trackEntry, tempDeathAnim));
         /*

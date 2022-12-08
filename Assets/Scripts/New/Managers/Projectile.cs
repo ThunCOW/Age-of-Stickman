@@ -10,7 +10,7 @@ public class Projectile : MonoBehaviour
     private Unit parentUnit;
 
     [Space]
-    [SerializeField] ProjectileType projectileType;
+    public ProjectileType projectileType;
     public SoundScriptableObject RangedAttackSoundSO;
     
     public float projectileSpeed;
@@ -21,6 +21,7 @@ public class Projectile : MonoBehaviour
     bool falling = false;
 
     [HideInInspector] public CloseCombatAnimation projectileAttack;
+    [HideInInspector] public SpineAttachment projectileAttachment;
 
     // Start is called before the first frame update
     void Start()
@@ -58,7 +59,15 @@ public class Projectile : MonoBehaviour
         if (projectileAttack.DamageMultiplierMax == 0)
             Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
 
-        return target.unitController.TakeDamage(projectileAttack, damageDealt, projectileDir, true);
+        if (projectileType == ProjectileType.Arrow)
+            return target.unitController.TakeDamage(projectileAttack, damageDealt, projectileDir, true);
+        else
+        {
+            if(target.unitController.isBoss)
+                return target.unitController.TakeDamage(projectileAttack, target.HealthMax / Random.Range(5, 10), projectileDir, false, projectileAttachment);
+            else
+                return target.unitController.TakeDamage(projectileAttack, target.HealthMax, projectileDir, false, projectileAttachment);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -70,8 +79,6 @@ public class Projectile : MonoBehaviour
             {
                 falling = true;
 
-                //parentUnit.unitController.ProjectileDamage();
-                UnitController enemyUnitController = collision.GetComponent<UnitController>();
                 Unit enemyUnit = collision.GetComponent<Unit>();
                 if(ProjectileDamage(enemyUnit))
                 {
@@ -124,9 +131,9 @@ public class Projectile : MonoBehaviour
         //rb2d.velocity = Vector2.zero;
     }
 
-    enum ProjectileType
-    {
-        Arrow,
-        Spear
-    }
+}
+public enum ProjectileType
+{
+    Arrow,
+    Spear
 }

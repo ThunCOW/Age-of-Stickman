@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 7860010022100989083}
   - component: {fileID: 7860010022100989082}
   - component: {fileID: 7860010022100989078}
-  - component: {fileID: 7860010022100989076}
+  - component: {fileID: 2956891110723860658}
   - component: {fileID: 7860010022100989077}
+  - component: {fileID: 7860010022100989076}
   m_Layer: 12
   m_Name: PlayerSpear
   m_TagString: Untagged
@@ -73,8 +74,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1871919695
-  m_SortingLayer: 3
+  m_SortingLayerID: -2004600579
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 780df50175a763e4fa2663a7ad9d1a23, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -101,34 +102,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2d: {fileID: 7860010022100989077}
   boxcol2d: {fileID: 7860010022100989076}
+  projectileType: 1
   RangedAttackSoundSO: {fileID: 0}
-  projectileSpeed: 36
---- !u!61 &7860010022100989076
-BoxCollider2D:
+  projectileSpeed: 30
+  projectileAttack: {fileID: 0}
+  projectileAttachment:
+    SlotName: 
+    AttachmentName: 
+--- !u!210 &2956891110723860658
+SortingGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7860010022100989081}
   m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 6.75, y: 0.47}
-    newSize: {x: 4.33, y: 0.35}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.33, y: 0.35}
-  m_EdgeRadius: 0
+  m_SortingLayerID: -2004600579
+  m_SortingLayer: 4
+  m_SortingOrder: 0
 --- !u!50 &7860010022100989077
 Rigidbody2D:
   serializedVersion: 4
@@ -150,3 +141,29 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!61 &7860010022100989076
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7860010022100989081}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.77794933, y: 0.012972429}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 6.75, y: 0.47}
+    newSize: {x: 4.33, y: 0.35}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 5.8858986, y: 0.2359542}
+  m_EdgeRadius: 0

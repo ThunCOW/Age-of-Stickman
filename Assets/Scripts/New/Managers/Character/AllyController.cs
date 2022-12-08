@@ -331,7 +331,7 @@ public class AllyController : AIController
             currentStance = StanceList.Stand_A;*/
     //}
 
-    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
+    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
         unit.Health -= DamageTaken;
 
@@ -342,6 +342,6 @@ public class AllyController : AIController
             MercenaryDead -= MercenaryManager.Instance.MercenaryDead;
         }
         
-        return base.TakeDamage(attack, 0, attackDirection, isProjectile);
+        return base.TakeDamage(attack, 0, attackDirection, isProjectile, projectileAttachment);
     }
 }

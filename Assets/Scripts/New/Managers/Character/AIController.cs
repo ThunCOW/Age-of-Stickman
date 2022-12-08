@@ -113,13 +113,13 @@ public class AIController : UnitController
         }
     }
 
-    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false)
+    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
         // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
         if (CompareTag(GameManager.ENEMY_TAG))
             GameManager.Instance.LeftSpawn.Remove(gameObject);
 
-        return base.TakeDamage(attack, DamageTaken, attackDirection, isProjectile);
+        return base.TakeDamage(attack, DamageTaken, attackDirection, isProjectile, projectileAttachment);
     }
 
     // runs all the time

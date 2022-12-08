@@ -482,6 +482,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5854640586578981856, guid: 3e85e67dc0d20434f9a9b8766ee0c327, type: 3}
   m_PrefabInstance: {fileID: 1445607089}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &1445607091 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 273778225041684582, guid: 3e85e67dc0d20434f9a9b8766ee0c327, type: 3}
+  m_PrefabInstance: {fileID: 1445607089}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1557493163
 GameObject:
   m_ObjectHideFlags: 0
@@ -598,7 +603,7 @@ MonoBehaviour:
   rb2d: {fileID: 1725489153}
   spineSkeletonAnimation: {fileID: 2060461452}
   ShadowAnimator: {fileID: 1307556547}
-  BleedingAnimator: {fileID: 0}
+  BleedingAnimator: {fileID: 1445607091}
   unit: {fileID: 1725489156}
   equipmentManager: {fileID: 1725489157}
   isAnimationStarted: 0
@@ -645,6 +650,7 @@ MonoBehaviour:
     KnockedDown: {fileID: 0}
     Attack: []
     WalkAttack: []
+    ProjectileAttack: []
     ChangeStance:
       Animation: {fileID: 0}
       chance: 0
@@ -653,6 +659,8 @@ MonoBehaviour:
       highRegion: []
       midRegion: []
       lowRegion: []
+      SpearThrowHead: []
+      SpearThrowBody: []
     BreakStance: []
   target: {fileID: 0}
   Projectile: {fileID: 0}
@@ -2813,6 +2821,8 @@ PlayableDirector:
   - key: {fileID: -4537567817416249132, guid: 0475d3fb9fb6b4644b40c72553df6298, type: 2}
     value: {fileID: 2060461452}
   - key: {fileID: -3938060801810219153, guid: 0475d3fb9fb6b4644b40c72553df6298, type: 2}
+    value: {fileID: 2060461452}
+  - key: {fileID: 3790207617620565164, guid: 0475d3fb9fb6b4644b40c72553df6298, type: 2}
     value: {fileID: 2060461452}
   m_ExposedReferences:
     m_References: []

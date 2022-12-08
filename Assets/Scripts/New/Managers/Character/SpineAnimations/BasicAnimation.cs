@@ -77,6 +77,7 @@ public enum HitRegion
     Mid,
     Low,
     SpearThrowHead,
+    SpearThrowBody,
     Arrow
 }
 

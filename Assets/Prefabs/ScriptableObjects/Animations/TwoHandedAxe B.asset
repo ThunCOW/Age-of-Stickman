@@ -51,6 +51,10 @@ MonoBehaviour:
         - {fileID: 11400000, guid: d6d3dadf5444e2f43963bef243a0d955, type: 2}
         - {fileID: 11400000, guid: 505ad46a473d956439e74ccd68830870, type: 2}
         - {fileID: 11400000, guid: 01e2f35a0c50ad14d9688baeef8342b8, type: 2}
+        SpearThrowHead:
+        - {fileID: 11400000, guid: b03e593b7e1545045add20669e163e53, type: 2}
+        SpearThrowBody:
+        - {fileID: 11400000, guid: 71e96480a2303b14aa53c955c622604e, type: 2}
       BreakStance: []
     extraSpeed: 1
   - Stance: 2
@@ -97,6 +101,8 @@ MonoBehaviour:
         - {fileID: 11400000, guid: d6d3dadf5444e2f43963bef243a0d955, type: 2}
         - {fileID: 11400000, guid: 505ad46a473d956439e74ccd68830870, type: 2}
         - {fileID: 11400000, guid: 01e2f35a0c50ad14d9688baeef8342b8, type: 2}
+        SpearThrowHead: []
+        SpearThrowBody: []
       BreakStance:
       - {fileID: 11400000, guid: 4593b20a789a7c54eaa74181781362fa, type: 2}
     extraSpeed: 0
