@@ -66,6 +66,7 @@ namespace SpineControllerVersion
 
         // TAGS
         public const string GOLD_TAG = "Gold";
+        public const string SPEAR_PICKUP_TAG = "SPEAR_PICKUP";
         
         public const string ENEMY_TAG = "EnemyUnit";
         public const string SPEARMASTER_TAG = "Spearmaster";
@@ -136,6 +137,8 @@ namespace SpineControllerVersion
             }
         }
         [SerializeField] private List<Item> DefaultEquipments;
+
+        public SpearPickup Green_Elf_Boss_Spear;
 
         private PlayerControls _PlayerControls;
         public PlayerControls PlayerControls
@@ -232,8 +235,6 @@ namespace SpineControllerVersion
 
 
         [Header("_Temporary / Dumb Variables_")]
-        // Too lazy to make a system fro secondary weapon so im just gonna check if first boss is dead and hide/show weapon lmao
-        public bool IsSpearmasterDead;
 
         public int Level;
 
@@ -657,8 +658,6 @@ namespace SpineControllerVersion
             a_SaveData.PlayerLives = PlayerLives;
             a_SaveData.Gold = Gold;
 
-            a_SaveData.IsSpearmasterDead = IsSpearmasterDead;
-
             a_SaveData.Level = Level;
 
             //foreach (MercenaryUnit mercenaryUnit in MercenaryManager.Instance.Mercenaries)
@@ -698,8 +697,6 @@ namespace SpineControllerVersion
 
             PlayerLives = a_SaveData.PlayerLives;
             Gold = a_SaveData.Gold;
-            
-            IsSpearmasterDead = a_SaveData.IsSpearmasterDead;
 
             Level = a_SaveData.Level;
 

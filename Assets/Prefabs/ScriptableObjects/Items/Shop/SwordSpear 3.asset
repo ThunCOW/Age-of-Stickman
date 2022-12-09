@@ -23,8 +23,6 @@ MonoBehaviour:
   front:
   - SlotName: Weapon/OneHand_Sword_00
     AttachmentName: Weapon/OneHand_Sword_05
-  - SlotName: Weapon/Spear_0
-    AttachmentName: Weapon/Spear_04 SMALL
   side: []
   back: []
   back2: []

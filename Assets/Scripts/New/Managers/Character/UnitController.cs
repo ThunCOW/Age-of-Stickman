@@ -21,7 +21,9 @@ public class UnitController : MonoBehaviour
     [HideInInspector] public SkeletonAnimation spineSkeletonAnimation;
     [HideInInspector] public Animator ShadowAnimator;
     [HideInInspector] public Animator BleedingAnimator;
-    
+
+    // TODO: doing it like this for now because why not
+    public GameObject SpearDropPrefab;
 
     [HideInInspector][SerializeField] protected Unit unit;
     [HideInInspector][SerializeField] protected EquipmentManager equipmentManager;
@@ -255,9 +257,13 @@ public class UnitController : MonoBehaviour
 
         // means its a spear
         if (tempProjectile.projectileType == ProjectileType.Spear)
-            tempProjectile.projectileAttachment = equipmentManager.equippedItems[ItemSlot.MainHand].front[1];   // 0 is sword, 1 is spear
+            tempProjectile.projectileAttachment = equipmentManager.equippedItems[ItemSlot.SecondaryWeapon].front[0];   // 0 is sword, 1 is spear
 
-
+        if (equipmentManager.equippedItems[ItemSlot.SecondaryWeapon] != null)
+        {
+            spineSkeletonAnimation.skeleton.SetAttachment(equipmentManager.equippedItems[ItemSlot.SecondaryWeapon].front[0].SlotName, null);
+            equipmentManager.equippedItems[ItemSlot.SecondaryWeapon] = null;
+        }
 
         //currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
     }
@@ -402,11 +408,20 @@ public class UnitController : MonoBehaviour
         if (tempDeathAnim.ShadowAnimation != null)
             ShadowAnimator.Play(tempDeathAnim.ShadowAnimation.name);
         
-        // Spear
+        // Impaled by Spear
         if (attack.attackRegion == HitRegion.SpearThrowHead)
             equipmentManager.SpearDead(false, true, projectileAttachment);
         else if (attack.attackRegion == HitRegion.SpearThrowBody)
             equipmentManager.SpearDead(false, false, projectileAttachment);
+
+        // Drop Spear if spearman
+        if(SpearDropPrefab != null)
+        {
+            GameObject SpearDrop = Instantiate(SpearDropPrefab, unit.gameObject.transform);
+
+            SpearPickup spearPickup = SpearDrop.GetComponent<SpearPickup>();
+            spearPickup.parentUnit = unit;
+        }
 
         // Play bleeding animation after death animation completes
         StartCoroutine(BloodAnimationAfterDeath(trackEntry, tempDeathAnim));

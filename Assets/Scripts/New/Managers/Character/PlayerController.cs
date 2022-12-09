@@ -6,6 +6,7 @@ using Spine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Spine.Unity;
+using Newtonsoft.Json.Linq;
 
 public class PlayerController : UnitController, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
@@ -29,7 +30,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     bool stunTrigger = false;
     Coroutine triggerCoroutine = null;
 
-    [HideInInspector] public bool canThrow = true;
+    private bool canThrow;
+    [HideInInspector] public SpearPickup spearPickup;
 
     public delegate void OnBossTrigger(string BossTag);
     public OnBossTrigger BossTrigger;
@@ -90,8 +92,11 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         joystickDefaultPositionScreen =  joystickTransform.position;
 
-        // TODO: Same S1
-        canThrow = GameManager.Instance.IsSpearmasterDead;
+        if (equipmentManager.equippedItems[ItemSlot.SecondaryWeapon] != null)
+            unit.Projectile = GameManager.Instance.Green_Elf_Boss_Spear.SpearProjectilePrefab;
+
+        if (unit.Projectile != null)
+            canThrow = true;
 
         LoadControls();
 
@@ -553,6 +558,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     {
         attackTrigger = false;
         stunTrigger = false;
+        DefendButtonCoroutineStarted = false;
 
         // Set new movement direction and look direction
         if (moveButton.Hold)
@@ -597,54 +603,6 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
     }
 
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (gameObject.tag == GameManager.PLAYER_TAG)
-        {
-            if (collision.gameObject.tag == GameManager.GOLD_TAG)
-            {
-                GameManager.Instance.GoldGained++;
-                Destroy(collision.gameObject);
-                SoundManager.Instance.PlayEffect(GameManager.Instance.
-                    CoinPickupSound[UnityEngine.Random.Range(0, GameManager.Instance.CoinPickupSound.Count)]);
-            }
-        }
-    }
-
-    void OnTriggerEnter2D(Collider2D trigger)
-    {
-        if(gameObject.tag == GameManager.PLAYER_TAG)
-        {
-            //Debug.Log(trigger.gameObject.tag);
-            if(trigger.gameObject.tag == GameManager.FINISH_LEVEL_TAG)
-            {
-                if (GameManager.Instance.EnemyUnits.Count != 0)
-                {
-                    Debug.Log("Defeat All Enemies First");
-                    GameManager.Instance.ContinueAfterEnemyDeadTextSpawn();
-                }
-                else
-                {
-                    StartCoroutine(EndLevelInTime());
-                }
-            }
-            if(trigger.gameObject.tag == GameManager.SPEARMASTER_SPAWN_TAG)
-            {
-                trigger.gameObject.SetActive(false);
-
-                BossTrigger(GameManager.SPEARMASTER_SPAWN_TAG);
-            }
-            else if(trigger.gameObject.tag == GameManager.SCYTHEMASTER_SPAWN_TAG)
-            {
-
-                trigger.gameObject.SetActive(false);
-
-                BossTrigger(GameManager.SCYTHEMASTER_SPAWN_TAG);
-            }
-        }
-    }
-
     IEnumerator EndLevelInTime()
     {
         GameManager.Instance.DisableControls = true;
@@ -662,10 +620,119 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         GameManager.Instance.SceneLoader.FinishLevel();
     }
 
+
+
+
+
+
+
+
+    /// <summary>
+    /// ///////////////////////////////////////////////////////////////////// COLLISOIN DETECTION
+    /// </summary>
     public void DestroySecondaryCanvas()
     {
         Destroy(GameManager.Instance.transform.GetChild(0).gameObject); ;
     }
+
+
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (gameObject.tag == GameManager.PLAYER_TAG)
+        {
+            if (collision.gameObject.tag == GameManager.GOLD_TAG)
+            {
+                GameManager.Instance.GoldGained++;
+                Destroy(collision.gameObject);
+                SoundManager.Instance.PlayEffect(GameManager.Instance.
+                    CoinPickupSound[Random.Range(0, GameManager.Instance.CoinPickupSound.Count)]);
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D trigger)
+    {
+        //Debug.Log(trigger.gameObject.tag);
+        if (trigger.gameObject.tag == GameManager.FINISH_LEVEL_TAG)
+        {
+            if (GameManager.Instance.EnemyUnits.Count != 0)
+            {
+                Debug.Log("Defeat All Enemies First");
+                GameManager.Instance.ContinueAfterEnemyDeadTextSpawn();
+            }
+            else
+            {
+                StartCoroutine(EndLevelInTime());
+            }
+        }
+
+        if (trigger.gameObject.tag == GameManager.SPEARMASTER_SPAWN_TAG)
+        {
+            trigger.gameObject.SetActive(false);
+
+            BossTrigger(GameManager.SPEARMASTER_SPAWN_TAG);
+        }
+        else if (trigger.gameObject.tag == GameManager.SCYTHEMASTER_SPAWN_TAG)
+        {
+
+            trigger.gameObject.SetActive(false);
+
+            BossTrigger(GameManager.SCYTHEMASTER_SPAWN_TAG);
+        }
+
+        if (trigger.gameObject.tag == GameManager.SPEAR_PICKUP_TAG)
+        {
+            if (!canThrow)
+            {
+                if (spearPickup != null)
+                {
+                    spearPickup.IsShown = false;
+                }
+
+                spearPickup = trigger.GetComponent<SpearPickup>();
+                spearPickup.IsShown = true;
+            }
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D trigger)
+    {
+        if (trigger.gameObject.tag == GameManager.SPEAR_PICKUP_TAG)
+        {
+            if (!canThrow)
+            {
+                if (spearPickup.gameObject == trigger.gameObject)
+                {
+                    spearPickup.IsShown = false;
+
+                    spearPickup = null;
+                }
+            }
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D trigger)
+    {
+        if (spearPickup == null)
+        {
+            if (!canThrow)
+            {
+                if (trigger.gameObject.tag == GameManager.SPEAR_PICKUP_TAG)
+                {
+                    if (spearPickup != null)
+                    {
+                        spearPickup.IsShown = false;
+                    }
+
+                    spearPickup = trigger.GetComponent<SpearPickup>();
+                    spearPickup.IsShown = true;
+                }
+            }
+        }
+    }
+
 
 
 
@@ -909,6 +976,18 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     }
 
     /// <summary>
+    /// /////////////////////////////////////// Pickup Spear
+    /// </summary>
+    public void PickupSpear()
+    {
+        equipmentManager.PickupSecondary(spearPickup.Spear);
+
+        unit.Projectile = spearPickup.SpearProjectilePrefab;
+
+        canThrow = true;
+    }
+
+    /// <summary>
     /// ////////////////////////////////// SWAP WEAPON AND THROW SPEAR
     /// </summary>
     private bool isWeaponSwapOrThrowButtonDown = false;                                     // Short click = throw / Long click = swap
@@ -977,14 +1056,21 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
                 changeStance = true;
 
-                StartCoroutine(EndOfAnimation(trackEntry));
+                StartCoroutine(SpearThrown(trackEntry));
 
                 //if (currentAttack.ShadowAnimation != null)
                 //    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
             }
         }
     }
+    IEnumerator SpearThrown(TrackEntry trackEntry)
+    {
+        yield return new WaitForSpineAnimationComplete(trackEntry);
 
+        EndOfAnimation();
+
+        unit.Projectile = null;
+    }
 
 
 
@@ -1037,8 +1123,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 break;
 
             case "Game Event/Spearmaster_Dead":
-                GameManager.Instance.IsSpearmasterDead = true;
-                GameManager.Instance.Player.GetComponent<EquipmentManager>().ShowSecondaryWeapon();
+                spearPickup = GameManager.Instance.Green_Elf_Boss_Spear;
+
+                GameManager.Instance.PlayerEquipments.Add(spearPickup.Spear);
+
+                PickupSpear();
+                
                 GameManager.Instance.Player.currentStance = StanceList.Stand_B;
                 break;
 

@@ -3,6 +3,7 @@ using Spine.Unity;
 using SpineControllerVersion;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class EquipmentManager : MonoBehaviour
 {
@@ -43,7 +44,7 @@ public class EquipmentManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        ChangeItem();
+        //ChangeItem();
     }
 
     private void SetStartingItems()
@@ -68,33 +69,38 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-    public bool changeItemNow = false;
-    void ChangeItem()
+    public void PickupSecondary(ItemWeapon secondaryWeapon)
     {
-        if (changeItemNow)
-        {
-            int i = 0;
-            for (; i < startingItems.Count; i++)
-            {
-                EquipItems(startingItems[i].InitiateItem());
-            }
+        Item initializedWeapon = secondaryWeapon.InitiateItem();
 
-            for (i = startingItems.Count - 1; i >= 0; i--)
-            {
-                startingItems.RemoveAt(i);
-            }
-            changeItemNow = false;
+        equippedItems[initializedWeapon.ItemSlot] = initializedWeapon;
+
+        // Add attachments of newly equipped item
+        for (int i = 0; i < equippedItems[initializedWeapon.ItemSlot].front.Count; i++)
+        {
+            skelAnim.skeleton.SetAttachment(equippedItems[initializedWeapon.ItemSlot].front[i].SlotName, equippedItems[initializedWeapon.ItemSlot].front[i].AttachmentName);
         }
     }
 
-    void ChangeItem(List<Item> newItems)
-    {
-        int i = 0;
-        for (; i < newItems.Count; i++)
-        {
-            EquipItems(startingItems[i].InitiateItem());
-        }
-    }
+    /*public bool changeItemNow = false;
+     void ChangeItem()
+     {
+         if (changeItemNow)
+       {
+           int i = 0;
+           for (; i < startingItems.Count; i++)
+           {
+               EquipItems(startingItems[i].InitiateItem());
+           }
+
+           for (i = startingItems.Count - 1; i >= 0; i--)
+           {
+               startingItems.RemoveAt(i);
+           }
+           changeItemNow = false;
+       }
+     }*/
+
 
     private void EquipItems(Item item)
     {
@@ -174,14 +180,6 @@ public class EquipmentManager : MonoBehaviour
 
             equippedItems[item.ItemSlot] = item;
 
-            // TODO : Too lazy to make a secondary weapon working, so this line of code removes secondary weapon from appearing until first boss is dead
-            if(gameObject.CompareTag(GameManager.PLAYER_TAG))
-            {
-                skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[0].SlotName, equippedItems[item.ItemSlot].front[0].AttachmentName);
-                if(GameManager.Instance.IsSpearmasterDead)
-                    skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[1].SlotName, equippedItems[item.ItemSlot].front[1].AttachmentName);
-                return;
-            }
             // Add attachments of newly equipped item
             for (int i = 0; i < equippedItems[item.ItemSlot].front.Count; i++)
             {
@@ -240,11 +238,6 @@ public class EquipmentManager : MonoBehaviour
                 }
             }
         }
-    }
-
-    public void SwapToSecondaryWeapon()
-    {
-
     }
 
     private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
@@ -325,8 +318,8 @@ public class EquipmentManager : MonoBehaviour
             case "Weapon Triggers/WeaponSecondary_Hide_Front":
                 if (equippedItems[ItemSlot.MainHand] != null)
                 {
-                    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[1].SlotName, null);
-                    
+                    //if(equippedItems[ItemSlot.MainHand].front.Count > 1)
+                    //    skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[1].SlotName, null);
                 }
                 else
                 {
@@ -422,12 +415,6 @@ public class EquipmentManager : MonoBehaviour
         }
 
         // Weapon
-    }
-
-    public void ShowSecondaryWeapon()
-    {
-        skelAnim.skeleton.SetAttachment(equippedItems[ItemSlot.MainHand].front[1].SlotName, equippedItems[ItemSlot.MainHand].front[1].AttachmentName);
-        //skelAnim.skeleton.SetAttachment(equippedItems[item.ItemSlot].front[1].SlotName, equippedItems[item.ItemSlot].front[1].AttachmentName);
     }
 
     public void ArrowOnBody(bool isHitBehind)
