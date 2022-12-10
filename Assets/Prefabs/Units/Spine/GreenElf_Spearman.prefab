@@ -55,7 +55,7 @@ MonoBehaviour:
   ArrowOnBody_Front: {fileID: 11400000, guid: faf8afe889bd1fc45bb85694d2f6ac3d, type: 2}
   ArrowOnBody_Back: {fileID: 11400000, guid: e65f71d053017df4e8cfbe00f165d973, type: 2}
   startingItems:
-  - {fileID: 11400000, guid: 8e13ed0e18d4e6a4290b1cb0e2e327eb, type: 2}
+  - {fileID: 11400000, guid: c1f30fc2b4f9d5247b217031dcf8db93, type: 2}
   - {fileID: 11400000, guid: 75270afe4cdafa24c86321561d277f1a, type: 2}
   - {fileID: 11400000, guid: 05a6c2596f95ae749bfb079d399d9883, type: 2}
   - {fileID: 11400000, guid: bee017d867df2834d95df34895afce83, type: 2}

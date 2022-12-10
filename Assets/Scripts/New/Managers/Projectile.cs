@@ -82,6 +82,7 @@ public class Projectile : MonoBehaviour
                 Unit enemyUnit = collision.GetComponent<Unit>();
                 if(ProjectileDamage(enemyUnit))
                 {
+                    boxcol2d.enabled = false;
                     // Hit connected, can delete the arrow
                     Destroy(gameObject);
                 }

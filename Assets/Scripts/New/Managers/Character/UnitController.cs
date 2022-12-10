@@ -42,15 +42,7 @@ public class UnitController : MonoBehaviour
     protected bool blockTrigger = false;
     protected bool resurrectionState = false;
 
-    bool _changeStance = false;
-    protected bool changeStance
-    {
-        get { return _changeStance; }
-        set
-        {
-            _changeStance = value;
-        }
-    }
+    protected bool changeStance;
 
     [HideInInspector] public bool isBoss;
 
@@ -742,7 +734,18 @@ public class UnitController : MonoBehaviour
 
     protected virtual void StopRoutine()
     {
-        changeStance = false;
+        if(changeStance)
+        {
+            if (equipmentManager.equippedItems[ItemSlot.SecondaryWeapon] == null)
+            {
+                if (unit.currentStance == StanceList.Stand_A)
+                    unit.currentStance = StanceList.Stand_B;
+                else if (unit.currentStance == StanceList.Stand_B)
+                    unit.currentStance = StanceList.Stand_A;
+            }
+
+            changeStance = false;
+        }
 
         StopAllCoroutines();
     }

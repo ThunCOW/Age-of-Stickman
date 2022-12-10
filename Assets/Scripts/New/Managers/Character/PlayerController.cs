@@ -28,6 +28,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     */
     bool attackTrigger = false;
     bool stunTrigger = false;
+    bool isWeaponBeingSwapped = false;
     Coroutine triggerCoroutine = null;
 
     private bool canThrow;
@@ -136,65 +137,68 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     {
         KeyboardControls();
 
-        // Animation Conditions
-        if (attackTrigger)
+        if(!isWeaponBeingSwapped)
         {
-            if (!isAnimationStarted && !blockTrigger)
+            // Animation Conditions
+            if (attackTrigger)
             {
-                // Stationary Attack
-                if (direction == MoveDirection.waiting)
+                if (!isAnimationStarted && !blockTrigger)
                 {
-                    // There isn't an animation already playing
-                    List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
+                    // Stationary Attack
+                    if (direction == MoveDirection.waiting)
+                    {
+                        // There isn't an animation already playing
+                        List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
 
-                    int randomAttack = UnityEngine.Random.Range(0, tempStationaryAttack.Count);
-                    currentAttack = tempStationaryAttack[randomAttack] as CloseCombatAnimation;
+                        int randomAttack = UnityEngine.Random.Range(0, tempStationaryAttack.Count);
+                        currentAttack = tempStationaryAttack[randomAttack] as CloseCombatAnimation;
 
 
-                    //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.idle.SpineAnimationReference.Animation.Name, currentAttack.SpineAnimationReference.Animation.Name, 0.15f);
-                    TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+                        //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.idle.SpineAnimationReference.Animation.Name, currentAttack.SpineAnimationReference.Animation.Name, 0.15f);
+                        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                    AttackAction(trackEntry);
+                        AttackAction(trackEntry);
 
-                    if (currentAttack.ShadowAnimation != null)
-                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
-                }
-                // NonStationary Attack
-                else
-                {
-                    // There isn't an animation already playing
-                    List<BasicAnimation> tempWalkAttack = unit.activeAnimations.WalkAttack;
+                        if (currentAttack.ShadowAnimation != null)
+                            ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                    }
+                    // NonStationary Attack
+                    else
+                    {
+                        // There isn't an animation already playing
+                        List<BasicAnimation> tempWalkAttack = unit.activeAnimations.WalkAttack;
 
-                    int randomAttack = UnityEngine.Random.Range(0, tempWalkAttack.Count);
-                    currentAttack = tempWalkAttack[randomAttack] as CloseCombatAnimation;
+                        int randomAttack = UnityEngine.Random.Range(0, tempWalkAttack.Count);
+                        currentAttack = tempWalkAttack[randomAttack] as CloseCombatAnimation;
 
-                    //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.Movement.SpineAnimationReference.Animation.Name, unit.activeAnimations.WalkAttack[0].SpineAnimationReference.Animation.Name, 0.15f);
-                    TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+                        //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.Movement.SpineAnimationReference.Animation.Name, unit.activeAnimations.WalkAttack[0].SpineAnimationReference.Animation.Name, 0.15f);
+                        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                    AttackAction(trackEntry);
+                        AttackAction(trackEntry);
 
-                    if (currentAttack.ShadowAnimation != null)
-                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                        if (currentAttack.ShadowAnimation != null)
+                            ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                    }
                 }
             }
-        }
 
-        if (stunTrigger)
-        {
-            if (!isAnimationStarted && !blockTrigger)
+            if (stunTrigger)
             {
-                List<BasicAnimation> tempStationaryStun = unit.activeAnimations.BreakStance;
+                if (!isAnimationStarted && !blockTrigger)
+                {
+                    List<BasicAnimation> tempStationaryStun = unit.activeAnimations.BreakStance;
 
-                int randomAttack = UnityEngine.Random.Range(0, tempStationaryStun.Count);
-                BasicAnimation t = tempStationaryStun[randomAttack];
-                currentAttack = (CloseCombatAnimation)t;
+                    int randomAttack = UnityEngine.Random.Range(0, tempStationaryStun.Count);
+                    BasicAnimation t = tempStationaryStun[randomAttack];
+                    currentAttack = (CloseCombatAnimation)t;
 
-                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
+                    TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, currentAttack.SpineAnimationReference, false);
 
-                AttackAction(trackEntry);
+                    AttackAction(trackEntry);
 
-                if (currentAttack.ShadowAnimation != null)
-                    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                    if (currentAttack.ShadowAnimation != null)
+                        ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
+                }
             }
         }
 
@@ -349,8 +353,6 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         
         AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
         StartCoroutine(SpeedDuringAnimation(trackEntry, currentAttack.speedCurve));
-        //StartCoroutine(WaitForEndOfAnimation(currentAttack.SpineAnimationReference.Animation.Duration));
-        //StartCoroutine(WaitForEndOfAnimation(trackEntry));
     }
 
     protected override void UnitDead(CloseCombatAnimation attack, int attackDirection = 0, SpineAttachment projectileAttachment = null)
@@ -509,7 +511,46 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     protected override void EndOfAnimation()
     {
-        base.EndOfAnimation();
+        if (changeStance)
+        {
+            if (unit.currentStance == StanceList.Stand_A)
+                unit.currentStance = StanceList.Stand_B;
+            else if (unit.currentStance == StanceList.Stand_B)
+                unit.currentStance = StanceList.Stand_A;
+
+            changeStance = false;
+
+            SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+            for (int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+            {
+                SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+            }
+
+            SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.Movement.SpineAnimationReference, 0);
+            SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+            for (int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+            {
+                SetMixBetweenAnimation(unit.activeAnimations.BreakStance[i].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+                SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+
+                SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+            }
+        }
+
+        speed = defaultSpeed;
+
+        speedRelativeToAnimation = 0;
+
+        direction = MoveDirection.waiting;
+
+        idleing = true;
+
+        isAnimationStarted = false;
+
+        currentAttack = null;
 
         if (!isAnimationStarted)
         {
@@ -543,9 +584,15 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                     }
                 }
             }
+            else
+            {
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.BlockAttack.SpineAnimationReference, false);
+
+                trackEntry.TrackTime = trackTime / 30;
+            }
         }
     }
-
+    public float trackTime;
     protected override void StopRoutine()
     {
         base.StopRoutine();
@@ -553,6 +600,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         triggerCoroutine = null;
         DefendButtonCoroutine = null;
         isWeaponSwapOrThrowButtonDown = false;
+        isWeaponBeingSwapped = false;
     }
     protected override void ReStartCoroutines()
     {
@@ -933,16 +981,14 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     IEnumerator DefendButtonHoldDetection()
     {
         DefendButtonCoroutineStarted = true;
-        while (isAnimationStarted || GameManager.Instance.DisableControls)
+        while (isAnimationStarted && isWeaponBeingSwapped && GameManager.Instance.DisableControls)
         {
             yield return new WaitForEndOfFrame();
         }
         canMove = false;
         blockTrigger = true;
 
-        BasicAnimation blockAnimation = unit.activeAnimations.BlockAttack;
-
-        spineSkeletonAnimation.state.SetAnimation(1, blockAnimation.SpineAnimationReference, false).TimeScale = 1f;
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.BlockAttack.SpineAnimationReference, false);
     }
     public void DefendButtonUp()
     {
@@ -951,8 +997,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             canMove = true;
             blockTrigger = false;
 
+            spineSkeletonAnimation.state.SetAnimation(3, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
-            spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
         }
         else
             StopCoroutine(DefendButtonCoroutine);
@@ -1008,6 +1054,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             yield return new WaitForFixedUpdate();
         }
 
+        while (isWeaponBeingSwapped)
+            yield return new WaitForFixedUpdate();
+
         WeaponSwapButtonDown();
         StopCoroutine(CoroutineWeaponSwapOrThrown);
         isWeaponSwapOrThrowButtonDown = false;
@@ -1015,7 +1064,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     }
     public void WeaponSwapOrThrowButtonUp()
     {
-        if (isWeaponSwapOrThrowButtonDown)
+        if(isWeaponBeingSwapped)
+        {
+            isWeaponSwapOrThrowButtonDown = false;
+            CoroutineWeaponSwapOrThrown = null;
+        }
+        else if (isWeaponSwapOrThrowButtonDown)
         {
             ThrowButtonDown();
             StopCoroutine(CoroutineWeaponSwapOrThrown);
@@ -1028,17 +1082,56 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     /// </summary>
     public void WeaponSwapButtonDown()
     {
-        if (!isAnimationStarted)
+        if (!isAnimationStarted && !isWeaponBeingSwapped)
         {
             if (unit.activeAnimations.SwapWeapon != null && canThrow)
             {
-                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false);
+                spineSkeletonAnimation.state.Data.DefaultMix = 0;
 
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.SwapWeapon.SpineAnimationReference, false);
+                
                 changeStance = true;
 
-                StartCoroutine(EndOfAnimation(trackEntry));
+                isWeaponBeingSwapped = true;
+
+                StartCoroutine(SwapWeapon(trackEntry));
             }
         }
+    }
+
+    IEnumerator SwapWeapon(TrackEntry trackEntry)
+    {
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+
+        isWeaponBeingSwapped = false;
+
+        spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false);
+
+        EndOfAnimation();
+        
+        /*if (changeStance)
+        {
+            if (unit.currentStance == StanceList.Stand_A)
+                unit.currentStance = StanceList.Stand_B;
+            else if (unit.currentStance == StanceList.Stand_B)
+                unit.currentStance = StanceList.Stand_A;
+        
+            changeStance = false;
+        }
+        
+        idleing = true;
+        
+        isAnimationStarted = false;
+        
+        currentAttack = null;
+        
+        if (direction == MoveDirection.waiting)
+            spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, false);
+        else
+            SetWalkingAnimation((int)direction);
+        spineSkeletonAnimation.state.Data.DefaultMix = 0.15f;*/
+
+        spineSkeletonAnimation.state.Data.DefaultMix = 0.15f;
     }
 
     /// <summary>
@@ -1052,6 +1145,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             {
                 TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, false);
 
+                StartCoroutine(SpeedDuringAnimation(trackEntry, null));
+                
                 currentAttack = unit.activeAnimations.ProjectileAttack[Random.Range(0, 2)] as CloseCombatAnimation;
 
                 changeStance = true;
@@ -1066,8 +1161,6 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     IEnumerator SpearThrown(TrackEntry trackEntry)
     {
         yield return new WaitForSpineAnimationComplete(trackEntry);
-
-        EndOfAnimation();
 
         unit.Projectile = null;
     }

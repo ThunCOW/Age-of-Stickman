@@ -70,7 +70,7 @@ MonoBehaviour:
     ActiveAnimations:
       idle: {fileID: 11400000, guid: 632be14102234014496b3679a68a0a18, type: 2}
       Movement: {fileID: 11400000, guid: 071778f4ce13f7d4aa6daf0be89f3e2a, type: 2}
-      MovementBackward: {fileID: 0}
+      MovementBackward: {fileID: 11400000, guid: 5ecca2f5c0721304d969ef12c9c2429d, type: 2}
       BlockAttack: {fileID: 11400000, guid: ba45a54a01b19114a8b129f704b37cab, type: 2}
       ResetSlots: {fileID: 11400000, guid: 689ff9f67ae5f3249ade6fa50c2081fc, type: 2}
       Hurt: {fileID: 11400000, guid: e5a281120a34a9a4b83a1ae56413cf91, type: 2}
