@@ -30,10 +30,11 @@ MonoBehaviour:
       WalkAttack:
       - {fileID: 11400000, guid: 1db459df200cd8443abbfe952af2548b, type: 2}
       - {fileID: 11400000, guid: 27891db1e2267de42bf71fe7a67d2d33, type: 2}
+      ProjectileAttack: []
       ChangeStance:
         Animation: {fileID: 0}
         chance: 0
-      SwapWeapon: {fileID: 0}
+      SwapWeapon: {fileID: 11400000, guid: 4d896685ae7041843bf27ba1b11fdce0, type: 2}
       DeathAnimationByDamageRegion:
         highRegion:
         - {fileID: 11400000, guid: 9270fe37d24b7b943b21ae3019132537, type: 2}

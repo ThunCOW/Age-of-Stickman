@@ -355,7 +355,6 @@ public class AIController : UnitController
             }
         }
         // if there are multiple stances, we can change stance
-        // TODO handle stance changes later
         if (unit.activeAnimations.ChangeStance.Animation != null)
         {
             int rand = Random.Range(0, 100);
@@ -412,18 +411,6 @@ public class AIController : UnitController
 
             if (currentAttack.ShadowAnimation != null)
                 ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
-            // TODO RANGED ATTACK
-            // only works if there is an object to spawn, still needs to wait for animation event to fire/throw/use it
-            //if (currentAttack.rangedSpawnPrefab != null)
-            //    StartCoroutine(UseRangedWeapon(currentAttack));
-
-            /*if (changeStance == true)
-            {
-                if (currentStance == StanceList.Stand_A_transition_B)
-                    currentStance = StanceList.Stand_B;
-                if (currentStance == StanceList.Stand_B_transition_A)
-                    currentStance = StanceList.Stand_A;
-            }*/
         }
         else
         {

@@ -2302,7 +2302,7 @@ MonoBehaviour:
       SpearThrowBody: []
     BreakStance: []
   target: {fileID: 0}
-  Projectile: {fileID: 7860010022100989081, guid: 5443a34332a313d48874bede13bcb679, type: 3}
+  Projectile: {fileID: 0}
 --- !u!114 &8615564714106964960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2332,6 +2332,7 @@ MonoBehaviour:
   ArrowControls: {fileID: 1486019142}
   JoystickControls: {fileID: 1852322675}
   canThrow: 1
+  pickupSpear: {fileID: 0}
   ResurrectAnimation: {fileID: 11400000, guid: a5682c026625d3744acb68f68f737463, type: 2}
 --- !u!61 &8615564714106964965
 BoxCollider2D:

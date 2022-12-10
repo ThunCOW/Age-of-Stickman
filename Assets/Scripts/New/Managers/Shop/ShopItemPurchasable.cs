@@ -32,7 +32,7 @@ public class ShopItemPurchasable : ShopItem
 
     public void UpgradeItem()
     {
-        // TODO : Brings up if we want to buy page
+        // Brings up if we want to buy page
         if (GameManager.Instance.Gold >= ItemPrice)
         {
             GameManager.Instance.GoldChange(-ItemPrice);

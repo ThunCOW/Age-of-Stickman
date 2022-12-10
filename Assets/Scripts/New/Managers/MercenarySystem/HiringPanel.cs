@@ -316,10 +316,11 @@ public class UnitHolder
         
         if (equippedItems == GameManager.Instance.PlayerEquipments)
         {
-            if(GameManager.Instance.IsSpearmasterDead)
-                skeletonGraphic.Skeleton.SetAttachment(dictEquippedItems[ItemSlot.MainHand].front[1].SlotName, dictEquippedItems[ItemSlot.MainHand].front[1].AttachmentName);
-            else
-                skeletonGraphic.Skeleton.SetAttachment(dictEquippedItems[ItemSlot.MainHand].front[1].SlotName, null);
+            // TODO: TEMP
+            //if(GameManager.Instance.IsSpearmasterDead)
+            //    skeletonGraphic.Skeleton.SetAttachment(dictEquippedItems[ItemSlot.MainHand].front[1].SlotName, dictEquippedItems[ItemSlot.MainHand].front[1].AttachmentName);
+            //else
+            //    skeletonGraphic.Skeleton.SetAttachment(dictEquippedItems[ItemSlot.MainHand].front[1].SlotName, null);
         }
     }
 

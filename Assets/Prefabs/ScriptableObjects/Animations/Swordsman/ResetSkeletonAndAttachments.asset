@@ -10,10 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2273a2e4236a79f4e9016eb997e1a259, type: 3}
-  m_Name: 10_Completed_ShowShield
+  m_Name: ResetSkeletonAndAttachments
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
-  AnimationName: ShowShield
-  SpineAnimationReference: {fileID: 11400000, guid: 81418eeeccc93624d8db0e7c07ba61ec, type: 2}
+  AnimationName: ResetSkeletonAndAttachments
+  SpineAnimationReference: {fileID: 11400000, guid: b2ec8034c977cc947b64e935004b0412, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: 10_Completed
-  _AnimationNameChangeCheck: ShowShield
+  _AnimationNameChangeCheck: ResetSkeletonAndAttachments

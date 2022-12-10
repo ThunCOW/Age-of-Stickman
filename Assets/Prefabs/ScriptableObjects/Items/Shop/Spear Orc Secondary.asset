@@ -10,19 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
-  m_Name: Spear Secondary (Scrapped Idea)
+  m_Name: Spear Orc Secondary
   m_EditorClassIdentifier: 
-  id: 3abe607d9592fac4488e6429a08a1223
+  id: c188441bb2e43e7499096208fd1409f4
   ItemName: Sword
   HealthBonus: 0
-  DamageBonus: 25
+  DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 6
   ItemSprite: {fileID: 21300000, guid: 2d918632d7b39a34f8c1453224ea55d6, type: 3}
   ItemQualitySprite: {fileID: 21300000, guid: 9b123d960aac5fe428fdd58a5e3f78f2, type: 3}
   front:
   - SlotName: Weapon/Spear_0
-    AttachmentName: Weapon/Spear_4
+    AttachmentName: Weapon/Spear_12
   side: []
   back: []
   back2: []

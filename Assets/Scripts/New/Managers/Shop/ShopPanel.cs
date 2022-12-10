@@ -75,7 +75,7 @@ public class ShopPanel : MonoBehaviour
 
         if (_ItemUpgradeDict[shopItemCategory].Count <= lastItemIndex + 2)
         {
-            // TODO : max item upgrade reached
+            // max item upgrade reached
             UpgradeScreenDict[shopItemCategory].EquippedItemSlot.SetShopItem(_ItemUpgradeDict[shopItemCategory][lastItemIndex + 1], true);
             //UpgradeScreenDict[shopItemCategory].EquippedItemSlot.Item = ItemUpgradeDict[shopItemCategory][lastItemIndex + 1];
             //UpgradeScreenDict[shopItemCategory].EquippedItemSlot.ItemsList = _ItemUpgradeDict[shopItemCategory][lastItemIndex + 1].Items;
