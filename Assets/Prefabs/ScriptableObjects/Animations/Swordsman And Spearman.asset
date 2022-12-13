@@ -80,7 +80,9 @@ MonoBehaviour:
       Attack:
       - {fileID: 11400000, guid: 52a4153c6abe13647a10a13bddf3ab62, type: 2}
       - {fileID: 11400000, guid: 776dc58a405f588418414ffee6bf1a5c, type: 2}
-      WalkAttack: []
+      WalkAttack:
+      - {fileID: 11400000, guid: 52a4153c6abe13647a10a13bddf3ab62, type: 2}
+      - {fileID: 11400000, guid: 776dc58a405f588418414ffee6bf1a5c, type: 2}
       ProjectileAttack:
       - {fileID: 11400000, guid: 5ea04b96d8571654390fbf3eefde21e4, type: 2}
       - {fileID: 11400000, guid: 329a0cc5ed82a1740accf77c34832369, type: 2}
