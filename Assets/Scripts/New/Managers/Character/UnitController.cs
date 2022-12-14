@@ -807,10 +807,12 @@ public class UnitController : MonoBehaviour
             yield break;
         }
 
-        // Am Checking for what reason ???
+        // Should direction be set before i call this function? i guess it doesnt always go towards player ? or is it ?
+        // Setting up direction in case it was waiting before 
+        // boss spawns dont have target ( demon boss dont ), might not work for everything
         if (unit.target != null)
         {
-            if (transform.position.x < unit.target.transform.position.x)     // if target is more on the right, unit direction is right
+            if (transform.position.x < unit.target.transform.position.x)
                 direction = MoveDirection.right;
             else
                 direction = MoveDirection.left;

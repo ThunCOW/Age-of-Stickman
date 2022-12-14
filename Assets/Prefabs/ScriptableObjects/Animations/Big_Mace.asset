@@ -24,8 +24,12 @@ MonoBehaviour:
       Kicked: {fileID: 0}
       Slammed: {fileID: 0}
       KnockedDown: {fileID: 0}
-      Attack: []
-      WalkAttack: []
+      Attack:
+      - {fileID: 11400000, guid: 47b7f4c89d3a8c242b8ec2511512b309, type: 2}
+      - {fileID: 11400000, guid: 443889fcfc7d4e541b2026b734df1a83, type: 2}
+      WalkAttack:
+      - {fileID: 11400000, guid: 6376e3a1762f78846b67b13ccbe16d1d, type: 2}
+      - {fileID: 11400000, guid: e268c563739838f42b4482ebc08a6a18, type: 2}
       ProjectileAttack: []
       ChangeStance:
         Animation: {fileID: 0}
@@ -37,5 +41,6 @@ MonoBehaviour:
         lowRegion: []
         SpearThrowHead: []
         SpearThrowBody: []
-      BreakStance: []
+      BreakStance:
+      - {fileID: 11400000, guid: 3c564b4da6659994c94c88bc7798d742, type: 2}
     extraSpeed: 0

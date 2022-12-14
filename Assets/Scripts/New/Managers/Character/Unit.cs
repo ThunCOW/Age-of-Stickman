@@ -88,7 +88,7 @@ public class Unit : MonoBehaviour
         
         if(CompareTags(gameObject, GameManager.ENEMY_TAGS))
             GameManager.Instance.EnemyUnits.Add(this);
-        else
+        else if(CompareTags(gameObject, GameManager.ALLY_TAGS))
             GameManager.Instance.AllyUnits.Add(this);
 
         GameManager.Instance.sortManager.AddToOrder(this);

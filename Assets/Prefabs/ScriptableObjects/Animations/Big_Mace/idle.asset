@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: idle
   m_EditorClassIdentifier: 
   Prefix: Big_Stickman
-  AnimationName: Idle
-  SpineAnimationReference: {fileID: 11400000, guid: 78969cf81b5fcef4c81e13bdaeb80eab, type: 2}
+  AnimationName: Idle_2
+  SpineAnimationReference: {fileID: 11400000, guid: 11ea9054638d00443a3df6a5461eb8ce, type: 2}
   ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Big_Stickman
-  _AnimationNameChangeCheck: Idle
+  _AnimationNameChangeCheck: Idle_2

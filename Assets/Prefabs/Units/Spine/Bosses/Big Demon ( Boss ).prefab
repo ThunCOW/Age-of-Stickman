@@ -29,7 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888226523802012845}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 12.5, y: -1.5999999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   equipmentManager: {fileID: 1888226523802012832}
   isAnimationStarted: 0
   extraSpeed: 0
-  speed: 2
+  speed: 4
   isBoss: 1
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
@@ -223,8 +223,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4125549787079821635}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.346, y: -1.375, z: 0}
-  m_LocalScale: {x: 2.1236675, y: 0.8375, z: 1}
+  m_LocalPosition: {x: -0.346, y: -1.4255, z: 0}
+  m_LocalScale: {x: 2.1236675, y: 1.1034062, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1888226523802012835}
@@ -268,8 +268,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 2065995805
-  m_SortingLayer: 2
+  m_SortingLayerID: -2004600579
+  m_SortingLayer: 4
   m_SortingOrder: -10
   m_Sprite: {fileID: 21300000, guid: 24d79ba4e49b9bc44ba09dcaa6bba38f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -329,7 +329,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7768606728152909118}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.273, y: -1.461, z: 0}
+  m_LocalPosition: {x: -1.273, y: -1.6, z: 0}
   m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -364,7 +364,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: daff88e506e93d3458a988cd9d44ef0d, type: 2}
+  - {fileID: 2100000, guid: cd6e766bab404b84b875e32a068579f3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -416,11 +416,9 @@ MonoBehaviour:
   calculateTangents: 0
   maskInteraction: 2
   maskMaterials:
-    materialsMaskDisabled:
-    - {fileID: 2100000, guid: cd6e766bab404b84b875e32a068579f3, type: 2}
+    materialsMaskDisabled: []
     materialsInsideMask: []
-    materialsOutsideMask:
-    - {fileID: 2100000, guid: daff88e506e93d3458a988cd9d44ef0d, type: 2}
+    materialsOutsideMask: []
   disableRenderingOnOverride: 1
   _animationName: 
   loop: 1
@@ -442,7 +440,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3302394214504286213, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.2050002
+      value: 2.58
       objectReference: {fileID: 0}
     - target: {fileID: 3302394214504286213, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
       propertyPath: m_LocalPosition.z
@@ -482,7 +480,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5827938367165246382, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}

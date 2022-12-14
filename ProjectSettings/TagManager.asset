@@ -17,6 +17,7 @@ TagManager:
   - SPEAR_PICKUP
   - BigDemonBossTrigger
   - BigDemon
+  - DemonSummoner
   layers:
   - Default
   - TransparentFX

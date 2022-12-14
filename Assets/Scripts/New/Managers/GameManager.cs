@@ -71,6 +71,7 @@ namespace SpineControllerVersion
         public const string ENEMY_TAG = "EnemyUnit";
         public const string SPEARMASTER_TAG = "Spearmaster";
         public const string SCYTHEMASTER_TAG = "Scythemaster";
+        public const string DEMON_SUMMONER_TAG = "DemonSummoner";
         public const string BIG_DEMON_TAG = "BigDemon";
 
         public const string ALLY_TAG = "AllyUnit";
@@ -240,7 +241,12 @@ namespace SpineControllerVersion
 
         public int Level;
 
+        // Demon Spawn of summoner, one time use so done like this
+        public GameObject PortalPrefab;
+        public GameObject BigBossPrefab;
+        public GameObject BookParticlePrefab;
 
+        public SpeedDependantAnimation BigDemonEntrance;
 
 
 
