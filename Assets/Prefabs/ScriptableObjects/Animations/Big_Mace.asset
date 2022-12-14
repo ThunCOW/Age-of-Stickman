@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: Big_Mace
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 114b755b2dd6ae6438d144ffd0cbdf12, type: 2}
+      Movement: {fileID: 11400000, guid: 791748937faa9f642a40fb3deb578351, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 0}
+      Kicked: {fileID: 0}
+      Slammed: {fileID: 0}
+      KnockedDown: {fileID: 0}
+      Attack: []
+      WalkAttack: []
+      ProjectileAttack: []
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: 0
+      SwapWeapon: {fileID: 0}
+      DeathAnimationByDamageRegion:
+        highRegion: []
+        midRegion: []
+        lowRegion: []
+        SpearThrowHead: []
+        SpearThrowBody: []
+      BreakStance: []
+    extraSpeed: 0

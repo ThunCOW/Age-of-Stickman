@@ -755,10 +755,15 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
         else if (trigger.gameObject.tag == GameManager.SCYTHEMASTER_SPAWN_TAG)
         {
-
             trigger.gameObject.SetActive(false);
 
             BossTrigger(GameManager.SCYTHEMASTER_SPAWN_TAG);
+        }
+        else if(trigger.gameObject.tag == GameManager.BIG_DEMON_SPAWN_TAG)
+        {
+            trigger.gameObject.SetActive(false);
+
+            BossTrigger(GameManager.BIG_DEMON_SPAWN_TAG);
         }
 
         if (trigger.gameObject.tag == GameManager.SPEAR_PICKUP_TAG)

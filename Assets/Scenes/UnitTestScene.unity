@@ -2275,10 +2275,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555471585315600}
   ItemQualityImageUI: {fileID: 3894555471477109440}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 1
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!224 &3894555471096469079
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2440,10 +2440,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555472696434713}
   ItemQualityImageUI: {fileID: 3894555472445357554}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 2
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!222 &3894555471228968075
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2720,10 +2720,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555472392767749}
   ItemQualityImageUI: {fileID: 3894555472724727456}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 0
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!224 &3894555471366032226
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3204,10 +3204,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555471538787256}
   ItemQualityImageUI: {fileID: 3894555471695204671}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 2
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!224 &3894555471705813597
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3985,6 +3985,9 @@ MonoBehaviour:
   Armor:
     EquippedItemSlot: {fileID: 3894555471228968073}
     PurchasableItemSlot: {fileID: 3894555471705813596}
+  _WeaponList: []
+  _ShieldList: []
+  _ArmorList: []
 --- !u!224 &3894555471971908821
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4227,10 +4230,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555472167254903}
   ItemQualityImageUI: {fileID: 3894555472171043205}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 0
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!1 &3894555472078329720
 GameObject:
   m_ObjectHideFlags: 0
@@ -4987,10 +4990,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemImageUI: {fileID: 3894555470935015345}
   ItemQualityImageUI: {fileID: 3894555472692922185}
+  MaxTextGameObject: {fileID: 0}
   ItemCategory: 1
-  ItemPrice: 0
   _item: {fileID: 0}
-  shopPanel: {fileID: 3894555471971908820}
+  ItemsList: []
 --- !u!224 &3894555472476807329
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5688,9 +5691,13 @@ MonoBehaviour:
   _spawnTimer: 5
   maxSpawn: 6
   maxEnemyOnScreen: 5
+  maxDeadEnemyOnScreen: 0
+  GroupSpawnCount: 0
   spawnPosList:
   - {fileID: 4973821420141865720}
   mainCamera: {fileID: 245096268}
+  SpearmasterPrefab: {fileID: 0}
+  SycthemasterPrefab: {fileID: 0}
 --- !u!4 &4973821420141865720
 Transform:
   m_ObjectHideFlags: 0
@@ -5823,15 +5830,15 @@ MonoBehaviour:
     scenePath: Assets/Scenes/Level 18.unity
   - sceneAsset: {fileID: 102900000, guid: 48334e20c38ac97449cb54cad2d6927b, type: 3}
     scenePath: Assets/Scenes/Level 19.unity
-  - sceneAsset: {fileID: 102900000, guid: b4dde606fb4a74a45a2ad83247baa146, type: 3}
+  - sceneAsset: {fileID: 102900000, guid: e9469d17c5400b74c9d6532f2d23dddc, type: 3}
     scenePath: Assets/Scenes/Level 20.unity
-  - sceneAsset: {fileID: 102900000, guid: 52074f383f852db4e9f32c02f3245b8d, type: 3}
+  - sceneAsset: {fileID: 102900000, guid: 7d2db9bcfed063b45afec8df44aa1852, type: 3}
     scenePath: Assets/Scenes/Level 21.unity
-  - sceneAsset: {fileID: 102900000, guid: e81854b11a556004c815e98fbe832f2e, type: 3}
+  - sceneAsset: {fileID: 102900000, guid: e0c2c4433196dde4daa0cf078c1d9b25, type: 3}
     scenePath: Assets/Scenes/Level 22.unity
-  - sceneAsset: {fileID: 102900000, guid: 0649406a72f8fe74e830f0963389c227, type: 3}
+  - sceneAsset: {fileID: 102900000, guid: 4b4da4b03068e914596e8ad62e58c8b7, type: 3}
     scenePath: Assets/Scenes/Level 23.unity
-  - sceneAsset: {fileID: 102900000, guid: 93337a1d3e3d9ca4587c52aaa29defc1, type: 3}
+  - sceneAsset: {fileID: 102900000, guid: de67a7aba1038254d884f0443281f754, type: 3}
     scenePath: Assets/Scenes/Level 24.unity
 --- !u!114 &6688173773033638029
 MonoBehaviour:
@@ -5845,27 +5852,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9d40f2b51223e43a4c7ee87783ed0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  SceneLoader: {fileID: 0}
+  _disableControls: 0
+  LevelBordersParent: {fileID: 0}
+  SceneViewBordersParent: {fileID: 0}
   EnemyUnits: []
-  PlayerUnits: []
-  ENEMY_TAG: EnemyUnit
-  PLAYER_TAG: PlayerUnit
-  GOLD_TAG: Gold
+  LeftSpawn: []
+  AllyUnits: []
+  DeadEnemyUnits: []
+  DeadAllyUnits: []
+  sortManager:
+    sortingOrder: []
+  BodyPartSO: {fileID: 0}
   Player: {fileID: 0}
-  AllEquipments:
-  - {fileID: 11400000, guid: 29d0792572859aa49aabb441eb079922, type: 2}
-  - {fileID: 11400000, guid: 926768ee1ad2ea54097c9859adc878f9, type: 2}
-  - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
-  - {fileID: 11400000, guid: fd998a6a390a91a439028726577c292c, type: 2}
-  - {fileID: 11400000, guid: 4e64c86178a18bc4a8a53aa889897cf3, type: 2}
-  - {fileID: 11400000, guid: bb916c92eaaded44397d079bc000aa0d, type: 2}
-  - {fileID: 11400000, guid: 6f36743ab9bc99242ba1ccbc3256c9e6, type: 2}
-  - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
+  AllEquipments: {fileID: 0}
   PlayerEquipments:
   - {fileID: 11400000, guid: 4e64c86178a18bc4a8a53aa889897cf3, type: 2}
   - {fileID: 11400000, guid: 29d0792572859aa49aabb441eb079922, type: 2}
   - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
   - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
+  DefaultEquipments: []
+  Green_Elf_Boss_Spear: {fileID: 0}
+  mainMenuPlayer:
+    UnitObject: {fileID: 0}
+    equippedItems: []
+    defaultLocalPosition: {x: 0, y: 0, z: 0}
   _PlayerLives: 0
+  PlayerLivesText: {fileID: 0}
+  BuyLiveButton: {fileID: 0}
+  CoinClickingAfterLevel: []
   GoldPrefab: {fileID: 7026553871909760441, guid: d3d4dbc1f5775694c83a940964669686, type: 3}
   CoinPickupSound:
   - {fileID: 8300000, guid: 98e2b7aef95c6344b89fb07812215b3f, type: 3}
@@ -5873,10 +5888,14 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 66bbdeecb38bd6f4fb955dedb6cdffce, type: 3}
   - {fileID: 8300000, guid: ceeb511792bb3734cae0393b2e299c4b, type: 3}
   - {fileID: 8300000, guid: 6938d915a47388f4bafd13e18916d420, type: 3}
+  CoinClicking: {fileID: 0}
   _Gold: 0
   GoldText: {fileID: 3894555471857014152}
-  sortManager:
-    sortingOrder: []
+  MinusGoldTextPrefab: {fileID: 0}
+  NotEnoughMoneyTextPrefab: {fileID: 0}
+  Level: 0
+  ContinueToMainMenuImagePrefab: {fileID: 0}
+  ContinueAfterEnemyDeadTextPrefab: {fileID: 0}
 --- !u!4 &6688173773033638030
 Transform:
   m_ObjectHideFlags: 0

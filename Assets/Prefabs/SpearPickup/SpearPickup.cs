@@ -1,7 +1,5 @@
 using SpineControllerVersion;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.DeviceSimulation;
 using UnityEngine;
 
 public class SpearPickup : MonoBehaviour

@@ -1,0 +1,83 @@
+
+BigStickman.png
+size: 2048,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Body/CHAR_9_ARM_L_1
+  rotate: true
+  xy: 737, 44
+  size: 133, 387
+  orig: 133, 387
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_ARM_R_1
+  rotate: true
+  xy: 737, 44
+  size: 133, 387
+  orig: 133, 387
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_CHEST_1
+  rotate: true
+  xy: 2, 5
+  size: 172, 261
+  orig: 172, 261
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_HEAD_0
+  rotate: false
+  xy: 1754, 2
+  size: 84, 84
+  orig: 84, 84
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_HEAD_1
+  rotate: true
+  xy: 1754, 88
+  size: 89, 120
+  orig: 89, 120
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_HEAD_2
+  rotate: false
+  xy: 1876, 64
+  size: 88, 113
+  orig: 88, 113
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_LEGFOOT_L_1
+  rotate: false
+  xy: 1840, 23
+  size: 86, 39
+  orig: 86, 39
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_LEGFOOT_R_1
+  rotate: false
+  xy: 1840, 23
+  size: 86, 39
+  orig: 86, 39
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_LEG_L_1
+  rotate: true
+  xy: 1450, 72
+  size: 105, 302
+  orig: 105, 302
+  offset: 0, 0
+  index: -1
+Body/CHAR_9_LEG_R_1
+  rotate: true
+  xy: 1126, 53
+  size: 124, 322
+  orig: 124, 322
+  offset: 0, 0
+  index: -1
+Weapon/BigMace_00
+  rotate: true
+  xy: 265, 23
+  size: 154, 470
+  orig: 154, 470
+  offset: 0, 0
+  index: -1

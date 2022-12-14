@@ -18,7 +18,7 @@ public class UnitController : MonoBehaviour
     [HideInInspector] [SerializeField] protected BoxCollider2D boxCollider2;
     [HideInInspector] [SerializeField] protected Rigidbody2D rb2d;
 
-    [HideInInspector] public SkeletonAnimation spineSkeletonAnimation;
+    public SkeletonAnimation spineSkeletonAnimation;
     [HideInInspector] public Animator ShadowAnimator;
     [HideInInspector] public Animator BleedingAnimator;
 
@@ -984,17 +984,25 @@ public class UnitController : MonoBehaviour
 
     public void SetMixBetweenAnimation(AnimationReferenceAsset from, AnimationReferenceAsset to, float mixDuration)
     {
-        if (from == null || to == null)
-            return;
+        try
+        {
+            if (from == null || to == null)
+                return;
 
-        spineSkeletonAnimation.AnimationState.Data.SetMix(from.Animation.Name, to.Animation.Name, mixDuration);
+            spineSkeletonAnimation.AnimationState.Data.SetMix(from.Animation.Name, to.Animation.Name, mixDuration);
+        }
+        catch { }
     }
     public void SetMixBetweenAnimation(string from, string to, float mixDuration)
     {
-        if (from == null || to == null)
-            return;
+        try
+        {
+            if (from == null || to == null)
+                return;
 
-        spineSkeletonAnimation.AnimationState.Data.SetMix(from, to, mixDuration);
+            spineSkeletonAnimation.AnimationState.Data.SetMix(from, to, mixDuration);
+        }
+        catch { }
     }
 
     protected virtual void DisableControls() { }

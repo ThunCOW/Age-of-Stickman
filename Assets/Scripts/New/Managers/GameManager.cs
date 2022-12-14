@@ -71,6 +71,7 @@ namespace SpineControllerVersion
         public const string ENEMY_TAG = "EnemyUnit";
         public const string SPEARMASTER_TAG = "Spearmaster";
         public const string SCYTHEMASTER_TAG = "Scythemaster";
+        public const string BIG_DEMON_TAG = "BigDemon";
 
         public const string ALLY_TAG = "AllyUnit";
         public const string PLAYER_TAG = "PlayerUnit";
@@ -79,8 +80,9 @@ namespace SpineControllerVersion
         public const string FINISH_LEVEL_TAG = "FinishLevelTrigger";
         public const string SPEARMASTER_SPAWN_TAG = "SpearmasterBossTrigger";
         public const string SCYTHEMASTER_SPAWN_TAG = "ScythemasterBossTrigger";
+        public const string BIG_DEMON_SPAWN_TAG = "BigDemonBossTrigger";
 
-        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG };
+        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG, BIG_DEMON_TAG };
         public static List<string> ALLY_TAGS = new List<string> { ALLY_TAG, PLAYER_TAG };
 
 

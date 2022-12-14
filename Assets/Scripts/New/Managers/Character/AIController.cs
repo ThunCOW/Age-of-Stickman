@@ -85,6 +85,9 @@ public class AIController : UnitController
                 case GameManager.SCYTHEMASTER_TAG:
                     StartCoroutine(SycthemasterEntrance());
                     break;
+                case GameManager.BIG_DEMON_TAG:
+                    StartCoroutine(BigDemonEntrance());
+                    break;
                 default:
                     break;
             }
@@ -594,6 +597,22 @@ public class AIController : UnitController
     protected override void ReStartCoroutines()
     {
         StartCoroutine(AIActionDecision());
+    }
+
+    IEnumerator BigDemonEntrance()
+    {
+        gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Big_Stickman/Entrance_Portal3", false);
+
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+
+        yield return new WaitForSeconds(0.5f);
+
+        //GameManager.Instance.DisableControls = false;
+
+        //StartCoroutine(AIActionDecision());
     }
 
     IEnumerator SpearmasterEntrance()
