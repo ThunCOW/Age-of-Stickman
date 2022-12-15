@@ -142,15 +142,20 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             // Animation Conditions
             if (attackTrigger)
             {
+                // There isn't an animation already playing or player is not blocking
                 if (!isAnimationStarted && !blockTrigger)
                 {
                     // Stationary Attack
                     if (direction == MoveDirection.waiting)
                     {
-                        // There isn't an animation already playing
+                        //Debug.Log(spineSkeletonAnimation.state.Data.DefaultMix);
+                        Debug.Log("attack anim");
+                        Debug.Log(spineSkeletonAnimation.state.GetCurrent(1));
+                        Debug.Log(spineSkeletonAnimation.state.GetCurrent(2));
+                        Debug.Log(spineSkeletonAnimation.state.GetCurrent(0));
                         List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
 
-                        int randomAttack = UnityEngine.Random.Range(0, tempStationaryAttack.Count);
+                        int randomAttack = Random.Range(0, tempStationaryAttack.Count);
                         currentAttack = tempStationaryAttack[randomAttack] as CloseCombatAnimation;
 
 
@@ -165,10 +170,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                     // NonStationary Attack
                     else
                     {
-                        // There isn't an animation already playing
                         List<BasicAnimation> tempWalkAttack = unit.activeAnimations.WalkAttack;
 
-                        int randomAttack = UnityEngine.Random.Range(0, tempWalkAttack.Count);
+                        int randomAttack = Random.Range(0, tempWalkAttack.Count);
                         currentAttack = tempWalkAttack[randomAttack] as CloseCombatAnimation;
 
                         //spineSkeletonAnimation.AnimationState.Data.SetMix(unit.activeAnimations.Movement.SpineAnimationReference.Animation.Name, unit.activeAnimations.WalkAttack[0].SpineAnimationReference.Animation.Name, 0.15f);
@@ -269,7 +273,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             DefendButtonDown();
         }
         // S Released
-        if (blockTrigger && Input.GetKeyUp(KeyCode.S))
+        if (Input.GetKeyUp(KeyCode.S))
         {
             DefendButtonUp();
         }
@@ -509,6 +513,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         unit.Health = unit.HealthMax;
     }
 
+    bool isMixSetForSecondStance;   // temporary bool to prevent code setting mix every time
     protected override void EndOfAnimation()
     {
         if (changeStance)
@@ -520,23 +525,49 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
             changeStance = false;
 
-            SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
-
-            for (int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+            
+            if(!isMixSetForSecondStance && unit.currentStance == StanceList.Stand_B)
             {
-                SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+                isMixSetForSecondStance = true;
+
+                SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+                for (int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+                {
+                    SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+                }
+
+                SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.Movement.SpineAnimationReference, 0);
+                SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+                for (int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+                {
+                    SetMixBetweenAnimation(unit.activeAnimations.BreakStance[i].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+
+                    SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+
+                    SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+                }
+
+                SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.WalkAttack[0].SpineAnimationReference, 0);
+                SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.WalkAttack[1].SpineAnimationReference, 0);
+                SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.WalkAttack[0].SpineAnimationReference, 0);
+                SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.WalkAttack[1].SpineAnimationReference, 0);
             }
 
-            SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.Movement.SpineAnimationReference, 0);
-            SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
-
-            for (int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
+            if(!blockTrigger)
             {
-                SetMixBetweenAnimation(unit.activeAnimations.BreakStance[i].SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+                // Set new movement direction and look direction
+                if (moveButton.Hold)
+                {
+                    SetWalkingAnimation((int)direction);
+                }
+                else
+                {
+                    direction = MoveDirection.waiting;
 
-                SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
-
-                SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+                }
             }
         }
 
@@ -724,10 +755,15 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
         else if (trigger.gameObject.tag == GameManager.SCYTHEMASTER_SPAWN_TAG)
         {
-
             trigger.gameObject.SetActive(false);
 
             BossTrigger(GameManager.SCYTHEMASTER_SPAWN_TAG);
+        }
+        else if(trigger.gameObject.tag == GameManager.BIG_DEMON_SPAWN_TAG)
+        {
+            trigger.gameObject.SetActive(false);
+
+            BossTrigger(GameManager.BIG_DEMON_SPAWN_TAG);
         }
 
         if (trigger.gameObject.tag == GameManager.SPEAR_PICKUP_TAG)
@@ -981,7 +1017,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     IEnumerator DefendButtonHoldDetection()
     {
         DefendButtonCoroutineStarted = true;
-        while (isAnimationStarted && isWeaponBeingSwapped && GameManager.Instance.DisableControls)
+        while (isAnimationStarted || isWeaponBeingSwapped && GameManager.Instance.DisableControls)
         {
             yield return new WaitForEndOfFrame();
         }
@@ -1102,6 +1138,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     IEnumerator SwapWeapon(TrackEntry trackEntry)
     {
         yield return new WaitForSpineAnimationComplete(trackEntry);
+
 
         isWeaponBeingSwapped = false;
 

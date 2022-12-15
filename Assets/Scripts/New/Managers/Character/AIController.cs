@@ -85,6 +85,12 @@ public class AIController : UnitController
                 case GameManager.SCYTHEMASTER_TAG:
                     StartCoroutine(SycthemasterEntrance());
                     break;
+                case GameManager.BIG_DEMON_TAG:
+                    StartCoroutine(BigDemonEntrance());
+                    break;
+                case GameManager.DEMON_SUMMONER_TAG:
+                    StartCoroutine(DemonSummonerEntrance());
+                    break;
                 default:
                     break;
             }
@@ -593,6 +599,134 @@ public class AIController : UnitController
 
     protected override void ReStartCoroutines()
     {
+        StartCoroutine(AIActionDecision());
+    }
+
+    IEnumerator DemonSummonerEntrance()
+    {
+        gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/idle", true);
+
+        yield return new WaitForSeconds(7);
+
+        spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/OpenBook_1", false);
+
+        yield return new WaitForSeconds(5);
+
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/OpenBook_2", false);
+
+        int frameToOpenBook = 5;
+        while(frameToOpenBook > 0)
+        {
+            frameToOpenBook--;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        //float spawnPosX = GameManager.Instance.Player.transform.position.x + 8.5f; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        GameObject spawnedBookParticle = Instantiate(GameManager.Instance.BookParticlePrefab, gameObject.transform);
+
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+
+        //
+        // Spawn Portal
+        //
+
+        float spawnPosX = GameManager.Instance.Player.transform.position.x + 8.5f; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        GameObject spawnedPortal = Instantiate(GameManager.Instance.PortalPrefab, new Vector3(spawnPosX, GameManager.Instance.PortalPrefab.transform.position.y, 0), GameManager.Instance.PortalPrefab.transform.rotation);
+
+        spawnedPortal.transform.GetChild(1).gameObject.SetActive(false);
+
+        spawnedPortal.transform.localScale = new Vector3(0.1f, 0.1f, 1);
+
+        yield return new WaitForSeconds(1.5f);
+
+        spawnedPortal.transform.GetChild(1).gameObject.SetActive(true);
+
+        float countDown = 0.15f;
+        while (countDown <= 1.5f)
+        {
+            countDown += Time.deltaTime;
+            float perc = countDown / 1.5f;
+
+            spawnedPortal.transform.localScale = new Vector2(perc, perc);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        spawnedPortal.transform.localScale = Vector3.one;
+
+        yield return new WaitForSeconds(2.5f);
+
+        float countdownToDestroyBookParticle = 1.5f;
+        while(countdownToDestroyBookParticle > 0.5f)
+        {
+            countdownToDestroyBookParticle-= Time.deltaTime;
+            float perc = countdownToDestroyBookParticle / 1;
+            spawnedBookParticle.transform.localScale = new Vector3(1, perc, 1);
+            yield return new WaitForFixedUpdate();
+        }
+        spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/SummonDemon", false);
+
+        while(countdownToDestroyBookParticle > 0)
+        {
+            countdownToDestroyBookParticle -= Time.deltaTime;
+            float perc = countdownToDestroyBookParticle / 1;
+            spawnedBookParticle.transform.localScale = new Vector3(1, perc, 1);
+            yield return new WaitForFixedUpdate();
+        }
+        Destroy(spawnedBookParticle);
+
+        yield return new WaitForSeconds(0.5f);
+
+        //
+        // Spawn Big Boss
+        //
+
+        spawnPosX = GameManager.Instance.Player.transform.position.x + 9f; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        GameObject spawnedEnemyGO = Instantiate(GameManager.Instance.BigBossPrefab, new Vector3(spawnPosX, GameManager.Instance.BigBossPrefab.transform.position.y, 0), GameManager.Instance.BigBossPrefab.transform.rotation);
+
+        AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
+        spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+
+        yield return new WaitForSeconds(5);
+
+        trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/Exit", false);
+
+        float countdownToDestroyPortal = 1;
+        while(countdownToDestroyPortal > 0)
+        {
+            countdownToDestroyPortal -= Time.deltaTime;
+            float perc = countdownToDestroyPortal / 1;
+            spawnedPortal.transform.localScale = new Vector3(perc, perc, 1);
+            yield return new WaitForFixedUpdate();
+        }
+        Destroy(spawnedPortal);
+
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+
+        Destroy(gameObject);
+    }
+
+    IEnumerator BigDemonEntrance()
+    {
+        gameObject.transform.localScale = new Vector3(-1, 1, 1);
+
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Big_Stickman/Entrance_Portal3", false);
+        
+        direction = MoveDirection.left;
+        StartCoroutine(SpeedDuringAnimation(trackEntry, GameManager.Instance.BigDemonEntrance.speedCurve));
+
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+
+        spineSkeletonAnimation.maskInteraction = SpriteMaskInteraction.None;
+
+        yield return new WaitForSeconds(0.5f);
+
+        GameManager.Instance.DisableControls = false;
+
         StartCoroutine(AIActionDecision());
     }
 

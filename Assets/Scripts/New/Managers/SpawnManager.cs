@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
 
     public static bool isBossSpawned;
 
-    public delegate void OnSpawnBoss();
+    public delegate void OnSpawnBoss(string BossTag);
     public static OnSpawnBoss SpawnBossEvent;
 
     bool preparingForBossSpawn;
@@ -205,15 +205,108 @@ public class SpawnManager : MonoBehaviour
             
             case GameManager.SPEARMASTER_SPAWN_TAG:
                 StartCoroutine(SpawnSpearmasterAfterNoEnemy());
-
                 break;
+
             case GameManager.SCYTHEMASTER_SPAWN_TAG:
                 StartCoroutine(SpawnSycthemasterAfterNoEnemy());
+                break;
+
+            case GameManager.BIG_DEMON_SPAWN_TAG:
+                StartCoroutine(SpawnBigDemonSummoner());
                 break;
             default:
                 break;
         }
     }
+
+    IEnumerator SpawnBigDemonSummoner()
+    {
+        Debug.Log("SpawnBigDemonSummoner");
+        
+        maxSpawn = 0;
+
+        GameManager.Instance.DisableControls = true;
+
+        isBossSpawned = true;
+
+        GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
+
+        SpawnBossEvent(GameManager.BIG_DEMON_SPAWN_TAG);
+
+        float spawnPosX = GameManager.Instance.Player.transform.position.x + 29.1f;
+        GameObject spawnedEnemyGO = Instantiate(DemonSummoner, new Vector3(spawnPosX, DemonSummoner.transform.position.y, 0), DemonSummoner.transform.rotation);
+
+        AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
+        spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+
+        yield return null;
+    }
+
+    /*IEnumerator SpawnBigBossAfterPortalOpening()
+    {
+        Debug.Log("SpawnBigBossAfterPortalOpening");
+        preparingForBossSpawn = true;
+        maxSpawn = 1;
+
+        yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
+
+        GameManager.Instance.DisableControls = true;
+
+        isBossSpawned = true;
+
+        GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
+
+        SpawnBossEvent();
+
+        yield return new WaitForSeconds(4.5f);
+
+        //
+        // Spawn Portal
+        //
+
+        float spawnPosX = GameManager.Instance.Player.transform.position.x + 8.5f; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        GameObject spawnedPortal = Instantiate(PortalPrefab, new Vector3(spawnPosX, PortalPrefab.transform.position.y, 0), PortalPrefab.transform.rotation);
+
+        spawnedPortal.transform.GetChild(1).gameObject.SetActive(false);
+
+        spawnedPortal.transform.localScale = new Vector3(0.1f, 0.1f, 1);
+
+        yield return new WaitForSeconds(1.5f);
+
+        spawnedPortal.transform.GetChild(1).gameObject.SetActive(true);
+
+        float countDown = 0.15f;
+        while(countDown <= 1.5f)
+        {
+            countDown += Time.deltaTime;
+            float perc = countDown / 1.5f;
+
+            spawnedPortal.transform.localScale = new Vector2(perc, perc);
+            
+            yield return new WaitForFixedUpdate();
+        }
+        
+        spawnedPortal.transform.localScale = Vector3.one;
+
+        //
+        //
+
+        yield return new WaitForSeconds(7.5f);
+
+        //
+        // Spawn Big Boss
+        //
+
+        spawnPosX = GameManager.Instance.Player.transform.position.x + 8.5f; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        GameObject spawnedEnemyGO = Instantiate(BigBossPrefab, new Vector3(spawnPosX, BigBossPrefab.transform.position.y, 0), BigBossPrefab.transform.rotation);
+
+        AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
+        spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+    }*/
+
+    public GameObject PortalPrefab;
+    public GameObject BigBossPrefab;
+    public GameObject DemonSummoner;
 
     IEnumerator SpawnSpearmasterAfterNoEnemy()
     {
@@ -229,7 +322,7 @@ public class SpawnManager : MonoBehaviour
 
         GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
         
-        SpawnBossEvent();
+        SpawnBossEvent(GameManager.SPEARMASTER_SPAWN_TAG);
 
         yield return new WaitForSeconds(4.5f);
 
@@ -264,7 +357,7 @@ public class SpawnManager : MonoBehaviour
 
         GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
 
-        SpawnBossEvent();
+        SpawnBossEvent(GameManager.SCYTHEMASTER_SPAWN_TAG);
     }
 
     [System.Serializable]

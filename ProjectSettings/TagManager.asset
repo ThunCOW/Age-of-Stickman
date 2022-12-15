@@ -15,6 +15,9 @@ TagManager:
   - Scythemaster
   - AllyUnit
   - SPEAR_PICKUP
+  - BigDemonBossTrigger
+  - BigDemon
+  - DemonSummoner
   layers:
   - Default
   - TransparentFX

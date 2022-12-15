@@ -103,6 +103,7 @@ public class AllyController : AIController
         while (GameManager.Instance.DisableControls)
             yield return null;
 
+        // Ally units are constantly attacking, if there is no target they will move to their determined position behind player
         if (unit.target != null)
         {
             AttackDecision();

@@ -21,14 +21,15 @@ MonoBehaviour:
       BlockAttack: {fileID: 0}
       ResetSlots: {fileID: 0}
       Hurt: {fileID: 11400000, guid: bffbe51614ff0fe409b1fc62e901aa7e, type: 2}
-      Kicked: {fileID: 0}
-      Slammed: {fileID: 0}
+      Kicked: {fileID: 11400000, guid: 46260135f772fe243800eb9c1fdeda77, type: 2}
+      Slammed: {fileID: 11400000, guid: d99ee38348f151b4da35014b35adbbfa, type: 2}
       KnockedDown: {fileID: 0}
       Attack:
       - {fileID: 11400000, guid: 3bf3c6304b28dbf44a6793324621116c, type: 2}
       - {fileID: 11400000, guid: 18253dc8efc43e24eaf467b87b5c5010, type: 2}
       - {fileID: 11400000, guid: 5e18e1302a99bb54c9166a9f43b2800b, type: 2}
       WalkAttack: []
+      ProjectileAttack: []
       ChangeStance:
         Animation: {fileID: 0}
         chance: 0

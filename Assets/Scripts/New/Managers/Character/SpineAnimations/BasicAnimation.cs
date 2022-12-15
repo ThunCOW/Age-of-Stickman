@@ -68,7 +68,8 @@ public enum AttackType
 {
     Casual,
     Kick,
-    Shield
+    Shield,
+    BigBossKnocked
 }
 
 public enum HitRegion
