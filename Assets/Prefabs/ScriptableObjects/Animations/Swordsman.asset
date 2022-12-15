@@ -23,7 +23,7 @@ MonoBehaviour:
       Hurt: {fileID: 11400000, guid: de4dfeffec33d984885acf796643287d, type: 2}
       Kicked: {fileID: 11400000, guid: 9e03c13a6457c0f408621003048557b9, type: 2}
       Slammed: {fileID: 11400000, guid: b15dc9fa10aceeb4e99f06aa76b9be5b, type: 2}
-      KnockedDown: {fileID: 0}
+      KnockedDown: {fileID: 11400000, guid: 6c612136417798d4bbb22a875774f617, type: 2}
       Attack:
       - {fileID: 11400000, guid: 9b2c1b8d3102c16458aa9e16d9f6ad59, type: 2}
       - {fileID: 11400000, guid: 77460c2139b57bf4db96c61fa46662a3, type: 2}

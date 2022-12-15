@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 215483362}
   - component: {fileID: 215483361}
   m_Layer: 13
-  m_Name: SpearmasterBossTrigger
+  m_Name: BigDemonBossTrigger
   m_TagString: BigDemonBossTrigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -210,9 +210,25 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6286407955458089244, guid: 764fd72b2b122e646915722e04e62919, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.28
+      objectReference: {fileID: 0}
+    - target: {fileID: 6286407955458089244, guid: 764fd72b2b122e646915722e04e62919, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -3.15
+      objectReference: {fileID: 0}
     - target: {fileID: 6286407955458089245, guid: 764fd72b2b122e646915722e04e62919, type: 3}
       propertyPath: m_Mesh
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6286407955458089247, guid: 764fd72b2b122e646915722e04e62919, type: 3}
+      propertyPath: _animationName
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6286407955682548137, guid: 764fd72b2b122e646915722e04e62919, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6286407956020224673, guid: 764fd72b2b122e646915722e04e62919, type: 3}
       propertyPath: m_RootOrder
@@ -260,11 +276,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6286407956020224687, guid: 764fd72b2b122e646915722e04e62919, type: 3}
       propertyPath: m_Name
-      value: Demon Summoner ( Boss )
+      value: DoubleAxe ( Boss )
       objectReference: {fileID: 0}
     - target: {fileID: 6286407956020224687, guid: 764fd72b2b122e646915722e04e62919, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 764fd72b2b122e646915722e04e62919, type: 3}
@@ -1985,14 +2001,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3129961849180557712, guid: eed04f545a3469840ab9948484c771a1, type: 3}
+      propertyPath: orthographic size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3129961849180557713, guid: eed04f545a3469840ab9948484c771a1, type: 3}
-      propertyPath: LeftWallPosition
-      value: 
-      objectReference: {fileID: 1780878466}
-    - target: {fileID: 3129961849180557713, guid: eed04f545a3469840ab9948484c771a1, type: 3}
-      propertyPath: RightWallPosition
-      value: 
-      objectReference: {fileID: 1901696191}
+      propertyPath: offset.y
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3129961849180557715, guid: eed04f545a3469840ab9948484c771a1, type: 3}
       propertyPath: m_Name
       value: Main Camera

@@ -37,7 +37,7 @@ public class SpawnManager : MonoBehaviour
 
     public static bool isBossSpawned;
 
-    public delegate void OnSpawnBoss();
+    public delegate void OnSpawnBoss(string BossTag);
     public static OnSpawnBoss SpawnBossEvent;
 
     bool preparingForBossSpawn;
@@ -212,20 +212,18 @@ public class SpawnManager : MonoBehaviour
                 break;
 
             case GameManager.BIG_DEMON_SPAWN_TAG:
-                StartCoroutine(SpawnLastBoss());
+                StartCoroutine(SpawnBigDemonSummoner());
                 break;
             default:
                 break;
         }
     }
 
-    IEnumerator SpawnLastBoss()
+    IEnumerator SpawnBigDemonSummoner()
     {
-        Debug.Log("SpawnLastBoss");
-        preparingForBossSpawn = true;
-        maxSpawn = 1;
-
-        yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
+        Debug.Log("SpawnBigDemonSummoner");
+        
+        maxSpawn = 0;
 
         GameManager.Instance.DisableControls = true;
 
@@ -233,15 +231,15 @@ public class SpawnManager : MonoBehaviour
 
         GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
 
-        SpawnBossEvent();
+        SpawnBossEvent(GameManager.BIG_DEMON_SPAWN_TAG);
 
-        yield return new WaitForSeconds(4.5f);
-
-        float spawnPosX = GameManager.Instance.Player.transform.position.x + 13.5f; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        float spawnPosX = GameManager.Instance.Player.transform.position.x + 29.1f;
         GameObject spawnedEnemyGO = Instantiate(DemonSummoner, new Vector3(spawnPosX, DemonSummoner.transform.position.y, 0), DemonSummoner.transform.rotation);
 
         AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+
+        yield return null;
     }
 
     /*IEnumerator SpawnBigBossAfterPortalOpening()
@@ -324,7 +322,7 @@ public class SpawnManager : MonoBehaviour
 
         GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
         
-        SpawnBossEvent();
+        SpawnBossEvent(GameManager.SPEARMASTER_SPAWN_TAG);
 
         yield return new WaitForSeconds(4.5f);
 
@@ -359,7 +357,7 @@ public class SpawnManager : MonoBehaviour
 
         GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
 
-        SpawnBossEvent();
+        SpawnBossEvent(GameManager.SCYTHEMASTER_SPAWN_TAG);
     }
 
     [System.Serializable]

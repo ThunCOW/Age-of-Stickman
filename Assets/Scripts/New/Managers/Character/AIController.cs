@@ -607,7 +607,7 @@ public class AIController : UnitController
         gameObject.transform.localScale = new Vector3(-1, 1, 1);
         spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/idle", true);
 
-        yield return new WaitForSeconds(5);
+        yield return new WaitForSeconds(7);
 
         spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/OpenBook_1", false);
 

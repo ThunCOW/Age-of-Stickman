@@ -23,7 +23,7 @@ MonoBehaviour:
       Hurt: {fileID: 11400000, guid: de4dfeffec33d984885acf796643287d, type: 2}
       Kicked: {fileID: 11400000, guid: 9e03c13a6457c0f408621003048557b9, type: 2}
       Slammed: {fileID: 11400000, guid: b15dc9fa10aceeb4e99f06aa76b9be5b, type: 2}
-      KnockedDown: {fileID: 0}
+      KnockedDown: {fileID: 11400000, guid: 6c612136417798d4bbb22a875774f617, type: 2}
       Attack:
       - {fileID: 11400000, guid: 9b2c1b8d3102c16458aa9e16d9f6ad59, type: 2}
       - {fileID: 11400000, guid: 77460c2139b57bf4db96c61fa46662a3, type: 2}
@@ -76,7 +76,7 @@ MonoBehaviour:
       Hurt: {fileID: 11400000, guid: e5a281120a34a9a4b83a1ae56413cf91, type: 2}
       Kicked: {fileID: 11400000, guid: 1e9d582f8a53b6a4ab68f601a98a0723, type: 2}
       Slammed: {fileID: 11400000, guid: f7c4094f69e59cd4891b1fcdd9074135, type: 2}
-      KnockedDown: {fileID: 0}
+      KnockedDown: {fileID: 11400000, guid: 3ae9adfbdd993c14183ffd0b43028ca2, type: 2}
       Attack:
       - {fileID: 11400000, guid: 52a4153c6abe13647a10a13bddf3ab62, type: 2}
       - {fileID: 11400000, guid: 776dc58a405f588418414ffee6bf1a5c, type: 2}

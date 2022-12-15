@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
+  m_Name: Boss_TwoHandedAxe
+  m_EditorClassIdentifier: 
+  id: c619a937eb19dc3448dee9f1495b4cb3
+  ItemName: need a side section
+  HealthBonus: 0
+  DamageBonus: 0
+  ItemPrice: 0
+  ItemSlot: 3
+  ItemSprite: {fileID: 0}
+  ItemQualitySprite: {fileID: 0}
+  front:
+  - SlotName: Weapon/TwoHand_Axe_01
+    AttachmentName: Weapon/TwoHand_Axe_00
+  side:
+  - SlotName: Weapon/TwoHand_Axe_00_0
+    AttachmentName: Weapon/TwoHand_Axe_00_0
+  back:
+  - SlotName: Weapon/TwoHand_Axe_00_0
+    AttachmentName: Weapon/TwoHand_Axe_00_2
+  back2:
+  - SlotName: Weapon/TwoHand_Axe_00_0
+    AttachmentName: Weapon/TwoHand_Axe_00_1
+  AnimationList: {fileID: 11400000, guid: a6dee2313be044d4fa338cff2e3c1fce, type: 2}

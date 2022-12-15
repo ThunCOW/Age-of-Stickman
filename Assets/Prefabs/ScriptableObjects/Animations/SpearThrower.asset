@@ -23,7 +23,7 @@ MonoBehaviour:
       Hurt: {fileID: 11400000, guid: 03521e6f43a341045a8596156971ec7b, type: 2}
       Kicked: {fileID: 11400000, guid: 3617cfd59d7f645498664939b0542a52, type: 2}
       Slammed: {fileID: 11400000, guid: ca6b0eceb867da94bb68ed30f21799f4, type: 2}
-      KnockedDown: {fileID: 0}
+      KnockedDown: {fileID: 11400000, guid: 3ae9adfbdd993c14183ffd0b43028ca2, type: 2}
       Attack:
       - {fileID: 11400000, guid: 14fa420722d7a5c439b595bf8e119b51, type: 2}
       - {fileID: 11400000, guid: cc7a7a233d52b0048ab44bb87c362481, type: 2}
@@ -56,6 +56,7 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
       - {fileID: 11400000, guid: 8ff1125ea8e4d8245aca3dab8e5fa314, type: 2}
       WalkAttack: []
+      ProjectileAttack: []
       ChangeStance:
         Animation: {fileID: 0}
         chance: 0

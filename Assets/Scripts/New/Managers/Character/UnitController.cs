@@ -694,6 +694,14 @@ public class UnitController : MonoBehaviour
             case AttackType.Shield:
                 stunAnimation = unit.activeAnimations.Slammed as SpeedDependantAnimation;
                 break;
+            case AttackType.BigBossKnocked:
+                if(blockTrigger)
+                {
+                    // do block animation
+                }
+                else
+                    stunAnimation = unit.activeAnimations.KnockedDown as SpeedDependantAnimation;
+                break;
             default:
                 break;
         }
@@ -710,7 +718,7 @@ public class UnitController : MonoBehaviour
         {
             animationCurrentTime += Time.deltaTime;
             speedRelativeToAnimation = stunAnimation.speedCurve.Evaluate(animationCurrentTime);
-            yield return null;
+            yield return new WaitForFixedUpdate();
         }
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
