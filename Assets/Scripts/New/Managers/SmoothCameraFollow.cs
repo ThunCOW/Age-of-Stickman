@@ -138,10 +138,40 @@ public class SmoothCameraFollow : MonoBehaviour
                 StartCoroutine(MoveAllyUnitsRight());
                 StartCoroutine(WideCameraSetup());
                 break;
+            case GameManager.DOUBLEAXEDEMON_SPAWN_TAG:
+                StartCoroutine(MoveAllyUnitsRight());
+                StartCoroutine(WalkTowardsBoss());
+                break;
             default:
                 StartCoroutine(InitialCameraSlide());
                 break;
         }
+    }
+    IEnumerator WalkTowardsBoss()
+    {
+        canMoveCam = false;
+
+        float offset = 14.4f + 6.7f;
+        Vector3 movePosition = new Vector3(cameraTarget.position.x + offset, transform.position.y, -10);
+        float targetY = transform.position.y;
+
+        float waitFor = 10;
+        while (waitFor >= 0)
+        {
+            waitFor -= Time.deltaTime;
+
+            float s = 0f;
+
+            transform.position = new Vector3(Vector3.SmoothDamp(transform.position, movePosition, ref velocity, 3).x,
+                Mathf.SmoothDamp(transform.position.y, targetY, ref s, 0.6f), transform.position.z);
+
+            yield return new WaitForFixedUpdate();
+        }
+        canMoveCam = true;
+
+        BossCameraActivated = true;
+
+        damping = 0.5f;
     }
 
     IEnumerator WideCameraSetup()

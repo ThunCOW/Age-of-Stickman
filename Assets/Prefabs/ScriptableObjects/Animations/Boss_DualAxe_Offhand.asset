@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: Boss_DualAxe_Offhand
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: fafeb5cb8c4d8f749a19df3bb6d58a82, type: 2}
+      Movement: {fileID: 11400000, guid: 929cac7ecb9ab564a857ab2626b2d734, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 0}
+      Kicked: {fileID: 0}
+      Slammed: {fileID: 0}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: d87e7a9c7339c7848acd3eff58f9abdd, type: 2}
+      - {fileID: 11400000, guid: 3eef63c284311db4e87a51245100915d, type: 2}
+      - {fileID: 11400000, guid: 81de941ff7a58284fbba9a8b83a1e283, type: 2}
+      - {fileID: 11400000, guid: 9c68a2acff6b0df45860e7d7506dda85, type: 2}
+      - {fileID: 11400000, guid: 057a6a1d4a2ce1c4a9e8cb06b0dbbe70, type: 2}
+      - {fileID: 11400000, guid: cc56ae00b38dbf74fb706b0fd9b91e7e, type: 2}
+      - {fileID: 11400000, guid: 133518b4872e829438a8663e17c68433, type: 2}
+      WalkAttack:
+      - {fileID: 11400000, guid: 2ac3e870349727f479eb664159bb57c7, type: 2}
+      - {fileID: 11400000, guid: 0e805d4908ec4ae4984288f4bc30a8e1, type: 2}
+      - {fileID: 11400000, guid: 3a10427ed823bb9449fe8d5a510876c0, type: 2}
+      - {fileID: 11400000, guid: c94b4a33c86accb4a93f6416baa41d04, type: 2}
+      ProjectileAttack: []
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: 0
+      SwapWeapon: {fileID: 0}
+      DeathAnimationByDamageRegion:
+        highRegion: []
+        midRegion: []
+        lowRegion: []
+        SpearThrowHead: []
+        SpearThrowBody: []
+      BreakStance:
+      - {fileID: 11400000, guid: 98e109afa2577ad44a3c81aca3cff4d8, type: 2}
+    extraSpeed: 0

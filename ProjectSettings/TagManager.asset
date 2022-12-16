@@ -18,6 +18,9 @@ TagManager:
   - BigDemonBossTrigger
   - BigDemon
   - DemonSummoner
+  - DoubleAxeDemon
+  - DoubleAxeDemonTrigger
+  - DemonSummonerFirstAppearance
   layers:
   - Default
   - TransparentFX

@@ -23,6 +23,7 @@ public class Item : ScriptableObject
     public List<SpineAttachment> side;
     public List<SpineAttachment> back;
     public List<SpineAttachment> back2;
+    public List<SpineAttachment> FacingCam;
 
     void OnValidate()
     {

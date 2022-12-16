@@ -20,8 +20,19 @@ MonoBehaviour:
   ItemSlot: 4
   ItemSprite: {fileID: 0}
   ItemQualitySprite: {fileID: 0}
-  front: []
-  side: []
-  back: []
-  back2: []
-  AnimationList: {fileID: 0}
+  front:
+  - SlotName: Weapon/TwoHand_Axe_01
+    AttachmentName: Weapon/TwoHand_Axe_00
+  side:
+  - SlotName: Weapon/TwoHand_Axe_010
+    AttachmentName: Weapon/TwoHand_Axe_00_0
+  back:
+  - SlotName: Weapon/TwoHand_Axe_010
+    AttachmentName: Weapon/TwoHand_Axe_00_2
+  back2:
+  - SlotName: Weapon/TwoHand_Axe_010
+    AttachmentName: Weapon/TwoHand_Axe_00_1
+  FacingCam:
+  - SlotName: Weapon/TwoHand_Axe_010
+    AttachmentName: Weapon/TwoHand_Axe_00_3
+  AnimationList: {fileID: 11400000, guid: 66e3b8432a44b7a4ab32a63b8e693301, type: 2}
