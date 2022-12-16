@@ -71,7 +71,9 @@ namespace SpineControllerVersion
         public const string ENEMY_TAG = "EnemyUnit";
         public const string SPEARMASTER_TAG = "Spearmaster";
         public const string SCYTHEMASTER_TAG = "Scythemaster";
+        public const string DOUBLEAXEDEMON_TAG = "DoubleAxeDemon";
         public const string DEMON_SUMMONER_TAG = "DemonSummoner";
+        public const string DEMON_SUMMONER_FIRST_APPEARANCE_TAG = "DemonSummonerFirstAppearance";
         public const string BIG_DEMON_TAG = "BigDemon";
 
         public const string ALLY_TAG = "AllyUnit";
@@ -80,10 +82,11 @@ namespace SpineControllerVersion
 
         public const string FINISH_LEVEL_TAG = "FinishLevelTrigger";
         public const string SPEARMASTER_SPAWN_TAG = "SpearmasterBossTrigger";
+        public const string DOUBLEAXEDEMON_SPAWN_TAG = "DoubleAxeDemonTrigger";
         public const string SCYTHEMASTER_SPAWN_TAG = "ScythemasterBossTrigger";
         public const string BIG_DEMON_SPAWN_TAG = "BigDemonBossTrigger";
 
-        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG, BIG_DEMON_TAG };
+        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG, BIG_DEMON_TAG, DOUBLEAXEDEMON_TAG };
         public static List<string> ALLY_TAGS = new List<string> { ALLY_TAG, PLAYER_TAG };
 
 
@@ -237,11 +240,20 @@ namespace SpineControllerVersion
 
 
 
-        [Header("_Temporary / Dumb Variables_")]
 
-        public int Level;
+        [Header("_Bossess_")]
+        public GameObject SpearmasterPrefab;
 
+        [Space]
+        public GameObject SycthemasterPrefab;
+
+        [Header("_Double Axe Demon Variables_")]
+        public GameObject DemonSummonerFirstEntrance;
+        public GameObject DoubleAxeDemon;
+
+        [Header("Big Demon Variables_")]
         // Demon Spawn of summoner, one time use so done like this
+        public GameObject DemonSummoner;
         public GameObject PortalPrefab;
         public GameObject BigBossPrefab;
         public GameObject BookParticlePrefab;
@@ -249,6 +261,9 @@ namespace SpineControllerVersion
         public SpeedDependantAnimation BigDemonEntrance;
 
 
+        [Header("_Temporary / Dumb Variables_")]
+
+        public int Level;
 
         // Awake and Start
         void Awake()
@@ -279,6 +294,7 @@ namespace SpineControllerVersion
 
 
 
+        [Header("_Continue Text And Canvas Spawn Varaibles_")]
         // Continue Text And Canvas Spawn
         public GameObject ContinueToMainMenuImagePrefab;
         public GameObject ContinueAfterEnemyDeadTextPrefab;

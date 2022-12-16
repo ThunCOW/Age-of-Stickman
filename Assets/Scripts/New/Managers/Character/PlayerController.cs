@@ -759,6 +759,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
             BossTrigger(GameManager.SCYTHEMASTER_SPAWN_TAG);
         }
+        else if(trigger.gameObject.CompareTag(GameManager.DOUBLEAXEDEMON_SPAWN_TAG))
+        {
+            trigger.gameObject.SetActive(false);
+
+            BossTrigger(GameManager.DOUBLEAXEDEMON_SPAWN_TAG);
+        }
         else if(trigger.gameObject.tag == GameManager.BIG_DEMON_SPAWN_TAG)
         {
             trigger.gameObject.SetActive(false);
@@ -1036,7 +1042,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             spineSkeletonAnimation.state.SetAnimation(3, unit.activeAnimations.ResetSlots.SpineAnimationReference, false).TimeScale = 1f;
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
         }
-        else
+        else if(DefendButtonCoroutine!= null)
             StopCoroutine(DefendButtonCoroutine);
 
         DefendButtonCoroutineStarted = false;

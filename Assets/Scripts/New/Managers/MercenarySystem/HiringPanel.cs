@@ -332,6 +332,7 @@ public class UnitHolder
             SetAllAttachment(skeletonGraphic, Panel.dictEquippedItems[item.ItemSlot].side, true);
             SetAllAttachment(skeletonGraphic, Panel.dictEquippedItems[item.ItemSlot].back, true);
             SetAllAttachment(skeletonGraphic, Panel.dictEquippedItems[item.ItemSlot].back2, true);
+            SetAllAttachment(skeletonGraphic, Panel.dictEquippedItems[item.ItemSlot].FacingCam, true);
 
             Panel.dictEquippedItems[item.ItemSlot] = null;
         }

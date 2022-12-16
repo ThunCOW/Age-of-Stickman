@@ -88,6 +88,16 @@ public class AIController : UnitController
                 case GameManager.BIG_DEMON_TAG:
                     StartCoroutine(BigDemonEntrance());
                     break;
+                case GameManager.DOUBLEAXEDEMON_TAG:
+                    foreach(CloseCombatAnimation closeCombatAnimation in unit.activeAnimations.WalkAttack)
+                    {
+                        SetMixBetweenAnimation(closeCombatAnimation.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
+                    }
+                    StartCoroutine(DoubleAxeDemonEntrance());
+                    break;
+                case GameManager.DEMON_SUMMONER_FIRST_APPEARANCE_TAG:
+                    StartCoroutine(DemonSummonerFirstAppeareance());
+                    break;
                 case GameManager.DEMON_SUMMONER_TAG:
                     StartCoroutine(DemonSummonerEntrance());
                     break;
@@ -601,7 +611,32 @@ public class AIController : UnitController
     {
         StartCoroutine(AIActionDecision());
     }
+    IEnumerator DoubleAxeDemonEntrance()
+    {
+        gameObject.transform.localScale = new Vector3(-1, 1, 1);
 
+        spineSkeletonAnimation.state.SetAnimation(1, "DoubleAxeHuge/Idle4", true);
+
+        yield return new WaitForSeconds(22);
+
+        GameManager.Instance.DisableControls = false;
+
+        StartCoroutine(AIActionDecision());
+    }
+
+    IEnumerator DemonSummonerFirstAppeareance()
+    {
+        gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/idle", true);
+
+        yield return new WaitForSeconds(15);
+
+        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/Exit", false);
+
+        yield return new WaitForSpineAnimationComplete(trackEntry);
+
+        Destroy(gameObject);
+    }
     IEnumerator DemonSummonerEntrance()
     {
         gameObject.transform.localScale = new Vector3(-1, 1, 1);

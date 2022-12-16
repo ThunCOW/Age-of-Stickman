@@ -344,18 +344,57 @@ public class EquipmentManager : MonoBehaviour
             case "Weapon Triggers/Weapon_Throw":
                 ProjectileRelease();
                 break;
+
+
+            // Blow triggers being used for dual axe boss only
+            case "Body Trigger/Head_Side":
+                skelAnim.skeleton.SetAttachment("Body/CHAR_0_HEAD_0", "Body/CHAR_1_HEAD_1");
+                break;
+            case "Body Trigger/Head_Front":
+                skelAnim.skeleton.SetAttachment("Body/CHAR_0_HEAD_0", "Head");
+                break;
+
+
+            // Note : side, back, back2 and facingCam is on the same slot, disabling one of them will disable the slot for all
+            // Below triggers are for two handed axe and dual axe boss
             case "Weapon Triggers/Weapon_Front":
                 if (equippedItems[ItemSlot.TwoHanded] != null)
                 {
                     SetAllAttachment(equippedItems[ItemSlot.TwoHanded].front);
                     SetAllAttachment(equippedItems[ItemSlot.TwoHanded].side, true);
                 }
+                else 
+                if (equippedItems[ItemSlot.MainHand] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.MainHand].front);
+                    SetAllAttachment(equippedItems[ItemSlot.MainHand].side, true);
+                }
+                break;
+            case "Weapon Triggers/Weapon_Offhand_Front":
+                if (equippedItems[ItemSlot.Offhand] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.Offhand].front);
+                    SetAllAttachment(equippedItems[ItemSlot.Offhand].side, true);
+                }
                 break;
             case "Weapon Triggers/Weapon_Side":
                 if (equippedItems[ItemSlot.TwoHanded] != null)
                 {
-                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].side);
                     SetAllAttachment(equippedItems[ItemSlot.TwoHanded].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.TwoHanded].side);
+                }
+                else
+                if(equippedItems[ItemSlot.MainHand] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.MainHand].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.MainHand].side);
+                }
+                break;
+            case "Weapon Triggers/Weapon_Offhand_Side":
+                if (equippedItems[ItemSlot.Offhand] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.Offhand].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.Offhand].side);
                 }
                 break;
             case "Weapon Triggers/Weapon_Back":
@@ -364,6 +403,19 @@ public class EquipmentManager : MonoBehaviour
                     SetAllAttachment(equippedItems[ItemSlot.TwoHanded].front, true);
                     SetAllAttachment(equippedItems[ItemSlot.TwoHanded].back);
                 }
+                else
+                if (equippedItems[ItemSlot.MainHand] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.MainHand].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.MainHand].back);
+                }
+                break;
+            case "Weapon Triggers/Weapon_Offhand_Back":
+                if (equippedItems[ItemSlot.MainHand] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.Offhand].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.Offhand].back);
+                }
                 break;
             case "Weapon Triggers/Weapon_Back_2":
                 if (equippedItems[ItemSlot.TwoHanded] != null)
@@ -371,8 +423,28 @@ public class EquipmentManager : MonoBehaviour
                     SetAllAttachment(equippedItems[ItemSlot.TwoHanded].front, true);
                     SetAllAttachment(equippedItems[ItemSlot.TwoHanded].back2);
                 }
+                else
+                if (equippedItems[ItemSlot.MainHand] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.MainHand].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.MainHand].back2);
+                }
                 break;
-            //unit.unitController.currentAttack
+            case "Weapon Triggers/Weapon_Offhand_Back_2":
+                if (equippedItems[ItemSlot.Offhand] != null)
+                {
+                    SetAllAttachment(equippedItems[ItemSlot.Offhand].front, true);
+                    SetAllAttachment(equippedItems[ItemSlot.Offhand].back2);
+                }
+                break;
+            case "Weapon Triggers/Weapon_FacingCam":
+                SetAllAttachment(equippedItems[ItemSlot.MainHand].front, true);
+                SetAllAttachment(equippedItems[ItemSlot.MainHand].FacingCam);
+                break;
+            case "Weapon Triggers/Weapon_Offhand_FacingCam":
+                SetAllAttachment(equippedItems[ItemSlot.Offhand].front, true);
+                SetAllAttachment(equippedItems[ItemSlot.Offhand].FacingCam);
+                break;
             default:
                 break;
         }

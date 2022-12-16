@@ -31,9 +31,7 @@ public class SpawnManager : MonoBehaviour
 
     [HideInInspector] public Camera mainCamera;
 
-    [Header("_Bossess_")]
-    public GameObject SpearmasterPrefab;
-    public GameObject SycthemasterPrefab;
+    
 
     public static bool isBossSpawned;
 
@@ -210,7 +208,9 @@ public class SpawnManager : MonoBehaviour
             case GameManager.SCYTHEMASTER_SPAWN_TAG:
                 StartCoroutine(SpawnSycthemasterAfterNoEnemy());
                 break;
-
+            case GameManager.DOUBLEAXEDEMON_SPAWN_TAG:
+                StartCoroutine(SpawnDoubleAxeDemonSummoner());
+                break;
             case GameManager.BIG_DEMON_SPAWN_TAG:
                 StartCoroutine(SpawnBigDemonSummoner());
                 break;
@@ -218,7 +218,39 @@ public class SpawnManager : MonoBehaviour
                 break;
         }
     }
+    IEnumerator SpawnDoubleAxeDemonSummoner()
+    {
+        Debug.Log("SpawnDoubleAxeDemonSummoner");
 
+        maxSpawn = 0;
+
+        GameManager.Instance.DisableControls = true;
+
+        isBossSpawned = true;
+
+        GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
+
+        SpawnBossEvent(GameManager.DOUBLEAXEDEMON_SPAWN_TAG);
+
+        // Spawn DemonSummoner
+
+        float spawnPosX = GameManager.Instance.Player.transform.position.x + 29.1f;
+        GameObject spawnedEnemyGO_A = Instantiate(GameManager.Instance.DemonSummonerFirstEntrance, new Vector3(spawnPosX, GameManager.Instance.DemonSummonerFirstEntrance.transform.position.y, 0), GameManager.Instance.DemonSummonerFirstEntrance.transform.rotation);
+
+        AIController spawnedEnemyUnit_A = spawnedEnemyGO_A.GetComponent<AIController>();
+        spawnedEnemyUnit_A.aiAgressiveness = AIAgressiveness.boss;
+
+        // Spawn Double Axe Demon Boss
+
+        spawnPosX = GameManager.Instance.Player.transform.position.x + 27.5f;
+        GameObject spawnedEnemyGO_B = Instantiate(GameManager.Instance.DoubleAxeDemon, new Vector3(spawnPosX, GameManager.Instance.DoubleAxeDemon.transform.position.y, 0), GameManager.Instance.DoubleAxeDemon.transform.rotation);
+
+        AIController spawnedEnemyUnit_B = spawnedEnemyGO_B.GetComponent<AIController>();
+        spawnedEnemyUnit_B.aiAgressiveness = AIAgressiveness.boss;
+
+        yield return null;
+    }
+    
     IEnumerator SpawnBigDemonSummoner()
     {
         Debug.Log("SpawnBigDemonSummoner");
@@ -234,7 +266,7 @@ public class SpawnManager : MonoBehaviour
         SpawnBossEvent(GameManager.BIG_DEMON_SPAWN_TAG);
 
         float spawnPosX = GameManager.Instance.Player.transform.position.x + 29.1f;
-        GameObject spawnedEnemyGO = Instantiate(DemonSummoner, new Vector3(spawnPosX, DemonSummoner.transform.position.y, 0), DemonSummoner.transform.rotation);
+        GameObject spawnedEnemyGO = Instantiate(GameManager.Instance.DemonSummoner, new Vector3(spawnPosX, GameManager.Instance.DemonSummoner.transform.position.y, 0), GameManager.Instance.DemonSummoner.transform.rotation);
 
         AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
@@ -304,10 +336,6 @@ public class SpawnManager : MonoBehaviour
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
     }*/
 
-    public GameObject PortalPrefab;
-    public GameObject BigBossPrefab;
-    public GameObject DemonSummoner;
-
     IEnumerator SpawnSpearmasterAfterNoEnemy()
     {
         Debug.Log("SpawnBossAfterNoEnemy");
@@ -327,7 +355,7 @@ public class SpawnManager : MonoBehaviour
         yield return new WaitForSeconds(4.5f);
 
         float spawnPosX = GameManager.Instance.Player.transform.position.x + 13.5f + 10; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
-        GameObject spawnedEnemyGO = Instantiate(SpearmasterPrefab, new Vector3(spawnPosX, SpearmasterPrefab.transform.position.y, 0), SpearmasterPrefab.transform.rotation);
+        GameObject spawnedEnemyGO = Instantiate(GameManager.Instance.SpearmasterPrefab, new Vector3(spawnPosX, GameManager.Instance.SpearmasterPrefab.transform.position.y, 0), GameManager.Instance.SpearmasterPrefab.transform.rotation);
 
         AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
@@ -341,8 +369,8 @@ public class SpawnManager : MonoBehaviour
 
 
         float LandPosX = GameManager.Instance.Player.transform.position.x + 12.35f;
-        Vector3 spawnPos = new Vector3(GameManager.Instance.Player.transform.position.x + 25, SycthemasterPrefab.transform.position.y, 0);
-        GameObject spawnedEnemyGO = Instantiate(SycthemasterPrefab, spawnPos, SycthemasterPrefab.transform.rotation);
+        Vector3 spawnPos = new Vector3(GameManager.Instance.Player.transform.position.x + 25, GameManager.Instance.SycthemasterPrefab.transform.position.y, 0);
+        GameObject spawnedEnemyGO = Instantiate(GameManager.Instance.SycthemasterPrefab, spawnPos, GameManager.Instance.SycthemasterPrefab.transform.rotation);
 
         AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
