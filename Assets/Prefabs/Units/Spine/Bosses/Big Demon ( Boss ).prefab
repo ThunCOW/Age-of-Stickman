@@ -128,7 +128,7 @@ MonoBehaviour:
   equipmentManager: {fileID: 1888226523802012832}
   isAnimationStarted: 0
   extraSpeed: 0
-  speed: 4
+  speed: 2.5
   isBoss: 1
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}

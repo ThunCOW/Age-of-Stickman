@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Walk
   m_EditorClassIdentifier: 
   Prefix: Big_Stickman
-  AnimationName: Walk_2_1_1
-  SpineAnimationReference: {fileID: 11400000, guid: 8e6d116d0dcd3ec498ab0b206d8e2a85, type: 2}
+  AnimationName: Walk_2_1_2
+  SpineAnimationReference: {fileID: 11400000, guid: 5ed0086cacc126f44b3c4d600ed35711, type: 2}
   ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Big_Stickman
-  _AnimationNameChangeCheck: Walk_2_1_1
+  _AnimationNameChangeCheck: Walk_2_1_2

@@ -652,9 +652,52 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         StartCoroutine(InitializeDistanceBar());
         //StartCoroutine(GetClosestUnitSearchCycle());
     }
+    protected override IEnumerator ShieldedFor(float stallFor, float slideSpeed)
+    {
+        idleing = false;
+
+        isAnimationStarted = true;
+
+        int direction = 0;
+        if (unit.target != null)
+        {
+            if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
+                direction = -1;
+            else
+                direction = 1;
+        }
+
+        float countdown = 0;
+        while (countdown < stallFor)
+        {
+            countdown += Time.deltaTime;
+
+            transform.position = new Vector3(transform.position.x + (direction * slideSpeed * GameManager.Instance.FastToSlowCurve.Evaluate(countdown / stallFor)) * Time.deltaTime, transform.position.y, transform.position.z);
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        // Block animation should be playing, we need to lock it in block animation tho
+        yield return new WaitForSeconds(stallFor);
+
+        //spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
+
+        idleing = true;
+
+        isAnimationStarted = false;                                     // direction released (for player)
+
+        speedRelativeToAnimation = 0;
+
+        this.direction = MoveDirection.waiting;
+
+        currentAttack = null;
+
+        if(!DefendButtonCoroutineStarted)
+            DefendButtonUp();
+    }
     private IEnumerator CheckDirectionCoroutine()
     {
-        yield return new WaitForSeconds(UnityEngine.Random.Range(0.1f, 0.25f));
+        yield return new WaitForSeconds(Random.Range(0.1f, 0.25f));
 
         if (!isAnimationStarted && GameManager.Instance.DisableControls == false && !blockTrigger)
         {
@@ -1034,7 +1077,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     }
     public void DefendButtonUp()
     {
-        if(blockTrigger)
+        if(blockTrigger && !isAnimationStarted)
         {
             canMove = true;
             blockTrigger = false;

@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 811615884120174837}
   - component: {fileID: 811615884120174838}
   - component: {fileID: 5821867607905041049}
+  - component: {fileID: -7005274829842469041}
   m_Layer: 0
   m_Name: DoubleAxe ( Boss )
   m_TagString: DoubleAxeDemon
@@ -426,6 +427,20 @@ MonoBehaviour:
   InGameMovements: []
   SpearmasterDead: {fileID: 11400000, guid: e4819a433a1b7e747b06740e6d6e5474, type: 2}
   SycthemasterDead: {fileID: 0}
+--- !u!114 &-7005274829842469041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 811615884120174839}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd683aa65586bcb438edb2eeee6e465a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueList:
+  - Context: I will get rid of him master...
 --- !u!1001 &4005704348991497181
 PrefabInstance:
   m_ObjectHideFlags: 0

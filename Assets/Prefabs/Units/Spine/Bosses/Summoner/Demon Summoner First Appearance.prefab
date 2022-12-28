@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 6286407956020224685}
   - component: {fileID: 6286407956020224686}
   - component: {fileID: 915870493247154369}
+  - component: {fileID: -6073917139464580566}
   m_Layer: 0
   m_Name: Demon Summoner First Appearance
   m_TagString: DemonSummonerFirstAppearance
@@ -425,6 +426,20 @@ MonoBehaviour:
   InGameMovements: []
   SpearmasterDead: {fileID: 11400000, guid: e4819a433a1b7e747b06740e6d6e5474, type: 2}
   SycthemasterDead: {fileID: 0}
+--- !u!114 &-6073917139464580566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6286407956020224687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd683aa65586bcb438edb2eeee6e465a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueList:
+  - Context: Looks like we have got someone wanting to play hero here
 --- !u!1001 &1858554775984015666
 PrefabInstance:
   m_ObjectHideFlags: 0

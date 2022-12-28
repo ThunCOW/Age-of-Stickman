@@ -270,6 +270,15 @@ public class UnitController : MonoBehaviour
             SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
 
             //unit.SetUnitDirection(attackDirection * -1);
+            if(unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
+            {
+                if(attack.attackType != AttackType.Casual)
+                {
+                    //StopRoutine();
+                    StartCoroutine(ShieldedFor(0.2f, 5f));
+                }
+            }
+
             return false;
         }
         if(resurrectionState)
@@ -654,7 +663,9 @@ public class UnitController : MonoBehaviour
         }
     }
 
-    protected IEnumerator StunnedFor(CloseCombatAnimation attack)
+    protected virtual IEnumerator ShieldedFor(float stallFor, float slideSpeed) { yield return null; }
+
+    protected IEnumerator StunnedFor(CloseCombatAnimation attack, float stallFor = 0)
     {
         idleing = false;
 
@@ -720,6 +731,8 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = stunAnimation.speedCurve.Evaluate(animationCurrentTime);
             yield return new WaitForFixedUpdate();
         }
+
+        yield return new WaitForSeconds(stallFor);
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;
 

@@ -617,7 +617,18 @@ public class AIController : UnitController
 
         spineSkeletonAnimation.state.SetAnimation(1, "DoubleAxeHuge/Idle4", true);
 
-        yield return new WaitForSeconds(22);
+        yield return new WaitForSeconds(15);
+
+        TextBoxManager textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
+
+        textBoxSpawn.Text.text = GetComponent<UnitDialogues>().dialogueList[0].Context;
+
+        textBoxSpawn.ShowText(textBoxSpawn.Text.text = GetComponent<UnitDialogues>().dialogueList[0].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(1.5f);
 
         GameManager.Instance.DisableControls = false;
 
@@ -629,7 +640,16 @@ public class AIController : UnitController
         gameObject.transform.localScale = new Vector3(-1, 1, 1);
         spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/idle", true);
 
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(7);
+
+        TextBoxManager textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(GetComponent<UnitDialogues>().dialogueList[0].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(1.5f);
 
         TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/Exit", false);
 
@@ -646,7 +666,14 @@ public class AIController : UnitController
 
         spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/OpenBook_1", false);
 
-        yield return new WaitForSeconds(5);
+        TextBoxManager textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(GetComponent<UnitDialogues>().dialogueList[0].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(0.5f);
 
         TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/OpenBook_2", false);
 
@@ -667,6 +694,9 @@ public class AIController : UnitController
         // Spawn Portal
         //
 
+        SoundManager.Instance.PlayEffect(GameManager.Instance.PortalOpeningSFX);
+        SoundManager.Instance.PlayEffect(GameManager.Instance.PortalIdleSFX);
+
         float spawnPosX = GameManager.Instance.Player.transform.position.x + 8.5f; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
         GameObject spawnedPortal = Instantiate(GameManager.Instance.PortalPrefab, new Vector3(spawnPosX, GameManager.Instance.PortalPrefab.transform.position.y, 0), GameManager.Instance.PortalPrefab.transform.rotation);
 
@@ -674,7 +704,7 @@ public class AIController : UnitController
 
         spawnedPortal.transform.localScale = new Vector3(0.1f, 0.1f, 1);
 
-        yield return new WaitForSeconds(1.5f);
+        //yield return new WaitForSeconds(1.5f);
 
         spawnedPortal.transform.GetChild(1).gameObject.SetActive(true);
 
@@ -691,7 +721,7 @@ public class AIController : UnitController
 
         spawnedPortal.transform.localScale = Vector3.one;
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1.5f);
 
         float countdownToDestroyBookParticle = 1.5f;
         while(countdownToDestroyBookParticle > 0.5f)
@@ -712,19 +742,38 @@ public class AIController : UnitController
         }
         Destroy(spawnedBookParticle);
 
+        StartCoroutine(BigDemonSoundEffect());
+
         yield return new WaitForSeconds(0.5f);
 
         //
         // Spawn Big Boss
         //
 
-        spawnPosX = GameManager.Instance.Player.transform.position.x + 9f; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        spawnPosX = GameManager.Instance.Player.transform.position.x + 9f + 30;
         GameObject spawnedEnemyGO = Instantiate(GameManager.Instance.BigBossPrefab, new Vector3(spawnPosX, GameManager.Instance.BigBossPrefab.transform.position.y, 0), GameManager.Instance.BigBossPrefab.transform.rotation);
 
         AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
 
+        yield return new WaitForFixedUpdate();
+
+        spawnedEnemyGO.transform.position = new Vector3(spawnedEnemyGO.transform.position.x - 30, spawnedEnemyGO.transform.position.y, 0);
+
         yield return new WaitForSeconds(5);
+
+
+
+        textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(GetComponent<UnitDialogues>().dialogueList[1].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(1.5f);
+
+        SoundManager.Instance.PlayEffect(GameManager.Instance.PortalClosingSFX);
 
         trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/Exit", false);
 
@@ -748,7 +797,7 @@ public class AIController : UnitController
         gameObject.transform.localScale = new Vector3(-1, 1, 1);
 
         TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Big_Stickman/Entrance_Portal3", false);
-        
+
         direction = MoveDirection.left;
         StartCoroutine(SpeedDuringAnimation(trackEntry, GameManager.Instance.BigDemonEntrance.speedCurve));
 
@@ -758,11 +807,20 @@ public class AIController : UnitController
 
         spineSkeletonAnimation.maskInteraction = SpriteMaskInteraction.None;
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(5.5f);
 
         GameManager.Instance.DisableControls = false;
 
         StartCoroutine(AIActionDecision());
+    }
+
+    IEnumerator BigDemonSoundEffect()
+    {
+        SoundManager.Instance.PlayEffect(GameManager.Instance.Big_Demon_Entrance);
+
+        yield return new WaitForSeconds(4.2f);
+
+        SoundManager.Instance.PlayEffect(GameManager.Instance.Big_Mace_Drop);
     }
 
     IEnumerator SpearmasterEntrance()

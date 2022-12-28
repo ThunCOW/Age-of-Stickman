@@ -261,9 +261,29 @@ namespace SpineControllerVersion
         public SpeedDependantAnimation BigDemonEntrance;
 
 
-        [Header("_Temporary / Dumb Variables_")]
+        [Header("___Temporary / Dumb Variables___")]
 
         public int Level;
+
+        public GameObject TextBoxPrefab;
+
+        public string DoubleAxeText_1;
+        public string BigDemonText_1;
+
+        public AnimationCurve FastToSlowCurve;
+
+        [Header("Sound")]
+        public AudioClip Soundtrack_War_1;
+
+        [Space]
+        public AudioClip PortalOpeningSFX;
+        public AudioClip PortalClosingSFX;
+        public AudioClip PortalIdleSFX;
+
+        [Space]
+        public AudioClip Big_Demon_Entrance;
+        public AudioClip Big_Mace_Drop;
+
 
         // Awake and Start
         void Awake()
@@ -285,7 +305,9 @@ namespace SpineControllerVersion
         }
         void Start()
         {
+            Debug.Log(Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x - Camera.main.transform.position.x);
             mainMenuPlayer.ChangeUnitEquipments(mainMenuPlayer, PlayerEquipments);
+            SoundManager.Instance.PlayMusic(Soundtrack_War_1);
         }
 
 
