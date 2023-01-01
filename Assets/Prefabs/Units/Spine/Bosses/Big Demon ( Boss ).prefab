@@ -30,7 +30,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888226523802012845}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 12.5, y: -1.5999999, z: 0}
+  m_LocalPosition: {x: -5.5, y: -1.5999999, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -197,6 +197,8 @@ MonoBehaviour:
   InGameMovements: []
   SpearmasterDead: {fileID: 0}
   SycthemasterDead: {fileID: 11400000, guid: 3ab41e44151146c47bf9d2443ca1cfa7, type: 2}
+  DoubleAxeDead: {fileID: 0}
+  BigDemonDead: {fileID: 11400000, guid: c8e699fdf1ab605438dc06bcc590f1d0, type: 2}
 --- !u!1 &4125549787079821635
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,14 +6,34 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class ParallaxGroup : MonoBehaviour
 {
+    // When pressed on editor it will reset background image positions relative to the order they are set as child
+    public bool ResetPosition;
+    [Space]
+
     public GameObject Cam;
     private float length, startPos;
     public float ParallaxEffect;
     
     public List<GameObject> ParallaxObjects = new List<GameObject>();
-    
+
+
     void OnValidate()
     {
+        if (ResetPosition)
+        {
+            ParallaxObjects.Clear();
+            foreach(SpriteRenderer sr in transform.GetComponentsInChildren<SpriteRenderer>())
+            {
+                Transform obj = sr.transform;
+
+                ParallaxObjects.Add(obj.gameObject);
+
+                Debug.Log(ParallaxObjects.Count - 1 - (transform.childCount / 2));
+                obj.position = new Vector3((ParallaxObjects.Count - 1 - (transform.childCount / 2)) * 19.2f, 0.3f, 0);
+            }
+            ResetPosition = false;
+        }
+
         if(Cam == null)
         {
             foreach(Camera cam in FindObjectsOfType<Camera>())

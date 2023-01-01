@@ -101,6 +101,9 @@ public class AIController : UnitController
                 case GameManager.DEMON_SUMMONER_TAG:
                     StartCoroutine(DemonSummonerEntrance());
                     break;
+                case GameManager.DEMON_SUMMONER_END_TAG:
+                    StartCoroutine(DemonSummonerEnd());
+                    break;
                 default:
                     break;
             }
@@ -777,6 +780,8 @@ public class AIController : UnitController
 
         trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/Exit", false);
 
+        // Close Portal
+
         float countdownToDestroyPortal = 1;
         while(countdownToDestroyPortal > 0)
         {
@@ -791,7 +796,13 @@ public class AIController : UnitController
 
         Destroy(gameObject);
     }
+    IEnumerator DemonSummonerEnd()
+    {
+        gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/idle", true);
 
+        yield return new WaitForSeconds(7);
+    }
     IEnumerator BigDemonEntrance()
     {
         gameObject.transform.localScale = new Vector3(-1, 1, 1);

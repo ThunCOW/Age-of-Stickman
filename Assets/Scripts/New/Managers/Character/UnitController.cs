@@ -77,7 +77,8 @@ public class UnitController : MonoBehaviour
                 BleedingAnimator = gameObject.transform.Find("Bleeding").GetChild(0).GetComponent<Animator>();
         }
         
-        if (CompareTag(GameManager.SCYTHEMASTER_TAG) || CompareTag(GameManager.SPEARMASTER_TAG)) isBoss = true;
+        if (CompareTag(GameManager.SCYTHEMASTER_TAG) || CompareTag(GameManager.SPEARMASTER_TAG) || CompareTag(GameManager.DOUBLEAXEDEMON_TAG) || CompareTag(GameManager.BIG_DEMON_TAG)
+            || CompareTag(GameManager.DEMON_SUMMONER_TAG) || CompareTag(GameManager.DEMON_SUMMONER_FIRST_APPEARANCE_TAG) || CompareTag(GameManager.DEMON_SUMMONER_END_TAG)) isBoss = true;
 
     }
 
@@ -531,6 +532,16 @@ public class UnitController : MonoBehaviour
 
                 ReStartCoroutines();
             }
+            else if(unit.target.CompareTag(GameManager.DOUBLEAXEDEMON_TAG))
+            {
+                //GameManager.Instance.DisableControls = true;
+            }
+            else if(unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
+            {
+                //GameManager.Instance.DisableControls = true;
+                spineSkeletonAnimation.AnimationState.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 0);
+                Ending.Instance.GameEnd();
+            }
         }
         else if(gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
         {
@@ -563,6 +574,18 @@ public class UnitController : MonoBehaviour
             unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
 
             StartCoroutine(PlayCinematicAnimation(cAnim.SycthemasterDead, false));
+        }
+        else if(gameObject.CompareTag(GameManager.DOUBLEAXEDEMON_TAG))
+        {
+            unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
+
+            StartCoroutine(PlayCinematicAnimation(cAnim.DoubleAxeDead, false));
+        }
+        else if(gameObject.CompareTag(GameManager.BIG_DEMON_TAG))
+        {
+            unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
+
+            StartCoroutine(PlayCinematicAnimation(cAnim.BigDemonDead, false));
         }
     }
 

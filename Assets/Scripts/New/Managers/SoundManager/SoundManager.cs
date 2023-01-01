@@ -52,6 +52,12 @@ public class SoundManager : MonoBehaviour
         effectSource.PlayOneShot(clip);
     }
 
+    public void PlayMusicOnLoop(AudioClip clip)
+    {
+        musicSource.clip = clip;
+        musicSource.Play();
+    }
+
     public void PlayMusic(AudioClip clip)
     {
         musicSource.PlayOneShot(clip);

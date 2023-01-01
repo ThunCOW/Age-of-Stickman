@@ -74,6 +74,7 @@ namespace SpineControllerVersion
         public const string DOUBLEAXEDEMON_TAG = "DoubleAxeDemon";
         public const string DEMON_SUMMONER_TAG = "DemonSummoner";
         public const string DEMON_SUMMONER_FIRST_APPEARANCE_TAG = "DemonSummonerFirstAppearance";
+        public const string DEMON_SUMMONER_END_TAG = "DemonSummonerEnd";
         public const string BIG_DEMON_TAG = "BigDemon";
 
         public const string ALLY_TAG = "AllyUnit";
@@ -307,7 +308,7 @@ namespace SpineControllerVersion
         {
             Debug.Log(Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x - Camera.main.transform.position.x);
             mainMenuPlayer.ChangeUnitEquipments(mainMenuPlayer, PlayerEquipments);
-            SoundManager.Instance.PlayMusic(Soundtrack_War_1);
+            SoundManager.Instance.PlayMusicOnLoop(Soundtrack_War_1);
         }
 
 
@@ -677,6 +678,9 @@ namespace SpineControllerVersion
             }
         }
 
+
+
+        
 
         /*********************
          * Saving and Loading

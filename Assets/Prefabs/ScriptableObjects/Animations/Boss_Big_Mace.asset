@@ -36,11 +36,16 @@ MonoBehaviour:
         chance: 0
       SwapWeapon: {fileID: 0}
       DeathAnimationByDamageRegion:
-        highRegion: []
-        midRegion: []
-        lowRegion: []
-        SpearThrowHead: []
-        SpearThrowBody: []
+        highRegion:
+        - {fileID: 11400000, guid: 4f1231245988d0b48b38e95160ab8780, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: 4f1231245988d0b48b38e95160ab8780, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 4f1231245988d0b48b38e95160ab8780, type: 2}
+        SpearThrowHead:
+        - {fileID: 11400000, guid: 4f1231245988d0b48b38e95160ab8780, type: 2}
+        SpearThrowBody:
+        - {fileID: 11400000, guid: 4f1231245988d0b48b38e95160ab8780, type: 2}
       BreakStance:
       - {fileID: 11400000, guid: 3c564b4da6659994c94c88bc7798d742, type: 2}
     extraSpeed: 0

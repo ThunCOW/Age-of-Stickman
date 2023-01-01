@@ -21,6 +21,7 @@ TagManager:
   - DoubleAxeDemon
   - DoubleAxeDemonTrigger
   - DemonSummonerFirstAppearance
+  - DemonSummonerEnd
   layers:
   - Default
   - TransparentFX
