@@ -4,46 +4,70 @@ using TMPro;
 using UnityEngine;
 using SpineControllerVersion;
 
-public class ShopItemPurchasable : ShopItem
+namespace ShopPanel_V2
 {
-    public TMP_Text TextGold;
-    public int _itemPrice;
-    public int ItemPrice
+    public class ShopItemPurchasable : ShopItem
     {
-        get { return _itemPrice; }
-        set
+        public TMP_Text TextGold;
+        public int _itemPrice;
+        public int ItemPrice
         {
-            _itemPrice = value;
+            get { return _itemPrice; }
+            set
+            {
+                _itemPrice = value;
 
-            TextGold.text = value.ToString();
+                TextGold.text = value.ToString() + " Gold";
+            }
         }
-    }
 
-    public List<AudioClip> ItemSound;
+        public List<AudioClip> ItemSound;
 
-    [SerializeField] protected ShopPanel shopPanel;
+        [SerializeField] protected ShopPanel shopPanel;
 
-    public override void SetShopItem(ShopItemList shopItemList, bool maxItemLevelReached = false)
-    {
-        base.SetShopItem(shopItemList, maxItemLevelReached);
-
-        ItemPrice = shopItemList.ItemPrice;
-    }
-
-    public void UpgradeItem()
-    {
-        // Brings up if we want to buy page
-        if (GameManager.Instance.Gold >= ItemPrice)
+        public override void SetShopItem(ShopItemVariables shopItemList, bool maxItemLevelReached = false)
         {
-            GameManager.Instance.GoldChange(-ItemPrice);
+            base.SetShopItem(shopItemList, maxItemLevelReached);
 
-            shopPanel.ItemUpgrade(ItemCategory);
-
-            SoundManager.Instance.PlayEffect(ItemSound[Random.Range(0, ItemSound.Count)]);
+            ItemPrice = shopItemList.ItemPrice;
         }
-        else
+
+        public void UpgradeItem()
         {
-            GameManager.Instance.NotEnoughGold();
+            Debug.Log("Upgrade Item Clicked");
+
+            // Brings up if we want to buy page
+            if (GameManager.Instance.Gold >= ItemPrice)
+            {
+                GameManager.Instance.GoldChange(-ItemPrice);
+
+                shopPanel.ItemUpgrade(ItemCategory);
+
+                SoundManager.Instance.PlayEffect(ItemSound[Random.Range(0, ItemSound.Count)]);
+            }
+            else
+            {
+                GameManager.Instance.NotEnoughGold();
+            }
+        }
+
+        public void UpgradeSpear()
+        {
+            Debug.Log("Upgrade Spear Clicked");
+
+            // Brings up if we want to buy page
+            if (GameManager.Instance.Gold >= ItemPrice)
+            {
+                GameManager.Instance.GoldChange(-ItemPrice);
+
+                shopPanel.ItemUpgrade(ItemCategory);
+
+                SoundManager.Instance.PlayEffect(ItemSound[Random.Range(0, ItemSound.Count)]);
+            }
+            else
+            {
+                GameManager.Instance.NotEnoughGold();
+            }
         }
     }
 }

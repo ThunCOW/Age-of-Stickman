@@ -162,9 +162,14 @@ namespace SpineControllerVersion
                 }
             }
         }
-        //public Item SecondaryWeapon;
+        
         public UnitHolder mainMenuPlayer;
 
+        // dont worry about it
+        public int SpearUpgradeLevel = 1;
+        public int SwordsmanUnitLevel = 1;
+        public int SpearsmanUnitLevel = 1;
+        public int ArcherUnitLevel = 1;
 
 
         [Header("_Player Lives Variables_")]
@@ -746,7 +751,7 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = a_SaveData.Gold;
+            Gold = 250;
 
             Level = a_SaveData.Level;
 
