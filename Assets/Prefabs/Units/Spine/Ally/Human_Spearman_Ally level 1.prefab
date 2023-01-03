@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 6248090491408798414}
   - component: {fileID: 6248090491408798413}
   m_Layer: 0
-  m_Name: Human_Spearman_Ally
+  m_Name: Human_Spearman_Ally level 1
   m_TagString: AllyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

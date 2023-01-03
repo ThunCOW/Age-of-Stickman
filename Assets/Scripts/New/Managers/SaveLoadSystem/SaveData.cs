@@ -17,9 +17,17 @@ public class SaveData
     //public List<Mercenary> Mercenaries = new List<Mercenary>();
     public List<MercenarySave> mercenarySaves;
 
+
     public int MusicVolume;
     public int SFXVolume;
 
+    // might be temporary
+    public int SwordUpgradeLevel;
+    public int SpearUpgradeLevel;
+    
+    public int SwordsmanUnitLevel;
+    public int SpearsmanUnitLevel;
+    public int ArcherUnitLevel;
     //public static SaveData saveData = new SaveData();
 
     public string ToJson()

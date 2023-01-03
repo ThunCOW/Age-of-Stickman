@@ -166,6 +166,7 @@ namespace SpineControllerVersion
         public UnitHolder mainMenuPlayer;
 
         // dont worry about it
+        public int SwordUpgradeLevel = 1;
         public int SpearUpgradeLevel = 1;
         public int SwordsmanUnitLevel = 1;
         public int SpearsmanUnitLevel = 1;
@@ -724,6 +725,13 @@ namespace SpineControllerVersion
             a_SaveData.MusicVolume = SoundManager.Instance.MusicVolume;
             a_SaveData.SFXVolume = SoundManager.Instance.SFXVolume;
 
+            // might be temp
+            a_SaveData.SwordUpgradeLevel = SwordUpgradeLevel;
+            a_SaveData.SpearUpgradeLevel = SpearUpgradeLevel;
+            a_SaveData.SwordsmanUnitLevel = SwordsmanUnitLevel;
+            a_SaveData.SpearsmanUnitLevel = SpearsmanUnitLevel;
+            a_SaveData.ArcherUnitLevel = ArcherUnitLevel;
+
             return true;
         }
 
@@ -751,9 +759,9 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = 250;
+            Gold = 900;
 
-            Level = a_SaveData.Level;
+            Level =13;
 
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];
@@ -765,6 +773,13 @@ namespace SpineControllerVersion
 
             SoundManager.Instance.MusicVolume = a_SaveData.MusicVolume;
             SoundManager.Instance.SFXVolume = a_SaveData.SFXVolume;
+
+            // might be temp
+            SwordUpgradeLevel = a_SaveData.SwordUpgradeLevel;
+            SpearUpgradeLevel = a_SaveData.SpearUpgradeLevel;
+            SwordsmanUnitLevel = a_SaveData.SwordsmanUnitLevel;
+            SpearsmanUnitLevel = a_SaveData.SpearsmanUnitLevel;
+            ArcherUnitLevel = a_SaveData.ArcherUnitLevel;
         }
 
         public void CreateFreshSaveData()
@@ -806,6 +821,13 @@ namespace SpineControllerVersion
 
             a_SaveData.MusicVolume = 5;
             a_SaveData.SFXVolume = 5;
+
+            // might be temp
+            a_SaveData.SwordUpgradeLevel= 1;
+            a_SaveData.SpearUpgradeLevel= 1;
+            a_SaveData.SwordsmanUnitLevel= 1;
+            a_SaveData.SpearsmanUnitLevel= 1;
+            a_SaveData.ArcherUnitLevel= 1;
 
             return true;
         }

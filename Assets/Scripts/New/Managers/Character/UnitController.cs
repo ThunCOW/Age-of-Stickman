@@ -204,7 +204,21 @@ public class UnitController : MonoBehaviour
 
             damageDealt = Random.Range(0, 100) >= 50 ? (int)(softDamage) : ((int)(softDamage * currentAttack.DamageMultiplierMax));
 
-            if (unit.CompareTag(GameManager.PLAYER_TAG)) Debug.Log(damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+            // temporary to calculate spear damage before implementing
+            if (unit.CompareTag(GameManager.PLAYER_TAG))
+            {
+                Debug.Log(damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+                if(unit.currentStance == StanceList.Stand_A) // sword stance
+                {
+                    
+                }
+                else                                         // spear stance
+                {
+                    int dif = GameManager.Instance.SpearUpgradeLevel - GameManager.Instance.SwordUpgradeLevel;
+                    damageDealt = damageDealt + (int)(dif * 0.25f * damageDealt);
+                    Debug.Log("** Spear Stance ** " + damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+                }
+            }
 
             //float softDamage = Random.Range(0, unit.Damage / 2) + Random.Range(0, unit.Damage / 2);
             //int damageDealt = (int)(softDamage * Random.Range(1, currentAttack.DamageMultiplierMax));

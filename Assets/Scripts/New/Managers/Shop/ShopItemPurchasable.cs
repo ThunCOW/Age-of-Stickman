@@ -69,5 +69,24 @@ namespace ShopPanel_V2
                 GameManager.Instance.NotEnoughGold();
             }
         }
+
+        public void UpgradeUnit()
+        {
+            Debug.Log("Upgrade Unit Clicked");
+
+            // Brings up if we want to buy page
+            if (GameManager.Instance.Gold >= ItemPrice)
+            {
+                GameManager.Instance.GoldChange(-ItemPrice);
+
+                shopPanel.UnitUpgrade(ItemCategory);
+
+                SoundManager.Instance.PlayEffect(ItemSound[Random.Range(0, ItemSound.Count)]);
+            }
+            else
+            {
+                GameManager.Instance.NotEnoughGold();
+            }
+        }
     }
 }

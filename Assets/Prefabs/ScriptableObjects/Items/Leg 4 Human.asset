@@ -9,22 +9,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
-  m_Name: Sword_2
+  m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
+  m_Name: Leg 4 Human
   m_EditorClassIdentifier: 
-  id: bd00081a1b52f87418d937256a3c9368
-  ItemName: Sword
+  id: 614714d245085dc40ab5ed5dd0b09d98
+  ItemName: Leg
   HealthBonus: 0
   DamageBonus: 0
   ItemPrice: 0
-  ItemSlot: 3
+  ItemSlot: 2
   ItemSprite: {fileID: 0}
   ItemQualitySprite: {fileID: 0}
   front:
-  - SlotName: Weapon/OneHand_Sword_00
-    AttachmentName: Weapon/OneHand_Sword_0
+  - SlotName: Armor/Human/Leg_L_1
+    AttachmentName: Armor/Human/Leg_6
+  - SlotName: Armor/Human/Leg_R_1
+    AttachmentName: Armor/Human/Leg_5
   side: []
   back: []
   back2: []
-  FacingCam: []
-  AnimationList: {fileID: 11400000, guid: 7c09e085246b48d42bbdbf6f4233b1b8, type: 2}

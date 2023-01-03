@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 1973527968238791168}
   - component: {fileID: 1973527968238791171}
   m_Layer: 0
-  m_Name: Human_Swordsman_Ally
+  m_Name: Human_Swordsman_Ally level 3
   m_TagString: AllyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,13 +55,12 @@ MonoBehaviour:
   ArrowOnBody_Front: {fileID: 11400000, guid: faf8afe889bd1fc45bb85694d2f6ac3d, type: 2}
   ArrowOnBody_Back: {fileID: 11400000, guid: e65f71d053017df4e8cfbe00f165d973, type: 2}
   startingItems:
-  - {fileID: 11400000, guid: bd00081a1b52f87418d937256a3c9368, type: 2}
-  - {fileID: 11400000, guid: 29d0792572859aa49aabb441eb079922, type: 2}
-  - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
-  - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
+  - {fileID: 11400000, guid: 774122c8193ebd84eb6155d94ff54361, type: 2}
+  - {fileID: 11400000, guid: 338ad0f8c2812ad458fe8ab0db5d6ef2, type: 2}
+  - {fileID: 11400000, guid: a8c32102746bdd0488858c2cd8bc6f4d, type: 2}
+  - {fileID: 11400000, guid: 2c85f7bb3cb286f48a953810ba65051d, type: 2}
   equippedItemList: []
   secondaryWeapon: {fileID: 0}
-  changeItemNow: 0
 --- !u!114 &1973527968238791182
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76,9 +75,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Race: 0
   HealthBar: {fileID: 7330532903801002681}
-  HealthMax: 100
+  HealthMax: 300
   _Health: 0
-  Damage: 50
+  Damage: 150
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   unitController: {fileID: 2631745495667492239}
   unitInventory: {fileID: 1973527968238791183}
@@ -126,6 +125,7 @@ MonoBehaviour:
   spineSkeletonAnimation: {fileID: 1973527968767109554}
   ShadowAnimator: {fileID: 5524529080591916871}
   BleedingAnimator: {fileID: 4572261745230054683}
+  SpearDropPrefab: {fileID: 0}
   unit: {fileID: 1973527968238791182}
   equipmentManager: {fileID: 1973527968238791183}
   isAnimationStarted: 0

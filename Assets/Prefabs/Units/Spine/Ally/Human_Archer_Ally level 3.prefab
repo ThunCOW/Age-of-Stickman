@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 8933617129985177256}
   - component: {fileID: 8933617129985177259}
   m_Layer: 0
-  m_Name: Human_Archer_Ally
+  m_Name: Human_Archer_Ally level 3
   m_TagString: AllyUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,12 +55,11 @@ MonoBehaviour:
   ArrowOnBody_Front: {fileID: 11400000, guid: faf8afe889bd1fc45bb85694d2f6ac3d, type: 2}
   ArrowOnBody_Back: {fileID: 11400000, guid: e65f71d053017df4e8cfbe00f165d973, type: 2}
   startingItems:
-  - {fileID: 11400000, guid: c3e8537b3ee92904184663014aa24fbd, type: 2}
-  - {fileID: 11400000, guid: 293e0ee1d424c904db65cff9e64df334, type: 2}
-  - {fileID: 11400000, guid: d7a956d9c18c5e94aa48715118545a3e, type: 2}
+  - {fileID: 11400000, guid: fea3406c8b0e5b745947f166f2436e6b, type: 2}
+  - {fileID: 11400000, guid: a8c32102746bdd0488858c2cd8bc6f4d, type: 2}
+  - {fileID: 11400000, guid: 2c85f7bb3cb286f48a953810ba65051d, type: 2}
   equippedItemList: []
   secondaryWeapon: {fileID: 0}
-  changeItemNow: 0
 --- !u!114 &8933617129985177254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,9 +74,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Race: 0
   HealthBar: {fileID: 8712390224236077067}
-  HealthMax: 100
+  HealthMax: 300
   _Health: 0
-  Damage: 25
+  Damage: 75
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   unitController: {fileID: 6031213642300329741}
   unitInventory: {fileID: 8933617129985177255}
@@ -125,6 +124,7 @@ MonoBehaviour:
   spineSkeletonAnimation: {fileID: 8933617130547377434}
   ShadowAnimator: {fileID: 5627287970468835215}
   BleedingAnimator: {fileID: 7351393736407190099}
+  SpearDropPrefab: {fileID: 0}
   unit: {fileID: 8933617129985177254}
   equipmentManager: {fileID: 8933617129985177255}
   isAnimationStarted: 0

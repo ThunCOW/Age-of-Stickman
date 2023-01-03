@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
-  m_Name: Shield_Demon_1
+  m_Name: Shield_1 Human
   m_EditorClassIdentifier: 
-  id: 415fa749a20679a4887eb9d776deca33
+  id: 29d0792572859aa49aabb441eb079922
   ItemName: Shield
   HealthBonus: 0
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 4
-  ItemSprite: {fileID: 21300000, guid: 781f3f60c5cb0d3428b298d73c77317d, type: 3}
-  ItemQualitySprite: {fileID: 21300000, guid: faebe32556b4d104d991995f95920cb2, type: 3}
+  ItemSprite: {fileID: 21300000, guid: 3e083d3aa148813429ac16edc26b6036, type: 3}
+  ItemQualitySprite: {fileID: 21300000, guid: 9b123d960aac5fe428fdd58a5e3f78f2, type: 3}
   front:
-  - SlotName: Shield/ShieldCircle_10
-    AttachmentName: Shield/ShieldCircle_10
+  - SlotName: Shield/ShieldCircle_00
+    AttachmentName: Shield/ShieldCircle_00
   - SlotName: Shield/ShieldCircle_01
     AttachmentName: Shield/ShieldCircle_01
   side:
   - SlotName: Shield/ShieldCircle_03
-    AttachmentName: Shield/ShieldCircle_11
+    AttachmentName: Shield/ShieldCircle_03
   back: []
   back2: []

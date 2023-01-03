@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c69df1a711c26a544933e22027dcb4a0, type: 3}
-  m_Name: Sword_2
+  m_Name: Sword_1
   m_EditorClassIdentifier: 
   id: bd00081a1b52f87418d937256a3c9368
   ItemName: Sword

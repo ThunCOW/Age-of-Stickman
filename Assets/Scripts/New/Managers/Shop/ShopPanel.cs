@@ -13,6 +13,10 @@ namespace ShopPanel_V2
         public ShopItem ShieldUpgrade;
         public ShopItem SpearUpgrade;
         public ShopItem ArmorUpgrade;
+
+        public ShopItem SwordsmanUpgrade;
+        public ShopItem SpearsmanUpgrade;
+        public ShopItem ArcherUpgrade;
         public Dictionary<ShopItemCategory, ShopItem> UpgradeScreenDict = new Dictionary<ShopItemCategory, ShopItem>();
 
         [Header("____________Items Variables________________")]
@@ -20,6 +24,10 @@ namespace ShopPanel_V2
         public List<ShopItemVariables> SpearList;
         public List<ShopItemVariables> _ShieldList;
         public List<ShopItemVariables> _ArmorList;
+
+        public List<ShopItemVariables> _SwordsmanList;
+        public List<ShopItemVariables> _SpearsmanList;
+        public List<ShopItemVariables> _ArcherList;
         public Dictionary<ShopItemCategory, List<ShopItemVariables>> _ItemUpgradeDict = new Dictionary<ShopItemCategory, List<ShopItemVariables>>();
 
 
@@ -30,10 +38,18 @@ namespace ShopPanel_V2
             UpgradeScreenDict.Add(ShopItemCategory.Shield, ShieldUpgrade);
             UpgradeScreenDict.Add(ShopItemCategory.Armor, ArmorUpgrade);
 
+            UpgradeScreenDict.Add(ShopItemCategory.Swordsman, SwordsmanUpgrade);
+            UpgradeScreenDict.Add(ShopItemCategory.Spearsman, SpearsmanUpgrade);
+            UpgradeScreenDict.Add(ShopItemCategory.Archer, ArcherUpgrade);
+
             _ItemUpgradeDict.Add(ShopItemCategory.Sword, SwordList);
             _ItemUpgradeDict.Add(ShopItemCategory.Spear, SpearList);
             _ItemUpgradeDict.Add(ShopItemCategory.Armor, _ArmorList);
             _ItemUpgradeDict.Add(ShopItemCategory.Shield, _ShieldList);
+
+            _ItemUpgradeDict.Add(ShopItemCategory.Swordsman, _SwordsmanList);
+            _ItemUpgradeDict.Add(ShopItemCategory.Spearsman, _SpearsmanList);
+            _ItemUpgradeDict.Add(ShopItemCategory.Archer, _ArcherList);
 
             SetStartingItems();
         }
@@ -84,7 +100,7 @@ namespace ShopPanel_V2
             {
                 // max item upgrade reached
                 UpgradeScreenDict[shopItemCategory].GetComponent<Button>().enabled = false;
-                UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][lastItemIndex]);
+                UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][lastItemIndex], true);
             }
             else
             {
@@ -99,15 +115,74 @@ namespace ShopPanel_V2
                 {
                     // max item upgrade reached
                     SpearUpgrade.GetComponent<Button>().enabled = false;
-                    SpearUpgrade.SetShopItem(SpearList[GameManager.Instance.SpearUpgradeLevel - 1]);
+                    SpearUpgrade.SetShopItem(SpearList[GameManager.Instance.SpearUpgradeLevel - 1], true);
                 }
                 else
                 {
                     SpearUpgrade.SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.SpearUpgradeLevel]);
                 }
             }
-        }
 
+            if(shopItemCategory == ShopItemCategory.Sword)
+            {
+                // since there is 5 weapon but 3 sword upgrade, sword lvl will be increased for certain upgrades only
+                if(lastItemIndex == 2 || lastItemIndex == 3)
+                    GameManager.Instance.SwordUpgradeLevel++;
+            }
+        }
+        public void UnitUpgrade(ShopItemCategory shopItemCategory)
+        {
+            switch (shopItemCategory)
+            {
+                case ShopItemCategory.Swordsman:
+                    GameManager.Instance.SwordsmanUnitLevel++;
+
+                    if (GameManager.Instance.SwordsmanUnitLevel >= _SwordsmanList.Count)
+                    {
+                        // max item upgrade reached
+                        UpgradeScreenDict[shopItemCategory].GetComponent<Button>().enabled = false;
+                        UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.SwordsmanUnitLevel - 1], true);
+                    }
+                    else
+                    {
+                        UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.SwordsmanUnitLevel]);
+                    }
+
+                    break;
+                case ShopItemCategory.Spearsman:
+                    GameManager.Instance.SpearsmanUnitLevel++;
+
+                    if (GameManager.Instance.SpearsmanUnitLevel >= _SpearsmanList.Count)
+                    {
+                        // max item upgrade reached
+                        UpgradeScreenDict[shopItemCategory].GetComponent<Button>().enabled = false;
+                        UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.SpearsmanUnitLevel - 1], true);
+                    }
+                    else
+                    {
+                        UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.SpearsmanUnitLevel]);
+                    }
+
+                    break;
+                case ShopItemCategory.Archer:
+                    GameManager.Instance.ArcherUnitLevel++;
+
+                    if (GameManager.Instance.ArcherUnitLevel >= _ArcherList.Count)
+                    {
+                        // max item upgrade reached
+                        UpgradeScreenDict[shopItemCategory].GetComponent<Button>().enabled = false;
+                        UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.ArcherUnitLevel - 1], true);
+                    }
+                    else
+                    {
+                        UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.ArcherUnitLevel]);
+                    }
+
+                    break;
+            }
+
+            
+        }
         public void SetStartingItems()
         {
             foreach (Item item in GameManager.Instance.PlayerEquipments)
@@ -132,7 +207,7 @@ namespace ShopPanel_V2
                         {
                             // Max item upgrade reached
                             ArmorUpgrade.GetComponent<Button>().enabled = false;
-                            ArmorUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Armor][lastItemIndex]);
+                            ArmorUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Armor][lastItemIndex], true);
                         }
                         else
                         {
@@ -156,7 +231,7 @@ namespace ShopPanel_V2
                         {
                             // Max item upgrade reached
                             SwordUpgrade.GetComponent<Button>().enabled = false;
-                            SwordUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Sword][lastItemIndex]);
+                            SwordUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Sword][lastItemIndex], true);
                         }
                         else
                         {
@@ -180,7 +255,7 @@ namespace ShopPanel_V2
                         {
                             // Max item upgrade reached
                             ShieldUpgrade.GetComponent<Button>().enabled = false;
-                            ShieldUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Shield][lastItemIndex]);
+                            ShieldUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Shield][lastItemIndex], true);
                         }
                         else
                         {
@@ -197,11 +272,52 @@ namespace ShopPanel_V2
             {
                 // max item upgrade reached
                 SpearUpgrade.GetComponent<Button>().enabled = false;
-                SpearUpgrade.SetShopItem(SpearList[GameManager.Instance.SpearUpgradeLevel - 1]);
+                SpearUpgrade.SetShopItem(SpearList[GameManager.Instance.SpearUpgradeLevel - 1], true);
             }
             else
             {
                 SpearUpgrade.SetShopItem(SpearList[GameManager.Instance.SpearUpgradeLevel]);
+            }
+
+            SetStartingUnits();
+        }
+
+        public void SetStartingUnits()
+        {
+            //** Swordsman
+            if (GameManager.Instance.SwordsmanUnitLevel >= _SwordsmanList.Count)
+            {
+                // max item upgrade reached
+                SwordsmanUpgrade.GetComponent<Button>().enabled = false;
+                SwordsmanUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Swordsman][GameManager.Instance.SwordsmanUnitLevel - 1], true);
+            }
+            else
+            {
+                SwordsmanUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Swordsman][GameManager.Instance.SwordsmanUnitLevel]);
+            }
+
+            //** Spearsman
+            if (GameManager.Instance.SpearsmanUnitLevel >= _SpearsmanList.Count)
+            {
+                // max item upgrade reached
+                SpearsmanUpgrade.GetComponent<Button>().enabled = false;
+                SpearsmanUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Spearsman][GameManager.Instance.SpearsmanUnitLevel- 1], true);
+            }
+            else
+            {
+                SpearsmanUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Spearsman][GameManager.Instance.SpearsmanUnitLevel]);
+            }
+
+            //** Archer
+            if (GameManager.Instance.ArcherUnitLevel >= _ArcherList.Count)
+            {
+                // max item upgrade reached
+                ArcherUpgrade.GetComponent<Button>().enabled = false;
+                ArcherUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Archer][GameManager.Instance.ArcherUnitLevel - 1], true);
+            }
+            else
+            {
+                ArcherUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Archer][GameManager.Instance.ArcherUnitLevel]);
             }
         }
     }

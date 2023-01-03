@@ -328,7 +328,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 811615884120174839, guid: f453657dcaf816941b594b6b0885e8ac, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 811615884120174841, guid: f453657dcaf816941b594b6b0885e8ac, type: 3}
       propertyPath: m_RootOrder
@@ -933,6 +933,10 @@ PrefabInstance:
     - target: {fileID: 1015853093273970469, guid: f13544a34e127484e8d35a6601bb7b82, type: 3}
       propertyPath: m_Name
       value: Character TextBox
+      objectReference: {fileID: 0}
+    - target: {fileID: 1015853093273970469, guid: f13544a34e127484e8d35a6601bb7b82, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f13544a34e127484e8d35a6601bb7b82, type: 3}

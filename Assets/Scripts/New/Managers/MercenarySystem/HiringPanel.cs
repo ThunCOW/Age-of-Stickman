@@ -117,10 +117,27 @@ public class HiringPanel : MonoBehaviour
     // Gets the next unit in MercenaryManager.dictAllMercenaries if isNextUnit set to true
     Mercenary GetMercenary(bool isNextUnit)
     {
-        List<Mercenary> mercenaryList = MercenaryManager.dictAllMercenaries[currentRace];
+        int lvl = 1;
+        int currentMercIndex = 0;  // currently holds the index of current mercenary unit on panel, which found in if statements below, then next mercenary index is given further down below
+        if(currentMercenary.UnitType == UnitType.Swordsman)
+        {
+            lvl = isNextUnit ? GameManager.Instance.SpearsmanUnitLevel : GameManager.Instance.ArcherUnitLevel;
+            currentMercIndex = 0;
+        }
+        else if(currentMercenary.UnitType == UnitType.Spearsman)
+        {
+            lvl = isNextUnit ? GameManager.Instance.ArcherUnitLevel : GameManager.Instance.SwordsmanUnitLevel;
+            currentMercIndex = 1;
+        }
+        else if(currentMercenary.UnitType == UnitType.Archer)
+        {
+            lvl = isNextUnit ? GameManager.Instance.SwordsmanUnitLevel : GameManager.Instance.SpearsmanUnitLevel;
+            currentMercIndex = 2;
+        }
 
-        int nextMercIndex = mercenaryList.IndexOf(currentMercenary);
-        nextMercIndex = isNextUnit ? nextMercIndex + 1 : nextMercIndex - 1;
+        List<Mercenary> mercenaryList = MercenaryManager.dictAllMercenariesByLevel[lvl];
+
+        int nextMercIndex = isNextUnit ? currentMercIndex + 1 : currentMercIndex - 1;
 
         if(isNextUnit)
         {
@@ -222,7 +239,7 @@ public class HiringPanel : MonoBehaviour
     void OnEnable()
     {
         // When HiringPanel is initiated it will populate second object in UnitObjects
-        currentMercenary = (MercenaryManager.dictAllMercenaries[currentRace])[0];
+        currentMercenary = (MercenaryManager.dictAllMercenariesByLevel[GameManager.Instance.SwordsmanUnitLevel])[0];
 
         currentUnit = UnitPanel[0];
 
