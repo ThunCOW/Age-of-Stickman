@@ -147,6 +147,7 @@ namespace ShopPanel_V2
                     {
                         UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.SwordsmanUnitLevel]);
                     }
+                    MercenaryManager.Instance.MercenaryUpdate(UnitType.Swordsman);
 
                     break;
                 case ShopItemCategory.Spearsman:
@@ -162,6 +163,7 @@ namespace ShopPanel_V2
                     {
                         UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.SpearsmanUnitLevel]);
                     }
+                    MercenaryManager.Instance.MercenaryUpdate(UnitType.Spearsman);
 
                     break;
                 case ShopItemCategory.Archer:
@@ -177,12 +179,12 @@ namespace ShopPanel_V2
                     {
                         UpgradeScreenDict[shopItemCategory].SetShopItem(_ItemUpgradeDict[shopItemCategory][GameManager.Instance.ArcherUnitLevel]);
                     }
+                    MercenaryManager.Instance.MercenaryUpdate(UnitType.Archer);
 
                     break;
             }
-
-            
         }
+
         public void SetStartingItems()
         {
             foreach (Item item in GameManager.Instance.PlayerEquipments)

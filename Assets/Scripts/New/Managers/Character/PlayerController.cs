@@ -149,10 +149,10 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                     if (direction == MoveDirection.waiting)
                     {
                         //Debug.Log(spineSkeletonAnimation.state.Data.DefaultMix);
-                        Debug.Log("attack anim");
-                        Debug.Log(spineSkeletonAnimation.state.GetCurrent(1));
-                        Debug.Log(spineSkeletonAnimation.state.GetCurrent(2));
-                        Debug.Log(spineSkeletonAnimation.state.GetCurrent(0));
+                        //Debug.Log("attack anim");
+                        //Debug.Log(spineSkeletonAnimation.state.GetCurrent(1));
+                        //Debug.Log(spineSkeletonAnimation.state.GetCurrent(2));
+                        //Debug.Log(spineSkeletonAnimation.state.GetCurrent(0));
                         List<BasicAnimation> tempStationaryAttack = unit.activeAnimations.Attack;
 
                         int randomAttack = Random.Range(0, tempStationaryAttack.Count);
@@ -214,10 +214,17 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 if (direction == MoveDirection.left)
                     direction = MoveDirection.waiting;
             }
-            if(gameObject.transform.position.x >= RightWallPosition.position.x + 3)
+            if(gameObject.transform.position.x >= RightWallPosition.position.x + 2.5f)
             {
-                if (direction == MoveDirection.right)
-                    direction = MoveDirection.waiting;
+                if(GameManager.Instance.EnemyUnits.Count > 0)
+                {
+                    if (direction == MoveDirection.right)
+                        direction = MoveDirection.waiting;
+                }
+                else
+                {
+                    StartCoroutine(EndLevelInTime());
+                }
             }
         }
     }

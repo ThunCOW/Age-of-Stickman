@@ -24,12 +24,13 @@ MonoBehaviour:
   - SlotName: Weapon/TwoHand_Axe_00
     AttachmentName: Weapon/TwoHand_Axe_00
   side:
-  - SlotName: Weapon/TwoHand_Axe_00_0
+  - SlotName: Weapon/TwoHand_Axe_000
     AttachmentName: Weapon/TwoHand_Axe_00_0
   back:
-  - SlotName: Weapon/TwoHand_Axe_00_0
+  - SlotName: Weapon/TwoHand_Axe_000
     AttachmentName: Weapon/TwoHand_Axe_00_2
   back2:
-  - SlotName: Weapon/TwoHand_Axe_00_0
+  - SlotName: Weapon/TwoHand_Axe_000
     AttachmentName: Weapon/TwoHand_Axe_00_1
+  FacingCam: []
   AnimationList: {fileID: 11400000, guid: ddfb6390241f02448b9b1147ef700cc7, type: 2}

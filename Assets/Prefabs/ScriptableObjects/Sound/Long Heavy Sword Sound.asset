@@ -15,14 +15,8 @@ MonoBehaviour:
   Name: 
   swooshSoundEffect:
     soundEffectsList:
-    - {fileID: 8300000, guid: 7281de35467a1bd48b80db5f5c5779c2, type: 3}
-    - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
+    - {fileID: 8300000, guid: 7502db318b2ef0c43ae818d22e0099d0, type: 3}
   hitSoundEffect:
     soundEffectsList:
-    - {fileID: 8300000, guid: 581df7b15fec9ba4e8d0c6a60915d646, type: 3}
-    - {fileID: 8300000, guid: b4d098fba8581a4499b49e6e90bf84cd, type: 3}
     - {fileID: 8300000, guid: fa553eedf3ff50d4bb8ec05289c4c956, type: 3}
     - {fileID: 8300000, guid: c73161a2ef205844fbd693100edb0e0e, type: 3}
-    - {fileID: 8300000, guid: 1e48750af7bd17547805d1e547ac5f6c, type: 3}
-    - {fileID: 8300000, guid: 5028d00c3629bd246be6e5ae6d350f13, type: 3}
-    - {fileID: 8300000, guid: 8bdccebf74ffec84b84c583cd2aedf39, type: 3}

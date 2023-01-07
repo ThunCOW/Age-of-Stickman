@@ -4,7 +4,6 @@ using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public enum MoveDirection
 {
@@ -29,6 +28,7 @@ public class UnitController : MonoBehaviour
     [HideInInspector][SerializeField] protected EquipmentManager equipmentManager;
 
     protected bool canMove = true;
+    private bool canBeStunned = true;
     [HideInInspector] public bool isAnimationStarted = false;   // Animations require direction to be consistent
 
     protected bool idleing;
@@ -79,7 +79,6 @@ public class UnitController : MonoBehaviour
         
         if (CompareTag(GameManager.SCYTHEMASTER_TAG) || CompareTag(GameManager.SPEARMASTER_TAG) || CompareTag(GameManager.DOUBLEAXEDEMON_TAG) || CompareTag(GameManager.BIG_DEMON_TAG)
             || CompareTag(GameManager.DEMON_SUMMONER_TAG) || CompareTag(GameManager.DEMON_SUMMONER_FIRST_APPEARANCE_TAG) || CompareTag(GameManager.DEMON_SUMMONER_END_TAG)) isBoss = true;
-
     }
 
     protected virtual void Start()
@@ -227,7 +226,7 @@ public class UnitController : MonoBehaviour
             if (currentAttack.DamageMultiplierMax == 0)
                 Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
 
-            unit.target.unitController.TakeDamage(currentAttack, damageDealt, dir);
+            unit.target.unitController.TakeDamage(currentAttack, damageDealt, unit, dir);
         }
         else
         {
@@ -251,7 +250,7 @@ public class UnitController : MonoBehaviour
         if (currentAttack.DamageMultiplierMax == 0)
             Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
 
-        unit.target.unitController.TakeDamage(currentAttack, damageDealt, dir);
+        unit.target.unitController.TakeDamage(currentAttack, damageDealt, unit, dir);
     }       
 
     public void ProjectileRelease()
@@ -278,11 +277,24 @@ public class UnitController : MonoBehaviour
     /// <summary>
     /// Returns true when hit succesfully damaged
     /// </summary>
-    public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
+    public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, Unit attacker, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
         if(blockTrigger)
         {
-            SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
+            if (unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
+                SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldBigMaceHit[Random.Range(0, SoundManager.Instance.ShieldBigMaceHit.Count)]);
+            else
+            {
+                if (attacker.CompareTag(GameManager.ENEMY_CHARGER_TAG))
+                {
+                    if (attacker.Race == UnitRace.Human)
+                        SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldZweiHit[Random.Range(0, SoundManager.Instance.ShieldZweiHit.Count)]);
+                    else
+                        SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldAxeHit[Random.Range(0, SoundManager.Instance.ShieldAxeHit.Count)]);
+                }
+                else
+                    SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
+            }
 
             //unit.SetUnitDirection(attackDirection * -1);
             if(unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
@@ -305,7 +317,10 @@ public class UnitController : MonoBehaviour
 
         attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
-        unit.Health -= DamageTaken;
+        if (attack.attackType == AttackType.Casual)
+            unit.Health -= DamageTaken;
+        else
+            unit.Health -= (int)((float)DamageTaken / 10);
 
         equipmentManager.ResetAttachments();
 
@@ -322,19 +337,25 @@ public class UnitController : MonoBehaviour
             }
             else
             {
-                unit.TurnTowardsTarget();
+                if(canBeStunned)
+                {
+                    unit.TurnTowardsTarget();
 
-                StopRoutine();
-                StartCoroutine(StunnedFor(attack));
+                    StopRoutine();
+                    StartCoroutine(StunnedFor(attack));
+                }
             }
         }
         // Unit got hurt,
         else
         {
-            if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
+            if(canBeStunned)
+            {
+                if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
 
-            StopRoutine();
-            StartCoroutine(StunnedFor(attack));
+                StopRoutine();
+                StartCoroutine(StunnedFor(attack));
+            }
         }
 
         if (attack.attackType != AttackType.Kick && attack.attackType != AttackType.Shield)
@@ -446,7 +467,7 @@ public class UnitController : MonoBehaviour
         */
 
         // Dead enemies drop gold ( boss tag exc )
-        if (gameObject.CompareTag(GameManager.ENEMY_TAG))
+        if (gameObject.CompareTag(GameManager.ENEMY_TAG) || gameObject.CompareTag(GameManager.ENEMY_CHARGER_TAG))
         {
             // There should be a chance for enemy to drop like 10 gold and play gold sound at higher levels
 
@@ -762,10 +783,11 @@ public class UnitController : MonoBehaviour
         float animationLength = stunAnimation.SpineAnimationReference.Animation.Duration;
         float animationCurrentTime = 0;
         //while (animationLength > animationCurrentTime)
+        float randSpeedInc = Random.Range(0, 1.2f);
         while (!end.IsComplete)
         {
             animationCurrentTime += Time.deltaTime;
-            speedRelativeToAnimation = stunAnimation.speedCurve.Evaluate(animationCurrentTime);
+            speedRelativeToAnimation = stunAnimation.speedCurve.Evaluate(animationCurrentTime) + randSpeedInc;
             yield return new WaitForFixedUpdate();
         }
 
@@ -786,6 +808,8 @@ public class UnitController : MonoBehaviour
         currentAttack = null;
 
         ReStartCoroutines();
+        
+        StartCoroutine(KnockCooldown());
     }
 
     protected virtual void ReStartCoroutines() { }
@@ -839,6 +863,22 @@ public class UnitController : MonoBehaviour
                 }
                 speedCurve.keys = keyframe;
             }
+        }
+    }
+
+    private IEnumerator KnockCooldown()
+    {
+        if(CompareTag(GameManager.ENEMY_CHARGER_TAG) || CompareTag(GameManager.ENEMY_TAG))
+        {
+            // not a boss, moves on
+            yield break;
+        }
+        else
+        {
+            canBeStunned = false;
+            // boss, can not be stunned continuously, there is a break between every stun
+            yield return new WaitForSeconds(Random.Range(5, 10));
+            canBeStunned = true;
         }
     }
 

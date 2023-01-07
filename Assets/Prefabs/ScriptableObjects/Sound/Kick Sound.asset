@@ -15,9 +15,7 @@ MonoBehaviour:
   Name: 
   swooshSoundEffect:
     soundEffectsList:
-    - {fileID: 0}
-    - {fileID: 0}
+    - {fileID: 8300000, guid: 0b1f63af889dd8e4f8f4536bb3e54083, type: 3}
   hitSoundEffect:
     soundEffectsList:
-    - {fileID: 8300000, guid: 59785368d6b21fd4d80aee7948b4ef66, type: 3}
     - {fileID: 8300000, guid: 47bb7bfac3089554d991e13014afa1aa, type: 3}

@@ -119,8 +119,8 @@ public class MercenaryUnit : MonoBehaviour
         }
         else
         {
-            MercenaryGameobject.SetActive(false);
-            HireMercenaryImage.SetActive(true);
+            MercenaryGameobject.SetActive(true);
+            HireMercenaryImage.SetActive(false);
             HireMercenaryButton.interactable = false;
 
             List<Item> mercenaryItems = CurrentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;

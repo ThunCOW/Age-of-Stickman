@@ -16,7 +16,12 @@ public class AIController : UnitController
 
     protected float hitDistanceToTarget = 2f;
 
-    protected bool preparingAttack = false;   // prevents decision making during movement attack
+    protected bool preparingAttack = false;     // prevents decision making during movement attack
+
+    // being used to calculate kick change by power of 2 which is exponential
+    private float kickPow = 4;             // 2^(3.3f) = 10
+    private float kickPowDef = 4;
+    public float kickDistance;
 
     [SerializeField] protected AIAgressiveness _aiAgressiveness;
     public AIAgressiveness aiAgressiveness
@@ -113,7 +118,12 @@ public class AIController : UnitController
             if (unit.Projectile != null || (GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
                 StartCoroutine(MoveInsideCameraView());
             else
-                StartCoroutine(AIActionDecision());
+            {
+                if (CompareTag(GameManager.ENEMY_CHARGER_TAG))
+                    StartCoroutine(EnemyChargerEntrance());
+                else
+                    StartCoroutine(AIActionDecision());
+            }
         }
 
         StartCoroutine(SuperDumbStopMovementWhenPlayerDiesCheck());
@@ -132,13 +142,13 @@ public class AIController : UnitController
         }
     }
 
-    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
+    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, Unit attacker, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
         // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
-        if (CompareTag(GameManager.ENEMY_TAG))
+        if (CompareTag(GameManager.ENEMY_TAG) || CompareTag(GameManager.ENEMY_CHARGER_TAG))
             GameManager.Instance.LeftSpawn.Remove(gameObject);
 
-        return base.TakeDamage(attack, DamageTaken, attackDirection, isProjectile, projectileAttachment);
+        return base.TakeDamage(attack, DamageTaken, attacker, attackDirection, isProjectile, projectileAttachment);
     }
 
     // runs all the time
@@ -228,6 +238,36 @@ public class AIController : UnitController
             waitTime = 0.3f;
             StartCoroutine(MoveInsideCameraView(waitTime));
         }
+    }
+
+    private IEnumerator EnemyChargerEntrance()
+    {
+        /*unit.TurnTowardsTarget();
+
+        direction = unit.GetDirectionRelativeToTarget();
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true).TimeScale = 1f;
+
+        preparingAttack = true;
+
+        CloseCombatAnimation charge = unit.activeAnimations.ChangeStance.Animation as CloseCombatAnimation;
+        while (Mathf.Abs(transform.position.x - unit.target.transform.position.x) > charge.Reach)
+        {
+            yield return new WaitForFixedUpdate();
+        }*/
+        //CloseCombatAnimation charge = unit.activeAnimations.ChangeStance.Animation as CloseCombatAnimation;
+        //currentAttack = charge;
+
+        SetMixBetweenAnimation(unit.activeAnimations.Movement.SpineAnimationReference, unit.activeAnimations.ChangeStance.Animation.SpineAnimationReference, 0);
+        
+        while (unit.target == null)
+            yield return new WaitForFixedUpdate();
+
+        AttackDecision();
+
+        //StartCoroutine(AIActionDecision());
+
+        yield return new WaitForEndOfFrame();
     }
 
     // Gets initiated at the start of the game and makes random decisions for the unit, repeats itself until it dies
@@ -343,13 +383,15 @@ public class AIController : UnitController
 
         TrackEntry tempTrackEntry;
         // if in kick distance, there is a chance to kick
-        float kickDistance = 2f;
         if (Mathf.Abs(transform.position.x - unit.target.transform.position.x) < kickDistance)
         {
             // X % chance to kick
-            bool kick = Random.Range(0, 5) == 0;
-            if (false)
+            bool canKick = Random.Range(0, 100) <= Mathf.Pow(2, kickPow);
+            kickPow++;
+            if (canKick)
             {
+                kickPow = kickPowDef;
+
                 List<BasicAnimation> tempBreakAnimation = unit.activeAnimations.BreakStance;
 
                 int randomAttack2 = Random.Range(0, tempBreakAnimation.Count);
@@ -373,6 +415,9 @@ public class AIController : UnitController
                 return;
             }
         }
+        else
+            kickPow = kickPowDef;
+
         // if there are multiple stances, we can change stance
         if (unit.activeAnimations.ChangeStance.Animation != null)
         {
@@ -462,7 +507,7 @@ public class AIController : UnitController
                 wait = false;
             else if (unit.target == null)
                 wait = false;
-            else if(waitMax <= 0)
+            else if(waitMax <= 0 && !CompareTag(GameManager.ENEMY_CHARGER_TAG))// charge units will charge at spawn and will not stop action except in death
             {
                 // Enough waited, think for different action
                 // I think i added this to make bosses that can leap work while following player
@@ -476,6 +521,16 @@ public class AIController : UnitController
         // target died, if there is no target stop moving forward
         if (unit.target == null)
         {
+            if(CompareTag(GameManager.ENEMY_CHARGER_TAG))
+            {
+                // charge units start with charge only stance, if their target dies before they attack they need to change stance
+                changeStance = false;
+
+                if (unit.currentStance == StanceList.Stand_A)
+                    unit.currentStance = StanceList.Stand_B;
+                else if (unit.currentStance == StanceList.Stand_B)
+                    unit.currentStance = StanceList.Stand_A;
+            }
             newDistanceToTarget = 0;
             direction = MoveDirection.waiting;
             spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;

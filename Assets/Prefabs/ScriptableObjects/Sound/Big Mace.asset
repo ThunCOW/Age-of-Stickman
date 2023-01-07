@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07a428c2f822b4449b40a1d5137ee5c3, type: 3}
+  m_Name: Big Mace
+  m_EditorClassIdentifier: 
+  Name: Big Mace
+  swooshSoundEffect:
+    soundEffectsList:
+    - {fileID: 8300000, guid: c3c497d3ea5f054419717275f6dba848, type: 3}
+  hitSoundEffect:
+    soundEffectsList:
+    - {fileID: 8300000, guid: 35e7632dbfefbbe4f88eb586699b5a4f, type: 3}
+    - {fileID: 8300000, guid: a18a8e36954818c49ad2bd5d65552e79, type: 3}
+    - {fileID: 8300000, guid: 84c5df9d7c583204798be4b846fef6d1, type: 3}

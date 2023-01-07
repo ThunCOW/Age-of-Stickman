@@ -35,6 +35,9 @@ public class SoundManager : MonoBehaviour
 
     [Header("Singular Used Sounds")]
     public List<AudioClip> ShieldHitSound;
+    public List<AudioClip> ShieldBigMaceHit;
+    public List<AudioClip> ShieldAxeHit;
+    public List<AudioClip> ShieldZweiHit;
 
     void Awake()
     {

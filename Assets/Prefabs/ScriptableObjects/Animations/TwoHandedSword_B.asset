@@ -1,0 +1,113 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3dcea697a73d2243ba303539e3f8f76, type: 3}
+  m_Name: TwoHandedSword_B
+  m_EditorClassIdentifier: 
+  AnimationListByStance:
+  - Stance: 0
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 585a73ed9ab33d549b79cdc57da3d481, type: 2}
+      Movement: {fileID: 11400000, guid: 585a73ed9ab33d549b79cdc57da3d481, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 0}
+      Kicked: {fileID: 0}
+      Slammed: {fileID: 0}
+      KnockedDown: {fileID: 0}
+      Attack: []
+      WalkAttack: []
+      ProjectileAttack: []
+      ChangeStance:
+        Animation: {fileID: 11400000, guid: 8e7663be61cbd1649be7e554c8945d2c, type: 2}
+        chance: 100
+      SwapWeapon: {fileID: 0}
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: 991a0e5fdf8bcdd47935e875c18479fb, type: 2}
+        - {fileID: 11400000, guid: 991a0e5fdf8bcdd47935e875c18479fb, type: 2}
+        - {fileID: 11400000, guid: 1eef6eaf304331343a67f8f91d139400, type: 2}
+        - {fileID: 11400000, guid: 1e939c75f36610e41a2f8de4df1003e8, type: 2}
+        - {fileID: 11400000, guid: 9465d321e4c177c44b4f602efe1cacdc, type: 2}
+        - {fileID: 11400000, guid: 9465d321e4c177c44b4f602efe1cacdc, type: 2}
+        - {fileID: 11400000, guid: 2fbad62e3432a0e4eb579625087ae3c6, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: ac33671ce377f2649bef1b7d6c2fe59e, type: 2}
+        - {fileID: 11400000, guid: ac33671ce377f2649bef1b7d6c2fe59e, type: 2}
+        - {fileID: 11400000, guid: fcf0e101569b30d4aa34849c78462a1d, type: 2}
+        - {fileID: 11400000, guid: d110a188a7bb240428edd7deff761730, type: 2}
+        - {fileID: 11400000, guid: 1e522077db617004f8c2caf21de0fe1f, type: 2}
+        - {fileID: 11400000, guid: 284ddf13d0e703d439dc75c399fdb202, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 52a2c314f7dded7408d17e3df448a0e9, type: 2}
+        - {fileID: 11400000, guid: cb01b72f4587e8f449d7743c43ed4332, type: 2}
+        - {fileID: 11400000, guid: 52b911f889e65704c938605f45767ff6, type: 2}
+        - {fileID: 11400000, guid: e01fca39132b434469f61a75e92f7b52, type: 2}
+        - {fileID: 11400000, guid: 16d9b6b29f3cb454b91958b5f95ad632, type: 2}
+        - {fileID: 11400000, guid: 823e0faf68602ad439454387e709c9f9, type: 2}
+        SpearThrowHead:
+        - {fileID: 11400000, guid: 5b43d5f45d82b28418100806659178cb, type: 2}
+        SpearThrowBody:
+        - {fileID: 11400000, guid: a4e43811921a29a438827b842a99f9b7, type: 2}
+      BreakStance: []
+    extraSpeed: 1
+  - Stance: 2
+    ActiveAnimations:
+      idle: {fileID: 11400000, guid: 98adbec0f7e9cf8409a1b6d5fa6f099c, type: 2}
+      Movement: {fileID: 11400000, guid: 2ee0576949a332c4d92095cf2ff95818, type: 2}
+      MovementBackward: {fileID: 0}
+      BlockAttack: {fileID: 0}
+      ResetSlots: {fileID: 0}
+      Hurt: {fileID: 11400000, guid: bffbe51614ff0fe409b1fc62e901aa7e, type: 2}
+      Kicked: {fileID: 11400000, guid: 46260135f772fe243800eb9c1fdeda77, type: 2}
+      Slammed: {fileID: 11400000, guid: d99ee38348f151b4da35014b35adbbfa, type: 2}
+      KnockedDown: {fileID: 0}
+      Attack:
+      - {fileID: 11400000, guid: 3bf3c6304b28dbf44a6793324621116c, type: 2}
+      - {fileID: 11400000, guid: 18253dc8efc43e24eaf467b87b5c5010, type: 2}
+      - {fileID: 11400000, guid: 5e18e1302a99bb54c9166a9f43b2800b, type: 2}
+      WalkAttack: []
+      ProjectileAttack: []
+      ChangeStance:
+        Animation: {fileID: 0}
+        chance: 0
+      SwapWeapon: {fileID: 0}
+      DeathAnimationByDamageRegion:
+        highRegion:
+        - {fileID: 11400000, guid: 991a0e5fdf8bcdd47935e875c18479fb, type: 2}
+        - {fileID: 11400000, guid: 991a0e5fdf8bcdd47935e875c18479fb, type: 2}
+        - {fileID: 11400000, guid: 1eef6eaf304331343a67f8f91d139400, type: 2}
+        - {fileID: 11400000, guid: 1e939c75f36610e41a2f8de4df1003e8, type: 2}
+        - {fileID: 11400000, guid: 9465d321e4c177c44b4f602efe1cacdc, type: 2}
+        - {fileID: 11400000, guid: 9465d321e4c177c44b4f602efe1cacdc, type: 2}
+        - {fileID: 11400000, guid: 2fbad62e3432a0e4eb579625087ae3c6, type: 2}
+        midRegion:
+        - {fileID: 11400000, guid: ac33671ce377f2649bef1b7d6c2fe59e, type: 2}
+        - {fileID: 11400000, guid: ac33671ce377f2649bef1b7d6c2fe59e, type: 2}
+        - {fileID: 11400000, guid: fcf0e101569b30d4aa34849c78462a1d, type: 2}
+        - {fileID: 11400000, guid: d110a188a7bb240428edd7deff761730, type: 2}
+        - {fileID: 11400000, guid: 1e522077db617004f8c2caf21de0fe1f, type: 2}
+        - {fileID: 11400000, guid: 284ddf13d0e703d439dc75c399fdb202, type: 2}
+        lowRegion:
+        - {fileID: 11400000, guid: 52a2c314f7dded7408d17e3df448a0e9, type: 2}
+        - {fileID: 11400000, guid: cb01b72f4587e8f449d7743c43ed4332, type: 2}
+        - {fileID: 11400000, guid: 52b911f889e65704c938605f45767ff6, type: 2}
+        - {fileID: 11400000, guid: e01fca39132b434469f61a75e92f7b52, type: 2}
+        - {fileID: 11400000, guid: 16d9b6b29f3cb454b91958b5f95ad632, type: 2}
+        - {fileID: 11400000, guid: 823e0faf68602ad439454387e709c9f9, type: 2}
+        SpearThrowHead:
+        - {fileID: 11400000, guid: 5b43d5f45d82b28418100806659178cb, type: 2}
+        SpearThrowBody:
+        - {fileID: 11400000, guid: a4e43811921a29a438827b842a99f9b7, type: 2}
+      BreakStance:
+      - {fileID: 11400000, guid: b2ae09de9baa2b84288961b51a39303a, type: 2}
+    extraSpeed: 0

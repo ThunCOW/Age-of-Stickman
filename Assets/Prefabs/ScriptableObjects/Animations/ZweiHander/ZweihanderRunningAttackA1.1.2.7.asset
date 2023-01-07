@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1c5c3fa30a596a4ea3b616783c75d35, type: 3}
+  m_Name: ZweihanderRunningAttackA1.1.2.7
+  m_EditorClassIdentifier: 
+  Prefix: Zweihander
+  AnimationName: ZweihanderRunningAttackA1.1.2.7
+  SpineAnimationReference: {fileID: 11400000, guid: 88f87362b35da504ca7792aa511c9b4f, type: 2}
+  ShadowAnimation: {fileID: 0}
+  _PrefixChangeCheck: Zweihander
+  _AnimationNameChangeCheck: ZweihanderRunningAttackA1.1.2.7
+  speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 2.5
+      inSlope: -10
+      outSlope: -10
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.25
+      value: 0
+      inSlope: -5
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.3
+      value: 0
+      inSlope: 0
+      outSlope: -9.255615
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.092674606
+    - serializedVersion: 3
+      time: 0.7028848
+      value: -3.0012774
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 1
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 10.101393
+      outSlope: 10.101393
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
+  attackType: 0
+  animationMovementType: 0
+  DamageMultiplierMax: 1.5
+  Reach: 3.5
+  MinDistanceLimit: 0
+  PushDistance: 0
+  attackRegion: 1
+  hitHeightPosiiton: -2.361
+  SoundObject: {fileID: 11400000, guid: 22245e52e1e8dc2438b3f4a25a4c6566, type: 2}

@@ -9,7 +9,7 @@ public class AllyController : AIController
     MoveDirection directionToPlayer;
 
     // Delegate
-    public delegate void OnMercenaryDead(MercenaryUnit mercenaryUnit);
+    public delegate void OnMercenaryDead(MercenaryUnit mercenaryUnit, AllyController allyController);
     public OnMercenaryDead MercenaryDead;
 
     public MercenaryUnit mercenaryUnit;
@@ -160,17 +160,17 @@ public class AllyController : AIController
         transform.localScale = new Vector3(lookDir, transform.localScale.y, transform.localScale.z);
     }
 
-    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
+    public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, Unit attacker, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
         unit.Health -= DamageTaken;
 
         if (unit.Health <= 0)
         {
-            MercenaryDead(mercenaryUnit);
+            MercenaryDead(mercenaryUnit, this);
 
             MercenaryDead -= MercenaryManager.Instance.MercenaryDead;
         }
         
-        return base.TakeDamage(attack, 0, attackDirection, isProjectile, projectileAttachment);
+        return base.TakeDamage(attack, 0, attacker, attackDirection, isProjectile, projectileAttachment);
     }
 }

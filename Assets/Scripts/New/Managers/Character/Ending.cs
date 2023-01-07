@@ -110,7 +110,7 @@ public class Ending : MonoBehaviour
 
         // Close Portal
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.7f);
 
         float countdownToDestroyPortal = 1;
         while (countdownToDestroyPortal > 0)
@@ -148,14 +148,13 @@ public class Ending : MonoBehaviour
 
     private IEnumerator MoveSummonerBeforeEnd(GameObject summoner)
     {
-        float timer = 0;
-        while (timer < 0.26f)
+        while (summoner != null)
         {
             summoner.transform.position = new Vector3(summoner.transform.position.x + 1 * Time.deltaTime, summoner.transform.position.y, summoner.transform.position.z);
             yield return new WaitForFixedUpdate();
         }
 
-        while(timer > 0.26f)
+        while(true)
         {
             if (summoner == null)
                 break;

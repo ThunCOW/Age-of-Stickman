@@ -60,13 +60,13 @@ public class Projectile : MonoBehaviour
             Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
 
         if (projectileType == ProjectileType.Arrow)
-            return target.unitController.TakeDamage(projectileAttack, damageDealt, projectileDir, true);
+            return target.unitController.TakeDamage(projectileAttack, damageDealt, parentUnit, projectileDir, true);
         else
         {
             if(target.unitController.isBoss)
-                return target.unitController.TakeDamage(projectileAttack, target.HealthMax / Random.Range(5, 10), projectileDir, false, projectileAttachment);
+                return target.unitController.TakeDamage(projectileAttack, target.HealthMax / Random.Range(5, 10), parentUnit, projectileDir, false, projectileAttachment);
             else
-                return target.unitController.TakeDamage(projectileAttack, target.HealthMax, projectileDir, false, projectileAttachment);
+                return target.unitController.TakeDamage(projectileAttack, target.HealthMax, parentUnit, projectileDir, false, projectileAttachment);
         }
     }
 

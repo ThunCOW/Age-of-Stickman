@@ -57,33 +57,11 @@ public class MercenaryManager : MonoBehaviour
         {
             _mercenarySave = value;
 
-            for (int i = 0; i < Mercenaries.Count; i++)
-            {
-                if (_mercenarySave[i].IndexOfMercenary == -1)
-                {
-                    Mercenaries[i].CurrentMercenary = null;
-                    continue;
-                }
-
-                //List<Mercenary> tempList = dictAllMercenaries[_mercenarySave[i].UnitRace];
-                List<Mercenary> tempList = new List<Mercenary>();
-                if (_mercenarySave[i].IndexOfMercenary == 0)
-                {
-                    tempList = dictAllMercenariesByLevel[GameManager.Instance.SwordsmanUnitLevel];
-                }
-                else if(_mercenarySave[i].IndexOfMercenary == 1)
-                {
-                    tempList = dictAllMercenariesByLevel[GameManager.Instance.SpearsmanUnitLevel];
-                }
-                else if(_mercenarySave[i].IndexOfMercenary == 2)
-                {
-                    tempList = dictAllMercenariesByLevel[GameManager.Instance.ArcherUnitLevel];
-                }
-                Mercenaries[i].CurrentMercenary = tempList[_mercenarySave[i].IndexOfMercenary];
-            }
+            StartCoroutine(WaitForGameManager());
         }
     }
 
+    public List<AllyController> MercenarySpawns;
 
     void Awake()
     {
@@ -103,9 +81,107 @@ public class MercenaryManager : MonoBehaviour
             _mercenarySave.Add(new MercenarySave());
     }
 
-    public void MercenaryDead(MercenaryUnit mercenaryUnit)
+    public void MercenaryDead(MercenaryUnit mercenaryUnit, AllyController allyController)
     {
+        int orderOfDead = 0;
+        for(int i = 0; i < MercenarySpawns.Count; i++)
+        {
+            if (MercenarySpawns[i] == allyController)
+                orderOfDead = i;
+            break;
+        }
+        for(int i = orderOfDead + 1; i < MercenarySpawns.Count; i++)
+        {
+            MercenarySpawns[i].DistanceToPlayer *= (float)i / (i + 1);
+        }
+        MercenarySpawns.RemoveAt(orderOfDead);
+
         Mercenaries[Mercenaries.IndexOf(mercenaryUnit)].CurrentMercenary = null;
+    }
+
+    public void MercenaryUpdate(UnitType unitType)
+    {
+        foreach(MercenaryUnit merc in Mercenaries)
+        {
+            if(merc.CurrentMercenary.UnitType == unitType)
+            {
+                int lvl = 0;
+                int currentMercIndex = 0;  // currently holds the index of current mercenary unit on panel, which found in if statements below, then next mercenary index is given further down below
+                if (merc.CurrentMercenary.UnitType == UnitType.Swordsman)
+                {
+                    lvl = GameManager.Instance.SwordsmanUnitLevel;
+                    currentMercIndex = 0;
+                }
+                else if (merc.CurrentMercenary.UnitType == UnitType.Spearsman)
+                {
+                    lvl = GameManager.Instance.SpearsmanUnitLevel;
+                    currentMercIndex = 1;
+                }
+                else if (merc.CurrentMercenary.UnitType == UnitType.Archer)
+                {
+                    lvl = GameManager.Instance.ArcherUnitLevel;
+                    currentMercIndex = 2;
+                }
+                
+                List<Mercenary> mercenaryList = dictAllMercenariesByLevel[lvl];
+
+                merc.CurrentMercenary = mercenaryList[currentMercIndex];
+                //merc.UpdateUnit();
+            }
+        }
+    }
+
+    public IEnumerator WaitForGameManager()
+    {
+        while(GameManager.Instance == null)
+            yield return new WaitForEndOfFrame();
+
+        yield return new WaitForEndOfFrame();
+
+        for (int i = 0; i < Mercenaries.Count; i++)
+        {
+            if (_mercenarySave[i].IndexOfMercenary == -1)
+            {
+                Mercenaries[i].CurrentMercenary = null;
+                continue;
+            }
+
+            /*int lvl = 0;
+            int currentMercIndex = 0;  // currently holds the index of current mercenary unit on panel, which found in if statements below, then next mercenary index is given further down below
+            if (Mercenaries[i].CurrentMercenary.UnitType == UnitType.Swordsman)
+            {
+                lvl = GameManager.Instance.SwordsmanUnitLevel;
+                currentMercIndex = 0;
+            }
+            else if (Mercenaries[i].CurrentMercenary.UnitType == UnitType.Spearsman)
+            {
+                lvl = GameManager.Instance.SpearsmanUnitLevel;
+                currentMercIndex = 1;
+            }
+            else if (Mercenaries[i].CurrentMercenary.UnitType == UnitType.Archer)
+            {
+                lvl = GameManager.Instance.ArcherUnitLevel;
+                currentMercIndex = 2;
+            }
+
+            List<Mercenary> mercenaryList = dictAllMercenariesByLevel[lvl];*/
+
+            //List<Mercenary> tempList = dictAllMercenaries[_mercenarySave[i].UnitRace];
+            List<Mercenary> tempList = new List<Mercenary>();
+            if (_mercenarySave[i].IndexOfMercenary == 0)
+            {
+                tempList = dictAllMercenariesByLevel[GameManager.Instance.SwordsmanUnitLevel];
+            }
+            else if (_mercenarySave[i].IndexOfMercenary == 1)
+            {
+                tempList = dictAllMercenariesByLevel[GameManager.Instance.SpearsmanUnitLevel];
+            }
+            else if (_mercenarySave[i].IndexOfMercenary == 2)
+            {
+                tempList = dictAllMercenariesByLevel[GameManager.Instance.ArcherUnitLevel];
+            }
+            Mercenaries[i].CurrentMercenary = tempList[_mercenarySave[i].IndexOfMercenary];
+        }
     }
 }
 

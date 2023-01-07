@@ -132,6 +132,7 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 2
   isBoss: 0
+  kickDistance: 1.5
   _aiAgressiveness: 2
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &2319451460949218239

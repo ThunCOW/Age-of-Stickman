@@ -3554,9 +3554,25 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.x
       value: 195
       objectReference: {fileID: 0}
+    - target: {fileID: 248456206, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 248456207, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 248456207, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.45
+      objectReference: {fileID: 0}
     - target: {fileID: 446506884, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 672413497, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 672413500, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_Camera
@@ -3590,6 +3606,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 346748693332554457, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 346748693332554457, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 346748693332554457, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -213
+      objectReference: {fileID: 0}
     - target: {fileID: 1225888005184022312, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -3598,6 +3626,122 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: ShopPanel
+      value: 
+      objectReference: {fileID: 1559099027}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: PortalPrefab
+      value: 
+      objectReference: {fileID: 236756014053669523, guid: 90d6633d5f169c145b8931b3528a3d83, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: BigBossPrefab
+      value: 
+      objectReference: {fileID: 1888226523802012845, guid: 36f8979902de2bb40869e0b428c116ba, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: Big_Mace_Drop
+      value: 
+      objectReference: {fileID: 8300000, guid: 44fd843317d360f46a4817b83042007d, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: DemonSummoner
+      value: 
+      objectReference: {fileID: 6286407956020224687, guid: 764fd72b2b122e646915722e04e62919, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: PortalIdleSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 8ed3625350fd4cf408125000c0806ac8, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: TextBoxPrefab
+      value: 
+      objectReference: {fileID: 8275738960771787454, guid: 765d0210ad7f0f8478f09f9bd90864b1, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: DoubleAxeDemon
+      value: 
+      objectReference: {fileID: 811615884120174839, guid: f453657dcaf816941b594b6b0885e8ac, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: DoubleAxeText_1
+      value: I will get rid of him master...
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: BigDemonEntrance
+      value: 
+      objectReference: {fileID: 11400000, guid: 4020e4459a41e8944aad7ab38028762e, type: 2}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: PortalClosingSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: ce81c52b58b5f9645a498fd08e038b21, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: PortalOpeningSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 289495b5d58a5a348ab1ac08967c31af, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: Soundtrack_War_1
+      value: 
+      objectReference: {fileID: 8300000, guid: 1418c96c9f45d38468f25d07e5b38d9f, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: SpearmasterPrefab
+      value: 
+      objectReference: {fileID: 5918015681238482118, guid: c2f88fb11b90ee849921820c4da3de66, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: Big_Demon_Entrance
+      value: 
+      objectReference: {fileID: 8300000, guid: 73ac027d91efc8742acadad62142d0f5, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: BookParticlePrefab
+      value: 
+      objectReference: {fileID: 44325268500312081, guid: f7eae482ef9e21447a762b1a19b96b96, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: SycthemasterPrefab
+      value: 
+      objectReference: {fileID: 5918015681238482118, guid: 407870d33eb783541acb897272f65dc5, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: DemonSummonerFirstEntrance
+      value: 
+      objectReference: {fileID: 6286407956020224687, guid: ccb8bd0a43819ba4e99d37fa5acea88a, type: 3}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: FastToSlowCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: FastToSlowCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: FastToSlowCurve.m_Curve.Array.data[0].value
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: FastToSlowCurve.m_Curve.Array.data[1].inSlope
+      value: -2.3975754
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: FastToSlowCurve.m_Curve.Array.data[1].inWeight
+      value: 0.028208852
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: FastToSlowCurve.m_Curve.Array.data[1].outSlope
+      value: -2.3975754
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: FastToSlowCurve.m_Curve.Array.data[0].outWeight
+      value: 0.6346967
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286800, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: FastToSlowCurve.m_Curve.Array.data[0].weightedMode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7700336283338286801, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: ShopCanvas
+      value: 
+      objectReference: {fileID: 1559099027}
+    - target: {fileID: 7700336283338286801, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: MainMenuCanvas
+      value: 
+      objectReference: {fileID: 1924762104}
+    - target: {fileID: 7700336283338286801, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+      propertyPath: OpenShopCanvas
+      value: 
+      objectReference: {fileID: 1031422901}
     - target: {fileID: 7700336283338286803, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -4211,7 +4355,7 @@ GameObject:
   - component: {fileID: 1031422902}
   - component: {fileID: 1031422901}
   m_Layer: 5
-  m_Name: Open
+  m_Name: Open Shop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5669,7 +5813,7 @@ GameObject:
   - component: {fileID: 1559099027}
   - component: {fileID: 1559099029}
   m_Layer: 5
-  m_Name: Upgrade Panel (1)
+  m_Name: Shop/Upgrade Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6179,6 +6323,34 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
+      propertyPath: ShieldHitSound.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
+      propertyPath: ShieldBigMaceHit.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
+      propertyPath: ShieldHitSound.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 72a2ff797e78df145977bcc1fe790f98, type: 3}
+    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
+      propertyPath: ShieldHitSound.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 72a2ff797e78df145977bcc1fe790f98, type: 3}
+    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
+      propertyPath: ShieldBigMaceHit.Array.data[0]
+      value: 
+      objectReference: {fileID: 8300000, guid: 44183de841cf2fa4abc5f2c887e78792, type: 3}
+    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
+      propertyPath: ShieldBigMaceHit.Array.data[1]
+      value: 
+      objectReference: {fileID: 8300000, guid: 1b64722eb6ceea84887df14ca1b93e4c, type: 3}
+    - target: {fileID: 8708394848731872019, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
+      propertyPath: ShieldBigMaceHit.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: fa8866b148f302649a12cac9a8eac791, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b86e3757726c6ea498266a8cd09dd6fe, type: 3}
 --- !u!1 &1749390323
@@ -6731,6 +6903,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1914051549}
   m_CullTransparentMesh: 1
+--- !u!1 &1924762104 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4461259360872795627, guid: 51dd6d62ac9c7d6488121df18955ab45, type: 3}
+  m_PrefabInstance: {fileID: 946470749}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1946239267
 GameObject:
   m_ObjectHideFlags: 0

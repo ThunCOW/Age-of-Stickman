@@ -6,12 +6,17 @@ using Tymski;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
-    public GameObject ShopCanvas;
-    public GameObject LevelCanvas;
+    [Header("Canvases")]
+    public GameObject MainMenuCanvas;
+    [Space]
+    public ShopPanel_V2.ShopPanel ShopCanvas;
+    public Button OpenShopCanvas;
 
+    [Header("Scenes")]
     public SceneReference MainMenu;
     
     public SceneReference TempLevel;
@@ -24,8 +29,7 @@ public class SceneLoader : MonoBehaviour
 
     void Start()
     {
-        ShopCanvas.SetActive(true);
-        //LevelCanvas.SetActive(false);
+        MainMenuCanvas.gameObject.SetActive(true);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
@@ -42,6 +46,11 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance.Level++;
     }
 
+    public void FinishGame()
+    {
+        OpenMainMenu();
+    }
+
     public void NextLevel()
     {
         SceneManager.LoadScene(Levels[GameManager.Instance.Level]);
@@ -51,7 +60,8 @@ public class SceneLoader : MonoBehaviour
     {
         if(scene.name == "Main Menu")
         {
-            ShopCanvas.SetActive(true);
+            MainMenuCanvas.gameObject.SetActive(true);
+            OpenShopCanvas.onClick.Invoke();
             //LevelCanvas.SetActive(false);
 
             GameManager.Instance.EnemyUnits = new List<Unit>();
@@ -61,10 +71,13 @@ public class SceneLoader : MonoBehaviour
 
             GameManager.Instance.GoldGained += 15;
             GameManager.Instance.GoldGained = 0;
+
+            // MercenaryManager
+            MercenaryManager.Instance.MercenarySpawns.Clear();
         }
         else
         {
-            ShopCanvas.SetActive(false);
+            MainMenuCanvas.gameObject.SetActive(false);
 
             LevelLoaded();
 

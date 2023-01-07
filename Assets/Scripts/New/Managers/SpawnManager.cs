@@ -7,6 +7,8 @@ using UnityEngine.Serialization;
 
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance;
+
     [Header("_Spawn Units_")]
     public List<SpawnUnit> spawnUnitList;
 
@@ -36,12 +38,14 @@ public class SpawnManager : MonoBehaviour
     public static bool isBossSpawned;
 
     public delegate void OnSpawnBoss(string BossTag);
-    public static OnSpawnBoss SpawnBossEvent;
+    public OnSpawnBoss SpawnBossEvent;
 
     bool preparingForBossSpawn;
 
     private void OnValidate()
     {
+        Instance = this;
+
         if(mainCamera == null)
             mainCamera = Camera.main;
 

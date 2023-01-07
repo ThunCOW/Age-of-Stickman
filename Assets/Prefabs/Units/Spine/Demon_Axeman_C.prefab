@@ -137,7 +137,7 @@ GameObject:
   - component: {fileID: 7204024101437426975}
   m_Layer: 0
   m_Name: Demon_Axeman_C
-  m_TagString: EnemyUnit
+  m_TagString: EnemyChargeUnit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,7 +181,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85676dcb2705d514b9763dfa1ff2e8d9, type: 2}
   equippedItemList: []
   secondaryWeapon: {fileID: 0}
-  changeItemNow: 0
 --- !u!114 &7204024101437426962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,12 +245,14 @@ MonoBehaviour:
   spineSkeletonAnimation: {fileID: 7204024100875226798}
   ShadowAnimator: {fileID: 8329780493749122268}
   BleedingAnimator: {fileID: 60437920024292771}
+  SpearDropPrefab: {fileID: 0}
   unit: {fileID: 7204024101437426962}
   equipmentManager: {fileID: 7204024101437426963}
   isAnimationStarted: 0
   extraSpeed: 0
   speed: 2
   isBoss: 0
+  kickDistance: 1.5
   _aiAgressiveness: 2
   aiAgressivenessLevel: {fileID: 11400000, guid: cc878747f78bc7747880180b52855619, type: 2}
 --- !u!50 &7204024101437426972

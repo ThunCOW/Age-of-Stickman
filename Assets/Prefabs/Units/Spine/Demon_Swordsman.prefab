@@ -182,7 +182,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 85676dcb2705d514b9763dfa1ff2e8d9, type: 2}
   equippedItemList: []
   secondaryWeapon: {fileID: 0}
-  changeItemNow: 0
 --- !u!114 &6635549089358184760
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -247,12 +246,14 @@ MonoBehaviour:
   spineSkeletonAnimation: {fileID: 6635549088829801092}
   ShadowAnimator: {fileID: 1393955227152783412}
   BleedingAnimator: {fileID: 974749804406050029}
+  SpearDropPrefab: {fileID: 0}
   unit: {fileID: 6635549089358184760}
   equipmentManager: {fileID: 6635549089358184761}
   isAnimationStarted: 0
   extraSpeed: 0
   speed: 2
   isBoss: 0
+  kickDistance: 1.5
   _aiAgressiveness: 2
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &6635549089358184758

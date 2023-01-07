@@ -21,6 +21,7 @@ namespace SpineControllerVersion
 
         [Header("_Various Variables_")]
         public SceneLoader SceneLoader;
+        public ShopPanel_V2.ShopPanel ShopPanel;
 
         [SerializeField] private bool _disableControls;
         public bool DisableControls
@@ -69,6 +70,7 @@ namespace SpineControllerVersion
         public const string SPEAR_PICKUP_TAG = "SPEAR_PICKUP";
         
         public const string ENEMY_TAG = "EnemyUnit";
+        public const string ENEMY_CHARGER_TAG = "EnemyChargeUnit";
         public const string SPEARMASTER_TAG = "Spearmaster";
         public const string SCYTHEMASTER_TAG = "Scythemaster";
         public const string DOUBLEAXEDEMON_TAG = "DoubleAxeDemon";
@@ -87,7 +89,7 @@ namespace SpineControllerVersion
         public const string SCYTHEMASTER_SPAWN_TAG = "ScythemasterBossTrigger";
         public const string BIG_DEMON_SPAWN_TAG = "BigDemonBossTrigger";
 
-        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG, BIG_DEMON_TAG, DOUBLEAXEDEMON_TAG };
+        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, ENEMY_CHARGER_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG, BIG_DEMON_TAG, DOUBLEAXEDEMON_TAG };
         public static List<string> ALLY_TAGS = new List<string> { ALLY_TAG, PLAYER_TAG };
 
 
@@ -665,7 +667,6 @@ namespace SpineControllerVersion
                     continue;
 
                 GameObject MercenaryGameObject = MercenaryManager.Instance.Mercenaries[i].CurrentMercenary.Unit;
-
                 float DistanceToPlayer = Random.Range(1.5f * order, 2.2f * order);
                 float spawnPosX = Player.transform.position.x - (DistanceToPlayer);
                 GameObject spawnedAllyGO = Instantiate(MercenaryGameObject, new Vector3(spawnPosX, MercenaryGameObject.transform.position.y, 0), MercenaryGameObject.transform.rotation);
@@ -680,6 +681,8 @@ namespace SpineControllerVersion
 
                 spawnedAllyController.MercenaryDead += MercenaryManager.Instance.MercenaryDead;
 
+                MercenaryManager.Instance.MercenarySpawns.Add(spawnedAllyController);
+                
                 order++;
             }
         }
@@ -759,9 +762,9 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = 900;
+            Gold = a_SaveData.Gold;
 
-            Level =13;
+            Level = a_SaveData.Level;
 
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];
