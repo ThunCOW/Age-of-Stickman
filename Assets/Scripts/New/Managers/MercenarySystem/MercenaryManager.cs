@@ -103,6 +103,9 @@ public class MercenaryManager : MonoBehaviour
     {
         foreach(MercenaryUnit merc in Mercenaries)
         {
+            if (merc.CurrentMercenary == null)
+                continue;
+
             if(merc.CurrentMercenary.UnitType == unitType)
             {
                 int lvl = 0;

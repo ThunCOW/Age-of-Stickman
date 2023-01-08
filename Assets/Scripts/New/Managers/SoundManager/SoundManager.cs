@@ -39,6 +39,8 @@ public class SoundManager : MonoBehaviour
     public List<AudioClip> ShieldAxeHit;
     public List<AudioClip> ShieldZweiHit;
 
+    public List<AudioClip> DeathSFX;
+
     void Awake()
     {
         if (Instance == null)

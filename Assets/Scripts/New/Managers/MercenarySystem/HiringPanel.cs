@@ -287,7 +287,8 @@ public class HiringPanel : MonoBehaviour
 
         targetedMercenaryUnit = mercenaryUnit;
         
-        transform.position = new Vector3(mercenaryUnit.transform.position.x + 209, transform.position.y, transform.position.z);
+        transform.position = new Vector3(mercenaryUnit.transform.position.x, 
+            transform.position.y, transform.position.z);
     }
 }
 

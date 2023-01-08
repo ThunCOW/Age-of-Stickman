@@ -17,9 +17,10 @@ namespace SpineControllerVersion
         public static OnControlsDsiabled DisableAllControls;
         public static OnControlsDsiabled EnableAllControls;
 
-        
+
 
         [Header("_Various Variables_")]
+        public GameObject GameOverCanvasPrefab;
         public SceneLoader SceneLoader;
         public ShopPanel_V2.ShopPanel ShopPanel;
 
@@ -563,20 +564,21 @@ namespace SpineControllerVersion
                 yield return new WaitForFixedUpdate();
             }
         }
-        public IEnumerator ImageAppearSlowly(GameObject ImageSpawn, float movementTime = 1.5f, float waitUntilFullAlpha = 1.5f, float speed = 10)
+
+        public IEnumerator ImageAppearSlowly(GameObject ImageSpawn, float lifetime = 1.5f, float waitUntilFullAlpha = 1.5f, float speed = 10)
         {
             Image tempImage = ImageSpawn.GetComponent<Image>();
             Color tempColor = tempImage.color;
 
-            float wait = movementTime;
+            float wait = lifetime;
             // Start Changing Alpha
             while (wait > 0)
             {
                 wait -= Time.deltaTime;
 
                 //float percentage = waitUntilFullAlpha == 0 ? (wait / disappearTime) * 0.65f : (wait / disappearTime);
-                float percentage = waitUntilFullAlpha == 0 ? 1 : (waitUntilFullAlpha - wait) / waitUntilFullAlpha;
-                percentage = percentage > 100 ? 100 : percentage;
+                float percentage = waitUntilFullAlpha == 0 ? 1 : (lifetime - wait) / waitUntilFullAlpha;
+                percentage = percentage > 1 ? 1 : percentage;
 
                 tempColor.a = percentage;
                 tempImage.color = tempColor;
@@ -687,7 +689,13 @@ namespace SpineControllerVersion
             }
         }
 
+        public void GameOver()
+        {
+            GameObject parent = Instantiate(GameOverCanvasPrefab);
 
+            //StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(0).gameObject, 1.25f, 5, 0));
+            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(1).gameObject, 3, 3, 0));
+        }
 
         
 

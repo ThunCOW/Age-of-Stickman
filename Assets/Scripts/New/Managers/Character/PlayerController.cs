@@ -372,6 +372,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         if (GameManager.Instance.PlayerLives == 0)
         {
             // Player Dies bring up you are dead screen
+            GameManager.Instance.GameOver();
 
             boxCollider2.enabled = false;
 
@@ -450,7 +451,6 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             //return;
         }
     }
-
     private IEnumerator PlayerDown()
     {
         // Play down animation

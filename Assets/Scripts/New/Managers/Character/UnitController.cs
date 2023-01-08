@@ -422,6 +422,7 @@ public class UnitController : MonoBehaviour
                 break;
             case HitRegion.Low:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.lowRegion;
+                //SoundManager.Instance.PlayEffect(SoundManager.Instance.DeathSFX[Random.Range(0, SoundManager.Instance.DeathSFX.Count)]);
                 break;
             case HitRegion.SpearThrowBody:
                 deathAnimation = unit.activeAnimations.DeathAnimationByDamageRegion.SpearThrowBody;
