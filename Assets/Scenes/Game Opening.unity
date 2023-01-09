@@ -1141,10 +1141,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager V1
       objectReference: {fileID: 0}
-    - target: {fileID: 957581314513403863, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 957581314513403865, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1188,14 +1184,6 @@ PrefabInstance:
     - target: {fileID: 957581314513403865, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 957581314513403866, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
-      propertyPath: GameOverCanvasPrefab
-      value: 
-      objectReference: {fileID: 901386651516248399, guid: cfa23b36d93205b44b2b6d8d281f9bdb, type: 3}
-    - target: {fileID: 7464457089295626139, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}

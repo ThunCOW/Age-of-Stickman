@@ -315,7 +315,6 @@ namespace SpineControllerVersion
         }
         void Start()
         {
-            Debug.Log(Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height)).x - Camera.main.transform.position.x);
             mainMenuPlayer.ChangeUnitEquipments(mainMenuPlayer, PlayerEquipments);
             SoundManager.Instance.PlayMusicOnLoop(Soundtrack_War_1);
         }
@@ -693,7 +692,7 @@ namespace SpineControllerVersion
         {
             GameObject parent = Instantiate(GameOverCanvasPrefab);
 
-            //StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(0).gameObject, 1.25f, 5, 0));
+            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(0).gameObject, 1.25f, 5, 0));
             StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(1).gameObject, 3, 3, 0));
         }
 

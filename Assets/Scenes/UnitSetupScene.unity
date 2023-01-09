@@ -4432,6 +4432,86 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1205441968
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1205441971}
+  - component: {fileID: 1205441970}
+  - component: {fileID: 1205441969}
+  m_Layer: 13
+  m_Name: SycthemasterBossTrigger
+  m_TagString: ScythemasterBossTrigger
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!50 &1205441969
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205441968}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
+--- !u!61 &1205441970
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205441968}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.2, y: 7.51}
+  m_EdgeRadius: 0
+--- !u!4 &1205441971
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1205441968}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 10, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 17
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1212858621
 GameObject:
   m_ObjectHideFlags: 0
@@ -5278,6 +5358,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8711cdc3029865445b7a9f27413f406d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LeftWall: {fileID: 0}
+  RightWall: {fileID: 0}
+  MapLength: 0
 --- !u!1001 &1389882420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8853,7 +8936,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9d40f2b51223e43a4c7ee87783ed0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameOverCanvasPrefab: {fileID: 901386651516248399, guid: cfa23b36d93205b44b2b6d8d281f9bdb, type: 3}
   SceneLoader: {fileID: 3655976832034720509}
+  ShopPanel: {fileID: 0}
   _disableControls: 0
   LevelBordersParent: {fileID: 0}
   SceneViewBordersParent: {fileID: 0}
@@ -8961,8 +9046,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 512499986deba2a42be0c6fe8d13f393, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainMenuCanvas: {fileID: 7316140766343422407}
   ShopCanvas: {fileID: 7316140766343422407}
-  LevelCanvas: {fileID: 0}
+  OpenShopCanvas: {fileID: 0}
   MainMenu:
     sceneAsset: {fileID: 102900000, guid: 98c85c017267a0149adefd3996ad06a8, type: 3}
     scenePath: Assets/Scenes/Main Menu.unity
@@ -9148,7 +9234,7 @@ MonoBehaviour:
     spawnChance: 100
     AIAgressiveness: 0
   _spawnTimer: 17.23
-  maxSpawn: 42
+  maxSpawn: 0
   maxEnemyOnScreen: 3
   maxDeadEnemyOnScreen: 1
   GroupSpawnCount: 1
@@ -9156,6 +9242,8 @@ MonoBehaviour:
   - {fileID: 4973821420141865720}
   - {fileID: 820277119}
   mainCamera: {fileID: 245096268}
+  isBossLevel: 1
+  isBossSpawned: 0
 --- !u!222 &4510330264553607564
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16310,6 +16398,7 @@ MonoBehaviour:
   Mercenaries:
   - {fileID: 6368569825024186829}
   - {fileID: 5087450942434562030}
+  MercenarySpawns: []
 --- !u!1 &6368569826142970268
 GameObject:
   m_ObjectHideFlags: 0

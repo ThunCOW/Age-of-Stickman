@@ -287,7 +287,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: bee017d867df2834d95df34895afce83, type: 2}
   equippedItemList: []
   secondaryWeapon: {fileID: 0}
-  changeItemNow: 0
 --- !u!114 &5918015681238482122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -302,7 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Race: 0
   HealthBar: {fileID: 4957357575968501044}
-  HealthMax: 10
+  HealthMax: 3500
   _Health: 0
   Damage: 120
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
@@ -352,12 +351,14 @@ MonoBehaviour:
   spineSkeletonAnimation: {fileID: 5918015680693387126}
   ShadowAnimator: {fileID: 8083610638450130127}
   BleedingAnimator: {fileID: 3780935811681303993}
+  SpearDropPrefab: {fileID: 0}
   unit: {fileID: 5918015681238482122}
   equipmentManager: {fileID: 5918015681238482123}
   isAnimationStarted: 0
   extraSpeed: 0
   speed: 2
   isBoss: 1
+  kickDistance: 0
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &5918015681238482116
@@ -425,6 +426,8 @@ MonoBehaviour:
   InGameMovements: []
   SpearmasterDead: {fileID: 0}
   SycthemasterDead: {fileID: 11400000, guid: 3ab41e44151146c47bf9d2443ca1cfa7, type: 2}
+  DoubleAxeDead: {fileID: 0}
+  BigDemonDead: {fileID: 0}
 --- !u!1001 &2077888867105331035
 PrefabInstance:
   m_ObjectHideFlags: 0

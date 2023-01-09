@@ -259,6 +259,10 @@ public class UnitController : MonoBehaviour
         
         Projectile tempProjectile = projectile.GetComponent<Projectile>();
         
+        // means its boss scythe
+        if (tempProjectile == null)
+            return;
+
         tempProjectile.projectileAttack = currentAttack;
 
         // means its a spear
@@ -272,6 +276,11 @@ public class UnitController : MonoBehaviour
         }
 
         //currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+    }
+
+    public void ThrowScythe()
+    {
+        GameObject projectile = Instantiate(unit.Projectile, unit.gameObject.transform);
     }
 
     /// <summary>
@@ -349,13 +358,10 @@ public class UnitController : MonoBehaviour
         // Unit got hurt,
         else
         {
-            if(canBeStunned)
-            {
                 if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
 
                 StopRoutine();
                 StartCoroutine(StunnedFor(attack));
-            }
         }
 
         if (attack.attackType != AttackType.Kick && attack.attackType != AttackType.Shield)

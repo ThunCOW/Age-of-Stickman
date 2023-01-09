@@ -48,13 +48,16 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         {
             _hasPlayerReachedEndOfLevel = value;
 
-            if(_hasPlayerReachedEndOfLevel)
+            if(!SpawnManager.Instance.isBossLevel)
             {
-                GameManager.Instance.ContinueToMainMenuTextSpawn();
-            }
-            else
-            {
-                GameManager.Instance.ContinueToMainMenuTextDisappear();
+                if(_hasPlayerReachedEndOfLevel)
+                {
+                    GameManager.Instance.ContinueToMainMenuTextSpawn();
+                }
+                else
+                {
+                    GameManager.Instance.ContinueToMainMenuTextDisappear();
+                }
             }
         }
     }
@@ -207,7 +210,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         }
 
         // When there is no boss player movement restricted with walls
-        if (!SpawnManager.isBossSpawned)
+        if (!SpawnManager.Instance.isBossSpawned)
         {
             if(gameObject.transform.position.x <= LeftWallPosition.position.x)
             {

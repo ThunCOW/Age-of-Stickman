@@ -1,4 +1,6 @@
+using Spine;
 using SpineControllerVersion;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -8,6 +10,8 @@ namespace ShopPanel_V2
 {
     public class ShopPanel : MonoBehaviour
     {
+        [SerializeField] ShopScroll ShopScrollActions;
+        
         [Header("____________Slot Script Assignment_________")]
         public ShopItem SwordUpgrade;
         public ShopItem ShieldUpgrade;
@@ -33,6 +37,11 @@ namespace ShopPanel_V2
 
         void Start()
         {
+            // animation prevents making changes on X axis so shop is under a parent GO
+            RectTransform parentRect = transform.parent.GetComponent<RectTransform>();
+            Animator animator = GetComponent<Animator>();
+            ShopScrollActions.Init(animator, parentRect);
+            
             UpgradeScreenDict.Add(ShopItemCategory.Sword, SwordUpgrade);
             UpgradeScreenDict.Add(ShopItemCategory.Spear, SpearUpgrade);
             UpgradeScreenDict.Add(ShopItemCategory.Shield, ShieldUpgrade);
@@ -52,6 +61,15 @@ namespace ShopPanel_V2
             _ItemUpgradeDict.Add(ShopItemCategory.Archer, _ArcherList);
 
             SetStartingItems();
+        }
+
+        public void OpenShop()
+        {
+            ShopScrollActions.Open();
+        }
+        public void CloseShop()
+        {
+            ShopScrollActions.Close();
         }
 
         public void ItemUpgrade(ShopItemCategory shopItemCategory)
@@ -323,6 +341,110 @@ namespace ShopPanel_V2
             }
         }
     }
+
+    [System.Serializable]
+    public class ShopScroll
+    {
+        public AnimationClip Idle1920;
+        public AnimationClip Open1920;
+        public AnimationClip Close1920;
+
+        [Space]
+        public AnimationClip Idle2160;
+        public AnimationClip Open2160;
+        public AnimationClip Close2160;
+
+        [Space]
+        public AnimationClip IdleMix;
+        public AnimationClip OpenMix;
+        public AnimationClip CloseMix;
+
+        [Space]
+        public float TimeTakeToOpen;
+        public AnimationCurve OpeningPositionCurve;
+        [Space]
+        public float TimeTakeToClose;
+        public AnimationCurve ClosingPositionCurve;
+
+
+        RectTransform shopRect;
+        Animator animator;
+
+        float moveDist;
+        //private 
+        public void Init(Animator animator, RectTransform shopRect)
+        {
+            this.animator = animator;
+
+            Vector2 v = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height, 0));
+            Vector2 v2 = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
+
+            moveDist = (Mathf.Abs(v.x - v2.x) * 215.73f)/2 + 21;
+
+            if (Screen.width == 1920 || Screen.width == 2560)
+                animator.Play(Idle1920.name);
+            else if (Screen.width == 2160 || Screen.width == 2960)
+                animator.Play(Idle2160.name);
+            else
+            {
+                this.shopRect = shopRect;
+                this.shopRect.anchoredPosition = new Vector2(-moveDist, shopRect.anchoredPosition.y);
+            }
+        }
+
+        public void Open()
+        {
+            if (Screen.width == 1920 || Screen.width == 2560)
+                animator.Play(Open1920.name);
+            else if (Screen.width == 2160 || Screen.width == 2960)
+                animator.Play(Open2160.name);
+            else
+                OpenScroll();
+        }
+        public void Close()
+        {
+            if (Screen.width == 1920 || Screen.width == 2560)
+                animator.Play(Close1920.name);
+            else if (Screen.width == 2160 || Screen.width == 2960)
+                animator.Play(Close2160.name);
+            else
+                CloseScroll();
+        }
+        public void OpenScroll()
+        {
+            animator.Play(OpenMix.name);
+            float startPos = -moveDist;
+            float newPos = moveDist;
+            GameManager.Instance.StartCoroutine(MoveScrollToMiddle(OpeningPositionCurve, TimeTakeToOpen, startPos, newPos));
+        }
+
+        public void CloseScroll()
+        {
+            animator.Play(CloseMix.name);
+            float startPos = 0;
+            float newPos = -moveDist;
+            GameManager.Instance.StartCoroutine(MoveScrollToMiddle(ClosingPositionCurve, TimeTakeToClose, startPos, newPos));
+        }
+
+        public IEnumerator MoveScrollToMiddle(AnimationCurve animationCurve, float duration, float startPos,float moveDist)
+        {
+            float time = duration;
+            while(time >= 0)
+            {
+                float perc = (duration - time) / duration;
+                
+                float referencePoint = animationCurve.Evaluate(perc);
+                shopRect.anchoredPosition = new Vector2(startPos + referencePoint * moveDist, shopRect.anchoredPosition.y);
+
+                time -= Time.deltaTime;
+
+                yield return new WaitForEndOfFrame();
+            }
+
+            shopRect.anchoredPosition = new Vector2(startPos + moveDist, shopRect.anchoredPosition.y);
+        }
+    }
+
 
     [System.Serializable]
     public class ShopItemVariables

@@ -206,7 +206,7 @@ public class Unit : MonoBehaviour
             // For Player
             else
             {
-                float maxVision = SpawnManager.isBossSpawned ? 20 : 8.65f;    // maxVision is for player, player won't detect enemies outside of cam
+                float maxVision = SpawnManager.Instance.isBossSpawned ? 20 : 8.65f;    // maxVision is for player, player won't detect enemies outside of cam
 
                 if (dist < maxVision)
                 {

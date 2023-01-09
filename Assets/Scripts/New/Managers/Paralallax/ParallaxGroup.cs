@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Serialization;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 [ExecuteInEditMode]
 public class ParallaxGroup : MonoBehaviour
@@ -34,7 +35,7 @@ public class ParallaxGroup : MonoBehaviour
             ResetPosition = false;
         }
 
-        if(Cam == null)
+        /*if(Cam == null)
         {
             foreach(Camera cam in FindObjectsOfType<Camera>())
             {
@@ -45,8 +46,8 @@ public class ParallaxGroup : MonoBehaviour
                 }
             }
             if (Cam == null)
-                Debug.LogError("Main Camera is missing in scene!");
-        }
+                Debug.LogError("Main Camera is missing in scene " + SceneManager.GetActiveScene().name);
+        }*/
 
         if(ParallaxObjects.Count == 0)
         {
@@ -60,6 +61,20 @@ public class ParallaxGroup : MonoBehaviour
     void Start()
     {
         length = ParallaxObjects[0].GetComponent<SpriteRenderer>().bounds.size.x;
+
+        if (Cam == null)
+        {
+            foreach (Camera cam in FindObjectsOfType<Camera>())
+            {
+                if (cam.tag == "MainCamera")
+                {
+                    this.Cam = cam.gameObject;
+                    break;
+                }
+            }
+            if (Cam == null)
+                Debug.LogError("Main Camera is missing in scene " + SceneManager.GetActiveScene().name);
+        }
     }
 
     private int order, cycleTime;

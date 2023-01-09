@@ -33,9 +33,9 @@ public class SpawnManager : MonoBehaviour
 
     [HideInInspector] public Camera mainCamera;
 
-    
 
-    public static bool isBossSpawned;
+    public bool isBossLevel;
+    public bool isBossSpawned;
 
     public delegate void OnSpawnBoss(string BossTag);
     public OnSpawnBoss SpawnBossEvent;

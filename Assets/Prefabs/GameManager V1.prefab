@@ -141,6 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c9d40f2b51223e43a4c7ee87783ed0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GameOverCanvasPrefab: {fileID: 901386651516248399, guid: cfa23b36d93205b44b2b6d8d281f9bdb, type: 3}
   SceneLoader: {fileID: 957581314513403867}
   ShopPanel: {fileID: 7464457089295626137}
   _disableControls: 0
@@ -1548,7 +1549,7 @@ RectTransform:
   - {fileID: 7464457089323822186}
   - {fileID: 7464457089839733438}
   - {fileID: 7464457090759155828}
-  - {fileID: 7464457089295626136}
+  - {fileID: 8074977491182489236}
   m_Father: {fileID: 7464457090164420151}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1556,6 +1557,43 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &7211193910731538543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8074977491182489236}
+  m_Layer: 5
+  m_Name: Shop Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8074977491182489236
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7211193910731538543}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7464457089295626136}
+  m_Father: {fileID: 430195515901469146}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7238886641853890879
 GameObject:
@@ -4672,7 +4710,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &7464457089295626136
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4696,13 +4734,13 @@ RectTransform:
   - {fileID: 7464457089496798496}
   - {fileID: 7464457090654754621}
   - {fileID: 7464457088836527238}
-  m_Father: {fileID: 430195515901469146}
-  m_RootOrder: 10
+  m_Father: {fileID: 8074977491182489236}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 21.30542, y: 1}
-  m_SizeDelta: {x: 1595.9364, y: 979.276}
+  m_AnchoredPosition: {x: 0, y: 1}
+  m_SizeDelta: {x: 1595.9365, y: 979.276}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &7464457089295626142
 Animator:
@@ -4736,6 +4774,84 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79130f3cfddbce84ab2e217712f5eb54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShopScrollActions:
+    Idle1920: {fileID: 7400000, guid: 933284bc121ccdf4aadbdfa88f0cbedd, type: 2}
+    Open1920: {fileID: 7400000, guid: 3a7faa867be94f741b87b0c6b2b2f481, type: 2}
+    Close1920: {fileID: 7400000, guid: 714c2efa2265e5346adea2b5559c1747, type: 2}
+    Idle2160: {fileID: 7400000, guid: 581706b213b8e4f45b8ae357424fa740, type: 2}
+    Open2160: {fileID: 7400000, guid: 7dccabda253de0c46b19904ad72976d3, type: 2}
+    Close2160: {fileID: 7400000, guid: 0ea36708ad8d67544871f716d354fe33, type: 2}
+    IdleMix: {fileID: 7400000, guid: fe29da56fe7a517438e8e3f7362d4bec, type: 2}
+    OpenMix: {fileID: 7400000, guid: e60f02115d4bf8e42ad090894331d6ff, type: 2}
+    CloseMix: {fileID: 7400000, guid: c98dc4157f130e54cbfc700aeb86d8fb, type: 2}
+    TimeTakeToOpen: 0.75
+    OpeningPositionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 1
+        outSlope: 0.04321941
+        tangentMode: 1
+        weightedMode: 3
+        inWeight: 0
+        outWeight: 0.27441874
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0.0066160588
+        outSlope: 1
+        tangentMode: 1
+        weightedMode: 3
+        inWeight: 0.6803752
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    TimeTakeToClose: 1.25
+    ClosingPositionCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 69
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 0.35
+        value: 0
+        inSlope: -0
+        outSlope: 0.006271394
+        tangentMode: 5
+        weightedMode: 2
+        inWeight: 0.33333334
+        outWeight: 0.57060003
+      - serializedVersion: 3
+        time: 0.75
+        value: 1
+        inSlope: 0.007225871
+        outSlope: 0
+        tangentMode: 65
+        weightedMode: 1
+        inWeight: 0.4952203
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: -0
+        outSlope: 0
+        tangentMode: 5
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
   SwordUpgrade: {fileID: 7464457090891416484}
   ShieldUpgrade: {fileID: 7464457090416509240}
   SpearUpgrade: {fileID: 7464457088912086343}
@@ -8577,9 +8693,9 @@ RectTransform:
   m_Father: {fileID: 430195515901469146}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -969.4, y: 66.234}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 110.6001, y: 66.234}
   m_SizeDelta: {x: 221.2019, y: 801.53}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7464457089839733437
@@ -8664,16 +8780,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7464457089295626142}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
-        m_Mode: 5
+      - m_Target: {fileID: 7464457089295626137}
+        m_TargetAssemblyTypeName: ShopPanel_V2.ShopPanel, Assembly-CSharp
+        m_MethodName: OpenShop
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Open 1
+          m_StringArgument: Open 1_1
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 7464457090654754610}
@@ -8688,18 +8804,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: set_interactable
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
       - m_Target: {fileID: 7464457088836527239}
         m_TargetAssemblyTypeName: UnityEngine.UI.Graphic, UnityEngine.UI
         m_MethodName: set_raycastTarget
@@ -8707,18 +8811,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: PlayEffect
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: b2b727f0a4fd46040b9f2a71b59a63c6, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -15442,29 +15534,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 7464457089295626142}
-        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
-        m_MethodName: Play
-        m_Mode: 5
+      - m_Target: {fileID: 7464457089295626137}
+        m_TargetAssemblyTypeName: ShopPanel_V2.ShopPanel, Assembly-CSharp
+        m_MethodName: CloseShop
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: Close 1
+          m_StringArgument: Close 1_1
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
-        m_MethodName: 
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
       - m_Target: {fileID: 7464457090654754610}
         m_TargetAssemblyTypeName: UnityEngine.UI.Selectable, UnityEngine.UI
@@ -15485,30 +15565,6 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: PlayEffect
-        m_Mode: 2
-        m_Arguments:
-          m_ObjectArgument: {fileID: 8300000, guid: 341a8bd07c2d5364ba051c0873a1928f, type: 3}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.AudioClip, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: SoundManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
