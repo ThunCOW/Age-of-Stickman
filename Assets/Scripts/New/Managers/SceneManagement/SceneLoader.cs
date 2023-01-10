@@ -2,6 +2,7 @@ using SpineControllerVersion;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Tymski;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +11,8 @@ using UnityEngine.UI;
 
 public class SceneLoader : MonoBehaviour
 {
+    public static SceneLoader Instance;
+
     [Header("Canvases")]
     public GameObject MainMenuCanvas;
     [Space]
@@ -27,6 +30,10 @@ public class SceneLoader : MonoBehaviour
 
     UnitHolder MainMenuPlayer;
 
+    void Awake()
+    {
+        Instance = this;    
+    }
     void Start()
     {
         MainMenuCanvas.gameObject.SetActive(true);
@@ -56,12 +63,23 @@ public class SceneLoader : MonoBehaviour
         SceneManager.LoadScene(Levels[GameManager.Instance.Level]);
     }
 
+    [SerializeField] private GameObject DayTextPrefab;
+    private GameObject DayText;
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if(scene.name == "Main Menu")
         {
+            DayText = Instantiate(DayTextPrefab, MainMenuCanvas.transform);
+
+            DayText.transform.GetChild(1).GetComponent<TMP_Text>().text = (GameManager.Instance.Level + 1).ToString();
+
+            StartCoroutine(GameManager.Instance.TextAppearDisappearSlowly(DayText.transform.GetChild(0).gameObject, 2f, 4.5f, 0, 2, 4.5f));
+            StartCoroutine(GameManager.Instance.TextAppearDisappearSlowly(DayText.transform.GetChild(1).gameObject, 2f, 4.5f, 0, 2, 4.5f));
+            DayCycleManager.Instance.MoveCycle();
+
             MainMenuCanvas.gameObject.SetActive(true);
             OpenShopCanvas.onClick.Invoke();
+
             //LevelCanvas.SetActive(false);
 
             GameManager.Instance.EnemyUnits = new List<Unit>();

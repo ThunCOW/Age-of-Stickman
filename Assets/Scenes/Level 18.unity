@@ -688,15 +688,15 @@ PrefabInstance:
       objectReference: {fileID: 2319451460949218237, guid: 7099f75d5dc4da3438d9cc714a651e6a, type: 3}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[0].spawnChance
-      value: 20
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[1].spawnChance
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[2].spawnChance
-      value: 60
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[0].AIAgressiveness

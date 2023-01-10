@@ -7,9 +7,12 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Spine.Unity;
 using Newtonsoft.Json.Linq;
+using TMPro;
 
 public class PlayerController : UnitController, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
+    [SerializeField] private TMP_Text LiveAmount;
+
     [Header("_____________Distance Bar Variables____________")]
     [SerializeField] private GameObject DistanceBar;
     /*
@@ -445,6 +448,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         {
             // Player Lives Decreases
             GameManager.Instance.PlayerLivesChange(-1);
+            LiveAmount.text = GameManager.Instance.PlayerLives.ToString();
 
             unit.SetUnitDirection(attackDirection * -1);
 

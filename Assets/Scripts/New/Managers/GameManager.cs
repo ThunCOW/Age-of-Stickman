@@ -563,6 +563,13 @@ namespace SpineControllerVersion
                 yield return new WaitForFixedUpdate();
             }
         }
+        public IEnumerator TextAppearDisappearSlowly(GameObject TextSpawn, float appearMovementTime = 1.5f, float appearWaitUntilFullAlpha = 1.5f, float appearSpeed = 0
+                                                                            ,float stallAmount = 3,float disappearTime = 1.5f, float disappearSpeed = 0)
+        {
+            StartCoroutine(TextAppearSlowly(TextSpawn, appearMovementTime, appearWaitUntilFullAlpha, appearSpeed));
+            yield return new WaitForSeconds(appearMovementTime + stallAmount);
+            StartCoroutine(TextDisappearSlowly(TextSpawn, 0, disappearTime, disappearSpeed));
+        }
 
         public IEnumerator ImageAppearSlowly(GameObject ImageSpawn, float lifetime = 1.5f, float waitUntilFullAlpha = 1.5f, float speed = 10)
         {
@@ -769,9 +776,9 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = a_SaveData.Gold;
+            Gold = 300;
 
-            Level = a_SaveData.Level;
+            Level = 8;
 
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];
@@ -795,7 +802,8 @@ namespace SpineControllerVersion
         public void CreateFreshSaveData()
         {
             SaveData sd = new SaveData();
-            
+
+            Debug.Log(FreshSaveData(sd));
             if (FreshSaveData(sd))
                 FileManager.WriteToFile(sd.ToJson());
             else

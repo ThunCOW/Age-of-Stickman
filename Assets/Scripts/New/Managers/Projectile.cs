@@ -51,7 +51,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    public bool ProjectileDamage(Unit target)
+    public bool ProjectileDamage(Unit target, out bool isDestroyed)
     {
         float softDamage = Random.Range(0, parentUnit.Damage / 2) + Random.Range(0, parentUnit.Damage / 2);
         int damageDealt = (int)(softDamage * Random.Range(1, projectileAttack.DamageMultiplierMax));
@@ -60,13 +60,27 @@ public class Projectile : MonoBehaviour
             Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
 
         if (projectileType == ProjectileType.Arrow)
+        {
+            isDestroyed = true;
             return target.unitController.TakeDamage(projectileAttack, damageDealt, parentUnit, projectileDir, true);
+        }
         else
         {
-            if(target.unitController.isBoss)
-                return target.unitController.TakeDamage(projectileAttack, target.HealthMax / Random.Range(5, 10), parentUnit, projectileDir, false, projectileAttachment);
+            if (target.unitController.isBoss)
+            {
+                isDestroyed = true;
+                return target.unitController.TakeDamage(projectileAttack, target.HealthMax / Random.Range(5, 8), parentUnit, projectileDir, false, projectileAttachment);
+            }
             else
+            {
+                int spearSwordLevelDif = GameManager.Instance.SwordUpgradeLevel - GameManager.Instance.SpearUpgradeLevel;
+                if (spearSwordLevelDif > 0)
+                {
+                    // i can make spear bounce and shake and fall but whatever. (isDestroyed was for it)
+                }
+                isDestroyed = true;
                 return target.unitController.TakeDamage(projectileAttack, target.HealthMax, parentUnit, projectileDir, false, projectileAttachment);
+            }
         }
     }
 
@@ -80,30 +94,24 @@ public class Projectile : MonoBehaviour
                 falling = true;
 
                 Unit enemyUnit = collision.GetComponent<Unit>();
-                if(ProjectileDamage(enemyUnit))
+
+                bool isDestroyed;
+                if(ProjectileDamage(enemyUnit, out isDestroyed))
                 {
                     boxcol2d.enabled = false;
                     // Hit connected, can delete the arrow
-                    Destroy(gameObject);
+                    if(isDestroyed)
+                    {
+                        Destroy(gameObject);
+                    }
+                    else
+                    {
+                        // spear not destroyed, its gonna fall
+                    }
+                    return;
                 }
 
-                gameObject.layer = 6;                                       // I set it to blood's layer here
-
-                projectileSpeed = 0;
-                
-                rb2d.velocity = Vector2.zero;
-                rb2d.bodyType = RigidbodyType2D.Dynamic;
-
-                float degree;
-                if(projectileDir == 1)
-                    degree = Random.Range(15, 60);
-                else
-                    degree = 180 - Random.Range(15, 60);
-
-                float degreeToRad = degree * Mathf.Deg2Rad;
-                Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
-
-                rb2d.AddForce(radToVec2 * Random.Range(300, 500));
+                ArrowRicoche();
             }
             if(collision.gameObject.layer == 8)         // 8 = Ground layer
             {
@@ -117,6 +125,32 @@ public class Projectile : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void ArrowRicoche()
+    {
+        gameObject.layer = 6;                                       // I set it to blood's layer here
+
+        projectileSpeed = 0;
+
+        rb2d.velocity = Vector2.zero;
+        rb2d.bodyType = RigidbodyType2D.Dynamic;
+
+        float degree;
+        if (projectileDir == 1)
+            degree = Random.Range(15, 60);
+        else
+            degree = 180 - Random.Range(15, 60);
+
+        float degreeToRad = degree * Mathf.Deg2Rad;
+        Vector2 radToVec2 = new Vector2(Mathf.Cos(degreeToRad), Mathf.Sin(degreeToRad));
+
+        rb2d.AddForce(radToVec2 * Random.Range(300, 500));
+    }
+
+    private void SpearBlock()
+    {
+
     }
 
     IEnumerator ArrowFall()
