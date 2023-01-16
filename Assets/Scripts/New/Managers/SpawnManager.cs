@@ -208,7 +208,6 @@ public class SpawnManager : MonoBehaviour
             case GameManager.SPEARMASTER_SPAWN_TAG:
                 StartCoroutine(SpawnSpearmasterAfterNoEnemy());
                 break;
-
             case GameManager.SCYTHEMASTER_SPAWN_TAG:
                 StartCoroutine(SpawnSycthemasterAfterNoEnemy());
                 break;
@@ -218,10 +217,37 @@ public class SpawnManager : MonoBehaviour
             case GameManager.BIG_DEMON_SPAWN_TAG:
                 StartCoroutine(SpawnBigDemonSummoner());
                 break;
+            case GameManager.DUALSWORDBOSS_SPAWN_TAG:
+                StartCoroutine(DualSwordBossAfterNoEnemy());
+                break;
             default:
                 break;
         }
     }
+
+    private IEnumerator DualSwordBossAfterNoEnemy()
+    {
+        Debug.Log("SpawnBossAfterNoEnemy");
+        preparingForBossSpawn = true;
+        maxSpawn = 1;
+
+        yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
+
+        GameManager.Instance.DisableControls = false;
+
+        isBossSpawned = true;
+
+        //GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
+
+        //SpawnBossEvent(GameManager.DUALSWORDBOSS_SPAWN_TAG);
+
+        float spawnPosX = GameManager.Instance.Player.transform.position.x + 13.5f + 10; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        GameObject spawnedEnemyGO = Instantiate(GameManager.Instance.DualSwordBossPrefab, new Vector3(spawnPosX, GameManager.Instance.DualSwordBossPrefab.transform.position.y, 0), GameManager.Instance.DualSwordBossPrefab.transform.rotation);
+
+        AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
+        spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+    }
+
     IEnumerator SpawnDoubleAxeDemonSummoner()
     {
         Debug.Log("SpawnDoubleAxeDemonSummoner");

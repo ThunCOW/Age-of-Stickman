@@ -452,8 +452,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
             unit.SetUnitDirection(attackDirection * -1);
 
-            StopAllCoroutines();
+            StopRoutine();
 
+            GameManager.Instance.PlayerHit(HitScreenEffectImage);
             StartCoroutine(PlayerDown());
             //return;
         }
@@ -479,9 +480,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimation.SpineAnimationReference, false);
         StartCoroutine(SpeedDuringAnimation(trackEntry, ResurrectAnimation.speedCurve));
 
-        yield return new WaitForSpineAnimationEnd(trackEntry);
+        yield return new WaitForSeconds(0.6f);
         // Wait until resurrection animation ends
-
         isWaitingForRes = false;
 
         unit.Health = 1;
@@ -827,6 +827,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             trigger.gameObject.SetActive(false);
 
             BossTrigger(GameManager.BIG_DEMON_SPAWN_TAG);
+        }
+        else if(trigger.gameObject.tag == GameManager.DUALSWORDBOSS_SPAWN_TAG)
+        {
+            trigger.gameObject.SetActive(false);
+
+            BossTrigger(GameManager.DUALSWORDBOSS_SPAWN_TAG);
         }
 
         if (trigger.gameObject.tag == GameManager.SPEAR_PICKUP_TAG)
@@ -1305,7 +1311,6 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     protected override void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
         base.HandleAnimationStateEvent(trackEntry, e);
-
         switch (e.Data.Name)
         {
             case "Weapon Triggers/WeaponSecondary_Hide_Front":
@@ -1325,6 +1330,14 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 GameManager.Instance.Player.currentStance = StanceList.Stand_B;
                 break;
 
+            case "Game Event/DoubleAxe_Dead":
+                attackTrigger = false;
+                CloseCombatAnimation temp = unit.activeAnimations.Attack[0] as CloseCombatAnimation;
+                temp.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+
+                unit.target.unitController.spineSkeletonAnimation.AnimationState.SetAnimation(1, "DoubleAxeHuge/Death 2", false);
+                GameManager.Instance.EnemyUnits.Remove(unit.target);
+                break;
             default:
                 break;
         }

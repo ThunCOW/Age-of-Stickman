@@ -37,6 +37,11 @@ public class Projectile : MonoBehaviour
         rb2d.velocity = new Vector3(projectileDir * projectileSpeed, 0, 0);
     }
 
+    void Update()
+    {
+            
+    }
+
     void FixedUpdate()
     {
         if (falling)
@@ -64,7 +69,7 @@ public class Projectile : MonoBehaviour
             isDestroyed = true;
             return target.unitController.TakeDamage(projectileAttack, damageDealt, parentUnit, projectileDir, true);
         }
-        else
+        else if(projectileType == ProjectileType.Spear)
         {
             if (target.unitController.isBoss)
             {
@@ -82,6 +87,11 @@ public class Projectile : MonoBehaviour
                 return target.unitController.TakeDamage(projectileAttack, target.HealthMax, parentUnit, projectileDir, false, projectileAttachment);
             }
         }
+        else
+        {
+            isDestroyed = true;
+            return target.unitController.TakeDamage(projectileAttack, damageDealt, parentUnit, projectileDir, false, projectileAttachment);
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -91,7 +101,6 @@ public class Projectile : MonoBehaviour
             // hits the target
             if (Unit.CompareTags(collision.gameObject, targetTags))
             {
-                falling = true;
 
                 Unit enemyUnit = collision.GetComponent<Unit>();
 
@@ -111,7 +120,16 @@ public class Projectile : MonoBehaviour
                     return;
                 }
 
-                ArrowRicoche();
+                if (projectileType == ProjectileType.ShortSpear)
+                {
+                    SpearRicoche();
+                    //Destroy(gameObject);
+                }
+                else
+                {
+                    falling = true;
+                    ArrowRicoche();
+                }
             }
             if(collision.gameObject.layer == 8)         // 8 = Ground layer
             {
@@ -148,6 +166,16 @@ public class Projectile : MonoBehaviour
         rb2d.AddForce(radToVec2 * Random.Range(300, 500));
     }
 
+    private void SpearRicoche()
+    {
+        gameObject.layer = 6;
+
+        projectileSpeed = 0;
+
+        rb2d.velocity = Vector2.zero;
+        rb2d.bodyType = RigidbodyType2D.Dynamic;
+    }
+
     private void SpearBlock()
     {
 
@@ -170,5 +198,6 @@ public class Projectile : MonoBehaviour
 public enum ProjectileType
 {
     Arrow,
-    Spear
+    Spear,
+    ShortSpear,
 }

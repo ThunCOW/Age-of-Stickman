@@ -1,6 +1,7 @@
 using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,6 +14,8 @@ public class Ending : MonoBehaviour
     public GameObject DemonSummonerEnd;
 
     public GameObject ThanksForPlayingCanvas;
+
+    public GameObject ReturnToGameOpeningButton;
 
     void Start()
     {
@@ -141,9 +144,37 @@ public class Ending : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
 
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(3);
 
-        Debug.Log("RETURNS TO MAIN MENU");
+        ReturnToGameOpeningButton.SetActive(true);
+        TMP_Text returnMenuTextObj = ReturnToGameOpeningButton.transform.GetChild(0).GetComponent<TMP_Text>();
+        black = returnMenuTextObj.color;
+        while(countDown < 0.75f)
+        {
+            countDown += Time.deltaTime;
+
+            black.a = countDown / 1.5f;
+            returnMenuTextObj.color = black;
+            
+            yield return new WaitForFixedUpdate();
+        }
+        // Black Screen Opens
+
+        /*black.a = 0;
+
+        timer = 0;
+        TimeToBlack = 4.5f;
+        while (timer < TimeToBlack * 0.7f)
+        {
+            timer += Time.deltaTime;
+
+            black.a = (timer / TimeToBlack);
+            BlackScreen.color = black;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+        SceneLoader.Instance.FinishGame();*/
     }
 
     private IEnumerator MoveSummonerBeforeEnd(GameObject summoner)

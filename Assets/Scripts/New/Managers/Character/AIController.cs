@@ -110,6 +110,15 @@ public class AIController : UnitController
                     StartCoroutine(DemonSummonerEnd());
                     break;
                 default:
+                    if (unit.Projectile != null || (GameManager.Instance.Player.unitController as PlayerController).hasPlayerReachedEndOfLevel)
+                        StartCoroutine(MoveInsideCameraView());
+                    else
+                    {
+                        if (CompareTag(GameManager.ENEMY_CHARGER_TAG))
+                            StartCoroutine(EnemyChargerEntrance());
+                        else
+                            StartCoroutine(AIActionDecision());
+                    }
                     break;
             }
         }

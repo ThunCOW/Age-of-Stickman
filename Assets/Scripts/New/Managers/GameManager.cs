@@ -22,7 +22,6 @@ namespace SpineControllerVersion
         [Header("_Various Variables_")]
         public GameObject GameOverCanvasPrefab;
         public SceneLoader SceneLoader;
-        public ShopPanel_V2.ShopPanel ShopPanel;
 
         [SerializeField] private bool _disableControls;
         public bool DisableControls
@@ -79,6 +78,7 @@ namespace SpineControllerVersion
         public const string DEMON_SUMMONER_FIRST_APPEARANCE_TAG = "DemonSummonerFirstAppearance";
         public const string DEMON_SUMMONER_END_TAG = "DemonSummonerEnd";
         public const string BIG_DEMON_TAG = "BigDemon";
+        public const string DUAL_SWORD_BOSS_TAG = "DualSwordBoss";
 
         public const string ALLY_TAG = "AllyUnit";
         public const string PLAYER_TAG = "PlayerUnit";
@@ -89,8 +89,9 @@ namespace SpineControllerVersion
         public const string DOUBLEAXEDEMON_SPAWN_TAG = "DoubleAxeDemonTrigger";
         public const string SCYTHEMASTER_SPAWN_TAG = "ScythemasterBossTrigger";
         public const string BIG_DEMON_SPAWN_TAG = "BigDemonBossTrigger";
+        public const string DUALSWORDBOSS_SPAWN_TAG = "DualSwordBossTrigger";
 
-        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, ENEMY_CHARGER_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG, BIG_DEMON_TAG, DOUBLEAXEDEMON_TAG };
+        public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, ENEMY_CHARGER_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG, BIG_DEMON_TAG, DOUBLEAXEDEMON_TAG, DUAL_SWORD_BOSS_TAG };
         public static List<string> ALLY_TAGS = new List<string> { ALLY_TAG, PLAYER_TAG };
 
 
@@ -167,6 +168,19 @@ namespace SpineControllerVersion
         }
         
         public UnitHolder mainMenuPlayer;
+
+        private int _killCount;
+        public int KillCount
+        {
+            get { return _killCount; }
+            set
+            {
+                _killCount = value;
+                Debug.Log("enters");
+                if (KillCounter.Instance != null)
+                    KillCounter.Instance.Kill();
+            }
+        }
 
         // dont worry about it
         public int SwordUpgradeLevel = 1;
@@ -257,6 +271,9 @@ namespace SpineControllerVersion
         [Space]
         public GameObject SycthemasterPrefab;
 
+        [Space]
+        public GameObject DualSwordBossPrefab;
+
         [Header("_Double Axe Demon Variables_")]
         public GameObject DemonSummonerFirstEntrance;
         public GameObject DoubleAxeDemon;
@@ -283,6 +300,8 @@ namespace SpineControllerVersion
         public AnimationCurve FastToSlowCurve;
 
         [Header("Sound")]
+        public AudioClip Soundtrack_OpeningMenu;
+        public AudioClip Soundtrack_MainMenu;
         public AudioClip Soundtrack_War_1;
 
         [Space]
@@ -309,16 +328,26 @@ namespace SpineControllerVersion
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 60;
 
-            LoadDataAsJson();
-
             SceneLoader.LevelLoaded += LevelLoaded;
         }
         void Start()
         {
             mainMenuPlayer.ChangeUnitEquipments(mainMenuPlayer, PlayerEquipments);
-            SoundManager.Instance.PlayMusicOnLoop(Soundtrack_War_1);
-        }
 
+            Color c = Color.white;
+            if (FileManager.LoadFromFile(out var json))
+            {
+                c.a = 1;
+                ContinueImage.color = c;
+            }
+            else
+            {
+                c.a = 0.4f;
+                ContinueImage.color = c;
+            }
+        }
+        [Header("Opening Menu")]
+        [SerializeField] private Image ContinueImage;
 
 
 
@@ -659,11 +688,45 @@ namespace SpineControllerVersion
             SoundManager.Instance.PlayEffect(CoinClicking);
         }
 
+        public void PlayerHit(Image image)
+        {
+            if (hitScreenCoroutine != null)
+                StopCoroutine(hitScreenCoroutine);
+
+            hitScreenCoroutine = StartCoroutine(HitScreen(image));
+        }
+
+        Coroutine hitScreenCoroutine;
+        IEnumerator HitScreen(Image image)
+        {
+            Color c = image.color;
+            
+            float timeToDisappear = 0.5f;
+            float countdown = timeToDisappear;
+            while (countdown > 0)
+            {
+                c.a = countdown / timeToDisappear;
+
+                image.color = c;
+
+                countdown -= Time.deltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
+        public void GameOver()
+        {
+            GameObject parent = Instantiate(GameOverCanvasPrefab);
+
+            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(0).gameObject, 1.25f, 5, 0));
+            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(1).gameObject, 3, 3, 0));
+        }
+
         void LevelLoaded()
         {
             StartCoroutine(SpawnMercenaries());
         }
-        
+
         IEnumerator SpawnMercenaries()
         {
             yield return new WaitUntil(() => Player != null);
@@ -690,20 +753,12 @@ namespace SpineControllerVersion
                 spawnedAllyController.MercenaryDead += MercenaryManager.Instance.MercenaryDead;
 
                 MercenaryManager.Instance.MercenarySpawns.Add(spawnedAllyController);
-                
+
                 order++;
             }
         }
 
-        public void GameOver()
-        {
-            GameObject parent = Instantiate(GameOverCanvasPrefab);
 
-            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(0).gameObject, 1.25f, 5, 0));
-            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(1).gameObject, 3, 3, 0));
-        }
-
-        
 
         /*********************
          * Saving and Loading
@@ -712,6 +767,7 @@ namespace SpineControllerVersion
         public void SaveDataAsJson()
         {
             SaveData sd = new SaveData();
+            SaveRecords sr = new SaveRecords();
             
             if (PopulateSaveData(sd))
                 FileManager.WriteToFile(sd.ToJson());
@@ -776,9 +832,9 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
-            Gold = 300;
+            Gold = a_SaveData.Gold;
 
-            Level = 8;
+            Level = a_SaveData.Level;
 
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];
@@ -850,6 +906,45 @@ namespace SpineControllerVersion
             return true;
         }
 
+        /*************************
+         * Records and Ach
+        */
+        public bool PopulateSaveRecords(SaveRecords a_SaveRecords)
+        {
+            a_SaveRecords.KillCount = KillCount;
+
+            return true;
+        }
+        public void SaveRecordsAndAchAsJson()
+        {
+            SaveRecords sr = new SaveRecords();
+
+            if (PopulateSaveRecords(sr))
+                FileManager.WriteToFile(sr.ToJson());
+            else
+                Debug.LogError("Failed to save RecordsAndAch");
+        }
+        public void ReadFromSaveRecords(SaveRecords a_SaveRecords)
+        {
+            KillCount = a_SaveRecords.KillCount;
+        }
+        public void ReadRecordsAndAchAsJson()
+        {
+            /*if (FileManager.LoadFromFile(out var json))
+            {
+                SaveData sd = new SaveData();
+                sd.LoadFromJson(json);
+
+                LoadFromSaveData(sd);
+            }
+            else
+            {
+                // No save is found, new game
+                CreateFreshSaveData();
+
+                LoadDataAsJson();
+            }*/
+        }
         void OnApplicationQuit()
         {
             //SaveDataAsJson();

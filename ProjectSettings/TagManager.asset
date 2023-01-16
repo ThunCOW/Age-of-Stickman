@@ -23,6 +23,8 @@ TagManager:
   - DemonSummonerFirstAppearance
   - DemonSummonerEnd
   - EnemyChargeUnit
+  - DualSwordBoss
+  - DualSwordBossTrigger
   layers:
   - Default
   - TransparentFX

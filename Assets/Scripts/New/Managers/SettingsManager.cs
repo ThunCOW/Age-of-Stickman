@@ -19,8 +19,6 @@ public class SettingsManager : MonoBehaviour
     void Start()
     {
         VolumeBarEmptyColor.a = 0.18f;
-
-        LoadSoundSettings();
     }
 
     public void LoadSoundSettings()
@@ -89,6 +87,8 @@ public class SettingsManager : MonoBehaviour
     public void OpenSettings()
     {
         Time.timeScale = 0;
+
+        LoadSoundSettings();
     }
 
     public void CloseSettings()

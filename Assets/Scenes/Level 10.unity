@@ -607,11 +607,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[1].spawnChance
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[2].spawnChance
-      value: 60
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[0].AIAgressiveness

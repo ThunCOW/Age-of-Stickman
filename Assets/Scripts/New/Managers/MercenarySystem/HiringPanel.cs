@@ -25,7 +25,7 @@ public class HiringPanel : MonoBehaviour
     Mercenary currentMercenary;
 
     // tempo, supposed to hold currently viewed race
-    UnitRace currentRace = UnitRace.Human;
+    //UnitRace currentRace = UnitRace.Human;
 
     // speed unit cards move
     public int speed;

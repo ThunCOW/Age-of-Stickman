@@ -4,6 +4,7 @@ using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum MoveDirection
 {
@@ -52,7 +53,7 @@ public class UnitController : MonoBehaviour
     public delegate void OnControlsDisabled();
     public OnControlsDisabled ResetAttachments;
 
-    // Start is called before the first frame update
+    [SerializeField] protected Image HitScreenEffectImage;
 
     protected virtual void OnValidate()
     {
@@ -337,7 +338,7 @@ public class UnitController : MonoBehaviour
         {
             UnitDead(attack, attackDirection, projectileAttachment);
         }
-        // This part is for bossess, gonna leave it for now, only bosses dont have hurt anim
+        // This part is for bossess
         else if (unit.activeAnimations.Hurt == null)
         {
             if(attack.attackType == AttackType.Casual)
@@ -358,10 +359,17 @@ public class UnitController : MonoBehaviour
         // Unit got hurt,
         else
         {
-                if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
+            if (!isProjectile) unit.SetUnitDirection(attackDirection * -1);
 
-                StopRoutine();
+            StopRoutine();
+
+            if (CompareTag(GameManager.PLAYER_TAG))
+            {
                 StartCoroutine(StunnedFor(attack));
+                GameManager.Instance.PlayerHit(HitScreenEffectImage);
+            }
+            else
+                StartCoroutine(StunnedFor(attack, Random.Range(0, 0.25f)));
         }
 
         if (attack.attackType != AttackType.Kick && attack.attackType != AttackType.Shield)
@@ -398,9 +406,10 @@ public class UnitController : MonoBehaviour
 
             if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
             {
-                GameManager.Instance.EnemyUnits.Remove(unit);
+                if (!CompareTag(GameManager.DOUBLEAXEDEMON_TAG))
+                    GameManager.Instance.EnemyUnits.Remove(unit);
             }
-            else
+            else if(Unit.CompareTags(gameObject, GameManager.ALLY_TAGS))
                 GameManager.Instance.AllyUnits.Remove(unit);
 
             GameObject finishLevelTrigger = RightWallPosition.GetChild(0).gameObject;
@@ -532,6 +541,8 @@ public class UnitController : MonoBehaviour
             GameManager.Instance.EnemyUnits.Remove(unit);
             // TODO LeftSpawnLazy Count leftspawns, if they enter combat remove from list, max 2 leftspawn, add to list in SpawnManager
             GameManager.Instance.LeftSpawn.Remove(gameObject);
+
+            GameManager.Instance.KillCount++;
         }
         else
             GameManager.Instance.AllyUnits.Remove(unit);
@@ -577,6 +588,13 @@ public class UnitController : MonoBehaviour
             else if(unit.target.CompareTag(GameManager.DOUBLEAXEDEMON_TAG))
             {
                 //GameManager.Instance.DisableControls = true;
+                ResetAttachments();
+
+                GameManager.Instance.DisableControls = true;
+
+                StartCoroutine(DoubleAxeDead());
+
+                //ReStartCoroutines();
             }
             else if(unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
             {
@@ -631,6 +649,36 @@ public class UnitController : MonoBehaviour
         }
     }
 
+    private IEnumerator DoubleAxeDead()
+    {
+        int dir = Mathf.Abs(transform.localScale.x - unit.target.transform.position.x) > 0 ? 1 : -1;
+        transform.localScale = new Vector3(dir * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
+        yield return new WaitForSeconds(1);
+
+        while (Mathf.Abs(transform.position.x - unit.target.transform.position.x) > 1.8f)
+        {
+            if(unit.currentStance != StanceList.Stand_A)
+            {
+                unit.currentStance = StanceList.Stand_A;
+                ResetAttachments();
+            }
+            spineSkeletonAnimation.AnimationState.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true);
+
+            transform.position = new Vector3(transform.position.x + (dir * 2) * Time.deltaTime, transform.position.y, transform.position.z);
+            
+            yield return new WaitForFixedUpdate();
+        }
+        spineSkeletonAnimation.AnimationState.SetAnimation(1, "10_Completed/Attack_Stand_A_3(Fast)", false);
+
+        yield return new WaitForSeconds(1.2f);
+
+        spineSkeletonAnimation.AnimationState.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+
+        GameManager.Instance.DisableControls = false;
+
+        yield return null;    
+    }
     protected void DismemberBody(DeathByDismemberAnimation deathAnimation)
     {
 
@@ -726,6 +774,13 @@ public class UnitController : MonoBehaviour
             int torqDir = radToVec2.x > 0 ? -1 : 1;
             tempSpawnObjects[i].GetComponent<Rigidbody2D>().AddTorque(Random.Range(5, 15) * torqDir, ForceMode2D.Force);
         }
+
+        System.Random rand = new System.Random();
+        
+        for(int o = 0; o < 6; o++)
+        {
+            System.Console.WriteLine(rand.Next(0, 50));
+        }
     }
 
     protected virtual IEnumerator ShieldedFor(float stallFor, float slideSpeed) { yield return null; }
@@ -797,7 +852,8 @@ public class UnitController : MonoBehaviour
             speedRelativeToAnimation = stunAnimation.speedCurve.Evaluate(animationCurrentTime) + randSpeedInc;
             yield return new WaitForFixedUpdate();
         }
-
+        
+        speedRelativeToAnimation = 0;
         yield return new WaitForSeconds(stallFor);
 
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true).TimeScale = 1f;

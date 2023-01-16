@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fddc499b727203049aed2541a1668a2c, type: 3}
+  m_Name: Death 1
+  m_EditorClassIdentifier: 
+  Prefix: DoubleAxeHuge
+  AnimationName: Death 1
+  SpineAnimationReference: {fileID: 11400000, guid: c64ceb59bdc80704c99203358818edd7, type: 2}
+  ShadowAnimation: {fileID: 0}
+  _PrefixChangeCheck: DoubleAxeHuge
+  _AnimationNameChangeCheck: Death 1
+  speedCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: -3.5
+      inSlope: 135.12624
+      outSlope: 135.12624
+      tangentMode: 0
+      weightedMode: 3
+      inWeight: 0
+      outWeight: 0.031626042
+    - serializedVersion: 3
+      time: 0.32857564
+      value: 0
+      inSlope: 1.9986905
+      outSlope: 0
+      tangentMode: 65
+      weightedMode: 3
+      inWeight: 0.44209594
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.5
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0

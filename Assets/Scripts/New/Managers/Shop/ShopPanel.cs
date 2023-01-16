@@ -340,6 +340,11 @@ namespace ShopPanel_V2
                 ArcherUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Archer][GameManager.Instance.ArcherUnitLevel]);
             }
         }
+
+        void OnEnable()
+        {
+            //ShopScrollActions.Init(, );
+        }
     }
 
     [System.Serializable]
@@ -368,7 +373,7 @@ namespace ShopPanel_V2
 
 
         RectTransform shopRect;
-        Animator animator;
+        public Animator animator;
 
         float moveDist;
         //private 
@@ -443,6 +448,8 @@ namespace ShopPanel_V2
 
             shopRect.anchoredPosition = new Vector2(startPos + moveDist, shopRect.anchoredPosition.y);
         }
+
+        
     }
 
 

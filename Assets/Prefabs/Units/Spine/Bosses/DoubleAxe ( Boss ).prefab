@@ -360,6 +360,7 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 3
   isBoss: 1
+  kickDistance: 0
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &811615884120174837
@@ -427,6 +428,8 @@ MonoBehaviour:
   InGameMovements: []
   SpearmasterDead: {fileID: 11400000, guid: e4819a433a1b7e747b06740e6d6e5474, type: 2}
   SycthemasterDead: {fileID: 0}
+  DoubleAxeDead: {fileID: 11400000, guid: 090030f2eaa27e14ca41d9053aad5fa9, type: 2}
+  BigDemonDead: {fileID: 0}
 --- !u!114 &-7005274829842469041
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -101,8 +101,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb2d: {fileID: 7860010022100989077}
   boxcol2d: {fileID: 7860010022100989076}
+  projectileType: 2
   RangedAttackSoundSO: {fileID: 0}
   projectileSpeed: 36
+  projectileAttack: {fileID: 0}
+  projectileAttachment:
+    SlotName: 
+    AttachmentName: 
 --- !u!61 &7860010022100989076
 BoxCollider2D:
   m_ObjectHideFlags: 0

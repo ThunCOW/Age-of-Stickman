@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SmoothCameraFollow : MonoBehaviour
 {
-    private Camera camera;
+    private Camera gameCam;
 
     public Transform cameraTarget;
 
@@ -42,7 +42,7 @@ public class SmoothCameraFollow : MonoBehaviour
 
     void Start()
     {
-        camera = GetComponent<Camera>();
+        gameCam = GetComponent<Camera>();
 
         LeftWallPosition = GameManager.Instance.LevelBordersParent.transform.GetChild(0);
         RightWallPosition = GameManager.Instance.LevelBordersParent.transform.GetChild(1);
@@ -187,7 +187,7 @@ public class SmoothCameraFollow : MonoBehaviour
             //Vector3.SmoothDamp(transform.position, movePosition, ref velocity, damping);
 
             float s = 0f;
-            camera.orthographicSize = Mathf.SmoothDamp(camera.orthographicSize, 6.5f, ref s, 0.3f);
+            gameCam.orthographicSize = Mathf.SmoothDamp(gameCam.orthographicSize, 6.5f, ref s, 0.3f);
 
             transform.position = new Vector3(Vector3.SmoothDamp(transform.position, movePosition, ref velocity, 3).x, 
                 Mathf.SmoothDamp(transform.position.y, targetY, ref s, 0.6f), transform.position.z);

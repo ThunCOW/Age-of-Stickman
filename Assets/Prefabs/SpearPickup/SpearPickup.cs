@@ -47,7 +47,7 @@ public class SpearPickup : MonoBehaviour
     SpriteRenderer sr;
     Color ShownAlpha = Color.white;
     float waitForAlphaIncreaseAndDecrease = 5f;
-    float waitForNextChange = 5;
+    //float waitForNextChange = 5;
 
     // Clicking n Touching
     int _touchCount;

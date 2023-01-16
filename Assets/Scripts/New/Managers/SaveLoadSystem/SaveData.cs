@@ -46,4 +46,24 @@ public interface ISaveableJson
 {
     bool PopulateSaveData(SaveData a_SaveData);
     void LoadFromSaveData(SaveData a_SaveData);
+
+    bool PopulateSaveRecords(SaveRecords a_SaveRecords);
+
+    void ReadFromSaveRecords(SaveRecords a_SaveRecords);
+}
+
+[System.Serializable]
+public class SaveRecords
+{
+    public int KillCount;
+
+    public string ToJson()
+    {
+        return JsonUtility.ToJson(this);
+    }
+
+    public void LoadFromJson(string a_Json)
+    {
+        JsonUtility.FromJsonOverwrite(a_Json, this);
+    }
 }

@@ -87,8 +87,10 @@ public class MercenaryManager : MonoBehaviour
         for(int i = 0; i < MercenarySpawns.Count; i++)
         {
             if (MercenarySpawns[i] == allyController)
+            {
                 orderOfDead = i;
-            break;
+                break;
+            }
         }
         for(int i = orderOfDead + 1; i < MercenarySpawns.Count; i++)
         {

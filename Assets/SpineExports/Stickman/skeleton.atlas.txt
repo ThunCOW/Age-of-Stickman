@@ -40,8 +40,8 @@ Armor/Green_Elf/Shoulder_1_Back
   offset: 0, 0
   index: -1
 Armor/Green_Elf/Shoulder_1_Backk
-  rotate: false
-  xy: 1986, 854
+  rotate: true
+  xy: 2011, 1481
   size: 34, 48
   orig: 34, 48
   offset: 0, 0
@@ -83,7 +83,7 @@ Armor/Human/Helmet_1
   index: -1
 Armor/Human/Helmet_2
   rotate: true
-  xy: 2037, 914
+  xy: 2103, 1233
   size: 130, 128
   orig: 130, 128
   offset: 0, 0
@@ -452,6 +452,13 @@ Body/CHAR_1_HEAD_2
   orig: 108, 148
   offset: 0, 0
   index: -1
+Body/CHAR_1_HEAD_3
+  rotate: true
+  xy: 2008, 1365
+  size: 107, 148
+  orig: 107, 148
+  offset: 0, 0
+  index: -1
 Body/CHAR_1_LEG_L_0
   rotate: false
   xy: 1065, 1343
@@ -531,14 +538,14 @@ Body/CHAR_2_HAND_R_0
   index: -1
 Body/CHAR_2_HEAD_1
   rotate: false
-  xy: 2008, 1421
+  xy: 1986, 867
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 Body/CHAR_2_HEAD_2
   rotate: false
-  xy: 2008, 1368
+  xy: 2158, 1435
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
@@ -622,7 +629,7 @@ Body/CHAR_3_HAND_R_0
   index: -1
 Body/CHAR_3_HEAD_0
   rotate: false
-  xy: 2052, 1315
+  xy: 2158, 1382
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
@@ -656,8 +663,8 @@ Crossbow
   offset: 0, 0
   index: -1
 Effect/ArrowHit_GreenBlood_1
-  rotate: false
-  xy: 2053, 1060
+  rotate: true
+  xy: 2011, 1517
   size: 127, 25
   orig: 127, 25
   offset: 0, 0
@@ -671,28 +678,28 @@ Effect/ArrowHit_GreenBlood_2
   index: -1
 Effect/ArrowHit_GreenBlood_3
   rotate: false
-  xy: 2022, 875
+  xy: 2061, 1488
   size: 124, 27
   orig: 124, 27
   offset: 0, 0
   index: -1
 Effect/ArrowHit_RedBlood_1
   rotate: true
-  xy: 2167, 931
+  xy: 2038, 1517
   size: 127, 25
   orig: 127, 25
   offset: 0, 0
   index: -1
 Effect/ArrowHit_RedBlood_2
   rotate: false
-  xy: 2022, 852
+  xy: 2052, 1200
   size: 125, 21
   orig: 125, 21
   offset: 0, 0
   index: -1
 Effect/ArrowHit_RedBlood_3
-  rotate: false
-  xy: 2148, 885
+  rotate: true
+  xy: 1986, 920
   size: 124, 27
   orig: 124, 27
   offset: 0, 0
@@ -776,7 +783,7 @@ Effect/Sword_HitEffect
   index: -1
 Effect/SyctheGround
   rotate: true
-  xy: 1986, 904
+  xy: 2052, 1223
   size: 140, 49
   orig: 140, 49
   offset: 0, 0

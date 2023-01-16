@@ -667,7 +667,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[0].unit
@@ -682,16 +682,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2319451460949218237, guid: 7099f75d5dc4da3438d9cc714a651e6a, type: 3}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
+      propertyPath: spawnUnitList.Array.data[3].unit
+      value: 
+      objectReference: {fileID: 6410001599494105702, guid: c6d02447f5d115e4ab6c67695708aec9, type: 3}
+    - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[0].spawnChance
-      value: 20
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[1].spawnChance
-      value: 20
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[2].spawnChance
-      value: 60
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
+      propertyPath: spawnUnitList.Array.data[3].spawnChance
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[0].AIAgressiveness
@@ -704,6 +712,10 @@ PrefabInstance:
     - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
       propertyPath: spawnUnitList.Array.data[2].AIAgressiveness
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9134607693323039415, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
+      propertyPath: spawnUnitList.Array.data[3].AIAgressiveness
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44073ac280e9d5845921e44f69551c82, type: 3}
