@@ -8,6 +8,7 @@ using UnityEngine.UI;
 using Spine.Unity;
 using Newtonsoft.Json.Linq;
 using TMPro;
+using UnityEngine.Serialization;
 
 public class PlayerController : UnitController, IPointerDownHandler, IPointerUpHandler, IDragHandler
 {
@@ -26,6 +27,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     public GameObject ArrowControls;
     public GameObject JoystickControls;
+    public List<Button> ControlButtons;
+    [FormerlySerializedAs("Joystick")]
+    public List<Image> JoystickImages;
     /*
      * ************************************************************ 
     */

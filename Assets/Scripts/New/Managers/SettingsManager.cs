@@ -2,13 +2,16 @@ using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
+    public static SettingsManager Instance;
+
     public GameObject SettingsMenu;
 
-    public GameObject PlayerControlsMenu;
+    public GameObject ChangeControlMenu;
 
     public List<Image> MusicVolumeBars;
     public List<Image> SFXVolumeBars;
@@ -18,6 +21,8 @@ public class SettingsManager : MonoBehaviour
 
     void Start()
     {
+        Instance = this;
+
         VolumeBarEmptyColor.a = 0.18f;
     }
 
@@ -89,10 +94,55 @@ public class SettingsManager : MonoBehaviour
         Time.timeScale = 0;
 
         LoadSoundSettings();
+
+        if(GameManager.Instance.Player != null)
+        {
+            PlayerController temp = GameManager.Instance.Player.unitController as PlayerController;
+            foreach(Button b in temp.ControlButtons)
+            {
+                b.interactable = false;
+                b.GetComponent<EventTrigger>().enabled = false;
+            }
+            foreach(Image img in temp.JoystickImages)
+            {
+                img.raycastTarget = false;
+            }
+        }
+    }
+
+    public void OpenChangeControlMenu()
+    {
+        Time.timeScale = 0;
+        ChangeControlMenu.SetActive(true);
+
+        if(GameManager.Instance.Player != null)
+        {
+            ChangeControlMenu.transform.GetChild(0).gameObject.SetActive(true);
+            ChangeControlMenu.transform.GetChild(1).gameObject.SetActive(false);
+        }
+        else
+        {
+            ChangeControlMenu.transform.GetChild(0).gameObject.SetActive(false);
+            ChangeControlMenu.transform.GetChild(1).gameObject.SetActive(true);
+        }
     }
 
     public void CloseSettings()
     {
         Time.timeScale = 1;
+
+        if(GameManager.Instance.Player != null)
+        {
+            PlayerController temp = GameManager.Instance.Player.unitController as PlayerController;
+            foreach (Button b in temp.ControlButtons)
+            {
+                b.interactable = true;
+                b.GetComponent<EventTrigger>().enabled = true;
+            }
+            foreach (Image img in temp.JoystickImages)
+            {
+                img.raycastTarget = true;
+            }
+        }
     }
 }

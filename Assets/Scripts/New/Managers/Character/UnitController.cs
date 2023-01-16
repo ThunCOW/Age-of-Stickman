@@ -327,6 +327,9 @@ public class UnitController : MonoBehaviour
 
         attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
+        if (unit.Health < 0)
+            return true;
+
         if (attack.attackType == AttackType.Casual)
             unit.Health -= DamageTaken;
         else

@@ -2823,6 +2823,8 @@ MonoBehaviour:
   joystickDragOffsetDistance: 100
   ArrowControls: {fileID: 1486019142}
   JoystickControls: {fileID: 1852322675}
+  ControlButtons: []
+  JoystickImages: []
   spearPickup: {fileID: 0}
   ResurrectAnimation: {fileID: 11400000, guid: a5682c026625d3744acb68f68f737463, type: 2}
   trackTime: 0
@@ -2902,19 +2904,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skelAnim: {fileID: 8615564714039348847}
-  InGameMovements:
-  - startingPoint: -10.5
-    distance: 7.2
-    DisabledGameObjects:
-    - {fileID: 576644090}
-    - {fileID: 1478688721}
-    - {fileID: 1187743713}
-    - {fileID: 510344990}
-    - {fileID: 1150862788}
-    - {fileID: 245862261}
-    Joystick:
-    - {fileID: 631991876}
-    - {fileID: 554424416}
+  unit: {fileID: 8615564714106964967}
+  OpeningMovement:
+    startingPoint: 0
+    distance: 0
+    endingPoint: 0
+  ChangeControllerMenu: {fileID: 0}
 --- !u!1001 &3194456918974607604
 PrefabInstance:
   m_ObjectHideFlags: 0
