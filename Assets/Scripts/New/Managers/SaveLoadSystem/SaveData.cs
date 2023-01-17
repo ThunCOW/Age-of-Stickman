@@ -8,6 +8,7 @@ public class SaveData
     public List<int> equippedItemIndexs;
 
     public int PlayerLives;
+    public int DeathCount;
     public int Gold;
     public int Level;
     public bool IsSpearmasterDead;

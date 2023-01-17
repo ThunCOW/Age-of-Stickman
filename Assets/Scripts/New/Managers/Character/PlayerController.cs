@@ -451,7 +451,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         else
         {
             // Player Lives Decreases
-            GameManager.Instance.PlayerLivesChange(-1);
+            GameManager.Instance.PlayerDead(-1);
             LiveAmount.text = GameManager.Instance.PlayerLives.ToString();
 
             unit.SetUnitDirection(attackDirection * -1);

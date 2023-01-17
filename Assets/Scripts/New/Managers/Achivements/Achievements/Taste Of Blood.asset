@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73096d73ffeb48b4f9b475970e1fa88f, type: 3}
+  m_Name: Taste Of Blood
+  m_EditorClassIdentifier: 
+  Achievement:
+    id: Ach01
+    title: Taste Of Blood
+    description: First enemy killed
+    texture: {fileID: 21300000, guid: 86cab2207d6f01f4db0ad59b7b99d43d, type: 3}
+  isUnlocked: 0

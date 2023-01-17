@@ -48,7 +48,8 @@ namespace SpineControllerVersion
         public GameObject LevelBordersParent;
         public GameObject SceneViewBordersParent;
 
-
+        [Space]
+        public List<AchivementSO> AchievementsInfo;
 
 
 
@@ -176,9 +177,22 @@ namespace SpineControllerVersion
             set
             {
                 _killCount = value;
-                Debug.Log("enters");
                 if (KillCounter.Instance != null)
                     KillCounter.Instance.Kill();
+                
+                AchivementSO ach1 = AchievementSystem.GetAchievementSO(AchievementIds.TasteOfBlood);
+                if (!(ach1 as AchievementByEvent).isUnlocked)
+                    (ach1 as AchievementByEvent).isUnlocked = true;
+
+                AchivementSO ach2 = AchievementSystem.GetAchievementSO(AchievementIds.ToHellAndBack);
+                (ach2 as AchievementByCounter).currentAmount++;
+
+                AchivementSO ach3 = AchievementSystem.GetAchievementSO(AchievementIds.Bloodbath);
+                if(KillCount > 50)
+                {
+                    if (!(ach3 as AchievementByEvent).isUnlocked)
+                        (ach3 as AchievementByEvent).isUnlocked = true;
+                }
             }
         }
 
@@ -212,7 +226,7 @@ namespace SpineControllerVersion
         }
         public TMP_Text PlayerLivesText;
         public GameObject BuyLiveButton;
-
+        public int DeathCount;
 
 
         [Header("_Gold Variables_")]
@@ -674,9 +688,10 @@ namespace SpineControllerVersion
 
 
         // Player Lives
-        public void PlayerLivesChange(int Amount)
+        public void PlayerDead(int Amount)
         {
-            PlayerLives += Amount;
+            PlayerLives--;
+            DeathCount++;
         }
 
         public void BuyLives()
@@ -785,6 +800,7 @@ namespace SpineControllerVersion
                 return false;
 
             a_SaveData.PlayerLives = PlayerLives;
+            a_SaveData.DeathCount = DeathCount;
             a_SaveData.Gold = Gold;
 
             a_SaveData.Level = Level;
@@ -832,6 +848,7 @@ namespace SpineControllerVersion
             PlayerEquipmentsKeys = a_SaveData.equippedItemIndexs;
 
             PlayerLives = a_SaveData.PlayerLives;
+            DeathCount = a_SaveData.DeathCount;
             Gold = a_SaveData.Gold;
 
             Level = a_SaveData.Level;
@@ -876,6 +893,7 @@ namespace SpineControllerVersion
                 return false;
 
             a_SaveData.PlayerLives = 3;
+            a_SaveData.DeathCount = 0;
 
             a_SaveData.Gold = 0;
 

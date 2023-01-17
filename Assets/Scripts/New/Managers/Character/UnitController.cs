@@ -568,8 +568,15 @@ public class UnitController : MonoBehaviour
 
         if(gameObject.CompareTag(GameManager.PLAYER_TAG))
         {
+            AchivementSO ach;
             if (unit.target.CompareTag(GameManager.SPEARMASTER_TAG))
             {
+                ach = AchievementSystem.GetAchievementSO(AchievementIds.Spearmaster);
+                if (!(ach as AchievementByEvent).isUnlocked)
+                {
+                    (ach as AchievementByEvent).isUnlocked = true;
+                }
+
                 ResetAttachments();
             
                 GameManager.Instance.DisableControls = true;
@@ -580,6 +587,12 @@ public class UnitController : MonoBehaviour
             }
             else if(unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
             {
+                ach = AchievementSystem.GetAchievementSO(AchievementIds.FallenKing);
+                if (!(ach as AchievementByEvent).isUnlocked)
+                {
+                    (ach as AchievementByEvent).isUnlocked = true;
+                }
+
                 ResetAttachments();
 
                 GameManager.Instance.DisableControls = true;
@@ -601,6 +614,21 @@ public class UnitController : MonoBehaviour
             }
             else if(unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
             {
+                ach = AchievementSystem.GetAchievementSO(AchievementIds.TheGolliath);
+                if (!(ach as AchievementByEvent).isUnlocked)
+                {
+                    (ach as AchievementByEvent).isUnlocked = true;
+                }
+
+                ach = AchievementSystem.GetAchievementSO(AchievementIds.Swordhood);
+                if (GameManager.Instance.DeathCount < 0)
+                {
+                    if (!(ach as AchievementByEvent).isUnlocked)
+                    {
+                        (ach as AchievementByEvent).isUnlocked = true;
+                    }
+                }
+
                 //GameManager.Instance.DisableControls = true;
                 spineSkeletonAnimation.AnimationState.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 0);
                 Ending.Instance.GameEnd();

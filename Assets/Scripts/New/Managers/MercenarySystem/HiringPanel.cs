@@ -46,7 +46,11 @@ public class HiringPanel : MonoBehaviour
     {
         if(GameManager.Instance.Gold >= currentMercenary.UnitPrice)
         {
-            if(targetedMercenaryUnit.CurrentMercenary == null)
+            AchivementSO ach = AchievementSystem.GetAchievementSO(AchievementIds.TheMoreTheMerrier);
+            if (!(ach as AchievementByEvent).isUnlocked)
+                (ach as AchievementByEvent).isUnlocked = true;
+
+            if (targetedMercenaryUnit.CurrentMercenary == null)
             {
                 targetedMercenaryUnit.CurrentMercenary = currentMercenary;
 

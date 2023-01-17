@@ -4325,6 +4325,15 @@ MonoBehaviour:
   _disableControls: 0
   LevelBordersParent: {fileID: 0}
   SceneViewBordersParent: {fileID: 0}
+  AchievementsInfo:
+  - {fileID: 11400000, guid: 6cc37a2560e838f4388bf2025972a4e3, type: 2}
+  - {fileID: 11400000, guid: 3de7d2d4fd827d24e993b24fe4cc98f1, type: 2}
+  - {fileID: 11400000, guid: da041521472f5c6449f9019948bec0ac, type: 2}
+  - {fileID: 11400000, guid: 9b1f2969d8b3a4240b48553426073fc7, type: 2}
+  - {fileID: 11400000, guid: 455994addf8267345a2d3867b41b42f3, type: 2}
+  - {fileID: 11400000, guid: 166acde15c183944c8a451682594f39c, type: 2}
+  - {fileID: 11400000, guid: e3b438f1144c59e47a05ae70411b6424, type: 2}
+  - {fileID: 11400000, guid: dbd12ffb8cc865f42bfe9c78b4349e7d, type: 2}
   EnemyUnits: []
   LeftSpawn: []
   AllyUnits: []
