@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEngine.GraphicsBuffer;
 
 public enum MoveDirection
 {
@@ -29,7 +30,7 @@ public class UnitController : MonoBehaviour
     [HideInInspector][SerializeField] protected EquipmentManager equipmentManager;
 
     protected bool canMove = true;
-    private bool canBeStunned = true;
+    bool canBeStunned = true;
     [HideInInspector] public bool isAnimationStarted = false;   // Animations require direction to be consistent
 
     protected bool idleing;
@@ -148,13 +149,118 @@ public class UnitController : MonoBehaviour
 
             return;
         }
+        ///////////////////////////////
+        /*int dir = 1;
+        List<Unit> unitList = Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS) ? GameManager.Instance.AllyUnits : GameManager.Instance.EnemyUnits;
+        List<Unit> possibleTargets = new List<Unit>();
+        possibleTargets.AddRange(unitList);
+        float closestDist = 50;
+        Unit hitTarget = null;
 
+        foreach(Unit tempUnit in possibleTargets)
+        {
+            int tempDir = 1;
+            if (transform.position.x > tempUnit.transform.position.x)
+                tempDir = (int)MoveDirection.left;
+            else
+                tempDir = (int)MoveDirection.right;
+
+            // i.e if target is being pushed to right, current unit must be looking right to land the hit, if its not looking right, misses it
+            if (tempDir == (int)MoveDirection.right && transform.localScale.x < 0.1)
+            {
+                continue;
+            }
+            else if (tempDir == (int)MoveDirection.left && transform.localScale.x > 0.1)
+            {
+                continue;
+            }
+
+            float dist = Mathf.Abs(transform.position.x - tempUnit.transform.position.x);
+            if (closestDist > dist)
+            {
+                hitTarget = tempUnit;
+                closestDist = dist;
+                dir = tempDir;
+            }
+        }
+        
+        if (closestDist < currentAttack.Reach)
+        {
+            int chance = Random.Range(0, 100);
+
+            float softDamage = unit.Damage * 0.1f;
+            // low damage 15%
+            if (chance <= 14)
+            {
+                softDamage += Random.Range(0, unit.Damage * 0.9f);
+            }
+            // normal damage 40%
+            else if (chance >= 15 && chance < 65)
+            {
+                softDamage += unit.Damage * 0.4f;
+                softDamage += Random.Range(0, unit.Damage / 2);
+                softDamage -= Random.Range(0, unit.Damage / 2);
+            }
+            // high damage 45%
+            else
+            {
+                softDamage += unit.Damage * 0.6f;
+                softDamage += Random.Range(0, unit.Damage * 0.3f);
+            }
+            int damageDealt = (int)(softDamage);
+
+            damageDealt = Random.Range(0, 100) >= 50 ? (int)(softDamage) : ((int)(softDamage * currentAttack.DamageMultiplierMax));
+
+            // temporary to calculate spear damage before implementing
+            if (unit.CompareTag(GameManager.PLAYER_TAG))
+            {
+                //Debug.Log(damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+                if (unit.currentStance == StanceList.Stand_A) // sword stance
+                {
+
+                }
+                else                                         // spear stance
+                {
+                    int dif = GameManager.Instance.SpearUpgradeLevel - GameManager.Instance.SwordUpgradeLevel;
+                    damageDealt = damageDealt + (int)(dif * 0.25f * damageDealt);
+                    //Debug.Log("** Spear Stance ** " + damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+                }
+            }
+
+            if (unit.CompareTag(GameManager.ALLY_TAG))
+            {
+                if (unit.target.unitController.isBoss)
+                {
+                    if (unit.target.Health <= unit.target.HealthMax / 10)
+                        damageDealt = damageDealt / 10;
+                    if (unit.target.Health <= unit.target.HealthMax / 20)
+                        damageDealt = damageDealt / 20;
+                    if (unit.target.Health <= unit.target.HealthMax / 30)
+                        damageDealt = 0;
+                }
+            }
+
+            //float softDamage = Random.Range(0, unit.Damage / 2) + Random.Range(0, unit.Damage / 2);
+            //int damageDealt = (int)(softDamage * Random.Range(1, currentAttack.DamageMultiplierMax));
+            //Debug.Log("Soft Damage = " + softDamage + " / Damage Dealth = " + damageDealt + " / DamageMultiplier = " + currentAttack.DamageMultiplierMax);
+
+            if (currentAttack.DamageMultiplierMax == 0)
+                Debug.LogError("DAMAGE MULTIPLIER OF ANIMATION IS NOT SET!");
+
+            hitTarget.unitController.TakeDamage(currentAttack, damageDealt, unit, dir);
+        }
+        else
+        {
+            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+        }*/
+        //////////////////////////////////////////////////
+        
         // TODO sortingManager 
         //GameManager.Instance.sortManager.BringToFront(this);
         GameManager.Instance.sortManager.ChangePlayerSortOnly(unit, unit.target);
 
-        int dir;
 
+        int dir;
         // i.e current unit is on the right, target is on the left, target will be pushed to left
         if (transform.position.x > unit.target.transform.position.x)
             dir = (int)MoveDirection.left;
@@ -207,7 +313,7 @@ public class UnitController : MonoBehaviour
             // temporary to calculate spear damage before implementing
             if (unit.CompareTag(GameManager.PLAYER_TAG))
             {
-                Debug.Log(damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+                //Debug.Log(damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
                 if(unit.currentStance == StanceList.Stand_A) // sword stance
                 {
                     
@@ -216,7 +322,20 @@ public class UnitController : MonoBehaviour
                 {
                     int dif = GameManager.Instance.SpearUpgradeLevel - GameManager.Instance.SwordUpgradeLevel;
                     damageDealt = damageDealt + (int)(dif * 0.25f * damageDealt);
-                    Debug.Log("** Spear Stance ** " + damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+                    //Debug.Log("** Spear Stance ** " + damageDealt + "\n Solid damage point = " + ((uint)unit.Damage) + " / Chance = " + chance);
+                }
+            }
+
+            if(unit.CompareTag(GameManager.ALLY_TAG))
+            {
+                if(unit.target.unitController.isBoss)
+                {
+                    if (unit.target.Health <= unit.target.HealthMax / 10)
+                        damageDealt = damageDealt / 10;
+                    if (unit.target.Health <= unit.target.HealthMax / 20)
+                        damageDealt = damageDealt / 20;
+                    if (unit.target.Health <= unit.target.HealthMax / 30)
+                        damageDealt = 0;
                 }
             }
 
@@ -256,25 +375,27 @@ public class UnitController : MonoBehaviour
 
     public void ProjectileRelease()
     {
-        GameObject projectile = Instantiate(unit.Projectile, unit.gameObject.transform);
         
-        Projectile tempProjectile = projectile.GetComponent<Projectile>();
+            GameObject projectile = Instantiate(unit.Projectile, unit.gameObject.transform);
         
-        // means its boss scythe
-        if (tempProjectile == null)
-            return;
+            Projectile tempProjectile = projectile.GetComponent<Projectile>();
+            
+            // means its boss scythe
+            if (tempProjectile == null)
+                return;
 
-        tempProjectile.projectileAttack = currentAttack;
+            tempProjectile.projectileAttack = currentAttack;
 
-        // means its a spear
-        if (tempProjectile.projectileType == ProjectileType.Spear)
-            tempProjectile.projectileAttachment = equipmentManager.equippedItems[ItemSlot.SecondaryWeapon].front[0];   // 0 is sword, 1 is spear
+            // means its a spear
+            if (tempProjectile.projectileType == ProjectileType.Spear)
+                tempProjectile.projectileAttachment = equipmentManager.equippedItems[ItemSlot.SecondaryWeapon].front[0];   // 0 is sword, 1 is spear
+            
+            if (equipmentManager.equippedItems[ItemSlot.SecondaryWeapon] != null)
+            {
+                spineSkeletonAnimation.skeleton.SetAttachment(equipmentManager.equippedItems[ItemSlot.SecondaryWeapon].front[0].SlotName, null);
+                equipmentManager.equippedItems[ItemSlot.SecondaryWeapon] = null;
+            }
 
-        if (equipmentManager.equippedItems[ItemSlot.SecondaryWeapon] != null)
-        {
-            spineSkeletonAnimation.skeleton.SetAttachment(equipmentManager.equippedItems[ItemSlot.SecondaryWeapon].front[0].SlotName, null);
-            equipmentManager.equippedItems[ItemSlot.SecondaryWeapon] = null;
-        }
 
         //currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
     }
@@ -289,9 +410,13 @@ public class UnitController : MonoBehaviour
     /// </summary>
     public virtual bool TakeDamage(CloseCombatAnimation attack,int DamageTaken, Unit attacker, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
-        if(blockTrigger)
+        if (unit.Health <= 0)
+            return false;
+
+        if(blockTrigger && (attack.attackType == AttackType.Casual || attack.attackType == AttackType.BigBossKnocked))
         {
-            if (unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
+            // You cannot defeat the demon lord, you should have surrendered when you can!
+            if (unit.target != null && unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
                 SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldBigMaceHit[Random.Range(0, SoundManager.Instance.ShieldBigMaceHit.Count)]);
             else
             {
@@ -327,18 +452,14 @@ public class UnitController : MonoBehaviour
 
         attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
 
-        if (unit.Health < 0)
-            return true;
-
-        if (attack.attackType == AttackType.Casual)
+        if (attack.attackType == AttackType.Casual || attack.attackType == AttackType.BigBossKnocked)
             unit.Health -= DamageTaken;
         else
             unit.Health -= (int)((float)DamageTaken / 10);
 
-        equipmentManager.ResetAttachments();
-
         if (unit.Health <= 0)
         {
+            equipmentManager.ResetAttachments();
             UnitDead(attack, attackDirection, projectileAttachment);
         }
         // This part is for bossess
@@ -350,12 +471,16 @@ public class UnitController : MonoBehaviour
             }
             else
             {
-                if(canBeStunned)
+                if(CompareTag(GameManager.DOUBLEAXEDEMON_TAG) || CompareTag(GameManager.BIG_DEMON_TAG))
+                {
+                    // not all bossess can be stunned
+                }
+                else if(canBeStunned)
                 {
                     unit.TurnTowardsTarget();
 
                     StopRoutine();
-                    StartCoroutine(StunnedFor(attack));
+                    StartCoroutine(StunnedFor(attack, attackDirection));
                 }
             }
         }
@@ -368,11 +493,11 @@ public class UnitController : MonoBehaviour
 
             if (CompareTag(GameManager.PLAYER_TAG))
             {
-                StartCoroutine(StunnedFor(attack));
+                StartCoroutine(StunnedFor(attack, attackDirection));
                 GameManager.Instance.PlayerHit(HitScreenEffectImage);
             }
             else
-                StartCoroutine(StunnedFor(attack, Random.Range(0, 0.25f)));
+                StartCoroutine(StunnedFor(attack, attackDirection, Random.Range(0, 0.25f)));
         }
 
         if (attack.attackType != AttackType.Kick && attack.attackType != AttackType.Shield)
@@ -399,7 +524,7 @@ public class UnitController : MonoBehaviour
         gameObject.layer = ((int)GameLayers.DeadUnit);
         rb2d.bodyType = RigidbodyType2D.Static;
 
-        if (isBoss)
+        if (isBoss && !CompareTag(GameManager.DUAL_SWORD_BOSS_TAG))
         {
             //canMove = false;
 
@@ -521,23 +646,36 @@ public class UnitController : MonoBehaviour
                 if (dropChance > 50)
                 {
                     goldAmount = 3;
-                    goldAmount -= Random.Range(0, 3);
-                    goldAmount += Random.Range(0, 4);
+                    goldAmount -= Random.Range(0, 2);
+                    goldAmount += Random.Range(0, 2);
                     GoldDrop(goldAmount);
                 }
             }
             else
             {
-                if (dropChance > 40)
+                if(dropChance > 90)
                 {
                     goldAmount = 6;
                     goldAmount -= Random.Range(0, 4);
                     goldAmount += Random.Range(0, 5);
                     GoldDrop(goldAmount);
                 }
+                else if (dropChance > 40)
+                {
+                    goldAmount = 3;
+                    goldAmount -= Random.Range(0, 2);
+                    goldAmount += Random.Range(0, 3);
+                    GoldDrop(goldAmount);
+                }
             }
         }
 
+        if(CompareTag(GameManager.DUAL_SWORD_BOSS_TAG))
+        {
+            GameObject finishLevelTrigger = RightWallPosition.GetChild(0).gameObject;
+            finishLevelTrigger.transform.position = new Vector3(GameManager.Instance.Player.transform.position.x + 7.7f, finishLevelTrigger.transform.position.y, 0);
+            finishLevelTrigger.SetActive(true);
+        }
 
         if (Unit.CompareTags(gameObject, GameManager.ENEMY_TAGS))
         {
@@ -546,6 +684,7 @@ public class UnitController : MonoBehaviour
             GameManager.Instance.LeftSpawn.Remove(gameObject);
 
             GameManager.Instance.KillCount++;
+            GameManager.Instance.EndlessKillCount++;
         }
         else
             GameManager.Instance.AllyUnits.Remove(unit);
@@ -816,21 +955,16 @@ public class UnitController : MonoBehaviour
 
     protected virtual IEnumerator ShieldedFor(float stallFor, float slideSpeed) { yield return null; }
 
-    protected IEnumerator StunnedFor(CloseCombatAnimation attack, float stallFor = 0)
+    protected IEnumerator StunnedFor(CloseCombatAnimation attack, int attackDirection, float stallFor = 0)
     {
         idleing = false;
 
         isAnimationStarted = true;                                      // prevents direction to become 0 and stop movement (for player)
 
         speed = 0f;                                                     // speed is now controlled by speed curve
-        
-        if(unit.target != null)
-        {
-            if (transform.position.x < unit.target.transform.position.x)  // if target is more on the right, unit direction is right
-                direction = MoveDirection.left;
-            else
-                direction = MoveDirection.right;
-        }
+
+        direction = (MoveDirection)attackDirection;
+        transform.localScale = attackDirection * transform.localScale.x < 0 ? transform.localScale : new Vector3(transform.localScale.x * -1, transform.localScale.y, transform.localScale.z);
 
         if(changeStance)
         {
@@ -847,7 +981,7 @@ public class UnitController : MonoBehaviour
         switch (attack.attackType)
         {
             case AttackType.Casual:
-                stunAnimation = unit.activeAnimations.Hurt as SpeedDependantAnimation;
+                stunAnimation = unit.activeAnimations.Hurts[Random.Range(0, 2)] as SpeedDependantAnimation;
                 transform.position = new Vector2(transform.position.x + attack.PushDistance * (int)direction, transform.position.y);
                 break;
             case AttackType.Kick:
@@ -971,7 +1105,7 @@ public class UnitController : MonoBehaviour
         {
             canBeStunned = false;
             // boss, can not be stunned continuously, there is a break between every stun
-            yield return new WaitForSeconds(Random.Range(5, 10));
+            yield return new WaitForSeconds(Random.Range(2, 5));
             canBeStunned = true;
         }
     }

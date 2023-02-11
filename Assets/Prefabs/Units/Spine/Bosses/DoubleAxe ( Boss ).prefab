@@ -280,8 +280,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb055212df92eec46adbd08d9626a94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArrowOnBody_Front: {fileID: 0}
-  ArrowOnBody_Back: {fileID: 0}
+  ArrowOnBody_Front: {fileID: 11400000, guid: faf8afe889bd1fc45bb85694d2f6ac3d, type: 2}
+  ArrowOnBody_Back: {fileID: 11400000, guid: e65f71d053017df4e8cfbe00f165d973, type: 2}
   startingItems:
   - {fileID: 11400000, guid: c619a937eb19dc3448dee9f1495b4cb3, type: 2}
   - {fileID: 11400000, guid: 3f081c21755637942983dbe247d6dd3a, type: 2}
@@ -303,9 +303,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Race: 0
   HealthBar: {fileID: 2138754366286635269}
-  HealthMax: 1500
+  HealthMax: 3500
   _Health: 0
-  Damage: 70
+  Damage: 100
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   unitController: {fileID: 811615884120174836}
   unitInventory: {fileID: 811615884120174842}
@@ -360,6 +360,7 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 3
   isBoss: 1
+  HitScreenEffectImage: {fileID: 0}
   kickDistance: 0
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
@@ -422,10 +423,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decbf2746fe035549804cc5c3341dde9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skelAnim: {fileID: 811615883575079751}
-  ShadowObject: {fileID: 811615883522706417}
-  HealthBar: {fileID: 1537038416828002500}
-  InGameMovements: []
   SpearmasterDead: {fileID: 11400000, guid: e4819a433a1b7e747b06740e6d6e5474, type: 2}
   SycthemasterDead: {fileID: 0}
   DoubleAxeDead: {fileID: 11400000, guid: 090030f2eaa27e14ca41d9053aad5fa9, type: 2}
@@ -572,11 +569,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
---- !u!1 &1537038416828002500 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5827938367165246382, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
-  m_PrefabInstance: {fileID: 5022735532156279658}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2138754366286635269 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6348446657146583663, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}

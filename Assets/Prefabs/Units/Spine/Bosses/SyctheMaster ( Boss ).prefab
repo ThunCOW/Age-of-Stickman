@@ -279,8 +279,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bb055212df92eec46adbd08d9626a94f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ArrowOnBody_Front: {fileID: 0}
-  ArrowOnBody_Back: {fileID: 0}
+  ArrowOnBody_Front: {fileID: 11400000, guid: faf8afe889bd1fc45bb85694d2f6ac3d, type: 2}
+  ArrowOnBody_Back: {fileID: 11400000, guid: e65f71d053017df4e8cfbe00f165d973, type: 2}
   startingItems:
   - {fileID: 11400000, guid: cfef3c2d1d1109142b4e937261f809d9, type: 2}
   - {fileID: 11400000, guid: 05a6c2596f95ae749bfb079d399d9883, type: 2}
@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab25f0df5f6b3254d99518efecd27ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Race: 0
+  Race: 1
   HealthBar: {fileID: 4957357575968501044}
   HealthMax: 3500
   _Health: 0
@@ -315,6 +315,7 @@ MonoBehaviour:
     BlockAttack: {fileID: 0}
     ResetSlots: {fileID: 0}
     Hurt: {fileID: 0}
+    Hurts: []
     Kicked: {fileID: 0}
     Slammed: {fileID: 0}
     KnockedDown: {fileID: 0}
@@ -358,6 +359,7 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 2
   isBoss: 1
+  HitScreenEffectImage: {fileID: 0}
   kickDistance: 0
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
@@ -420,10 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decbf2746fe035549804cc5c3341dde9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skelAnim: {fileID: 0}
-  ShadowObject: {fileID: 0}
-  HealthBar: {fileID: 0}
-  InGameMovements: []
   SpearmasterDead: {fileID: 0}
   SycthemasterDead: {fileID: 11400000, guid: 3ab41e44151146c47bf9d2443ca1cfa7, type: 2}
   DoubleAxeDead: {fileID: 0}

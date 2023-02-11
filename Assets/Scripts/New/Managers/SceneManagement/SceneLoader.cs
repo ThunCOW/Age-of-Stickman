@@ -18,6 +18,8 @@ public class SceneLoader : MonoBehaviour
     public GameObject MainMenuCanvas;
     public GameObject SettingsCanvas;
     public GameObject SettingsButton;
+    public GameObject SettingsButtonEndless;
+    public Button SaveButton;
     public Slider ProgressBar;
     
     [Space]
@@ -42,8 +44,6 @@ public class SceneLoader : MonoBehaviour
     public delegate void OnLevelLoaded();
     public static OnLevelLoaded LevelLoaded;
 
-    UnitHolder MainMenuPlayer;
-
     void Awake()
     {
         Instance = this;    
@@ -59,7 +59,9 @@ public class SceneLoader : MonoBehaviour
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_OpeningMenu);
+        SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_OpeningMenu, 0.5f);
+
+        GameManager.Instance.LoadDataAsJson();
     }
 
     // OpeningMenu -> New Game
@@ -73,43 +75,46 @@ public class SceneLoader : MonoBehaviour
         {
             GameManager.Instance.CreateFreshSaveData();
 
+            foreach(MercenaryUnit mu in MercenaryManager.Instance.Mercenaries)
+            {
+                mu.isUnlocked = false;
+            }
             OpenMainMenu();
-
-            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_MainMenu);
         }
     }
     // NewGameQ -> Yes
     public void ForceNewGame()
     {
         GameManager.Instance.CreateFreshSaveData();
+        GameManager.Instance.LoadDataAsJson();
+
+        GameManager.Instance.isGameOver = false;
+        if (ShopPanel_V2.ShopPanel.Instance != null)
+        {
+            ShopPanel_V2.ShopPanel.Instance.SetStartingItems();
+        }
 
         OpenMainMenu();
-
-        SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_MainMenu);
     }
     // OpeningMenu -> Continue
     public void OpenMainMenu()
     {
         GameManager.Instance.LoadDataAsJson();
-
+        GameManager.Instance.mainMenuPlayer.ChangeUnitEquipments(GameManager.Instance.mainMenuPlayer, GameManager.Instance.PlayerEquipments);
         SceneManager.LoadScene(MainMenu);
-
-        SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_MainMenu);
     }
     public void StartEndlessGame()
     {
         SceneManager.LoadScene(EndlessLevels[UnityEngine.Random.Range(0, EndlessLevels.Count)]);
-
-        OpeningMenuCanvas.SetActive(false);
     }
 
+    bool levelFinishedCheck;
     public void FinishLevel()
     {
         SceneManager.LoadScene(MainMenu);
+        levelFinishedCheck = true;
 
-
-        MainMenuCanvas.gameObject.SetActive(true);
-        OpenShopCanvas.onClick.Invoke();
+        //MainMenuCanvas.gameObject.SetActive(true);
 
         //LevelCanvas.SetActive(false);
 
@@ -127,7 +132,7 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance.Level++;
         
         DayText = Instantiate(DayTextPrefab, MainMenuCanvas.transform);
-
+        
         DayText.transform.GetChild(1).GetComponent<TMP_Text>().text = (GameManager.Instance.Level + 1).ToString();
 
         StartCoroutine(GameManager.Instance.TextAppearDisappearSlowly(DayText.transform.GetChild(0).gameObject, 2f, 4.5f, 0, 2, 4.5f));
@@ -160,25 +165,51 @@ public class SceneLoader : MonoBehaviour
     private GameObject DayText;
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(scene.name == "Main Menu A")
+        if(scene.name == "Main Menu A")                     // Story Mode Menu
         {
             OpeningMenuCanvas.SetActive(false);
             MainMenuCanvas.SetActive(true);
+            if (levelFinishedCheck)
+            {
+                OpenShopCanvas.onClick.Invoke();
+                levelFinishedCheck = false;
+            }
+            
             SettingsButton.SetActive(true);
+            SaveButton.interactable = true;
+
+            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_MainMenu, 0.3f);
         }
-        else if(scene.name == "Game Opening A")
+        else if(scene.name == "Game Opening A")             // Opening Menu
         {
             OpeningMenuCanvas.SetActive(true);
             MainMenuCanvas.SetActive(false);
             SettingsCanvas.SetActive(false);
             SettingsButton.SetActive(false);
+            SettingsButtonEndless.SetActive(false);
 
             Time.timeScale = 1;
+
+            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_OpeningMenu, 0.5f);
         }
-        else
+        else if(scene.name.Contains("Endless"))
+        {
+            OpeningMenuCanvas.SetActive(false);
+            SettingsButtonEndless.SetActive(true);
+            SaveButton.interactable = false;
+            GameManager.Instance.EndlessKillCount = 0;
+            GameManager.Instance.EndlessLive();
+
+            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_War_1, 0.2f);
+        }
+        else                                                // Level 
         {
             MainMenuCanvas.SetActive(false);
             SettingsCanvas.SetActive(false);
+            SettingsButton.SetActive(true);
+            GameManager.Instance.EndlessKillCount = -999;
+
+            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_War_1, 0.2f);
         }
     }
 }

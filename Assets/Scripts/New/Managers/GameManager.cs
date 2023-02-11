@@ -94,7 +94,7 @@ namespace SpineControllerVersion
 
         public static List<string> ENEMY_TAGS = new List<string> { ENEMY_TAG, ENEMY_CHARGER_TAG, SPEARMASTER_TAG, SCYTHEMASTER_TAG, BIG_DEMON_TAG, DOUBLEAXEDEMON_TAG, DUAL_SWORD_BOSS_TAG };
         public static List<string> ALLY_TAGS = new List<string> { ALLY_TAG, PLAYER_TAG };
-
+        public static List<string> BOSS_TAGS = new List<string> { SPEARMASTER_TAG, SCYTHEMASTER_TAG, DOUBLEAXEDEMON_TAG, DUAL_SWORD_BOSS_TAG};
 
 
 
@@ -151,6 +151,8 @@ namespace SpineControllerVersion
         [SerializeField] private List<Item> DefaultEquipments;
 
         public SpearPickup Green_Elf_Boss_Spear;
+        [HideInInspector] public bool isRightMercSlotUnlocked;
+        [HideInInspector] public bool isLeftMercSlotUnlocked;
 
         private PlayerControls _PlayerControls;
         public PlayerControls PlayerControls
@@ -170,6 +172,25 @@ namespace SpineControllerVersion
         
         public UnitHolder mainMenuPlayer;
 
+        private int _endlessKillCount;
+        public int EndlessKillCount
+        {
+            get { return _endlessKillCount; }
+            set
+            {
+                _endlessKillCount = value;
+
+                if (KillCounter.Instance != null)
+                    KillCounter.Instance.Kill();
+
+                if (EndlessKillCount > 50)
+                {
+                    AchivementSO ach = AchievementSystem.GetAchievementSO(AchievementIds.Bloodbath);
+                    if (!(ach as AchievementByEvent).isUnlocked)
+                        (ach as AchievementByEvent).isUnlocked = true;
+                }
+            }
+        }
         private int _killCount;
         public int KillCount
         {
@@ -177,21 +198,16 @@ namespace SpineControllerVersion
             set
             {
                 _killCount = value;
-                if (KillCounter.Instance != null)
-                    KillCounter.Instance.Kill();
+                
                 
                 AchivementSO ach1 = AchievementSystem.GetAchievementSO(AchievementIds.TasteOfBlood);
                 if (!(ach1 as AchievementByEvent).isUnlocked)
                     (ach1 as AchievementByEvent).isUnlocked = true;
 
                 AchivementSO ach2 = AchievementSystem.GetAchievementSO(AchievementIds.ToHellAndBack);
-                (ach2 as AchievementByCounter).currentAmount++;
-
-                AchivementSO ach3 = AchievementSystem.GetAchievementSO(AchievementIds.Bloodbath);
-                if(KillCount > 50)
+                if((ach2 as AchievementByCounter).currentAmount < (ach2 as AchievementByCounter).requiredAmount)
                 {
-                    if (!(ach3 as AchievementByEvent).isUnlocked)
-                        (ach3 as AchievementByEvent).isUnlocked = true;
+                    (ach2 as AchievementByCounter).currentAmount++;
                 }
             }
         }
@@ -227,11 +243,12 @@ namespace SpineControllerVersion
         public TMP_Text PlayerLivesText;
         public GameObject BuyLiveButton;
         public int DeathCount;
-
+        public bool isGameOver;
 
         [Header("_Gold Variables_")]
 
         public List<AudioClip> CoinClickingAfterLevel;
+        public int TotalGoldGained;
         int _goldGained;
         public int GoldGained
         {
@@ -240,6 +257,7 @@ namespace SpineControllerVersion
             {
                 if(value == 0)
                 {
+                    TotalGoldGained += value;
                     GoldChange(GoldGained, 1.5f);
                     
                     if(GoldGained != 0) SoundManager.Instance.PlayEffect(CoinClickingAfterLevel[Random.Range(0, CoinClickingAfterLevel.Count)]);
@@ -307,6 +325,7 @@ namespace SpineControllerVersion
         public int Level;
 
         public GameObject TextBoxPrefab;
+        public GameObject TextBoxGreenPrefab;
 
         public string DoubleAxeText_1;
         public string BigDemonText_1;
@@ -317,6 +336,7 @@ namespace SpineControllerVersion
         public AudioClip Soundtrack_OpeningMenu;
         public AudioClip Soundtrack_MainMenu;
         public AudioClip Soundtrack_War_1;
+        public AudioClip Soundtrack_Boss_1;
 
         [Space]
         public AudioClip PortalOpeningSFX;
@@ -348,21 +368,21 @@ namespace SpineControllerVersion
         {
             mainMenuPlayer.ChangeUnitEquipments(mainMenuPlayer, PlayerEquipments);
 
-            Color c = Color.white;
             if (FileManager.LoadFromFile(out var json))
             {
-                c.a = 1;
-                ContinueImage.color = c;
+                LoadDataAsJson();
+                if(!isGameOver)
+                    ContinueButton.interactable = true;
+                else
+                    ContinueButton.interactable = false;
             }
             else
             {
-                c.a = 0.4f;
-                ContinueImage.color = c;
+                ContinueButton.interactable = false;
             }
         }
         [Header("Opening Menu")]
-        [SerializeField] private Image ContinueImage;
-
+        [SerializeField] private Button ContinueButton;
 
 
 
@@ -623,16 +643,20 @@ namespace SpineControllerVersion
             // Start Changing Alpha
             while (wait > 0)
             {
-                wait -= Time.deltaTime;
+                try
+                {
+                    wait -= Time.deltaTime;
 
-                //float percentage = waitUntilFullAlpha == 0 ? (wait / disappearTime) * 0.65f : (wait / disappearTime);
-                float percentage = waitUntilFullAlpha == 0 ? 1 : (lifetime - wait) / waitUntilFullAlpha;
-                percentage = percentage > 1 ? 1 : percentage;
+                    //float percentage = waitUntilFullAlpha == 0 ? (wait / disappearTime) * 0.65f : (wait / disappearTime);
+                    float percentage = waitUntilFullAlpha == 0 ? 1 : (lifetime - wait) / waitUntilFullAlpha;
+                    percentage = percentage > 1 ? 1 : percentage;
 
-                tempColor.a = percentage;
-                tempImage.color = tempColor;
+                    tempColor.a = percentage;
+                    tempImage.color = tempColor;
 
-                ImageSpawn.transform.position = new Vector3(ImageSpawn.transform.position.x + (speed * Time.deltaTime), ImageSpawn.transform.position.y, ImageSpawn.transform.position.z);
+                    ImageSpawn.transform.position = new Vector3(ImageSpawn.transform.position.x + (speed * Time.deltaTime), ImageSpawn.transform.position.y, ImageSpawn.transform.position.z);
+                }
+                catch { break; }
 
                 yield return new WaitForFixedUpdate();
             }
@@ -702,6 +726,10 @@ namespace SpineControllerVersion
 
             SoundManager.Instance.PlayEffect(CoinClicking);
         }
+        public void EndlessLive()
+        {
+            PlayerLives = 3;
+        }
 
         public void PlayerHit(Image image)
         {
@@ -731,10 +759,19 @@ namespace SpineControllerVersion
 
         public void GameOver()
         {
+            StartCoroutine(GameOverScreen());
+            ContinueButton.interactable = false;
+            isGameOver = true;
+            SaveDataAsJson();
+        }
+
+        IEnumerator GameOverScreen()
+        {
+            yield return new WaitForSeconds(1.5f);
             GameObject parent = Instantiate(GameOverCanvasPrefab);
 
-            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(0).gameObject, 1.25f, 5, 0));
-            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(1).gameObject, 3, 3, 0));
+            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(0).gameObject, 1.25f * 1.5f, 5 * 1.25f, 0));
+            StartCoroutine(ImageAppearSlowly(parent.transform.GetChild(1).gameObject, 3 * 2, 3 * 2, 0));
         }
 
         void LevelLoaded()
@@ -782,7 +819,6 @@ namespace SpineControllerVersion
         public void SaveDataAsJson()
         {
             SaveData sd = new SaveData();
-            SaveRecords sr = new SaveRecords();
             
             if (PopulateSaveData(sd))
                 FileManager.WriteToFile(sd.ToJson());
@@ -801,9 +837,14 @@ namespace SpineControllerVersion
 
             a_SaveData.PlayerLives = PlayerLives;
             a_SaveData.DeathCount = DeathCount;
+            a_SaveData.isGameOver = isGameOver;
+
             a_SaveData.Gold = Gold;
 
             a_SaveData.Level = Level;
+
+            a_SaveData.isLeftMercUnlocked = MercenaryManager.Instance.Mercenaries[0].isUnlocked;
+            a_SaveData.isRightMercUnlocked = MercenaryManager.Instance.Mercenaries[1].isUnlocked;
 
             //foreach (MercenaryUnit mercenaryUnit in MercenaryManager.Instance.Mercenaries)
             //    a_SaveData.Mercenaries.Add(mercenaryUnit.CurrentMercenary);
@@ -849,10 +890,15 @@ namespace SpineControllerVersion
 
             PlayerLives = a_SaveData.PlayerLives;
             DeathCount = a_SaveData.DeathCount;
+            isGameOver = a_SaveData.isGameOver;
+
             Gold = a_SaveData.Gold;
 
             Level = a_SaveData.Level;
 
+            MercenaryManager.Instance.Mercenaries[0].isUnlocked = a_SaveData.isLeftMercUnlocked;
+            MercenaryManager.Instance.Mercenaries[1].isUnlocked = a_SaveData.isRightMercUnlocked;
+            
             //for (int i = 0; i < a_SaveData.Mercenaries.Count; i++)
             //    MercenaryManager.Instance.Mercenaries[i].CurrentMercenary = a_SaveData.Mercenaries[i];
 
@@ -894,12 +940,15 @@ namespace SpineControllerVersion
 
             a_SaveData.PlayerLives = 3;
             a_SaveData.DeathCount = 0;
+            a_SaveData.isGameOver = false;
 
             a_SaveData.Gold = 0;
 
             a_SaveData.Level = 0;
 
-            a_SaveData.IsSpearmasterDead = false;
+            //a_SaveData.IsSpearmasterDead = false;
+            a_SaveData.isLeftMercUnlocked = false;
+            a_SaveData.isRightMercUnlocked = false;
 
             List<MercenarySave> tempMercSaveList = new List<MercenarySave>();
             MercenarySave tempMercSave = new MercenarySave();
@@ -922,46 +971,6 @@ namespace SpineControllerVersion
             a_SaveData.ArcherUnitLevel= 1;
 
             return true;
-        }
-
-        /*************************
-         * Records and Ach
-        */
-        public bool PopulateSaveRecords(SaveRecords a_SaveRecords)
-        {
-            a_SaveRecords.KillCount = KillCount;
-
-            return true;
-        }
-        public void SaveRecordsAndAchAsJson()
-        {
-            SaveRecords sr = new SaveRecords();
-
-            if (PopulateSaveRecords(sr))
-                FileManager.WriteToFile(sr.ToJson());
-            else
-                Debug.LogError("Failed to save RecordsAndAch");
-        }
-        public void ReadFromSaveRecords(SaveRecords a_SaveRecords)
-        {
-            KillCount = a_SaveRecords.KillCount;
-        }
-        public void ReadRecordsAndAchAsJson()
-        {
-            /*if (FileManager.LoadFromFile(out var json))
-            {
-                SaveData sd = new SaveData();
-                sd.LoadFromJson(json);
-
-                LoadFromSaveData(sd);
-            }
-            else
-            {
-                // No save is found, new game
-                CreateFreshSaveData();
-
-                LoadDataAsJson();
-            }*/
         }
         void OnApplicationQuit()
         {
@@ -1042,8 +1051,12 @@ namespace SpineControllerVersion
 
         void ChangeSort(Unit unit)
         {
-            int newOrder = sortingOrder.IndexOf(unit);
-            unit.GetComponentInChildren<MeshRenderer>().sortingOrder = newOrder;
+            try
+            {
+                int newOrder = sortingOrder.IndexOf(unit);
+                unit.GetComponentInChildren<MeshRenderer>().sortingOrder = newOrder;
+            }
+            catch { }
         }
     }
 }

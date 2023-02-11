@@ -18,7 +18,7 @@ public class KillCounter : MonoBehaviour
     public void Kill()
     {
         if (KillCount_Text != null)
-            KillCount_Text.text = GameManager.Instance.KillCount.ToString();
+            KillCount_Text.text = GameManager.Instance.EndlessKillCount.ToString();
     }
 
     void OnDestroy()

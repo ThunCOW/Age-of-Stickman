@@ -6,6 +6,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using SpineControllerVersion;
 using static UnityEngine.UI.CanvasScaler;
+using UnityEngine.SceneManagement;
 
 public class Tutorial : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Tutorial : MonoBehaviour
     {
         playerController = unit.unitController as PlayerController;
 
-        if(GameManager.Instance.Level == 0)
+        if(SceneManager.GetActiveScene().name == "Level 1")
         {
             BasicControlsSelectionScreen();
         }

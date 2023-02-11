@@ -1,3 +1,4 @@
+using SpineControllerVersion;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,7 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
+    private float MaxVolume;
     private int _MusicVolume;
     public int MusicVolume
     {
@@ -14,10 +16,9 @@ public class SoundManager : MonoBehaviour
         {
             _MusicVolume = value;
 
-            musicSource.volume = ((float)_MusicVolume / (float)8) * 0.1f;
+            musicSource.volume = ((float)_MusicVolume / (float)8) * MaxVolume;
         }
     }
-
     private int _SFXVolume;
     public int SFXVolume
     {
@@ -57,8 +58,11 @@ public class SoundManager : MonoBehaviour
         effectSource.PlayOneShot(clip);
     }
 
-    public void PlayMusicOnLoop(AudioClip clip)
+    public void PlayMusicOnLoop(AudioClip clip, float maxVolume = 0.1f)
     {
+        MaxVolume = maxVolume;
+        MusicVolume = MusicVolume;
+
         musicSource.clip = clip;
         musicSource.Play();
     }
@@ -66,6 +70,28 @@ public class SoundManager : MonoBehaviour
     public void PlayMusic(AudioClip clip)
     {
         musicSource.PlayOneShot(clip);
+    }
+    public void PlayBossMusic()
+    {
+        StartCoroutine(TurnMusicDownTimed());
+    }
+
+    public void TurnMusicDown()
+    {
+        //StartCoroutine(TurnMusicDownTimed());
+    }
+    IEnumerator TurnMusicDownTimed()
+    {
+        float countDown = 0.5f;
+        while (countDown > 0)
+        {
+            countDown -= Time.deltaTime;
+            float currentMusicVol = ((float)_MusicVolume / (float)8) * MaxVolume;
+            musicSource.volume = currentMusicVol * countDown;
+            yield return new WaitForFixedUpdate();
+        }
+
+        PlayMusicOnLoop(GameManager.Instance.Soundtrack_Boss_1, 0.3f);
     }
 }
 

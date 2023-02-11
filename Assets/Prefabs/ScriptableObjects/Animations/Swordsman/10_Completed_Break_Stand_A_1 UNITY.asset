@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Break_Stand_A_1 UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: ac37e7bb377484c40be29497cf08dbd1, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 7da6906f977c33c48861f846a37ecc29, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Break_Stand_A_1 UNITY
   speedCurve:
@@ -23,10 +24,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
   attackType: 1
   animationMovementType: 0
   DamageMultiplierMax: 1
-  Reach: 1.55
+  Reach: 2
+  MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: 0

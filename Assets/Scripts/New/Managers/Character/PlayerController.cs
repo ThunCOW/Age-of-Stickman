@@ -71,6 +71,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     [Space]
     [SerializeField] SpeedDependantAnimation ResurrectAnimation;
+    [SerializeField] SpeedDependantAnimation ResurrectAnimationSpear;
     public static bool isWaitingForRes;
 
     protected override void OnValidate()
@@ -91,6 +92,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     protected override void Start()
     {
         base.Start();
+
+        LiveAmount.text = GameManager.Instance.PlayerLives.ToString();
 
         GameManager.Instance.Player = unit;
 
@@ -115,10 +118,15 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         //SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference, unit.activeAnimations.MovementBackward.SpineAnimationReference, 0);
         SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.idle.SpineAnimationReference, 0);
-
+        
         for (int i = 0; i < unit.activeAnimations.BreakStance.Count; i++)
         {
             SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
+        }
+
+        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+        {
+            JoystickControls.transform.parent.gameObject.SetActive(false);
         }
     }
 
@@ -145,7 +153,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     protected override void CharacterControls()
     {
-        KeyboardControls();
+        if(Application.platform == RuntimePlatform.WindowsEditor)
+            KeyboardControls();
 
         if(!isWeaponBeingSwapped)
         {
@@ -226,7 +235,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             }
             if(gameObject.transform.position.x >= RightWallPosition.position.x + 2.5f)
             {
-                if(GameManager.Instance.EnemyUnits.Count > 0)
+                if(GameManager.Instance.EnemyUnits.Count > 0 || !RightWallPosition.GetChild(0).gameObject.activeSelf)
                 {
                     if (direction == MoveDirection.right)
                         direction = MoveDirection.waiting;
@@ -481,8 +490,17 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         yield return new WaitForSeconds(3);
 
         // Resurrect Animation
-        TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimation.SpineAnimationReference, false);
-        StartCoroutine(SpeedDuringAnimation(trackEntry, ResurrectAnimation.speedCurve));
+        spineSkeletonAnimation.state.SetAnimation(2, "10_Completed/ResEffect", false);
+        if(unit.currentStance == StanceList.Stand_A)
+        {
+            TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimation.SpineAnimationReference, false);
+            StartCoroutine(SpeedDuringAnimation(trackEntry, ResurrectAnimation.speedCurve));
+        }
+        else
+        {
+            TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, ResurrectAnimationSpear.SpineAnimationReference, false);
+            StartCoroutine(SpeedDuringAnimation(trackEntry, ResurrectAnimationSpear.speedCurve));
+        }
 
         yield return new WaitForSeconds(0.6f);
         // Wait until resurrection animation ends
@@ -635,9 +653,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             }
             else
             {
-                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.BlockAttack.SpineAnimationReference, false);
+                TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.BlockWeaponSwap.SpineAnimationReference, false);
 
-                trackEntry.TrackTime = trackTime / 30;
+                //trackEntry.TrackTime = trackTime / 30;
             }
         }
     }
@@ -650,6 +668,8 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         DefendButtonCoroutine = null;
         isWeaponSwapOrThrowButtonDown = false;
         isWeaponBeingSwapped = false;
+        
+        spineSkeletonAnimation.state.SetAnimation(2, "10_Completed/ResetSkeleton", false);
     }
     protected override void ReStartCoroutines()
     {
@@ -1212,10 +1232,9 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     {
         yield return new WaitForSpineAnimationComplete(trackEntry);
 
-
         isWeaponBeingSwapped = false;
 
-        spineSkeletonAnimation.state.SetAnimation(2, unit.activeAnimations.ResetSlots.SpineAnimationReference, false);
+        spineSkeletonAnimation.state.SetAnimation(2, "10_Completed/ResetSkeleton", false);
 
         EndOfAnimation();
         
@@ -1258,11 +1277,16 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
                 StartCoroutine(SpeedDuringAnimation(trackEntry, null));
                 
                 currentAttack = unit.activeAnimations.ProjectileAttack[Random.Range(0, 2)] as CloseCombatAnimation;
-
+                
                 changeStance = true;
 
                 StartCoroutine(SpearThrown(trackEntry));
 
+                isWeaponBeingSwapped = true;
+
+                TrackEntry trackEntry2 = spineSkeletonAnimation.state.SetAnimation(2, "10_Completed/Attack_ThrowSpearSwapSword", false);
+
+                StartCoroutine(SwapWeapon(trackEntry2));
                 //if (currentAttack.ShadowAnimation != null)
                 //    ShadowAnimator.Play(currentAttack.ShadowAnimation.name);
             }

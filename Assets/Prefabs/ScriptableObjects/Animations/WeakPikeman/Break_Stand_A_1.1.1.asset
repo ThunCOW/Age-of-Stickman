@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Farmer
   AnimationName: Break_Stand_A_1.1.1
-  SpineAnimationReference: {fileID: 11400000, guid: cdd197b713ddc05499309e71fa968371, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 8c56ea0a18dcbdb49a93cbeadd5c19e4, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Farmer
   _AnimationNameChangeCheck: Break_Stand_A_1.1.1
   speedCurve:
@@ -29,7 +30,7 @@ MonoBehaviour:
   attackType: 0
   animationMovementType: 0
   DamageMultiplierMax: 1
-  Reach: 1.6
+  Reach: 2
   MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 0

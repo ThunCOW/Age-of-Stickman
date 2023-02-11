@@ -18,7 +18,7 @@ public class DayCycleManager : MonoBehaviour
     [Space]
     [SerializeField] RectTransform swordPointer_rect;
 
-    int[] bossLevels = { 7, 18, 20, 25 };
+    int[] bossLevels = { 7, 10, 18, 22, 28 };
     List<Day> days= new List<Day>();
 
     Color transparent;
@@ -55,7 +55,7 @@ public class DayCycleManager : MonoBehaviour
         int i = 0;
         int dayVal = GameManager.Instance.Level;
 
-        Debug.Log(dayVal + " " + SceneLoader.Instance.Levels.Count);
+        //Debug.Log(dayVal + " " + SceneLoader.Instance.Levels.Count);
         if(dayVal + 3 > SceneLoader.Instance.Levels.Count)
         {
             i = SceneLoader.Instance.Levels.Count - 3;
@@ -71,7 +71,7 @@ public class DayCycleManager : MonoBehaviour
             }
 
             int dif = (dayVal + 3) % SceneLoader.Instance.Levels.Count;
-            Debug.Log(dif);
+            //Debug.Log(dif);
 
             days[dif - 1].Day_Text.color = transparent;
             days[dif - 1].DayValue_Text.color = transparent;
@@ -139,6 +139,12 @@ public class DayCycleManager : MonoBehaviour
                 dayVal++;
             }
         }
+    }
+
+    void OnEnable()
+    {
+        if(days.Count != 0)
+            SetCycle();
     }
 
     [System.Serializable]

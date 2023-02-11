@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Big_Stickman
   AnimationName: Attack_Kick
-  SpineAnimationReference: {fileID: 11400000, guid: bb757067ac1402349a40c2442f97a903, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 747b0e6b5a02b874ca3facbe68f8a5f0, type: 2}
   ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Big_Stickman
   _AnimationNameChangeCheck: Attack_Kick
@@ -27,10 +27,10 @@ MonoBehaviour:
   Keys: 
   Values: []
   SetupKeys: 0
-  attackType: 3
+  attackType: 1
   animationMovementType: 0
   DamageMultiplierMax: 1
-  Reach: 2
+  Reach: 3.5
   MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 0

@@ -10,6 +10,8 @@ namespace ShopPanel_V2
 {
     public class ShopPanel : MonoBehaviour
     {
+        public static ShopPanel Instance;
+
         [SerializeField] ShopScroll ShopScrollActions;
         
         [Header("____________Slot Script Assignment_________")]
@@ -35,8 +37,10 @@ namespace ShopPanel_V2
         public Dictionary<ShopItemCategory, List<ShopItemVariables>> _ItemUpgradeDict = new Dictionary<ShopItemCategory, List<ShopItemVariables>>();
 
 
-        void Start()
+        void Awake()
         {
+            Instance = this;
+
             // animation prevents making changes on X axis so shop is under a parent GO
             RectTransform parentRect = transform.parent.GetComponent<RectTransform>();
             Animator animator = GetComponent<Animator>();
@@ -205,6 +209,9 @@ namespace ShopPanel_V2
 
         public void SetStartingItems()
         {
+            ArmorUpgrade.GetComponent<Button>().enabled = true;
+            SwordUpgrade.GetComponent<Button>().enabled = true;
+            ShieldUpgrade.GetComponent<Button>().enabled = true;
             foreach (Item item in GameManager.Instance.PlayerEquipments)
             {
                 var lastItemIndex = 0;
@@ -296,6 +303,7 @@ namespace ShopPanel_V2
             }
             else
             {
+                SpearUpgrade.GetComponent<Button>().enabled = true;
                 SpearUpgrade.SetShopItem(SpearList[GameManager.Instance.SpearUpgradeLevel]);
             }
 
@@ -313,6 +321,7 @@ namespace ShopPanel_V2
             }
             else
             {
+                SwordsmanUpgrade.GetComponent<Button>().enabled = true;
                 SwordsmanUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Swordsman][GameManager.Instance.SwordsmanUnitLevel]);
             }
 
@@ -325,6 +334,7 @@ namespace ShopPanel_V2
             }
             else
             {
+                SpearsmanUpgrade.GetComponent<Button>().enabled = true;
                 SpearsmanUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Spearsman][GameManager.Instance.SpearsmanUnitLevel]);
             }
 
@@ -337,13 +347,15 @@ namespace ShopPanel_V2
             }
             else
             {
+
+                ArcherUpgrade.GetComponent<Button>().enabled = true;
                 ArcherUpgrade.SetShopItem(_ItemUpgradeDict[ShopItemCategory.Archer][GameManager.Instance.ArcherUnitLevel]);
             }
         }
 
         void OnEnable()
         {
-            //ShopScrollActions.Init(, );
+            ShopScrollActions.ResetPosition();
         }
     }
 
@@ -371,8 +383,12 @@ namespace ShopPanel_V2
         public float TimeTakeToClose;
         public AnimationCurve ClosingPositionCurve;
 
+        [Space]
+        public AudioClip ScrollOpeningSFX;
+        public AudioClip ScrollCloseingSFX;
 
         RectTransform shopRect;
+        [Space]
         public Animator animator;
 
         float moveDist;
@@ -386,15 +402,14 @@ namespace ShopPanel_V2
 
             moveDist = (Mathf.Abs(v.x - v2.x) * 215.73f)/2 + 21;
 
+            this.shopRect = shopRect;
+            
             if (Screen.width == 1920 || Screen.width == 2560)
                 animator.Play(Idle1920.name);
             else if (Screen.width == 2160 || Screen.width == 2960)
                 animator.Play(Idle2160.name);
             else
-            {
-                this.shopRect = shopRect;
                 this.shopRect.anchoredPosition = new Vector2(-moveDist, shopRect.anchoredPosition.y);
-            }
         }
 
         public void Open()
@@ -405,6 +420,8 @@ namespace ShopPanel_V2
                 animator.Play(Open2160.name);
             else
                 OpenScroll();
+
+            SoundManager.Instance.PlayEffect(ScrollOpeningSFX);
         }
         public void Close()
         {
@@ -414,21 +431,31 @@ namespace ShopPanel_V2
                 animator.Play(Close2160.name);
             else
                 CloseScroll();
+
+            SoundManager.Instance.PlayEffect(ScrollCloseingSFX);
         }
         public void OpenScroll()
         {
             animator.Play(OpenMix.name);
             float startPos = -moveDist;
-            float newPos = moveDist;
-            GameManager.Instance.StartCoroutine(MoveScrollToMiddle(OpeningPositionCurve, TimeTakeToOpen, startPos, newPos));
+            float posChange = moveDist;
+            GameManager.Instance.StartCoroutine(MoveScrollToMiddle(OpeningPositionCurve, TimeTakeToOpen, startPos, posChange));
         }
-
+        public void ResetPosition()
+        {
+            if (Screen.width == 1920 || Screen.width == 2560)
+                animator.Play(Idle1920.name);
+            else if (Screen.width == 2160 || Screen.width == 2960)
+                animator.Play(Idle2160.name);
+            else
+                shopRect.anchoredPosition = new Vector2(-moveDist, shopRect.anchoredPosition.y);
+        }
         public void CloseScroll()
         {
             animator.Play(CloseMix.name);
             float startPos = 0;
-            float newPos = -moveDist;
-            GameManager.Instance.StartCoroutine(MoveScrollToMiddle(ClosingPositionCurve, TimeTakeToClose, startPos, newPos));
+            float posChange = -moveDist;
+            GameManager.Instance.StartCoroutine(MoveScrollToMiddle(ClosingPositionCurve, TimeTakeToClose, startPos, posChange));
         }
 
         public IEnumerator MoveScrollToMiddle(AnimationCurve animationCurve, float duration, float startPos,float moveDist)

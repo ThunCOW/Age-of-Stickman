@@ -36,7 +36,7 @@ public class AllyController : AIController
         {
             if (transform.position.x < GameManager.Instance.Player.transform.position.x)
             {
-                if (transform.position.x < GameManager.Instance.SceneViewBordersParent.transform.GetChild(0).transform.position.x)
+                if (transform.position.x < GameManager.Instance.SceneViewBordersParent.transform.GetChild(0).transform.position.x && unit.target == null)
                 {
                     speed = 5;
                     return;
@@ -48,7 +48,7 @@ public class AllyController : AIController
             }
             else if (transform.position.x > GameManager.Instance.Player.transform.position.x)
             {
-                if (transform.position.x > GameManager.Instance.SceneViewBordersParent.transform.GetChild(1).transform.position.x)
+                if (transform.position.x > GameManager.Instance.SceneViewBordersParent.transform.GetChild(1).transform.position.x && unit.target == null)
                 {
                     speed = 5;
                     return;
@@ -96,12 +96,43 @@ public class AllyController : AIController
     protected override IEnumerator AIActionDecision(float waitTime = 0)
     {
         while (GameManager.Instance.DisableControls)
-            yield return null;
+        {
+            if (Mathf.Abs(transform.position.x - GameManager.Instance.Player.transform.position.x) <= DistanceToPlayer)
+            {
+                if (spineSkeletonAnimation.state.GetCurrent(1).Animation == unit.activeAnimations.Movement.SpineAnimationReference.Animation)
+                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+
+                if (spineSkeletonAnimation.state.GetCurrent(1).Animation != unit.activeAnimations.idle.SpineAnimationReference.Animation)
+                    spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+
+                yield return new WaitForSeconds(Random.Range(0, 0.5f));
+
+                continue;
+            }
+
+            if (spineSkeletonAnimation.state.GetCurrent(1).Animation != unit.activeAnimations.Movement.SpineAnimationReference.Animation)
+                spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true).TimeScale = 1f;
+
+            directionToPlayer = transform.position.x > GameManager.Instance.Player.transform.position.x ? MoveDirection.left : MoveDirection.right;
+
+            transform.position = new Vector3(transform.position.x + ((int)directionToPlayer * speed) * Time.deltaTime, transform.position.y, transform.position.z);
+            if (directionToPlayer == MoveDirection.right)
+            {
+                if (transform.position.x > GameManager.Instance.Player.transform.position.x - DistanceToPlayer)
+                    transform.position = new Vector2(GameManager.Instance.Player.transform.position.x - DistanceToPlayer + 0.05f, transform.position.y);
+            }
+            else if (directionToPlayer == MoveDirection.left)
+            {
+                if (transform.position.x < GameManager.Instance.Player.transform.position.x + DistanceToPlayer)
+                    transform.position = new Vector2(GameManager.Instance.Player.transform.position.x + DistanceToPlayer - 0.05f, transform.position.y);
+            }
+
+            GetUnitDirectionTowardsPlayer();
+
+            yield return new WaitForFixedUpdate();
+        }
 
         yield return new WaitForSeconds(waitTime);
-
-        while (GameManager.Instance.DisableControls)
-            yield return null;
 
         // Ally units are constantly attacking, if there is no target they will move to their determined position behind player
         if (unit.target != null)
@@ -162,15 +193,13 @@ public class AllyController : AIController
 
     public override bool TakeDamage(CloseCombatAnimation attack, int DamageTaken, Unit attacker, int attackDirection = 0, bool isProjectile = false, SpineAttachment projectileAttachment = null)
     {
-        unit.Health -= DamageTaken;
-
-        if (unit.Health <= 0)
+        if (unit.Health - DamageTaken <= 0)
         {
             MercenaryDead(mercenaryUnit, this);
 
             MercenaryDead -= MercenaryManager.Instance.MercenaryDead;
         }
         
-        return base.TakeDamage(attack, 0, attacker, attackDirection, isProjectile, projectileAttachment);
+        return base.TakeDamage(attack, DamageTaken, attacker, attackDirection, isProjectile, projectileAttachment);
     }
 }

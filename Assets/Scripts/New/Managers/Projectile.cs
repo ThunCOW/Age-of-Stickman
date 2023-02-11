@@ -94,6 +94,7 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    bool isDestroyed;
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision != null)
@@ -104,13 +105,13 @@ public class Projectile : MonoBehaviour
 
                 Unit enemyUnit = collision.GetComponent<Unit>();
 
-                bool isDestroyed;
-                if(ProjectileDamage(enemyUnit, out isDestroyed))
+                if(!isDestroyed && ProjectileDamage(enemyUnit, out isDestroyed))
                 {
                     boxcol2d.enabled = false;
                     // Hit connected, can delete the arrow
                     if(isDestroyed)
                     {
+                        boxcol2d.enabled = false;
                         Destroy(gameObject);
                     }
                     else

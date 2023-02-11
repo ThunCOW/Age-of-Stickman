@@ -97,9 +97,49 @@ public class Unit : MonoBehaviour
         //animationList.OnStart();
         activeAnimations = animationList.GetActiveAnimationsByStance(currentStance);
 
-        StartCoroutine(InitializeClosestUnitSearch());
+        //if (CompareTags(gameObject, GameManager.BOSS_TAGS))
+        //    StartCoroutine(InitializeBossTargeting());
+        //else
+            StartCoroutine(InitializeClosestUnitSearch());
+    }
+    private IEnumerator InitializeBossTargeting(float waitTime = 0)
+    {
+        yield return new WaitForSeconds(waitTime);
+
+        FindClosestUnit();
+
+        if (target == null)
+        {
+            StartCoroutine(InitializeBossTargeting(Random.Range(0.1f, 0.25f)));
+        }
+        else
+        {
+            TurnTowardsTarget();
+            StartCoroutine(TargetRandomEnemy());
+        }
     }
 
+    public IEnumerator TargetRandomEnemy(float waitTime = 0)
+    {
+        target = GameManager.Instance.AllyUnits[Random.Range(0, GameManager.Instance.AllyUnits.Count)];
+
+        while (waitTime > 0)
+        {
+            waitTime -= Time.deltaTime;
+
+            // target died
+            if(target.Health <= 0)
+            {
+                target = GameManager.Instance.AllyUnits[Random.Range(0, GameManager.Instance.AllyUnits.Count)];
+                StartCoroutine(TargetRandomEnemy(Random.Range(3, 6)));
+                break;
+            }
+            yield return new WaitForFixedUpdate();
+        }
+
+        if(Health > 0)
+            StartCoroutine(TargetRandomEnemy(Random.Range(3, 6)));
+    }
     private IEnumerator InitializeClosestUnitSearch(float waitTime = 0)
     {
         yield return new WaitForSeconds(waitTime);
@@ -175,10 +215,33 @@ public class Unit : MonoBehaviour
             float dist = Mathf.Abs(transform.position.x - unit.transform.position.x);
             if(CompareTags(gameObject, GameManager.ENEMY_TAGS) || isAllyOutOfView)
             {
-                if (closestX > dist)
+                // Boss have 50% chance to target closest, 50% to random
+                if (CompareTags(gameObject, GameManager.BOSS_TAGS))
                 {
-                    target = unit;
-                    closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
+                    /*if (Random.Range(0, 2) == 1)
+                    {
+                        if (closestX < dist)
+                        {
+                            target = unit;
+                            closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
+                        }
+                    }
+                    else
+                    {*/
+                        if (closestX > dist)
+                        {
+                            target = unit;
+                            closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
+                        }
+                    //}
+                }
+                else
+                {
+                    if (closestX > dist)
+                    {
+                        target = unit;
+                        closestX = Mathf.Abs(transform.position.x - unit.transform.position.x);
+                    }
                 }
             }
             else if(CompareTag(GameManager.ALLY_TAG))
@@ -266,6 +329,14 @@ public class Unit : MonoBehaviour
                 return true;
         }
         return false;
+    }
+
+    void OnDisable()
+    {
+        if (CompareTags(gameObject, GameManager.ENEMY_TAGS))
+            GameManager.Instance.EnemyUnits.Remove(this);
+        else if (CompareTags(gameObject, GameManager.ALLY_TAGS))
+            GameManager.Instance.AllyUnits.Remove(this);
     }
 }
 

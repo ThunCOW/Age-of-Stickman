@@ -35,8 +35,8 @@ namespace ShopPanel_V2
         {
             if (shopItemList.Items.Count > 0)
                 Item = shopItemList.Items[0];
-            else
-                Debug.LogWarning("Might create unexpected results");
+            //else
+                //Debug.LogWarning("Might create unexpected results");
 
             ItemImageUI.overrideSprite = shopItemList.ItemSprite;
             ItemImageUI.SetNativeSize();
@@ -47,7 +47,11 @@ namespace ShopPanel_V2
             ItemsList = shopItemList.Items;
 
             if (maxItemLevelReached)
-                if(MaxTextGameObject != null)MaxTextGameObject.SetActive(true);
+            {
+                if (MaxTextGameObject != null) MaxTextGameObject.SetActive(true);
+            }
+            else if (MaxTextGameObject.activeSelf)
+                MaxTextGameObject.SetActive(false);
         }
     }
 

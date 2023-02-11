@@ -21,6 +21,7 @@ MonoBehaviour:
       BlockAttack: {fileID: 0}
       ResetSlots: {fileID: 0}
       Hurt: {fileID: 0}
+      Hurts: []
       Kicked: {fileID: 0}
       Slammed: {fileID: 0}
       KnockedDown: {fileID: 0}
@@ -66,6 +67,9 @@ MonoBehaviour:
       BlockAttack: {fileID: 0}
       ResetSlots: {fileID: 0}
       Hurt: {fileID: 11400000, guid: acbeeddb5476c5746be34054ebee0309, type: 2}
+      Hurts:
+      - {fileID: 11400000, guid: acbeeddb5476c5746be34054ebee0309, type: 2}
+      - {fileID: 11400000, guid: 2dc0768d538757645a35dd9f6ffe4b83, type: 2}
       Kicked: {fileID: 11400000, guid: 924e1f179f5fda949b9db01b74c9e844, type: 2}
       Slammed: {fileID: 11400000, guid: 12792634789e3b04790930c731d85f0a, type: 2}
       KnockedDown: {fileID: 0}

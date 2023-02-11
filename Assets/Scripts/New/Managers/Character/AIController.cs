@@ -87,6 +87,9 @@ public class AIController : UnitController
                 case GameManager.SPEARMASTER_TAG:
                     StartCoroutine(SpearmasterEntrance());
                     break;
+                case GameManager.DUAL_SWORD_BOSS_TAG:
+                    StartCoroutine(DualSwordEntrance());
+                    break;
                 case GameManager.SCYTHEMASTER_TAG:
                     StartCoroutine(SycthemasterEntrance());
                     break;
@@ -141,13 +144,22 @@ public class AIController : UnitController
     protected override void CharacterControls()
     {
         AIMovement();
+        SelfKillCheck();
+    }
 
-        if (idleing == true) // if in idle - animation ended / movement ended / attack ended - check for unit direction relative to target position
+    // sometimes the enemy just moves straight out of the screen for some reason idk
+    float selfkillCheck = 2;
+    private void SelfKillCheck()
+    {
+        selfkillCheck -= Time.deltaTime;
+        if(selfkillCheck <= 0)
         {
-            if (unit.target != null)
+            if(Mathf.Abs(transform.position.x - GameManager.Instance.Player.transform.position.x) >= 20)
             {
-                //CheckUnitDirection();
+                CloseCombatAnimation temp = GameManager.Instance.Player.activeAnimations.Attack[0] as CloseCombatAnimation;
+                TakeDamage(temp, unit.Health, GameManager.Instance.Player);
             }
+            selfkillCheck = Random.Range(1, 3);
         }
     }
 
@@ -451,11 +463,29 @@ public class AIController : UnitController
 
             // select a random attack
             int randomAttack = Random.Range(0, tempAttackAnimation.Count);
+            
             currentAttack = tempAttackAnimation[randomAttack] as CloseCombatAnimation;
 
             if (unit.target != null)
             {
                 float dist = Mathf.Abs(unit.transform.position.x - unit.target.transform.position.x);
+                
+                if(Random.Range(0, 10) < 8)
+                {
+                    for(int i = 0; i < tempAttackAnimation.Count; i++)
+                    {
+                        // For example a jump attack has a max jump distance(reach), and a minimum distance to start jump attack(minDist)
+                        if ( (tempAttackAnimation[i] as CloseCombatAnimation).Reach > dist )
+                        {
+                            if ((tempAttackAnimation[i] as CloseCombatAnimation).MinDistanceLimit < dist)
+                            {
+                                currentAttack = tempAttackAnimation[i] as CloseCombatAnimation;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 //foreach (BasicAnimation action in tempAttackAnimation)
                 for(int i = 0; i < tempAttackAnimation.Count; i++)
                 {
@@ -557,6 +587,7 @@ public class AIController : UnitController
 
         StartCoroutine(AIActionDecision(waitTime)); // waits until animation ends, so does not make decisions during animation
 
+        
         AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
         StartCoroutine(SpeedDuringAnimation(tempTrackEntry, currentAttack.speedCurve));
 
@@ -700,6 +731,8 @@ public class AIController : UnitController
         GameManager.Instance.DisableControls = false;
 
         StartCoroutine(AIActionDecision());
+
+        SoundManager.Instance.PlayBossMusic();
     }
 
     IEnumerator DemonSummonerFirstAppeareance()
@@ -887,6 +920,8 @@ public class AIController : UnitController
         GameManager.Instance.DisableControls = false;
 
         StartCoroutine(AIActionDecision());
+
+        SoundManager.Instance.PlayBossMusic();
     }
 
     IEnumerator BigDemonSoundEffect()
@@ -922,8 +957,66 @@ public class AIController : UnitController
         GameManager.Instance.DisableControls = false;
 
         StartCoroutine(AIActionDecision());
+
+        SoundManager.Instance.PlayBossMusic();
     }
 
+    IEnumerator DualSwordEntrance()
+    {
+        //TrackEntry anim = spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference.Animation.Name, true);
+        //gameObject.transform.localScale = new Vector3(-1, 1, 1);
+        //direction = MoveDirection.left;
+
+        //yield return new WaitUntil(() => )
+
+        idleing = false;
+
+        if (transform.position.x < GameManager.Instance.Player.transform.position.x)  // if target is more on the right, unit direction is right
+            direction = MoveDirection.right;
+        else
+            direction = MoveDirection.left;
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true).TimeScale = 1f;
+
+        // unit spawned on right
+        if (gameObject.transform.position.x > GameManager.Instance.Player.transform.position.x)
+        {
+            while (gameObject.transform.position.x > ScreenRightBorder.transform.position.x - 1)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
+        else if (gameObject.transform.position.x < GameManager.Instance.Player.transform.position.x + 1)
+        {
+            while (gameObject.transform.position.x < ScreenLeftBorder.transform.position.x)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+        }
+
+        idleing = true;
+
+        direction = MoveDirection.waiting;
+
+        spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+
+        TextBoxManager textBoxSpawn = Instantiate(GameManager.Instance.TextBoxGreenPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
+        
+        textBoxSpawn.Text.text = GetComponent<UnitDialogues>().dialogueList[0].Context;
+        
+        textBoxSpawn.ShowText(textBoxSpawn.Text.text = GetComponent<UnitDialogues>().dialogueList[0].Context);
+        
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+        
+        yield return new WaitForSeconds(1.5f);
+
+        GameManager.Instance.DisableControls = false;
+
+        StartCoroutine(AIActionDecision());
+
+        SoundManager.Instance.PlayBossMusic();
+    }
     IEnumerator SycthemasterEntrance()
     {
         SetMixBetweenAnimation(unit.activeAnimations.idle.SpineAnimationReference.Animation.Name, "Cinematic/SYCTHEMASTER_ENTRANCE", 0);
@@ -954,7 +1047,8 @@ public class AIController : UnitController
         GameManager.Instance.DisableControls = false;
 
         StartCoroutine(AIActionDecision());
-        yield return null;
+
+        SoundManager.Instance.PlayBossMusic();
     }
 }
 

@@ -73,9 +73,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Race: 2
   HealthBar: {fileID: 925847751594876255}
-  HealthMax: 10
+  HealthMax: 10000
   _Health: 0
-  Damage: 120
+  Damage: 100
   bloodObject: {fileID: 1003400998772142619, guid: 8ba7b2d4d4eaf0d4abdabdb74ce9c5d6, type: 3}
   unitController: {fileID: 1888226523802012846}
   unitInventory: {fileID: 1888226523802012832}
@@ -85,8 +85,10 @@ MonoBehaviour:
     Movement: {fileID: 0}
     MovementBackward: {fileID: 0}
     BlockAttack: {fileID: 0}
+    BlockWeaponSwap: {fileID: 0}
     ResetSlots: {fileID: 0}
     Hurt: {fileID: 0}
+    Hurts: []
     Kicked: {fileID: 0}
     Slammed: {fileID: 0}
     KnockedDown: {fileID: 0}
@@ -130,6 +132,8 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 2.5
   isBoss: 1
+  HitScreenEffectImage: {fileID: 0}
+  kickDistance: 3
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &1888226523802012847
@@ -191,10 +195,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decbf2746fe035549804cc5c3341dde9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skelAnim: {fileID: 0}
-  ShadowObject: {fileID: 0}
-  HealthBar: {fileID: 0}
-  InGameMovements: []
   SpearmasterDead: {fileID: 0}
   SycthemasterDead: {fileID: 11400000, guid: 3ab41e44151146c47bf9d2443ca1cfa7, type: 2}
   DoubleAxeDead: {fileID: 0}
@@ -366,7 +366,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: daff88e506e93d3458a988cd9d44ef0d, type: 2}
+  - {fileID: 2100000, guid: cd6e766bab404b84b875e32a068579f3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -418,11 +418,9 @@ MonoBehaviour:
   calculateTangents: 0
   maskInteraction: 2
   maskMaterials:
-    materialsMaskDisabled:
-    - {fileID: 2100000, guid: cd6e766bab404b84b875e32a068579f3, type: 2}
+    materialsMaskDisabled: []
     materialsInsideMask: []
-    materialsOutsideMask:
-    - {fileID: 2100000, guid: daff88e506e93d3458a988cd9d44ef0d, type: 2}
+    materialsOutsideMask: []
   disableRenderingOnOverride: 1
   _animationName: 
   loop: 1
@@ -484,7 +482,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5827938367165246382, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}

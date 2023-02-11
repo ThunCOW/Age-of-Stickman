@@ -87,8 +87,10 @@ MonoBehaviour:
     Movement: {fileID: 0}
     MovementBackward: {fileID: 0}
     BlockAttack: {fileID: 0}
+    BlockWeaponSwap: {fileID: 0}
     ResetSlots: {fileID: 0}
     Hurt: {fileID: 0}
+    Hurts: []
     Kicked: {fileID: 0}
     Slammed: {fileID: 0}
     KnockedDown: {fileID: 0}
@@ -132,6 +134,7 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 2
   isBoss: 0
+  HitScreenEffectImage: {fileID: 0}
   kickDistance: 1.5
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}

@@ -44,9 +44,7 @@ public class SpawnManager : MonoBehaviour
 
     private void OnValidate()
     {
-        Instance = this;
-
-        if(mainCamera == null)
+        if (mainCamera == null)
             mainCamera = Camera.main;
 
         spawnPosList = new List<Transform>();
@@ -55,6 +53,24 @@ public class SpawnManager : MonoBehaviour
         {
             if (spawnPos != transform)  spawnPosList.Add(spawnPos);     // GetComponentsInChildren also counts parent object
         }
+    }
+
+    void Awake()
+    {
+        Instance = this;
+        
+        /*if (mainCamera == null)
+            mainCamera = Camera.main;
+
+        if (spawnPosList == null)
+        {
+            spawnPosList = new List<Transform>();
+
+            foreach (Transform spawnPos in transform.GetComponentsInChildren<Transform>())
+            {
+                if (spawnPos != transform) spawnPosList.Add(spawnPos);     // GetComponentsInChildren also counts parent object
+            }
+        }*/
     }
 
     // Start is called before the first frame update
@@ -233,6 +249,33 @@ public class SpawnManager : MonoBehaviour
 
         yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
 
+        SoundManager.Instance.TurnMusicDown();
+
+        GameManager.Instance.DisableControls = true;
+
+        isBossSpawned = true;
+
+        GameManager.Instance.Player.transform.localScale = new Vector3(1, 1, 1);    // Turn player to right just in case it isn't (since boss is going to appear from right)
+
+        SpawnBossEvent(GameManager.DUALSWORDBOSS_SPAWN_TAG);
+
+        yield return new WaitForSeconds(4.5f);
+
+        float spawnPosX = GameManager.Instance.Player.transform.position.x + 13.5f + 10; // +10 cuz it flickers and shows up in screen before transitioning to entance anim
+        GameObject spawnedEnemyGO = Instantiate(GameManager.Instance.DualSwordBossPrefab, new Vector3(spawnPosX, GameManager.Instance.DualSwordBossPrefab.transform.position.y, 0), GameManager.Instance.DualSwordBossPrefab.transform.rotation);
+
+        AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
+        spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
+    }
+
+    private IEnumerator DualSwordBossAfterNoEnemy2()
+    {
+        Debug.Log("SpawnBossAfterNoEnemy");
+        preparingForBossSpawn = true;
+        maxSpawn = 1;
+
+        yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
+
         GameManager.Instance.DisableControls = false;
 
         isBossSpawned = true;
@@ -278,7 +321,9 @@ public class SpawnManager : MonoBehaviour
         AIController spawnedEnemyUnit_B = spawnedEnemyGO_B.GetComponent<AIController>();
         spawnedEnemyUnit_B.aiAgressiveness = AIAgressiveness.boss;
 
-        yield return null;
+        yield return new WaitForSeconds(3);
+
+        SoundManager.Instance.TurnMusicDown();
     }
     
     IEnumerator SpawnBigDemonSummoner()
@@ -301,7 +346,9 @@ public class SpawnManager : MonoBehaviour
         AIController spawnedEnemyUnit = spawnedEnemyGO.GetComponent<AIController>();
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
 
-        yield return null;
+        yield return new WaitForSeconds(3);
+
+        SoundManager.Instance.TurnMusicDown();
     }
 
     /*IEnumerator SpawnBigBossAfterPortalOpening()
@@ -374,6 +421,8 @@ public class SpawnManager : MonoBehaviour
 
         yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
 
+        SoundManager.Instance.TurnMusicDown();
+
         GameManager.Instance.DisableControls = true;
         
         isBossSpawned = true;
@@ -406,6 +455,8 @@ public class SpawnManager : MonoBehaviour
         spawnedEnemyUnit.aiAgressiveness = AIAgressiveness.boss;
 
         yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 1);
+
+        SoundManager.Instance.TurnMusicDown();
 
         spawnedEnemyGO.GetComponent<AIController>().enabled = true;
 

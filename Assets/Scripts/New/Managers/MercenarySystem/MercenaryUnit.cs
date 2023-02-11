@@ -1,6 +1,8 @@
 using Spine;
 using Spine.Unity;
+using SpineControllerVersion;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +12,7 @@ public class MercenaryUnit : MonoBehaviour
     public UnitHolder SpineUnitHolder;
 
     [Space]
+    [SerializeField] HiringPanel hiringPanel;
     [SerializeField] SkeletonGraphic skeletonGraphic;
     [SerializeField] BasicAnimation idleAnimation;
 
@@ -25,46 +28,108 @@ public class MercenaryUnit : MonoBehaviour
         {
             _currentMercenary = value;
 
-            if(CurrentMercenary == null)
+            if (_isUnlocked)
             {
-                HireMercenaryImage.SetActive(true);
-                MercenaryGameobject.SetActive(false);
-                HireMercenaryButton.interactable = true;
-                return;
+                if (CurrentMercenary == null)
+                {
+                    HireMercenaryImage.SetActive(true);
+                    MercenaryGameobject.SetActive(false);
+                    HireMercenaryButton.interactable = true;
+                    return;
+                }
+
+                MercenaryGameobject.SetActive(true);
+                HireMercenaryImage.SetActive(false);
+                HireMercenaryButton.interactable = false;
+
+                List<Item> mercenaryItems = CurrentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
+
+                SpineUnitHolder.ChangeUnitEquipments(SpineUnitHolder, mercenaryItems);
+
+                skeletonGraphic.AnimationState.SetAnimation(0, idleAnimation.SpineAnimationReference, false);
             }
-
-            MercenaryGameobject.SetActive(true);
-            HireMercenaryImage.SetActive(false);
-            HireMercenaryButton.interactable = false;
-
-            List<Item> mercenaryItems = CurrentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
-
-            SpineUnitHolder.ChangeUnitEquipments(SpineUnitHolder, mercenaryItems);
-
-            skeletonGraphic.AnimationState.SetAnimation(0, idleAnimation.SpineAnimationReference, false);
         }
     }
+
+    public GameObject UnlockMercSlotOption;
 
     [Space]
     [SerializeField] GameObject HireMercenaryImage;
     [SerializeField] GameObject MercenaryGameobject;
+    [SerializeField] GameObject LockIcon;
+    private bool _isUnlocked;
+    public bool isUnlocked
+    {
+        get { return _isUnlocked; }
+        set
+        {
+            _isUnlocked = value;
+            if(value == true)
+            {
+                LockIcon.SetActive(false);
+                HireMercenaryImage.SetActive(true);
+                HireMercenaryButton.targetGraphic = HireMercenaryImage.GetComponent<Image>();
+            }
+            else
+            {
+                LockIcon.SetActive(true);
+                HireMercenaryImage.SetActive(false);
+                HireMercenaryButton.targetGraphic = LockIcon.GetComponent<Image>();
+            }
+        }
+    }
 
     void Start()
     {
-        if(CurrentMercenary == null)
-        {
-            HireMercenaryImage.SetActive(true);
-            MercenaryGameobject.SetActive(false);
-        }
-        else
-        {
-            MercenaryGameobject.SetActive(true);
-            HireMercenaryImage.SetActive(false);
-        }
-        
         skeletonGraphic.AnimationState.Event += HandleAnimationStateEvent;
     }
 
+    public void _Button_UnlockOrOpenHiringPanel()
+    {
+        if (isUnlocked)
+            hiringPanel.EnableHiringPanel(this);
+        else
+        {
+            if(mercSlotSelected == this && UnlockMercSlotOption.activeSelf)
+            {
+                UnlockMercSlotOption.SetActive(false);
+                return;
+            }
+
+            UnlockMercSlotOption.SetActive(true);
+            UnlockMercSlotOption.transform.position = new Vector3(transform.position.x, UnlockMercSlotOption.transform.position.y, 0);
+            mercSlotSelected = this;
+
+            int i = 1;
+            if (MercenaryManager.Instance.Mercenaries[0].isUnlocked) i++;
+            if (MercenaryManager.Instance.Mercenaries[1].isUnlocked) i++;
+            UnlockMercSlotOption.transform.GetChild(0).GetComponent<TMP_Text>().text = (25 * i).ToString();
+        }
+    }
+
+    public static MercenaryUnit mercSlotSelected;
+
+    public void _Button_UnlockMercSlot()
+    {
+        int i = 1;
+        if (MercenaryManager.Instance.Mercenaries[0].isUnlocked) i++;
+        if (MercenaryManager.Instance.Mercenaries[1].isUnlocked) i++;
+
+        if (GameManager.Instance.Gold >= 25 * i)
+        {
+            GameManager.Instance.GoldChange(-25 * i);
+
+            SoundManager.Instance.PlayEffect(GameManager.Instance.CoinClicking);
+
+            mercSlotSelected.isUnlocked = true;
+            
+            UnlockMercSlotOption.SetActive(false);
+        }
+        else
+        {
+            GameManager.Instance.NotEnoughGold();
+        }
+    }
     private void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
         //Debug.Log("Event fired! " + e.Data.Name);
@@ -111,23 +176,40 @@ public class MercenaryUnit : MonoBehaviour
 
     void OnEnable()
     {
-        if(CurrentMercenary == null)
+        if(isUnlocked)
         {
-            HireMercenaryImage.SetActive(true);
-            MercenaryGameobject.SetActive(false);
-            HireMercenaryButton.interactable = true;
+            if(CurrentMercenary == null)
+            {
+                HireMercenaryImage.SetActive(true);
+                MercenaryGameobject.SetActive(false);
+                HireMercenaryButton.interactable = true;
+            }
+            else
+            {
+                MercenaryGameobject.SetActive(true);
+                HireMercenaryImage.SetActive(false);
+                HireMercenaryButton.interactable = false;
+
+                List<Item> mercenaryItems = CurrentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
+
+                SpineUnitHolder.ChangeUnitEquipments(SpineUnitHolder, mercenaryItems);
+
+                //SpineUnitHolder.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, CurrentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
+            }
         }
         else
         {
-            MercenaryGameobject.SetActive(true);
+            MercenaryGameobject.SetActive(false);
             HireMercenaryImage.SetActive(false);
-            HireMercenaryButton.interactable = false;
-
-            List<Item> mercenaryItems = CurrentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
-
-            SpineUnitHolder.ChangeUnitEquipments(SpineUnitHolder, mercenaryItems);
-
-            //SpineUnitHolder.UnitObject.GetComponent<SkeletonGraphic>().AnimationState.SetAnimation(0, CurrentMercenary.PanelIdleAnimation.SpineAnimationReference, false);
+            HireMercenaryButton.interactable = true;
         }
+    }
+
+    void OnDisable()
+    {
+        if (UnlockMercSlotOption.activeSelf)
+            UnlockMercSlotOption.SetActive(false);
+
+        mercSlotSelected = null;
     }
 }

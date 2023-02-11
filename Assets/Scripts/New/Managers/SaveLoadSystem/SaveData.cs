@@ -7,11 +7,16 @@ public class SaveData
 {
     public List<int> equippedItemIndexs;
 
+    public bool isGameOver;
     public int PlayerLives;
     public int DeathCount;
+    public int KillCount;
+    public int TotalGoldCount;
     public int Gold;
     public int Level;
-    public bool IsSpearmasterDead;
+    //public bool IsSpearmasterDead;
+    public bool isLeftMercUnlocked;
+    public bool isRightMercUnlocked;
 
     public PlayerControls PlayerControls;
 
@@ -47,24 +52,4 @@ public interface ISaveableJson
 {
     bool PopulateSaveData(SaveData a_SaveData);
     void LoadFromSaveData(SaveData a_SaveData);
-
-    bool PopulateSaveRecords(SaveRecords a_SaveRecords);
-
-    void ReadFromSaveRecords(SaveRecords a_SaveRecords);
-}
-
-[System.Serializable]
-public class SaveRecords
-{
-    public int KillCount;
-
-    public string ToJson()
-    {
-        return JsonUtility.ToJson(this);
-    }
-
-    public void LoadFromJson(string a_Json)
-    {
-        JsonUtility.FromJsonOverwrite(a_Json, this);
-    }
 }

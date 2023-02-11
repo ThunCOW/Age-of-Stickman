@@ -77,7 +77,7 @@ MonoBehaviour:
   HealthBar: {fileID: 9004475058022989825}
   HealthMax: 200
   _Health: 0
-  Damage: 100
+  Damage: 75
   bloodObject: {fileID: 5187503869886122332, guid: 1453ece1b4965d645ba7b1cc3b901c5a, type: 3}
   unitController: {fileID: 882600030980861926}
   unitInventory: {fileID: 882600030980861928}
@@ -89,6 +89,7 @@ MonoBehaviour:
     BlockAttack: {fileID: 0}
     ResetSlots: {fileID: 0}
     Hurt: {fileID: 0}
+    Hurts: []
     Kicked: {fileID: 0}
     Slammed: {fileID: 0}
     KnockedDown: {fileID: 0}
@@ -132,6 +133,7 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 2
   isBoss: 0
+  HitScreenEffectImage: {fileID: 0}
   kickDistance: 1.5
   _aiAgressiveness: 2
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}

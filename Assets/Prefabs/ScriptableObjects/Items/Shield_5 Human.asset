@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 407c6cf4e163116458f489d64bca30c8, type: 3}
   m_Name: Shield_5 Human
   m_EditorClassIdentifier: 
-  id: 077e331cf16599c45a82b602a82ddfc6
+  id: 338ad0f8c2812ad458fe8ab0db5d6ef2
   ItemName: Shield
-  HealthBonus: 160
+  HealthBonus: 0
   DamageBonus: 0
   ItemPrice: 0
   ItemSlot: 4
@@ -30,3 +30,4 @@ MonoBehaviour:
     AttachmentName: Shield/ShieldLong_71
   back: []
   back2: []
+  FacingCam: []

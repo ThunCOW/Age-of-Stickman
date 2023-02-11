@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: Archer
   AnimationName: Break_Stand_A_1
-  SpineAnimationReference: {fileID: 11400000, guid: 3d7cea9f37a713c40954fccfb515ac72, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: e7fb16dc9d642f14aab7ba2fe4972224, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Archer
   _AnimationNameChangeCheck: Break_Stand_A_1
   speedCurve:
@@ -23,10 +24,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  Keys: 
+  Values: []
+  SetupKeys: 0
   attackType: 1
   animationMovementType: 0
   DamageMultiplierMax: 0
-  Reach: 1.55
+  Reach: 1.9
+  MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1
   hitHeightPosiiton: 0

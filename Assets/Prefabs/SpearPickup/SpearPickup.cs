@@ -59,6 +59,7 @@ public class SpearPickup : MonoBehaviour
             // if bigger, that means a new touch happened, if smaller, that means touch is released
             if(value > touchCount)
             {
+                _touchCount = value;
                 Ray ray = Camera.main.ScreenPointToRay(Input.GetTouch(touchCount - 1).position);
                 RaycastHit2D hit = Physics2D.GetRayIntersection(ray, 20);
                 if (hit.collider != null)
@@ -72,7 +73,6 @@ public class SpearPickup : MonoBehaviour
                     }
                 }
             }
-            _touchCount = value;
         }
     }
     void Start()

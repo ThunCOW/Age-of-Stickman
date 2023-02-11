@@ -12,6 +12,13 @@ public class SettingsManager : MonoBehaviour
     public GameObject SettingsMenu;
 
     public GameObject ChangeControlMenu;
+    public GameObject KeyboardControlsMenu;
+    
+    //
+    public GameObject NextLevelButton;
+    public GameObject DaysPanel;
+    public GameObject PlayerLivesPanel;
+    //
 
     public List<Image> MusicVolumeBars;
     public List<Image> SFXVolumeBars;
@@ -113,17 +120,45 @@ public class SettingsManager : MonoBehaviour
     public void OpenChangeControlMenu()
     {
         Time.timeScale = 0;
-        ChangeControlMenu.SetActive(true);
 
-        if(GameManager.Instance.Player != null)
+        if(Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
         {
-            ChangeControlMenu.transform.GetChild(0).gameObject.SetActive(true);
-            ChangeControlMenu.transform.GetChild(1).gameObject.SetActive(false);
+            KeyboardControlsMenu.SetActive(true);
+            StartCoroutine(KeyboardControlsMenuClose());
         }
         else
         {
-            ChangeControlMenu.transform.GetChild(0).gameObject.SetActive(false);
-            ChangeControlMenu.transform.GetChild(1).gameObject.SetActive(true);
+            ChangeControlMenu.SetActive(true);
+
+            if(GameManager.Instance.Player != null)
+            {
+                ChangeControlMenu.transform.GetChild(0).gameObject.SetActive(true);
+                ChangeControlMenu.transform.GetChild(1).gameObject.SetActive(false);
+            }
+            else
+            {
+                ChangeControlMenu.transform.GetChild(0).gameObject.SetActive(false);
+                ChangeControlMenu.transform.GetChild(1).gameObject.SetActive(true);
+            }
+        }
+    }
+
+    IEnumerator KeyboardControlsMenuClose()
+    {
+        while(true)
+        {
+            if(Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.D))
+            {
+                KeyboardControlsMenu.SetActive(false);
+
+                NextLevelButton.SetActive(true);
+                DaysPanel.SetActive(true);
+                PlayerLivesPanel.SetActive(true);
+
+                Time.timeScale = 1;
+                break;
+            }
+            yield return null;
         }
     }
 

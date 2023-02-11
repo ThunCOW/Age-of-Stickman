@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: dd85da6f53e7b59499270257ab4b680d
+guid: 8307268ba3e395a4aadf15160b1fcc7f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -112,11 +112,23 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: ArmorShopItem_1
+      name: ShopItems_0
       rect:
         serializedVersion: 2
         x: 0
@@ -124,20 +136,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 32dbf61e865c2064aae2647268cf0bae
-      internalID: 1515289011
+      spriteID: 382a03947637a5a4eaf82eb33053acad
+      internalID: -296242667
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmorShopItem_2
+      name: ShopItems_1
       rect:
         serializedVersion: 2
         x: 122
@@ -145,20 +157,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 23b5cbfad63215444a5dc2daa3cc78b8
-      internalID: -1037644119
+      spriteID: 7862ca7134a944d46959b966c3507c71
+      internalID: 1420460522
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmorShopItem_3
+      name: ShopItems_2
       rect:
         serializedVersion: 2
         x: 244
@@ -166,20 +178,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2cef0f3b0cdeb6b4e9dde01a46de1e6c
-      internalID: -1071700168
+      spriteID: 48ff8256e45ff9646b8e2ff0f65ac3b1
+      internalID: -25662885
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmorShopItem_4
+      name: ShopItems_3
       rect:
         serializedVersion: 2
         x: 366
@@ -187,20 +199,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 52665a6eb6f3f55428b1685795f90f40
-      internalID: -701009063
+      spriteID: 06a69c8d4cf29b644a19d2674a4850b5
+      internalID: 1958408724
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmorShopItem_5
+      name: ShopItems_4
       rect:
         serializedVersion: 2
         x: 0
@@ -208,20 +220,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: a92c4594a82ce4e4db9e05ed67d699be
-      internalID: -1715382793
+      spriteID: 8279ddb3b296cf74698740cb137b7ffe
+      internalID: 210930988
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmorShopItem_6
+      name: ShopItems_5
       rect:
         serializedVersion: 2
         x: 122
@@ -229,20 +241,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b4633ade2b2e6d54e9ed0124e471fbfc
-      internalID: 1014126037
+      spriteID: 96cdf143b5a6ab44db2f0038f3fbf33d
+      internalID: -193130832
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmorShopItem_7
+      name: ShopItems_6
       rect:
         serializedVersion: 2
         x: 244
@@ -250,20 +262,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9e735cdb92e16734fb3f7e1177dbd177
-      internalID: 286386336
+      spriteID: 76c8e70ab92658743a8be3103e627756
+      internalID: -1097425852
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ArmorShopItem_8
+      name: ShopItems_7
       rect:
         serializedVersion: 2
         x: 366
@@ -271,20 +283,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: c82604be39e904b44a27f5360cb163f4
-      internalID: -1723705221
+      spriteID: a9decf8323cea3244a64d7618e5db5ab
+      internalID: -1413861860
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WeaponShopItem_1
+      name: ShopItems_8
       rect:
         serializedVersion: 2
         x: 0
@@ -292,20 +304,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 8bde8ce9ed808ed469f77b3fc3e7251c
-      internalID: -1726618556
+      spriteID: 2e55e1552a9a39046ad67728066fb1aa
+      internalID: -896649050
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WeaponShopItem_2
+      name: ShopItems_9
       rect:
         serializedVersion: 2
         x: 122
@@ -313,20 +325,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9c2fea26047820f4b90b586f60f56785
-      internalID: -751495580
+      spriteID: d8ba92b136c4fae468eb5e6cbc6c9477
+      internalID: -243587777
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WeaponShopItem_3
+      name: ShopItems_10
       rect:
         serializedVersion: 2
         x: 244
@@ -334,20 +346,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9d1890388f03c094c83e382e7a755000
-      internalID: -457879690
+      spriteID: 07521aea2c354704eb96132085ade54c
+      internalID: 945547708
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WeaponShopItem_4
+      name: ShopItems_11
       rect:
         serializedVersion: 2
         x: 366
@@ -355,20 +367,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 00cf22c13792bfe49a78549bdc441dd3
-      internalID: -1758492373
+      spriteID: 23c4d6a5a946acb4586e23b95ed41b2d
+      internalID: -2143063244
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: WeaponShopItem_5
+      name: ShopItems_12
       rect:
         serializedVersion: 2
         x: 0
@@ -376,20 +388,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 02a8a9cbd24aa2341b42466b0125f04a
-      internalID: -986775512
+      spriteID: be68a5319cbe31c4aa08a9cbcd6ddeb4
+      internalID: 502588200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShieldShopItem_1
+      name: ShopItems_13
       rect:
         serializedVersion: 2
         x: 122
@@ -397,20 +409,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d3cd8e8431e3fbe4c9baf7cc6262eec1
-      internalID: 1916449824
+      spriteID: c533555cb9972974f87f27583ca9f603
+      internalID: 418297655
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShieldShopItem_2
+      name: ShopItems_14
       rect:
         serializedVersion: 2
         x: 244
@@ -418,20 +430,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 79b43c7e55b1bc1438cfe3704b4a3f62
-      internalID: -1275276139
+      spriteID: a4b66efda3da5834c946a67c55dd5d33
+      internalID: -2124905631
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShieldShopItem_3
+      name: ShopItems_15
       rect:
         serializedVersion: 2
         x: 366
@@ -439,20 +451,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9aac4134b54190c4894df63893686505
-      internalID: -982295377
+      spriteID: 4d00761eb2265a741809ad9369da8485
+      internalID: 33015084
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShieldShopItem_4
+      name: ShopItems_16
       rect:
         serializedVersion: 2
         x: 0
@@ -460,20 +472,20 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 96895c1ab8d80294cad52e8df9969ba9
-      internalID: 1669806333
+      spriteID: 6afdccf2ad9cdae44b0ced109466ecf3
+      internalID: -1431041767
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: ShieldShopItem_5
+      name: ShopItems_17
       rect:
         serializedVersion: 2
         x: 122
@@ -481,14 +493,14 @@ TextureImporter:
         width: 122.5
         height: 123
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f2b81a686982d3949b02d08c15270a27
-      internalID: -1812337543
+      spriteID: ac22f6379da749642bcf8ed87589b7f8
+      internalID: 1728589022
       vertices: []
       indices: 
       edges: []
@@ -504,24 +516,24 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      ArmorShopItem_7: 286386336
-      ArmorShopItem_1: 1515289011
-      WeaponShopItem_5: -986775512
-      WeaponShopItem_3: -457879690
-      ShieldShopItem_2: -1275276139
-      WeaponShopItem_2: -751495580
-      ArmorShopItem_8: -1723705221
-      ShieldShopItem_4: 1669806333
-      ArmorShopItem_2: -1037644119
-      ArmorShopItem_4: -701009063
-      ArmorShopItem_6: 1014126037
-      ShieldShopItem_5: -1812337543
-      ArmorShopItem_5: -1715382793
-      ArmorShopItem_3: -1071700168
-      ShieldShopItem_3: -982295377
-      WeaponShopItem_1: -1726618556
-      ShieldShopItem_1: 1916449824
-      WeaponShopItem_4: -1758492373
+      ShopItems_7: -1413861860
+      ShopItems_14: -2124905631
+      ShopItems_8: -896649050
+      ShopItems_3: 1958408724
+      ShopItems_2: -25662885
+      ShopItems_11: -2143063244
+      ShopItems_9: -243587777
+      ShopItems_1: 1420460522
+      ShopItems_12: 502588200
+      ShopItems_0: -296242667
+      ShopItems_17: 1728589022
+      ShopItems_13: 418297655
+      ShopItems_6: -1097425852
+      ShopItems_10: 945547708
+      ShopItems_4: 210930988
+      ShopItems_5: -193130832
+      ShopItems_15: 33015084
+      ShopItems_16: -1431041767
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

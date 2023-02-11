@@ -22,7 +22,8 @@ MonoBehaviour:
   ItemQualitySprite: {fileID: 0}
   front:
   - SlotName: Armor/Human/Helmet
-    AttachmentName: Armor/Human/Helmet_1
+    AttachmentName: Armor/Human/Helmet_0_4
   side: []
   back: []
   back2: []
+  FacingCam: []

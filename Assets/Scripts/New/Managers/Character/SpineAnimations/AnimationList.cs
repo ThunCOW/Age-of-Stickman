@@ -60,8 +60,10 @@ public class UnitAnimations
     public BasicAnimation Movement;
     public BasicAnimation MovementBackward;
     public BasicAnimation BlockAttack;
+    public BasicAnimation BlockWeaponSwap;
     public BasicAnimation ResetSlots;
     public BasicAnimation Hurt;
+    public List<BasicAnimation> Hurts;
     public BasicAnimation Kicked;
     public BasicAnimation Slammed;
     public BasicAnimation KnockedDown;

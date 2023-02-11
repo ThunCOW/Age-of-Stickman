@@ -34,7 +34,7 @@ namespace ShopPanel_V2
 
         public void UpgradeItem()
         {
-            Debug.Log("Upgrade Item Clicked");
+            //Debug.Log("Upgrade Item Clicked");
 
             // Brings up if we want to buy page
             if (GameManager.Instance.Gold >= ItemPrice)

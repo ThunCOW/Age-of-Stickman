@@ -16,10 +16,12 @@ public class HiringPanel : MonoBehaviour
 
     [Space]
     [SerializeField] List<UnitHolder> UnitPanel;
+    [SerializeField] TMP_Text UnitPriceText;
 
     [SerializeField] TMP_Text UnitText;
 
     UnitHolder currentUnit;
+    
 
     // Holds the currently viewed mercenary info, when button pressed to change unit it changes to next unit and then fills next unit panel while leaving current panel as it is
     Mercenary currentMercenary;
@@ -89,6 +91,8 @@ public class HiringPanel : MonoBehaviour
 
         currentMercenary = GetMercenary(true);
 
+        UnitPriceText.text = currentMercenary.UnitPrice.ToString();
+        
         currentUnit = PrepareNextUnit(false);
 
         List<Item> mercenaryItems = currentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
@@ -106,6 +110,8 @@ public class HiringPanel : MonoBehaviour
         PreviousButton.interactable = false;
 
         currentMercenary = GetMercenary(false);
+
+        UnitPriceText.text = currentMercenary.UnitPrice.ToString();
 
         currentUnit = PrepareNextUnit(true);
 
@@ -245,6 +251,8 @@ public class HiringPanel : MonoBehaviour
         // When HiringPanel is initiated it will populate second object in UnitObjects
         currentMercenary = (MercenaryManager.dictAllMercenariesByLevel[GameManager.Instance.SwordsmanUnitLevel])[0];
 
+        UnitPriceText.text = currentMercenary.UnitPrice.ToString();
+
         currentUnit = UnitPanel[0];
 
         List<Item> mercenaryItems = currentMercenary.Unit.GetComponent<EquipmentManager>().startingItems;
@@ -272,6 +280,8 @@ public class HiringPanel : MonoBehaviour
 
         UnitPanel[0].UnitObject.SetActive(true);
         UnitPanel[1].UnitObject.SetActive(false);
+
+        gameObject.SetActive(false);
     }
 
     public void EnableHiringPanel(MercenaryUnit mercenaryUnit)

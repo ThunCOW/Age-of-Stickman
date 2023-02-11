@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class MercenaryManager : MonoBehaviour
 {
+    public static MercenaryManager Instance;
+    
     public List<MercenaryByRace> AllMercenaries;
     //public Dictionary<UnitRace, List<Mercenary>> dictAllMercenaries = new Dictionary<UnitRace, List<Mercenary>>();
     
     public List<MercenaryByLevel> MercenariesByLevel;
     public Dictionary<int, List<Mercenary>> dictAllMercenariesByLevel = new Dictionary<int, List<Mercenary>>();
-
-    public static MercenaryManager Instance;
 
     public List<MercenaryUnit> Mercenaries;
 

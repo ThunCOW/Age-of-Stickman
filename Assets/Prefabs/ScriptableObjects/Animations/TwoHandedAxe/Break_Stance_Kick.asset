@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: TwoHandAxe
   AnimationName: Break_Stance_Kick
-  SpineAnimationReference: {fileID: 11400000, guid: 755d7551ff0262e4ab00b773ef8caae3, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 656b4a3c2c3bb594aa62735cd1e653c7, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: TwoHandAxe
   _AnimationNameChangeCheck: Break_Stance_Kick
   speedCurve:
@@ -29,7 +30,7 @@ MonoBehaviour:
   attackType: 0
   animationMovementType: 0
   DamageMultiplierMax: 1
-  Reach: 1.6
+  Reach: 2
   MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1

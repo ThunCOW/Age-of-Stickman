@@ -490,20 +490,24 @@ public class EquipmentManager : MonoBehaviour
 
     public void ArrowOnBody(bool isHitBehind)
     {
-        // entered from behind
-        if(isHitBehind)
+        try
         {
-            int randArrow = Random.Range(0, ArrowOnBody_Back.SpineAttachmentList.Count);
+            // entered from behind
+            if(isHitBehind)
+            {
+                int randArrow = Random.Range(0, ArrowOnBody_Back.SpineAttachmentList.Count);
 
-            skelAnim.skeleton.SetAttachment(ArrowOnBody_Back.SpineAttachmentList[randArrow].SlotName, ArrowOnBody_Back.SpineAttachmentList[randArrow].AttachmentName);
-        }
-        // entered from front
-        else
-        {
-            int randArrow = Random.Range(0, ArrowOnBody_Front.SpineAttachmentList.Count);
+                skelAnim.skeleton.SetAttachment(ArrowOnBody_Back.SpineAttachmentList[randArrow].SlotName, ArrowOnBody_Back.SpineAttachmentList[randArrow].AttachmentName);
+            }
+            // entered from front
+            else
+            {
+                int randArrow = Random.Range(0, ArrowOnBody_Front.SpineAttachmentList.Count);
 
-            skelAnim.skeleton.SetAttachment(ArrowOnBody_Front.SpineAttachmentList[randArrow].SlotName, ArrowOnBody_Front.SpineAttachmentList[randArrow].AttachmentName);
+                skelAnim.skeleton.SetAttachment(ArrowOnBody_Front.SpineAttachmentList[randArrow].SlotName, ArrowOnBody_Front.SpineAttachmentList[randArrow].AttachmentName);
+            }
         }
+        catch { }
     }
 
     public void SpearOnBody(bool isHitBehind)

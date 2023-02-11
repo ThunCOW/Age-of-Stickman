@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: 10_Completed
   AnimationName: Break_Stand_A_1 (SPEARMAN) UNITY
-  SpineAnimationReference: {fileID: 11400000, guid: 332be2da5d598244981455f728e59c34, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 711670e907955084da753d0e44474393, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: 10_Completed
   _AnimationNameChangeCheck: Break_Stand_A_1 (SPEARMAN) UNITY
   speedCurve:
@@ -29,7 +30,7 @@ MonoBehaviour:
   attackType: 1
   animationMovementType: 0
   DamageMultiplierMax: 1
-  Reach: 1.55
+  Reach: 1.9
   MinDistanceLimit: 0
   PushDistance: 0
   attackRegion: 1
