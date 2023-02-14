@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Prefix: DoubleAxeHuge
   AnimationName: Kick
-  SpineAnimationReference: {fileID: 11400000, guid: c3d2e5b76741f024e93074b9f88ab802, type: 2}
+  SpineAnimationReference: {fileID: 11400000, guid: 7eb652b4aa63e9a44815d9bf82c937fd, type: 2}
   ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: DoubleAxeHuge
   _AnimationNameChangeCheck: Kick
@@ -35,4 +35,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 0
   hitHeightPosiiton: 0
-  SoundObject: {fileID: 0}
+  SoundObject: {fileID: 11400000, guid: 7ea0058a0023bfc42ada000b3ffe1e68, type: 2}

@@ -323,6 +323,7 @@ namespace SpineControllerVersion
         [Header("___Temporary / Dumb Variables___")]
 
         public int Level;
+        public bool isEndlessLevel;
 
         public GameObject TextBoxPrefab;
         public GameObject TextBoxGreenPrefab;
@@ -336,6 +337,7 @@ namespace SpineControllerVersion
         public AudioClip Soundtrack_OpeningMenu;
         public AudioClip Soundtrack_MainMenu;
         public AudioClip Soundtrack_War_1;
+        public AudioClip StoryMusic;
         public AudioClip Soundtrack_Boss_1;
 
         [Space]
@@ -661,8 +663,10 @@ namespace SpineControllerVersion
                 yield return new WaitForFixedUpdate();
             }
         }
-        public IEnumerator ImageDisappearSlowly(GameObject Image, float disappearTime = 1.5f)
+        public IEnumerator ImageDisappearSlowly(GameObject Image, float disappearTime = 1.5f, float stallTime = 0, bool destroyAfter = false)
         {
+            yield return new WaitForSeconds(stallTime);
+
             Image tempImage = Image.GetComponent<Image>();
             Color tempColor = tempImage.color;
 
@@ -678,6 +682,9 @@ namespace SpineControllerVersion
 
                 yield return new WaitForFixedUpdate();
             }
+
+            if (destroyAfter)
+                Destroy(Image.transform.parent);
         }
         GameObject notEnoughGoldTextSpawn;
         Coroutine notEnoughGoldTextCoroutine;
@@ -760,9 +767,12 @@ namespace SpineControllerVersion
         public void GameOver()
         {
             StartCoroutine(GameOverScreen());
-            ContinueButton.interactable = false;
-            isGameOver = true;
-            SaveDataAsJson();
+            if(!isEndlessLevel)
+            {
+                ContinueButton.interactable = false;
+                isGameOver = true;
+                SaveDataAsJson();
+            }
         }
 
         IEnumerator GameOverScreen()

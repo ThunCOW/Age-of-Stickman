@@ -316,8 +316,10 @@ MonoBehaviour:
     Movement: {fileID: 0}
     MovementBackward: {fileID: 0}
     BlockAttack: {fileID: 0}
+    BlockWeaponSwap: {fileID: 0}
     ResetSlots: {fileID: 0}
     Hurt: {fileID: 0}
+    Hurts: []
     Kicked: {fileID: 0}
     Slammed: {fileID: 0}
     KnockedDown: {fileID: 0}
@@ -361,6 +363,8 @@ MonoBehaviour:
   extraSpeed: 0
   speed: 2
   isBoss: 1
+  HitScreenEffectImage: {fileID: 0}
+  kickDistance: 0
   _aiAgressiveness: 3
   aiAgressivenessLevel: {fileID: 11400000, guid: 272762b70f6dab64aa758410939a4b5b, type: 2}
 --- !u!50 &6286407956020224685
@@ -422,10 +426,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: decbf2746fe035549804cc5c3341dde9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skelAnim: {fileID: 6286407955458089247}
-  ShadowObject: {fileID: 6286407955682548137}
-  HealthBar: {fileID: 5272051232954065564}
-  InGameMovements: []
   SpearmasterDead: {fileID: 11400000, guid: e4819a433a1b7e747b06740e6d6e5474, type: 2}
   SycthemasterDead: {fileID: 0}
   DoubleAxeDead: {fileID: 0}
@@ -444,7 +444,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueList:
   - Context: This is not over...
-  - Context: Next time,  i will not repeat the same mistake!
+  - Context: The longer this world struggles..
+  - Context: The more it will suffer..
+  - Context: The day i will return, i will bring hell to the earth!
 --- !u!1001 &1858554775984015666
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -514,11 +516,6 @@ Transform:
 --- !u!1 &4742535743142818653 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6348446657146583663, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
-  m_PrefabInstance: {fileID: 1858554775984015666}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5272051232954065564 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5827938367165246382, guid: 8b0404e3daa794745aa6cab05c6d1d37, type: 3}
   m_PrefabInstance: {fileID: 1858554775984015666}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &7775922169668333957

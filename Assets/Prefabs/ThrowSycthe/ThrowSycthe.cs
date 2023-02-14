@@ -46,32 +46,19 @@ public class ThrowSycthe : MonoBehaviour
         rb2d.AddTorque(800 * direction, ForceMode2D.Force);
 
         StartCoroutine(BounceAction());
+        StartCoroutine(SpinSound());
     }
 
-    IEnumerator WaitFiveSec()
+    IEnumerator SpinSound()
     {
-        yield return new WaitForSeconds(2);
-        rb2d = GetComponent<Rigidbody2D>();
-
-        // Set parent and target objects
-        parent = transform.parent;
-        //target = parent.GetComponent<Unit>().target.gameObject.transform;
-
-        transform.parent = null;
-
-        direction = parent.transform.position.x - target.transform.position.x < 0 ? 1 : -1;
-
-        //gravityForce = rb2d.gravityScale * 10;
-        rb2d.gravityScale = 0;
-        // speedHit = Distance / time
-        speedHit = Mathf.Abs(parent.transform.position.x - target.transform.position.x) / hitTime;
-
-        rb2d.velocity = new Vector2(speedHit * direction, 0);
-
-        rb2d.AddTorque(800 * 1, ForceMode2D.Force);
-
-        StartCoroutine(BounceAction());
+        while(!isBounced)
+        {
+            SoundManager.Instance.PlayEffect(SoundManager.Instance.SyctheSpin[Random.Range(0, 2)]);
+            yield return new WaitForSeconds(0.1f);
+        }
     }
+
+    bool isBounced = false;
     IEnumerator BounceAction()
     {
         if (direction == 1)
@@ -88,6 +75,8 @@ public class ThrowSycthe : MonoBehaviour
                 yield return null;
             }
         }
+
+        isBounced = true;
 
         spriteRenderer.sprite = syctheSprite;
 
@@ -113,6 +102,7 @@ public class ThrowSycthe : MonoBehaviour
 
     IEnumerator WaitForReturn()
     {
+        spinSoundRetRoutin =  StartCoroutine(spinSoundReturn());
         if (direction == 1)
         {
             while (transform.position.x > (parent.transform.position.x + 0.3f))
@@ -127,7 +117,16 @@ public class ThrowSycthe : MonoBehaviour
                 yield return null;
             }
         }
+        if (spinSoundRetRoutin != null)
+            StopCoroutine(spinSoundRetRoutin);
         Destroy(this.gameObject);
         yield break;
+    }
+
+    Coroutine spinSoundRetRoutin = null;
+    IEnumerator spinSoundReturn()
+    {
+        SoundManager.Instance.PlayEffect(SoundManager.Instance.SyctheSpin[Random.Range(0, 2)]);
+        yield return new WaitForSeconds(0.1f);
     }
 }

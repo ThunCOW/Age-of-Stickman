@@ -208,6 +208,7 @@ public class SmoothCameraFollow : MonoBehaviour
         {
             unit.unitController.spineSkeletonAnimation.AnimationState.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true);
             Debug.Log("START POS : " + unit.transform.position.x);
+            break;
         }
         float walkTime = 7;
         while(walkTime > 0)
@@ -216,7 +217,11 @@ public class SmoothCameraFollow : MonoBehaviour
             // Move Ally units towards where boss is going to be
             foreach (Unit unit in GameManager.Instance.AllyUnits)
             {
+                if (unit.unitController.spineSkeletonAnimation.state.GetCurrent(1).Animation != unit.activeAnimations.Movement.SpineAnimationReference.Animation)
+                    unit.unitController.spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true).TimeScale = 1f;
+
                 unit.transform.position = new Vector3(unit.transform.position.x + ((int)direction * speed) * Time.deltaTime, unit.transform.position.y, unit.transform.position.z);
+                break;
             }
             yield return new WaitForFixedUpdate();
         }
@@ -225,6 +230,7 @@ public class SmoothCameraFollow : MonoBehaviour
         {
             unit.unitController.spineSkeletonAnimation.AnimationState.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
             Debug.Log("END POS : " + unit.transform.position.x);
+            break;
         }
 
         yield return new WaitForSeconds(7);

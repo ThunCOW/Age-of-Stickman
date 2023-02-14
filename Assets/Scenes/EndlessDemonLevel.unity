@@ -6720,6 +6720,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8358673472559165942, guid: 7a45d6847fb646e47aa79d7d20804288, type: 3}
+      propertyPath: m_Size.x
+      value: 600
+      objectReference: {fileID: 0}
     - target: {fileID: 8358673473573495783, guid: 7a45d6847fb646e47aa79d7d20804288, type: 3}
       propertyPath: m_Name
       value: Map Colliders
@@ -6767,6 +6771,14 @@ PrefabInstance:
     - target: {fileID: 8358673473573495800, guid: 7a45d6847fb646e47aa79d7d20804288, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358673473576725077, guid: 7a45d6847fb646e47aa79d7d20804288, type: 3}
+      propertyPath: m_Size.x
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 8358673473674855211, guid: 7a45d6847fb646e47aa79d7d20804288, type: 3}
+      propertyPath: m_Size.x
+      value: 600
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a45d6847fb646e47aa79d7d20804288, type: 3}

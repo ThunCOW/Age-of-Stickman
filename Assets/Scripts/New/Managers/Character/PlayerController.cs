@@ -57,7 +57,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
             if(!SpawnManager.Instance.isBossLevel)
             {
-                if(_hasPlayerReachedEndOfLevel)
+                if(_hasPlayerReachedEndOfLevel && !SpawnManager.Instance.isBossLevel)
                 {
                     GameManager.Instance.ContinueToMainMenuTextSpawn();
                 }
@@ -780,10 +780,144 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
         GameManager.Instance.SceneLoader.FinishLevel();
     }
 
+    protected override void BossDead()
+    {
+        StopRoutine();
 
+        CinematicAction cAnim = GetComponent<CinematicAction>();
 
+        if (gameObject.CompareTag(GameManager.PLAYER_TAG))
+        {
+            AchivementSO ach;
+            if (unit.target.CompareTag(GameManager.SPEARMASTER_TAG))
+            {
+                ach = AchievementSystem.GetAchievementSO(AchievementIds.Spearmaster);
+                if (!(ach as AchievementByEvent).isUnlocked)
+                {
+                    (ach as AchievementByEvent).isUnlocked = true;
+                }
 
+                ResetAttachments();
 
+                GameManager.Instance.DisableControls = true;
+
+                StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
+
+                ReStartCoroutines();
+
+                SceneLoader.Instance.PlayStoryCanvas(7, GameManager.SPEARMASTER_TAG);
+                StartCoroutine(BossDefeatedCanvas());
+            }
+            else if (unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
+            {
+                ach = AchievementSystem.GetAchievementSO(AchievementIds.FallenKing);
+                if (!(ach as AchievementByEvent).isUnlocked)
+                {
+                    (ach as AchievementByEvent).isUnlocked = true;
+                }
+
+                ResetAttachments();
+
+                GameManager.Instance.DisableControls = true;
+
+                StartCoroutine(PlayCinematicAnimation(cAnim.SycthemasterDead, true));
+
+                ReStartCoroutines();
+
+                SceneLoader.Instance.PlayStoryCanvas(9, GameManager.SCYTHEMASTER_TAG);
+                StartCoroutine(BossDefeatedCanvas());
+            }
+            else if (unit.target.CompareTag(GameManager.DOUBLEAXEDEMON_TAG))
+            {
+                //GameManager.Instance.DisableControls = true;
+                ResetAttachments();
+
+                GameManager.Instance.DisableControls = true;
+
+                StartCoroutine(DoubleAxeDead());
+
+                //ReStartCoroutines();
+                SceneLoader.Instance.PlayStoryCanvas(6.5f, GameManager.DOUBLEAXEDEMON_TAG);
+                StartCoroutine(BossDefeatedCanvas());
+            }
+            else if (unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
+            {
+                ach = AchievementSystem.GetAchievementSO(AchievementIds.TheGolliath);
+                if (!(ach as AchievementByEvent).isUnlocked)
+                {
+                    (ach as AchievementByEvent).isUnlocked = true;
+                }
+
+                ach = AchievementSystem.GetAchievementSO(AchievementIds.Swordhood);
+                if (GameManager.Instance.DeathCount < 0)
+                {
+                    if (!(ach as AchievementByEvent).isUnlocked)
+                    {
+                        (ach as AchievementByEvent).isUnlocked = true;
+                    }
+                }
+
+                //GameManager.Instance.DisableControls = true;
+                spineSkeletonAnimation.AnimationState.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 0);
+                //Ending.Instance.GameEnd();
+                SceneLoader.Instance.PlayEnd();
+                StartCoroutine(BossDefeatedCanvas2());
+            }
+        }
+    }
+
+    private IEnumerator DoubleAxeDead()
+    {
+        int dir = Mathf.Abs(transform.localScale.x - unit.target.transform.position.x) > 0 ? 1 : -1;
+        transform.localScale = new Vector3(dir * transform.localScale.x, transform.localScale.y, transform.localScale.z);
+
+        yield return new WaitForSeconds(1);
+
+        while (Mathf.Abs(transform.position.x - unit.target.transform.position.x) > 1.8f)
+        {
+            if (unit.currentStance != StanceList.Stand_A)
+            {
+                unit.currentStance = StanceList.Stand_A;
+                ResetAttachments();
+            }
+            spineSkeletonAnimation.AnimationState.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true);
+
+            transform.position = new Vector3(transform.position.x + (dir * 2) * Time.deltaTime, transform.position.y, transform.position.z);
+
+            yield return new WaitForFixedUpdate();
+        }
+        spineSkeletonAnimation.AnimationState.SetAnimation(1, "10_Completed/Attack_Stand_A_3(Fast)", false);
+
+        yield return new WaitForSeconds(1.2f);
+
+        spineSkeletonAnimation.AnimationState.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
+
+        GameManager.Instance.DisableControls = false;
+
+        yield return null;
+    }
+    private IEnumerator BossDefeatedCanvas()
+    {
+        yield return new WaitUntil(() => idleing == true);
+
+        yield return new WaitForSeconds(0.5f);
+
+        GameObject go = Instantiate(SceneLoader.Instance.BossDefeatedCanvas);
+
+        yield return new WaitForSeconds(2.2f);
+
+        Destroy(go);
+    }
+    private IEnumerator BossDefeatedCanvas2()
+    {
+        yield return new WaitForSeconds(1f);
+
+        GameObject go = Instantiate(SceneLoader.Instance.BossDefeatedCanvas);
+
+        yield return new WaitForSeconds(3.2f);
+
+        Destroy(go);
+    }
 
 
 
@@ -792,7 +926,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     /// </summary>
     public void DestroySecondaryCanvas()
     {
-        Destroy(GameManager.Instance.transform.GetChild(0).gameObject); ;
+        Destroy(GameManager.Instance.transform.GetChild(0).gameObject);
     }
 
 
@@ -1365,6 +1499,18 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
                 unit.target.unitController.spineSkeletonAnimation.AnimationState.SetAnimation(1, "DoubleAxeHuge/Death 2", false);
                 GameManager.Instance.EnemyUnits.Remove(unit.target);
+                break;
+
+            // Scythemaster
+            case "Game Event/Shield_Block_Sound":
+                SoundManager.Instance.PlayEffect(SoundManager.Instance.ShieldHitSound[Random.Range(0, SoundManager.Instance.ShieldHitSound.Count)]);
+                break;
+            case "Game Event/Shield_Knock_Sound":
+                (unit.activeAnimations.BreakStance[1] as CloseCombatAnimation).SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+                break;
+            case "Game Event/Weapon_Hit_Sound":
+                SoundManager.Instance.PlayEffect((unit.activeAnimations.Attack[0] as CloseCombatAnimation).SoundObject.hitSoundEffect.soundEffectsList[2]);
+                //(unit.activeAnimations.Attack[0] as CloseCombatAnimation).SoundObject.hitSoundEffect.PlayRandomSoundEffect();
                 break;
             default:
                 break;

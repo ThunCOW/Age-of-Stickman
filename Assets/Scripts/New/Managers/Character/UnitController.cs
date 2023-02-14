@@ -145,7 +145,8 @@ public class UnitController : MonoBehaviour
         // scenario 2
         if (unit.target == null)
         {
-            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+            if(!isScytheAttack)
+                currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
 
             return;
         }
@@ -270,13 +271,15 @@ public class UnitController : MonoBehaviour
         // i.e if target is being pushed to right, current unit must be looking right to land the hit, if its not looking right, misses it
         if (dir == (int)MoveDirection.right && transform.localScale.x < 0.1)
         {
-            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+            if(!isScytheAttack)
+                currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
 
             return;
         }
         else if (dir == (int)MoveDirection.left && transform.localScale.x > 0.1)
         {
-            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+            if(!isScytheAttack)
+                currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
 
             return;
         }
@@ -350,7 +353,8 @@ public class UnitController : MonoBehaviour
         }
         else
         {
-            currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
+            if(!isScytheAttack)
+                currentAttack.SoundObject.swooshSoundEffect.PlayRandomSoundEffect();
         }
     }
 
@@ -451,6 +455,7 @@ public class UnitController : MonoBehaviour
         }
 
         attack.SoundObject.hitSoundEffect.PlayRandomSoundEffect();
+
 
         if (attack.attackType == AttackType.Casual || attack.attackType == AttackType.BigBossKnocked)
             unit.Health -= DamageTaken;
@@ -699,81 +704,12 @@ public class UnitController : MonoBehaviour
         if (tempDeathAnim.bloodAnimation != null)
             BleedingAnimator.Play(tempDeathAnim.bloodAnimation.name);
     }
-    protected void BossDead()
+    protected virtual void BossDead()
     {
         StopRoutine();
 
         CinematicAction cAnim = GetComponent<CinematicAction>();
-
-        if(gameObject.CompareTag(GameManager.PLAYER_TAG))
-        {
-            AchivementSO ach;
-            if (unit.target.CompareTag(GameManager.SPEARMASTER_TAG))
-            {
-                ach = AchievementSystem.GetAchievementSO(AchievementIds.Spearmaster);
-                if (!(ach as AchievementByEvent).isUnlocked)
-                {
-                    (ach as AchievementByEvent).isUnlocked = true;
-                }
-
-                ResetAttachments();
-            
-                GameManager.Instance.DisableControls = true;
-            
-                StartCoroutine(PlayCinematicAnimation(cAnim.SpearmasterDead, true));
-
-                ReStartCoroutines();
-            }
-            else if(unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
-            {
-                ach = AchievementSystem.GetAchievementSO(AchievementIds.FallenKing);
-                if (!(ach as AchievementByEvent).isUnlocked)
-                {
-                    (ach as AchievementByEvent).isUnlocked = true;
-                }
-
-                ResetAttachments();
-
-                GameManager.Instance.DisableControls = true;
-
-                StartCoroutine(PlayCinematicAnimation(cAnim.SycthemasterDead, true));
-
-                ReStartCoroutines();
-            }
-            else if(unit.target.CompareTag(GameManager.DOUBLEAXEDEMON_TAG))
-            {
-                //GameManager.Instance.DisableControls = true;
-                ResetAttachments();
-
-                GameManager.Instance.DisableControls = true;
-
-                StartCoroutine(DoubleAxeDead());
-
-                //ReStartCoroutines();
-            }
-            else if(unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
-            {
-                ach = AchievementSystem.GetAchievementSO(AchievementIds.TheGolliath);
-                if (!(ach as AchievementByEvent).isUnlocked)
-                {
-                    (ach as AchievementByEvent).isUnlocked = true;
-                }
-
-                ach = AchievementSystem.GetAchievementSO(AchievementIds.Swordhood);
-                if (GameManager.Instance.DeathCount < 0)
-                {
-                    if (!(ach as AchievementByEvent).isUnlocked)
-                    {
-                        (ach as AchievementByEvent).isUnlocked = true;
-                    }
-                }
-
-                //GameManager.Instance.DisableControls = true;
-                spineSkeletonAnimation.AnimationState.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 0);
-                Ending.Instance.GameEnd();
-            }
-        }
-        else if(gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
+        if(gameObject.CompareTag(GameManager.SPEARMASTER_TAG))
         {
             unit.GetComponentInChildren<MeshRenderer>().sortingOrder = 1000;
 
@@ -817,37 +753,6 @@ public class UnitController : MonoBehaviour
 
             StartCoroutine(PlayCinematicAnimation(cAnim.BigDemonDead, false));
         }
-    }
-
-    private IEnumerator DoubleAxeDead()
-    {
-        int dir = Mathf.Abs(transform.localScale.x - unit.target.transform.position.x) > 0 ? 1 : -1;
-        transform.localScale = new Vector3(dir * transform.localScale.x, transform.localScale.y, transform.localScale.z);
-
-        yield return new WaitForSeconds(1);
-
-        while (Mathf.Abs(transform.position.x - unit.target.transform.position.x) > 1.8f)
-        {
-            if(unit.currentStance != StanceList.Stand_A)
-            {
-                unit.currentStance = StanceList.Stand_A;
-                ResetAttachments();
-            }
-            spineSkeletonAnimation.AnimationState.SetAnimation(1, unit.activeAnimations.Movement.SpineAnimationReference, true);
-
-            transform.position = new Vector3(transform.position.x + (dir * 2) * Time.deltaTime, transform.position.y, transform.position.z);
-            
-            yield return new WaitForFixedUpdate();
-        }
-        spineSkeletonAnimation.AnimationState.SetAnimation(1, "10_Completed/Attack_Stand_A_3(Fast)", false);
-
-        yield return new WaitForSeconds(1.2f);
-
-        spineSkeletonAnimation.AnimationState.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
-
-        GameManager.Instance.DisableControls = false;
-
-        yield return null;    
     }
     protected void DismemberBody(DeathByDismemberAnimation deathAnimation)
     {
@@ -1335,6 +1240,8 @@ public class UnitController : MonoBehaviour
 
     protected virtual void DisableControls() { }
     protected virtual void EnableControls() { }
+
+    bool isScytheAttack;
     protected virtual void HandleAnimationStateEvent(TrackEntry trackEntry, Spine.Event e)
     {
         switch (e.Data.Name)
@@ -1342,6 +1249,14 @@ public class UnitController : MonoBehaviour
             case "MeleeAttack":
                 DealDamage();
                 break;
+            case "Game Event/SpinSound":
+                isScytheAttack = true;
+                SoundManager.Instance.PlayEffect(SoundManager.Instance.SyctheSpin[Random.Range(0, 2)]);
+                //
+                break;
+            case "Game Event/Scythemaster_EntranceSound":
+                SoundManager.Instance.PlayEffect(SoundManager.Instance.SyctheEntrance);
+            break;
             case "Game Event/Weapon_Hit_Sound":
                 if(currentAttack == null)
                 {

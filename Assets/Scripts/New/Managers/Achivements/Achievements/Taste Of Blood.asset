@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Taste Of Blood
   m_EditorClassIdentifier: 
   Achievement:
-    id: Ach01
+    id: 0
     title: Taste Of Blood
     description: First enemy killed
     texture: {fileID: 21300000, guid: 86cab2207d6f01f4db0ad59b7b99d43d, type: 3}

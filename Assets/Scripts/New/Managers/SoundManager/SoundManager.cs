@@ -42,6 +42,9 @@ public class SoundManager : MonoBehaviour
 
     public List<AudioClip> DeathSFX;
 
+    public List<AudioClip> SyctheSpin;
+    public AudioClip SyctheEntrance;
+
     void Awake()
     {
         if (Instance == null)
@@ -73,21 +76,26 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayBossMusic()
     {
-        StartCoroutine(TurnMusicDownTimed());
+        StartCoroutine(TurnMusicDownTimed(1));
     }
 
     public void TurnMusicDown()
     {
         //StartCoroutine(TurnMusicDownTimed());
     }
-    IEnumerator TurnMusicDownTimed()
+
+    public void TurnMusicDownSlowly(float x)
     {
-        float countDown = 0.5f;
+        StartCoroutine(TurnMusicDownTimed(x));
+    }
+    IEnumerator TurnMusicDownTimed(float x)
+    {
+        float countDown = x;
         while (countDown > 0)
         {
             countDown -= Time.deltaTime;
             float currentMusicVol = ((float)_MusicVolume / (float)8) * MaxVolume;
-            musicSource.volume = currentMusicVol * countDown;
+            musicSource.volume = currentMusicVol * countDown / x;
             yield return new WaitForFixedUpdate();
         }
 

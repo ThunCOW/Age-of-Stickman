@@ -35,4 +35,4 @@ MonoBehaviour:
   PushDistance: 0
   attackRegion: 0
   hitHeightPosiiton: 0
-  SoundObject: {fileID: 0}
+  SoundObject: {fileID: 11400000, guid: 7ea0058a0023bfc42ada000b3ffe1e68, type: 2}

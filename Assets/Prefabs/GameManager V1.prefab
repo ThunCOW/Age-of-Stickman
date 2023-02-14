@@ -6051,7 +6051,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 6867119214904670768}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -10012,7 +10012,7 @@ RectTransform:
   - {fileID: 2140610188}
   - {fileID: 1217289726}
   m_Father: {fileID: 6867119214904670768}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -11602,7 +11602,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 3321896845516795564}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -11679,7 +11679,7 @@ RectTransform:
   m_Children:
   - {fileID: 6913206111923005786}
   m_Father: {fileID: 3321896845516795564}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12011,6 +12011,7 @@ MonoBehaviour:
   Soundtrack_OpeningMenu: {fileID: 8300000, guid: ec675745272efa54882f741561998a74, type: 3}
   Soundtrack_MainMenu: {fileID: 8300000, guid: a5a4c8ff1888a884c8ab7c7d9efb43f3, type: 3}
   Soundtrack_War_1: {fileID: 8300000, guid: 1418c96c9f45d38468f25d07e5b38d9f, type: 3}
+  StoryMusic: {fileID: 8300000, guid: 2cf0be43ed965e8409c826cb1afcff80, type: 3}
   Soundtrack_Boss_1: {fileID: 8300000, guid: ca24795b6693bf44a8c1e90efd8b7bb9, type: 3}
   PortalOpeningSFX: {fileID: 8300000, guid: 289495b5d58a5a348ab1ac08967c31af, type: 3}
   PortalClosingSFX: {fileID: 8300000, guid: ce81c52b58b5f9645a498fd08e038b21, type: 3}
@@ -12039,6 +12040,13 @@ MonoBehaviour:
   SettingsButtonEndless: {fileID: 1712231633173675875}
   SaveButton: {fileID: 7464457090599836801}
   ProgressBar: {fileID: 475494109}
+  StoryCanvas_EntrancePrefab: {fileID: 8168136690755867205, guid: 227691c18c61365478edb9c71493e914, type: 3}
+  StoryCanvas_SpearmasterPrefab: {fileID: 8702295669453820962, guid: 993a55b4a2714e943bed29d1292466b0, type: 3}
+  StoryCanvas_SycthemasterPrefab: {fileID: 1623503307768340165, guid: 8d9c92ad0e8ffd44fa4a82aca29006e0, type: 3}
+  StoryCanvas_DoubleAxePrefab: {fileID: 6541082486077512961, guid: 7f5184f005221444cb69e7ca78eb8215, type: 3}
+  StoryCanvas_EndingPrefab: {fileID: 8810820432473878166, guid: 9ab71de995d0bd64aaa49ead29ba0b60, type: 3}
+  TransitionCanvas_Prefab: {fileID: 6987252361614258034, guid: cce2acfd58d14904183675de6ce88965, type: 3}
+  BossDefeatedCanvas: {fileID: 600312828977109976, guid: 245b77bad79d79e4591b93c1b8e6544f, type: 3}
   ShopCanvas: {fileID: 7464457089295626137}
   OpenShopCanvas: {fileID: 7464457089839733439}
   NewGameQ: {fileID: 1833774842}
@@ -12108,8 +12116,6 @@ MonoBehaviour:
     scenePath: Assets/Scenes/Level 27.unity
   - sceneAsset: {fileID: 102900000, guid: 0466dc6d31f910045b89bd2c99088f1b, type: 3}
     scenePath: Assets/Scenes/Level 28.unity
-  - sceneAsset: {fileID: 102900000, guid: 08adefe5f7b15474bbee603ab9b9b486, type: 3}
-    scenePath: Assets/Scenes/Level 29.unity
   EndlessHumanLevel:
     sceneAsset: {fileID: 102900000, guid: e5b09244dfc778e40acf83c29f4dbecf, type: 3}
     scenePath: Assets/Scenes/EndlessHumanLevel.unity
@@ -12122,7 +12128,9 @@ MonoBehaviour:
   EndlessDemonLevel2:
     sceneAsset: {fileID: 102900000, guid: 7e407cac4dd766f46821c73862e1f552, type: 3}
     scenePath: Assets/Scenes/EndlessDemonLevel.unity
+  TransitionScenePrefab: {fileID: 6987252361614258034, guid: cce2acfd58d14904183675de6ce88965, type: 3}
   DayTextPrefab: {fileID: 977326840875053407, guid: ec5f94154b40fad4bbb7b347ecc1fa43, type: 3}
+  canContinue: 0
 --- !u!114 &7464457090717908816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12351,6 +12359,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1271851040429269240}
+  - {fileID: 2609563192846964743}
   - {fileID: 1651107063604024620}
   - {fileID: 3321896845516795564}
   - {fileID: 1833774843}
@@ -12677,7 +12686,7 @@ RectTransform:
   m_Children:
   - {fileID: 1213170590724151861}
   m_Father: {fileID: 3321896845516795564}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -12810,7 +12819,7 @@ RectTransform:
   - {fileID: 5086271218780582321}
   - {fileID: 8123700881746820302}
   m_Father: {fileID: 6867119214904670768}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
@@ -13035,17 +13044,17 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3447129659872735382}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 3321896845516795564}
-  m_RootOrder: 0
+  m_Father: {fileID: 6867119214904670768}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 845, y: 421}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: 795, y: 421}
   m_SizeDelta: {x: 103, y: 111}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2602709705754437406
@@ -13823,7 +13832,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 2609563192846964743}
   - {fileID: 5483332126251573881}
   - {fileID: 5717159487628295308}
   - {fileID: 255119559848049926}
@@ -13832,7 +13840,7 @@ RectTransform:
   - {fileID: 7697572302384643493}
   - {fileID: 3089027365676988386}
   m_Father: {fileID: 6867119214904670768}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
@@ -15245,7 +15253,7 @@ RectTransform:
   m_Children:
   - {fileID: 6249168022439900751}
   m_Father: {fileID: 3321896845516795564}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -32001,7 +32009,7 @@ RectTransform:
   m_Children:
   - {fileID: 5889489950597476309}
   m_Father: {fileID: 3321896845516795564}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -32730,7 +32738,7 @@ RectTransform:
   m_Children:
   - {fileID: 777717252890538829}
   m_Father: {fileID: 3321896845516795564}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -32966,7 +32974,7 @@ RectTransform:
   m_Children:
   - {fileID: 4009388590285453811}
   m_Father: {fileID: 3321896845516795564}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

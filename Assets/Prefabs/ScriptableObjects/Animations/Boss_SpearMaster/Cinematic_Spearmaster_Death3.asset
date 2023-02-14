@@ -13,10 +13,11 @@ MonoBehaviour:
   m_Name: Cinematic_Spearmaster_Death3
   m_EditorClassIdentifier: 
   Prefix: Cinematic
-  AnimationName: Spearmaster_Death3
-  SpineAnimationReference: {fileID: 11400000, guid: 49f9ff7256fb7e4488f41c512ae818c5, type: 2}
+  AnimationName: Spearmaster_Death3.1
+  SpineAnimationReference: {fileID: 11400000, guid: 9ebbf850f4d7ba54fbb80ad4c98cc487, type: 2}
+  ShadowAnimation: {fileID: 0}
   _PrefixChangeCheck: Cinematic
-  _AnimationNameChangeCheck: Spearmaster_Death3
+  _AnimationNameChangeCheck: Spearmaster_Death3.1
   speedCurve:
     serializedVersion: 2
     m_Curve:
@@ -40,7 +41,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.3
-      value: 2.1821434
+      value: 0.37884328
       inSlope: -1000.38995
       outSlope: 0
       tangentMode: 65
@@ -49,7 +50,7 @@ MonoBehaviour:
       outWeight: 0.33333334
     - serializedVersion: 3
       time: 0.6666
-      value: 2.1821434
+      value: 0.37884328
       inSlope: -0
       outSlope: 2.9994001
       tangentMode: 5

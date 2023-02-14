@@ -293,9 +293,11 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnDoubleAxeDemonSummoner()
     {
-        Debug.Log("SpawnDoubleAxeDemonSummoner");
+        Debug.Log("SpawnBossAfterNoEnemy");
+        preparingForBossSpawn = true;
+        maxSpawn = 1;
 
-        maxSpawn = 0;
+        yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
 
         GameManager.Instance.DisableControls = true;
 
@@ -328,9 +330,10 @@ public class SpawnManager : MonoBehaviour
     
     IEnumerator SpawnBigDemonSummoner()
     {
-        Debug.Log("SpawnBigDemonSummoner");
-        
-        maxSpawn = 0;
+        preparingForBossSpawn = true;
+        maxSpawn = 1;
+
+        yield return new WaitUntil(() => maxSpawn == 0 && GameManager.Instance.EnemyUnits.Count == 0);
 
         GameManager.Instance.DisableControls = true;
 

@@ -24,9 +24,12 @@ public class Ending : MonoBehaviour
 
     public void GameEnd()
     {
-        StartCoroutine(End());
+        StartCoroutine(End2());
     }
-    
+    public void _Button_FinishGame()
+    {
+        SceneLoader.Instance.FinishGame();
+    }
     private IEnumerator End()
     {
         
@@ -176,7 +179,135 @@ public class Ending : MonoBehaviour
 
         SceneLoader.Instance.FinishGame();*/
     }
+    private IEnumerator End2()
+    {
+        // Set new positions and Screen clears again
+        
+        float timer;
+        Color black = Color.black;
+        black.a = 0;
 
+        GameObject player = GameManager.Instance.Player.gameObject;
+        player.transform.position = new Vector3(0, 50 + player.transform.position.y, 0);
+
+        GameObject summoner = Instantiate(DemonSummonerEnd);
+        summoner.transform.position = new Vector3(10, 50 + summoner.transform.position.y, 0);
+        summoner.GetComponent<Unit>().unitController.spineSkeletonAnimation.AnimationState.SetAnimation(1, "Demon Magician/idle", true);
+        summoner.transform.localScale = new Vector3(-summoner.transform.localScale.x, summoner.transform.localScale.y, summoner.transform.localScale.z);
+
+        GameObject portal = Instantiate(GameManager.Instance.PortalPrefab);
+        portal.transform.position = new Vector3(summoner.transform.position.x + 0.93f, summoner.transform.position.y + 0.55f, 0);
+        portal.transform.rotation = Quaternion.Euler(0, 0, -90);
+
+        Camera.main.orthographicSize = 5;
+        Camera.main.GetComponent<SmoothCameraFollow>().enabled = false;
+
+        Camera.main.transform.position = new Vector3((player.transform.position.x + summoner.transform.position.x) / 2, player.transform.position.y + 1.77f, Camera.main.transform.position.z);
+
+        timer = 2;
+        float TimeToWhite = 2;
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+            black.a = (timer / TimeToWhite);
+            //BlackScreen.color = black;
+
+            yield return new WaitForFixedUpdate();
+        }
+
+
+        // Boss last speech
+
+        TextBoxManager textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(summoner.transform.position.x, summoner.transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(summoner.GetComponent<UnitDialogues>().dialogueList[0].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(0.1f);
+
+        textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(summoner.transform.position.x, summoner.transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(summoner.GetComponent<UnitDialogues>().dialogueList[1].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(0.1f);
+
+        textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(summoner.transform.position.x, summoner.transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(summoner.GetComponent<UnitDialogues>().dialogueList[2].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(0.1f);
+
+        textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(summoner.transform.position.x, summoner.transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(summoner.GetComponent<UnitDialogues>().dialogueList[3].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(0.1f);
+
+        // Boss leaves through portal
+
+        summoner.GetComponent<Unit>().unitController.spineSkeletonAnimation.AnimationState.SetAnimation(1, "Demon Magician/Exit_2", false);
+        StartCoroutine(MoveSummonerBeforeEnd(summoner));
+
+        // Close Portal
+
+        yield return new WaitForSeconds(1.7f);
+
+        float countdownToDestroyPortal = 1;
+        while (countdownToDestroyPortal > 0)
+        {
+            countdownToDestroyPortal -= Time.deltaTime;
+            float perc = countdownToDestroyPortal / 1;
+            portal.transform.localScale = new Vector3(perc, perc, 1);
+            yield return new WaitForFixedUpdate();
+        }
+        Destroy(summoner);
+        Destroy(portal);
+
+        // Player Begins to Move Right
+
+        Unit PlayerUnit = player.GetComponent<Unit>();
+        PlayerUnit.unitController.spineSkeletonAnimation.AnimationState.SetAnimation(1, PlayerUnit.activeAnimations.Movement.SpineAnimationReference, true);
+        StartCoroutine(MovePlayerBeforeEnd(player));
+
+        // Camera begins to move towrads Thanks For Playing canvas
+
+        ThanksForPlayingCanvas.transform.parent = null;
+
+        float countDown = 7f;
+        while (countDown > 0)
+        {
+            countDown -= Time.deltaTime;
+            Camera.main.transform.position = new Vector3(Camera.main.transform.position.x, Camera.main.transform.position.y + 0.8f * Time.deltaTime, Camera.main.transform.position.z);
+            yield return new WaitForFixedUpdate();
+        }
+
+        yield return new WaitForSeconds(3);
+
+        ReturnToGameOpeningButton.SetActive(true);
+        TMP_Text returnMenuTextObj = ReturnToGameOpeningButton.transform.GetChild(0).GetComponent<TMP_Text>();
+        black = returnMenuTextObj.color;
+        while (countDown < 0.75f)
+        {
+            countDown += Time.deltaTime;
+
+            black.a = countDown / 1.5f;
+            returnMenuTextObj.color = black;
+
+            yield return new WaitForFixedUpdate();
+        }
+    }
     private IEnumerator MoveSummonerBeforeEnd(GameObject summoner)
     {
         while (summoner != null)

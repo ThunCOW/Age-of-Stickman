@@ -588,7 +588,7 @@ public class AIController : UnitController
         StartCoroutine(AIActionDecision(waitTime)); // waits until animation ends, so does not make decisions during animation
 
         
-        AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
+        //AnimationSpeedCurveKeyframeSetup(currentAttack.speedCurve, currentAttack.Keys, currentAttack.Values);
         StartCoroutine(SpeedDuringAnimation(tempTrackEntry, currentAttack.speedCurve));
 
         if (attack.ShadowAnimation != null)
@@ -715,7 +715,7 @@ public class AIController : UnitController
 
         spineSkeletonAnimation.state.SetAnimation(1, "DoubleAxeHuge/Idle4", true);
 
-        yield return new WaitForSeconds(15);
+        yield return new WaitForSeconds(20.5f);
 
         TextBoxManager textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
         textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
@@ -749,7 +749,25 @@ public class AIController : UnitController
 
         yield return new WaitUntil(() => textBoxSpawn.IsEnded);
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(0.5f);
+
+        textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(GetComponent<UnitDialogues>().dialogueList[1].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(0.5f);
+
+        textBoxSpawn = Instantiate(GameManager.Instance.TextBoxPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
+
+        textBoxSpawn.ShowText(GetComponent<UnitDialogues>().dialogueList[2].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
+
+        yield return new WaitForSeconds(1f);
 
         TrackEntry trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Demon Magician/Exit", false);
 

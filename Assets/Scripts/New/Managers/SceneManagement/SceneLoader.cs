@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using static System.TimeZoneInfo;
 
 public class SceneLoader : MonoBehaviour
 {
@@ -21,6 +22,15 @@ public class SceneLoader : MonoBehaviour
     public GameObject SettingsButtonEndless;
     public Button SaveButton;
     public Slider ProgressBar;
+
+    public GameObject StoryCanvas_EntrancePrefab;
+    public GameObject StoryCanvas_SpearmasterPrefab;
+    public GameObject StoryCanvas_SycthemasterPrefab;
+    public GameObject StoryCanvas_DoubleAxePrefab;
+    public GameObject StoryCanvas_EndingPrefab;
+    public GameObject TransitionCanvas_Prefab;
+
+    public GameObject BossDefeatedCanvas;
     
     [Space]
     public ShopPanel_V2.ShopPanel ShopCanvas;
@@ -40,6 +50,8 @@ public class SceneLoader : MonoBehaviour
     public SceneReference EndlessDemonLevel;
     public SceneReference EndlessDemonLevel2;
     List<SceneReference> EndlessLevels = new List<SceneReference>();
+
+    public GameObject TransitionScenePrefab;
 
     public delegate void OnLevelLoaded();
     public static OnLevelLoaded LevelLoaded;
@@ -64,6 +76,12 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance.LoadDataAsJson();
     }
 
+    public void _Button_ResChange(TMP_Text text)
+    {
+        Screen.SetResolution(1920, 1080, false);
+
+        text.text = Screen.currentResolution.ToString();
+    }
     // OpeningMenu -> New Game
     public void StartNewGame()
     {
@@ -103,6 +121,7 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance.mainMenuPlayer.ChangeUnitEquipments(GameManager.Instance.mainMenuPlayer, GameManager.Instance.PlayerEquipments);
         SceneManager.LoadScene(MainMenu);
     }
+
     public void StartEndlessGame()
     {
         SceneManager.LoadScene(EndlessLevels[UnityEngine.Random.Range(0, EndlessLevels.Count)]);
@@ -167,18 +186,8 @@ public class SceneLoader : MonoBehaviour
     {
         if(scene.name == "Main Menu A")                     // Story Mode Menu
         {
-            OpeningMenuCanvas.SetActive(false);
-            MainMenuCanvas.SetActive(true);
-            if (levelFinishedCheck)
-            {
-                OpenShopCanvas.onClick.Invoke();
-                levelFinishedCheck = false;
-            }
-            
-            SettingsButton.SetActive(true);
-            SaveButton.interactable = true;
-
-            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_MainMenu, 0.3f);
+            GameManager.Instance.isEndlessLevel = false;
+            StartCoroutine(LoadMainMenu());
         }
         else if(scene.name == "Game Opening A")             // Opening Menu
         {
@@ -197,6 +206,7 @@ public class SceneLoader : MonoBehaviour
             OpeningMenuCanvas.SetActive(false);
             SettingsButtonEndless.SetActive(true);
             SaveButton.interactable = false;
+            GameManager.Instance.isEndlessLevel = true;
             GameManager.Instance.EndlessKillCount = 0;
             GameManager.Instance.EndlessLive();
 
@@ -210,6 +220,274 @@ public class SceneLoader : MonoBehaviour
             GameManager.Instance.EndlessKillCount = -999;
 
             SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_War_1, 0.2f);
+        }
+    }
+
+    public bool canContinue;
+    public IEnumerator LoadMainMenu()
+    {
+        if (GameManager.Instance.Level == 0)
+        {
+            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.StoryMusic, 0.3f);
+
+            canContinue = false;
+
+            GameObject transitionGO = Instantiate(TransitionCanvas_Prefab);
+            Image[] transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
+            
+
+            GameObject storyCanvas_EntanceGO = Instantiate(StoryCanvas_EntrancePrefab);
+
+            foreach(Image image in transitionImg )
+            {
+                StartCoroutine(ImageDisappearSlowly(image.gameObject, 1f, 0.65f, true));
+            }
+
+            yield return new WaitForSeconds(0.8f);
+
+            foreach (Image image in transitionImg)
+            {
+                image.raycastTarget = false;
+            }
+
+            yield return new WaitUntil(() => canContinue);
+
+            transitionGO = Instantiate(TransitionCanvas_Prefab);
+            transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
+
+            Destroy(storyCanvas_EntanceGO);
+
+            foreach (Image image in transitionImg)
+            {
+                StartCoroutine(ImageDisappearSlowly(image.gameObject, 0.8f, 0.5f, true));
+            }
+            
+            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_MainMenu, 0.3f);
+            yield return new WaitForSeconds(0.4f);
+
+            foreach (Image image in transitionImg)
+            {
+                image.raycastTarget = false;
+            }
+        }
+        else if(GameManager.Instance.Level != 7 || GameManager.Instance.Level != 17 || GameManager.Instance.Level != 21 || GameManager.Instance.Level != 27)
+        {
+            SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_MainMenu, 0.3f);
+        }
+
+        OpeningMenuCanvas.SetActive(false);
+        MainMenuCanvas.SetActive(true);
+        if (levelFinishedCheck)
+        {
+            OpenShopCanvas.onClick.Invoke();
+            levelFinishedCheck = false;
+        }
+
+        SettingsButton.SetActive(true);
+        SaveButton.interactable = true;
+    }
+
+    public void PlayStoryCanvas(float initialWait, string bossTag)
+    {
+        GameObject storyCanvas = null;
+        switch (bossTag)
+        {
+            case GameManager.SPEARMASTER_TAG:
+                storyCanvas = StoryCanvas_SpearmasterPrefab;
+                break;
+            case GameManager.SCYTHEMASTER_TAG:
+                storyCanvas = StoryCanvas_SycthemasterPrefab;
+                break;
+            case GameManager.DOUBLEAXEDEMON_TAG:
+                storyCanvas = StoryCanvas_DoubleAxePrefab;
+                break;
+            case GameManager.BIG_DEMON_TAG:
+                storyCanvas = StoryCanvas_EndingPrefab;
+                break;
+            default:
+                break;
+        }
+        StartCoroutine(StoryCanvas(initialWait, storyCanvas));
+    }
+
+    IEnumerator StoryCanvas(float initialWait, GameObject storyCanvas)
+    {
+        yield return new WaitForSeconds(initialWait);
+
+        canContinue = false;
+
+        // Spawn transition canvas
+        GameObject transitionGO = Instantiate(TransitionCanvas_Prefab, gameObject.transform);
+        Image[] transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
+        Color c = Color.white;
+        c.a = 0;
+        // appears in x second
+        foreach (Image image in transitionImg)
+        {
+            image.color = c;
+            StartCoroutine(ImageAppear(image.gameObject, 2.5f));
+        }
+        SoundManager.Instance.TurnMusicDownSlowly(2.45f);
+
+        yield return new WaitForSeconds(2.5f);
+
+        // spawn story canvas behind
+        GameObject storyCanvas_EntanceGO = Instantiate(storyCanvas);
+        // transition canvas begin to disapppear
+        foreach (Image image in transitionImg)
+        {
+            StartCoroutine(ImageDisappearSlowly(image.gameObject, 1f, 0.65f, true));
+        }
+
+        Debug.Log("Music Changed");
+        SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.StoryMusic, 0.3f);
+
+        yield return new WaitForSeconds(0.8f);
+
+        foreach (Image image in transitionImg)
+        {
+            image.raycastTarget = false;
+        }
+
+        yield return new WaitUntil(() => canContinue);
+
+
+        transitionGO = Instantiate(TransitionCanvas_Prefab, gameObject.transform);
+        transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
+
+        Destroy(storyCanvas_EntanceGO);
+
+        foreach (Image image in transitionImg)
+        {
+            StartCoroutine(ImageDisappearSlowly(image.gameObject, 0.8f, 0.5f, true));
+        }
+
+        SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.Soundtrack_MainMenu, 0.3f);
+        yield return new WaitForSeconds(0.45f);
+        GameManager.Instance.SceneLoader.FinishLevel();
+
+        foreach (Image image in transitionImg)
+        {
+            image.raycastTarget = false;
+        }
+    }
+
+    public void PlayEnd()
+    {
+        StartCoroutine(End(6.5f, StoryCanvas_EndingPrefab));
+    }
+    IEnumerator End(float initialWait, GameObject storyCanvas)
+    {
+        yield return new WaitForSeconds(initialWait);
+
+        canContinue = false;
+
+        // Spawn transition canvas
+        GameObject transitionGO = Instantiate(TransitionCanvas_Prefab, gameObject.transform);
+        Image[] transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
+        Color c = Color.white;
+        c.a = 0;
+        // appears in x second
+        foreach (Image image in transitionImg)
+        {
+            image.color = c;
+            StartCoroutine(ImageAppear(image.gameObject, 2.5f));
+        }
+        SoundManager.Instance.TurnMusicDownSlowly(2.45f);
+
+        yield return new WaitForSeconds(2.5f);
+
+        // spawn story canvas behind
+        GameObject storyCanvas_EntanceGO = Instantiate(storyCanvas);
+        // transition canvas begin to disapppear
+        foreach (Image image in transitionImg)
+        {
+            StartCoroutine(ImageDisappearSlowly(image.gameObject, 1f, 0.65f, true));
+        }
+
+        Debug.Log("Music Changed");
+        SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.StoryMusic, 0.3f);
+
+        yield return new WaitForSeconds(0.8f);
+
+        foreach (Image image in transitionImg)
+        {
+            image.raycastTarget = false;
+        }
+
+        yield return new WaitUntil(() => canContinue);
+
+        transitionGO = Instantiate(TransitionCanvas_Prefab, gameObject.transform);
+        transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
+
+        Destroy(storyCanvas_EntanceGO);
+
+        foreach (Image image in transitionImg)
+        {
+            StartCoroutine(ImageDisappearSlowly(image.gameObject, 0.8f, 0.5f, true));
+        }
+
+        foreach (Image image in transitionImg)
+        {
+            image.raycastTarget = false;
+        }
+
+        Ending.Instance.GameEnd();
+    }
+    public void TransitionScene()
+    {
+        StartCoroutine(Transition());
+    }
+
+    IEnumerator Transition()
+    {
+        GameObject transitionCanvas = Instantiate(TransitionScenePrefab, gameObject.transform);
+
+        ImageAppear(transitionCanvas.transform.GetChild(0).gameObject, 1.5f);
+
+        yield return new WaitForSeconds(2.3f);
+
+        ImageDisappearSlowly(transitionCanvas.transform.GetChild(0).gameObject, 0.8f, 0, true);
+    }
+
+    IEnumerator ImageAppear(GameObject Image, float appearTime)
+    {
+        Image tempImage = Image.GetComponent<Image>();
+        Color tempColor = tempImage.color;
+
+        float count = 0;
+        while (count < appearTime)
+        {
+            count += Time.deltaTime;
+
+            float percentage = count / appearTime;
+
+            tempColor.a = percentage;
+            tempImage.color = tempColor;
+
+            yield return new WaitForFixedUpdate();
+        }
+    }
+    IEnumerator ImageDisappearSlowly(GameObject Image, float disappearTime = 1.5f, float stallTime = 0, bool destroyAfter = false)
+    {
+        yield return new WaitForSeconds(stallTime);
+
+        Image tempImage = Image.GetComponent<Image>();
+        Color tempColor = tempImage.color;
+
+        float wait = (tempColor.a / 1) * disappearTime;                             // If image does not have maximum alpha, set time according to that
+        while (wait > 0)
+        {
+            if (tempImage == null)
+                break;
+            wait -= Time.deltaTime;
+
+            float percentage = wait / disappearTime;
+
+            tempColor.a = percentage;
+            tempImage.color = tempColor;
+
+            yield return new WaitForFixedUpdate();
         }
     }
 }
