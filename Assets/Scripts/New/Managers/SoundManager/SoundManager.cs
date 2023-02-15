@@ -44,6 +44,7 @@ public class SoundManager : MonoBehaviour
 
     public List<AudioClip> SyctheSpin;
     public AudioClip SyctheEntrance;
+    public AudioClip EndPortalClose;
 
     void Awake()
     {
@@ -76,7 +77,7 @@ public class SoundManager : MonoBehaviour
     }
     public void PlayBossMusic()
     {
-        StartCoroutine(TurnMusicDownTimed(1));
+        StartCoroutine(PlayBossMusicTimed(0.7f));
     }
 
     public void TurnMusicDown()
@@ -88,7 +89,7 @@ public class SoundManager : MonoBehaviour
     {
         StartCoroutine(TurnMusicDownTimed(x));
     }
-    IEnumerator TurnMusicDownTimed(float x)
+    IEnumerator PlayBossMusicTimed(float x)
     {
         float countDown = x;
         while (countDown > 0)
@@ -100,6 +101,18 @@ public class SoundManager : MonoBehaviour
         }
 
         PlayMusicOnLoop(GameManager.Instance.Soundtrack_Boss_1, 0.3f);
+    }
+
+    IEnumerator TurnMusicDownTimed(float x)
+    {
+        float countDown = x;
+        while (countDown > 0)
+        {
+            countDown -= Time.deltaTime;
+            float currentMusicVol = ((float)_MusicVolume / (float)8) * MaxVolume;
+            musicSource.volume = currentMusicVol * countDown / x;
+            yield return new WaitForFixedUpdate();
+        }
     }
 }
 

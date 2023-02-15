@@ -529,7 +529,11 @@ public class UnitController : MonoBehaviour
         gameObject.layer = ((int)GameLayers.DeadUnit);
         rb2d.bodyType = RigidbodyType2D.Static;
 
-        if (isBoss && !CompareTag(GameManager.DUAL_SWORD_BOSS_TAG))
+        if(isBoss && CompareTag(GameManager.DUAL_SWORD_BOSS_TAG))
+        {
+            GameManager.Instance.ContinueToMainMenuTextSpawn();
+        }
+        else if (isBoss)
         {
             //canMove = false;
 

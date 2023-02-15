@@ -11,6 +11,6 @@ public class AchUnlock : MonoBehaviour
 
     public void DeleteAfterAnimEnd()
     {
-        Destroy(gameObject);
+        Destroy(transform.parent.gameObject);
     }
 }

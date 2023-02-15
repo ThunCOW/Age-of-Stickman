@@ -153,7 +153,7 @@ public class AchievementSystem : MonoBehaviour
                 AchievementSave.Instance.SaveAchievements();
                 UnlockAch(achievementIds);
             }
-            else
+            else if(ach.currentAmount > 100)
             {
                 ach.currentAmount = 100;
                 // already unlocked
@@ -164,8 +164,8 @@ public class AchievementSystem : MonoBehaviour
     {
         AchivementSO achSO = GetAchievementSO(achievementIds);
 
-        GameObject go = Instantiate(UnlockAchievementPrefab, transform.GetChild(0));
-        AchUnlock achUnlock = go.GetComponent<AchUnlock>();
+        GameObject go = Instantiate(UnlockAchievementPrefab);
+        AchUnlock achUnlock = go.GetComponentInChildren<AchUnlock>();
         achUnlock.Ach_Title.text = achSO.Achievement.title;
         achUnlock.Ach_Img.sprite = achSO.Achievement.texture;
         achUnlock.Ach_Img.SetNativeSize();

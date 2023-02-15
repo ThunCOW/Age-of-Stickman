@@ -40,7 +40,8 @@ public class HiringPanel : MonoBehaviour
         UnitPanel[0].Init();
         UnitPanel[1].Init();
 
-        NextUnitPanelLocation = Screen.width * 0.13177083333f; // (NextUnitPanelLocation in 1920widt)
+        UnitPanelDistance = Mathf.Abs(UnitPanel[0].rectTran.anchoredPosition.x - UnitPanel[1].rectTran.anchoredPosition.x);
+        Debug.Log(UnitPanelDistance);
     }
 
 
@@ -164,20 +165,20 @@ public class HiringPanel : MonoBehaviour
         return mercenaryList[nextMercIndex];
     }
 
-    float NextUnitPanelLocation;
+    float UnitPanelDistance;
     UnitHolder PrepareNextUnit(bool isMovingRight)
     {
         UnitHolder nextUnit = UnitPanel[0] == currentUnit ? UnitPanel[1] : UnitPanel[0];
 
         if(isMovingRight)
         {
-            if (nextUnit.UnitObject.transform.position.x >= currentUnit.UnitObject.transform.position.x)
-                nextUnit.UnitObject.transform.position = new Vector3(nextUnit.UnitObject.transform.position.x - NextUnitPanelLocation * 2, nextUnit.UnitObject.transform.position.y, nextUnit.UnitObject.transform.position.z);
+            if (nextUnit.rectTran.anchoredPosition.x >= currentUnit.rectTran.anchoredPosition.x)
+                nextUnit.rectTran.anchoredPosition = new Vector3(nextUnit.rectTran.anchoredPosition.x - UnitPanelDistance * 2, nextUnit.rectTran.anchoredPosition.y);
         }
         else
         {
-            if (nextUnit.UnitObject.transform.position.x <= currentUnit.UnitObject.transform.position.x)
-                nextUnit.UnitObject.transform.position = new Vector3(nextUnit.UnitObject.transform.position.x + NextUnitPanelLocation * 2, nextUnit.UnitObject.transform.position.y, nextUnit.UnitObject.transform.position.z);
+            if (nextUnit.rectTran.anchoredPosition.x <= currentUnit.rectTran.anchoredPosition.x)
+                nextUnit.rectTran.anchoredPosition = new Vector3(nextUnit.rectTran.anchoredPosition.x + UnitPanelDistance * 2, nextUnit.rectTran.anchoredPosition.y);
         }
 
         nextUnit.UnitObject.SetActive(true);
@@ -189,35 +190,34 @@ public class HiringPanel : MonoBehaviour
     {
         if(isMovingRight)
         {
-            isActive = StartCoroutine(MoveHorizontal(UnitPanel[0].UnitObject, (int)MoveDirection.right));
-            StartCoroutine(MoveHorizontal(UnitPanel[1].UnitObject, (int)MoveDirection.right));
+            isActive = StartCoroutine(MoveHorizontal(UnitPanel[0].rectTran, (int)MoveDirection.right));
+            StartCoroutine(MoveHorizontal(UnitPanel[1].rectTran, (int)MoveDirection.right));
         }
         else
         {
-            isActive = StartCoroutine(MoveHorizontal(UnitPanel[0].UnitObject, (int)MoveDirection.left));
-            StartCoroutine(MoveHorizontal(UnitPanel[1].UnitObject, (int)MoveDirection.left));
+            isActive = StartCoroutine(MoveHorizontal(UnitPanel[0].rectTran, (int)MoveDirection.left));
+            StartCoroutine(MoveHorizontal(UnitPanel[1].rectTran, (int)MoveDirection.left));
         }
     }
 
     Coroutine isActive;
-    IEnumerator MoveHorizontal(GameObject unitObject, int direction)
+    IEnumerator MoveHorizontal(RectTransform rectTransform, int direction)
     {
-        float newPos = unitObject.transform.position.x + (direction) * NextUnitPanelLocation;
+        float newPos = rectTransform.anchoredPosition.x + (direction) * UnitPanelDistance;
 
-        while(unitObject.transform.position.x != newPos)
+        while(rectTransform.anchoredPosition.x != newPos)
         {
-            unitObject.transform.position = new Vector3(unitObject.transform.position.x + (direction * speed * Time.deltaTime),
-                unitObject.transform.position.y, unitObject.transform.position.z);
+            rectTransform.anchoredPosition = new Vector3(rectTransform.anchoredPosition.x + (direction * speed * Time.deltaTime), rectTransform.anchoredPosition.y);
 
             if(direction == 1)
             {
-                if (unitObject.transform.position.x >= newPos)
-                    unitObject.transform.position = new Vector3(newPos, unitObject.transform.position.y, unitObject.transform.position.z);
+                if (rectTransform.anchoredPosition.x >= newPos)
+                    rectTransform.anchoredPosition = new Vector3(newPos, rectTransform.anchoredPosition.y);
             }
             else
             {
-                if (unitObject.transform.position.x <= newPos)
-                    unitObject.transform.position = new Vector3(newPos, unitObject.transform.position.y, unitObject.transform.position.z);
+                if (rectTransform.anchoredPosition.x <= newPos)
+                    rectTransform.anchoredPosition = new Vector3(newPos, rectTransform.anchoredPosition.y);
             }
 
             yield return null;
@@ -315,12 +315,13 @@ public class UnitHolder
     [HideInInspector] public List<Item> equippedItems = new List<Item>();
     public Dictionary<ItemSlot, Item> dictEquippedItems = new Dictionary<ItemSlot, Item>();
 
-     [HideInInspector] public Vector3 defaultLocalPosition;
+    [HideInInspector] public Vector3 defaultLocalPosition;
+    [HideInInspector] public RectTransform rectTran; 
 
     public void Init()
     {
-        RectTransform rectTransform = (RectTransform)UnitObject.transform;
-        defaultLocalPosition = rectTransform.localPosition;
+        rectTran = (RectTransform)UnitObject.transform;
+        defaultLocalPosition = rectTran.localPosition;
 
         dictEquippedItems.Add(ItemSlot.Head, null);
         dictEquippedItems.Add(ItemSlot.Leg, null);

@@ -62,10 +62,10 @@ public class SceneLoader : MonoBehaviour
     }
     void Start()
     {
-        //EndlessLevels.Add(EndlessHumanLevel);
-        //EndlessLevels.Add(EndlessHumanLevel);
-        //EndlessLevels.Add(EndlessElfLevel);
-        //EndlessLevels.Add(EndlessElfLevel);
+        EndlessLevels.Add(EndlessHumanLevel);
+        EndlessLevels.Add(EndlessHumanLevel);
+        EndlessLevels.Add(EndlessElfLevel);
+        EndlessLevels.Add(EndlessElfLevel);
         EndlessLevels.Add(EndlessDemonLevel);
         EndlessLevels.Add(EndlessDemonLevel2);
 
@@ -157,11 +157,6 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(GameManager.Instance.TextAppearDisappearSlowly(DayText.transform.GetChild(0).gameObject, 2f, 4.5f, 0, 2, 4.5f));
         StartCoroutine(GameManager.Instance.TextAppearDisappearSlowly(DayText.transform.GetChild(1).gameObject, 2f, 4.5f, 0, 2, 4.5f));
         DayCycleManager.Instance.MoveCycle();
-    }
-
-    public void FinishGame()
-    {
-        SceneManager.LoadScene(GameOpeningA);
     }
 
     // Settings -> Back To Menu button
@@ -375,9 +370,14 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+    public void FinishGame()
+    {
+        StartCoroutine(End2_1(StoryCanvas_EndingPrefab));
+        //SceneManager.LoadScene(GameOpeningA);
+    }
     public void PlayEnd()
     {
-        StartCoroutine(End(6.5f, StoryCanvas_EndingPrefab));
+        StartCoroutine(End2(5.5f, StoryCanvas_EndingPrefab));
     }
     IEnumerator End(float initialWait, GameObject storyCanvas)
     {
@@ -388,7 +388,7 @@ public class SceneLoader : MonoBehaviour
         // Spawn transition canvas
         GameObject transitionGO = Instantiate(TransitionCanvas_Prefab, gameObject.transform);
         Image[] transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
-        Color c = Color.white;
+        Color c = transitionImg[0].GetComponent<Image>().color;
         c.a = 0;
         // appears in x second
         foreach (Image image in transitionImg)
@@ -436,6 +436,77 @@ public class SceneLoader : MonoBehaviour
         }
 
         Ending.Instance.GameEnd();
+    }
+    IEnumerator End2(float initialWait, GameObject storyCanvas)
+    {
+        yield return new WaitForSeconds(initialWait);
+
+        canContinue = false;
+
+        // Spawn transition canvas
+        GameObject transitionGO = Instantiate(TransitionCanvas_Prefab, gameObject.transform);
+        Image[] transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
+        // appears in x second
+        Color c = transitionImg[0].GetComponent<Image>().color;
+        c.a = 0;
+        transitionImg[0].GetComponent<Image>().color = c;
+        c = Color.white;
+        c.a = 0;
+        transitionImg[1].GetComponent<Image>().color = c;
+        transitionImg[2].GetComponent<Image>().color = c;
+        transitionImg[3].GetComponent<Image>().color = c;
+        foreach (Image image in transitionImg)
+        {
+            StartCoroutine(ImageAppear(image.gameObject, 2.5f));
+        }
+
+        SoundManager.Instance.TurnMusicDownSlowly(2.45f);
+
+        yield return new WaitForSeconds(2.5f);
+
+        Ending.Instance.GameEnd();
+        
+        // transition canvas begin to disapppear
+        foreach (Image image in transitionImg)
+        {
+            StartCoroutine(ImageDisappearSlowly(image.gameObject, 1f, 0.65f, true));
+        }
+
+        //SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.StoryMusic, 0.3f);
+
+        yield return new WaitForSeconds(0.8f);
+
+        foreach (Image image in transitionImg)
+        {
+            image.raycastTarget = false;
+        }
+    }
+    IEnumerator End2_1(GameObject storyCanvas)
+    {
+        GameObject transitionGO = Instantiate(TransitionCanvas_Prefab, gameObject.transform);
+        Image[] transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
+
+        // spawn story canvas behind
+        GameObject storyCanvas_EntanceGO = Instantiate(storyCanvas);
+        // transition canvas begin to disapppear
+        foreach (Image image in transitionImg)
+        {
+            StartCoroutine(ImageDisappearSlowly(image.gameObject, 1f, 0.65f, true));
+        }
+
+        Debug.Log("Music Changed");
+        SoundManager.Instance.PlayMusicOnLoop(GameManager.Instance.StoryMusic, 0.3f);
+
+        yield return new WaitForSeconds(0.8f);
+
+        foreach (Image image in transitionImg)
+        {
+            image.raycastTarget = false;
+        }
+
+        yield return new WaitUntil(() => canContinue);
+
+        SceneManager.LoadScene(GameOpeningA);
     }
     public void TransitionScene()
     {

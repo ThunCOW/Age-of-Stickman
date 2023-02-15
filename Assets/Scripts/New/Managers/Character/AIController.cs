@@ -961,16 +961,25 @@ public class AIController : UnitController
         gameObject.transform.position = new Vector3(gameObject.transform.position.x - 10, gameObject.transform.position.y, 0);       // cuz it flickers and shows up in screen before transitioning to entance anim
 
         yield return new WaitForSpineAnimationComplete(trackEntry);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.2f);
+
+        TextBoxManager textBoxSpawn = Instantiate(GameManager.Instance.TextBoxGreenPrefab).GetComponent<TextBoxManager>();
+        textBoxSpawn.transform.position = new Vector3(transform.position.x, transform.position.y + 2f, 0);
+
+        textBoxSpawn.Text.text = GetComponent<UnitDialogues>().dialogueList[0].Context;
+
+        textBoxSpawn.ShowText(textBoxSpawn.Text.text = GetComponent<UnitDialogues>().dialogueList[0].Context);
+
+        yield return new WaitUntil(() => textBoxSpawn.IsEnded);
 
         trackEntry = spineSkeletonAnimation.state.SetAnimation(1, "Cinematic/Spearmaster_Entrance_Part 2", false);
         
         yield return new WaitForSpineAnimationComplete(trackEntry);
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
         
         spineSkeletonAnimation.state.SetAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true);
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         GameManager.Instance.DisableControls = false;
 

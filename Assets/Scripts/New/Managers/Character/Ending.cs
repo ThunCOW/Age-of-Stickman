@@ -182,7 +182,7 @@ public class Ending : MonoBehaviour
     private IEnumerator End2()
     {
         // Set new positions and Screen clears again
-        
+        SoundManager.Instance.PlayEffect(SoundManager.Instance.EndPortalClose);
         float timer;
         Color black = Color.black;
         black.a = 0;
@@ -308,6 +308,7 @@ public class Ending : MonoBehaviour
             yield return new WaitForFixedUpdate();
         }
     }
+
     private IEnumerator MoveSummonerBeforeEnd(GameObject summoner)
     {
         while (summoner != null)

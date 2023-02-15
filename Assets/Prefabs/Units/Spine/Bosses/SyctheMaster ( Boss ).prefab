@@ -241,6 +241,7 @@ GameObject:
   - component: {fileID: 5918015681238482116}
   - component: {fileID: 5918015681238482119}
   - component: {fileID: -4996115237129542027}
+  - component: {fileID: -5425917738990976237}
   m_Layer: 0
   m_Name: SyctheMaster ( Boss )
   m_TagString: Scythemaster
@@ -427,6 +428,19 @@ MonoBehaviour:
   SycthemasterDead: {fileID: 11400000, guid: 3ab41e44151146c47bf9d2443ca1cfa7, type: 2}
   DoubleAxeDead: {fileID: 0}
   BigDemonDead: {fileID: 0}
+--- !u!114 &-5425917738990976237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5918015681238482118}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd683aa65586bcb438edb2eeee6e465a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueList: []
 --- !u!1001 &2077888867105331035
 PrefabInstance:
   m_ObjectHideFlags: 0
