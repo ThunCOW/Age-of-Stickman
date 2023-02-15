@@ -52,4 +52,7 @@ public interface ISaveableJson
 {
     bool PopulateSaveData(SaveData a_SaveData);
     void LoadFromSaveData(SaveData a_SaveData);
+
+    bool PopulateAchievementSaveData(AchievementData achievementData);
+    void LoadAchievementSaveData(AchievementData achievementData);
 }

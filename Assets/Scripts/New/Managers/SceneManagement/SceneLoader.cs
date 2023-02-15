@@ -168,6 +168,9 @@ public class SceneLoader : MonoBehaviour
     public void SaveAndOpenGameOpeningMenu()
     {
         GameManager.Instance.SaveGame();
+        
+        if(!GameManager.Instance.ContinueButton.interactable)
+            GameManager.Instance.ContinueButton.interactable = true;
 
         SceneManager.LoadScene(GameOpeningA);
     }

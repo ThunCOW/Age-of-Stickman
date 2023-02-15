@@ -864,6 +864,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 665837488, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 687210096, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2060
+      objectReference: {fileID: 0}
+    - target: {fileID: 687210096, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.0026855469
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596519804, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2060
+      objectReference: {fileID: 0}
+    - target: {fileID: 1596519804, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.0034179688
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929445401, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 2060
+      objectReference: {fileID: 0}
+    - target: {fileID: 1929445401, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.00390625
+      objectReference: {fileID: 0}
     - target: {fileID: 957581314513403863, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
       propertyPath: m_Name
       value: GameManager V1
@@ -1003,6 +1031,10 @@ PrefabInstance:
     - target: {fileID: 6867119214904670768, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
       propertyPath: m_SizeDelta.y
       value: -980
+      objectReference: {fileID: 0}
+    - target: {fileID: 7238886641853890879, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7359043762535554906, guid: d0adfe2e916601e41a48682d77a6e31a, type: 3}
       propertyPath: m_IsActive

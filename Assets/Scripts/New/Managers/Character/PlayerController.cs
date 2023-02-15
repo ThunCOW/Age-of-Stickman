@@ -788,14 +788,15 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
         if (gameObject.CompareTag(GameManager.PLAYER_TAG))
         {
-            AchivementSO ach;
+            //AchivementSO ach;
             if (unit.target.CompareTag(GameManager.SPEARMASTER_TAG))
             {
-                ach = AchievementSystem.GetAchievementSO(AchievementIds.Spearmaster);
-                if (!(ach as AchievementByEvent).isUnlocked)
-                {
-                    (ach as AchievementByEvent).isUnlocked = true;
-                }
+                AchievementSystem.Instance.UpdateAchievement(AchievementIds.Spearmaster);
+                //ach = AchievementSystem.GetAchievementSO(AchievementIds.Spearmaster);
+                //if (!(ach as AchievementByEvent).isUnlocked)
+                //{
+                //    (ach as AchievementByEvent).isUnlocked = true;
+                //}
 
                 ResetAttachments();
 
@@ -810,11 +811,12 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             }
             else if (unit.target.CompareTag(GameManager.SCYTHEMASTER_TAG))
             {
-                ach = AchievementSystem.GetAchievementSO(AchievementIds.FallenKing);
-                if (!(ach as AchievementByEvent).isUnlocked)
-                {
-                    (ach as AchievementByEvent).isUnlocked = true;
-                }
+                AchievementSystem.Instance.UpdateAchievement(AchievementIds.FallenKing);
+                //ach = AchievementSystem.GetAchievementSO(AchievementIds.FallenKing);
+                //if (!(ach as AchievementByEvent).isUnlocked)
+                //{
+                //    (ach as AchievementByEvent).isUnlocked = true;
+                //}
 
                 ResetAttachments();
 
@@ -842,20 +844,25 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             }
             else if (unit.target.CompareTag(GameManager.BIG_DEMON_TAG))
             {
-                ach = AchievementSystem.GetAchievementSO(AchievementIds.TheGolliath);
-                if (!(ach as AchievementByEvent).isUnlocked)
+                AchievementSystem.Instance.UpdateAchievement(AchievementIds.TheGolliath);
+                if(GameManager.Instance.DeathCount == 0)
                 {
-                    (ach as AchievementByEvent).isUnlocked = true;
+                    AchievementSystem.Instance.UpdateAchievement(AchievementIds.Swordhood);
                 }
-
-                ach = AchievementSystem.GetAchievementSO(AchievementIds.Swordhood);
-                if (GameManager.Instance.DeathCount < 0)
-                {
-                    if (!(ach as AchievementByEvent).isUnlocked)
-                    {
-                        (ach as AchievementByEvent).isUnlocked = true;
-                    }
-                }
+                //ach = AchievementSystem.GetAchievementSO(AchievementIds.TheGolliath);
+                //if (!(ach as AchievementByEvent).isUnlocked)
+                //{
+                //    (ach as AchievementByEvent).isUnlocked = true;
+                //}
+                //
+                //ach = AchievementSystem.GetAchievementSO(AchievementIds.Swordhood);
+                //if (GameManager.Instance.DeathCount < 0)
+                //{
+                //    if (!(ach as AchievementByEvent).isUnlocked)
+                //    {
+                //        (ach as AchievementByEvent).isUnlocked = true;
+                //    }
+                //}
 
                 //GameManager.Instance.DisableControls = true;
                 spineSkeletonAnimation.AnimationState.AddAnimation(1, unit.activeAnimations.idle.SpineAnimationReference, true, 0);

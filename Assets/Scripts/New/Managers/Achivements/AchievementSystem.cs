@@ -7,6 +7,10 @@ using UnityEngine.UI;
 
 public class AchievementSystem : MonoBehaviour
 {
+    public static AchievementSystem Instance;
+
+    public GameObject UnlockAchievementPrefab;
+
     [SerializeField] TMP_Text AchievementTitleText;
     [SerializeField] TMP_Text AchievementDescriptionText;
 
@@ -43,7 +47,11 @@ public class AchievementSystem : MonoBehaviour
             populateAchievementItems = false;
         }
     }
-   
+    private void Awake()
+    {
+        Instance = this;    
+    }
+
     void PopulateAchievementItem(AchievementItem achievementItem, AchievementByCounter achievementSO)
     {
         achievementItem.Achievement.id = achievementSO.Achievement.id;
@@ -68,6 +76,30 @@ public class AchievementSystem : MonoBehaviour
         achievementItem.RefreshView();
     }
 
+    void PopulateAchievementItem(AchievementItem achievementItem, AchievementByEvent achievementSO, Achievement achievement)
+    {
+        achievementItem.Achievement.id = achievementSO.Achievement.id;
+        achievementItem.Achievement.title = achievementSO.Achievement.title;
+        achievementItem.Achievement.description = achievementSO.Achievement.description;
+        achievementItem.Achievement.texture = achievementSO.Achievement.texture;
+        achievementItem.unlocked = achievement.currentAmount == 1 ? true : false;
+
+        achievementItem.RefreshView();
+    }
+
+    void PopulateAchievementItem(AchievementItem achievementItem, AchievementByCounter achievementSO, Achievement achievement)
+    {
+        achievementItem.Achievement.id = achievementSO.Achievement.id;
+        achievementItem.Achievement.title = achievementSO.Achievement.title;
+        achievementItem.Achievement.texture = achievementSO.Achievement.texture;
+
+        achievementItem.Achievement.description = "(" + achievement.currentAmount + "/" + achievement.requiredAmount + ") " + achievementSO.Achievement.description;
+
+        achievementItem.unlocked = achievement.currentAmount == achievement.requiredAmount;
+
+        achievementItem.RefreshView();
+    }
+
     public void ShowDescripton(AchievementItem achievementItem)
     {
         AchievementTitleText.enabled = true;
@@ -77,26 +109,67 @@ public class AchievementSystem : MonoBehaviour
         AchievementDescriptionText.text = achievementItem.Achievement.description;
     }
 
-    void OnEnable()
+    public void _Button_ShowAchievements()
     {
         AchievementTitleText.enabled = false;
         AchievementDescriptionText.enabled = false;
 
-        AchievementItems[0].GetComponent<Button>().Select();
-        ShowDescripton(AchievementItems[0]);
+        AchievementSave.Instance.LoadFromJson();
 
         int index = 0;
         foreach (AchivementSO achievementSO in GameManager.Instance.AchievementsInfo)
         {
             if (achievementSO is AchievementByEvent)
-                PopulateAchievementItem(AchievementItems[index], achievementSO as AchievementByEvent);
+                PopulateAchievementItem(AchievementItems[index], achievementSO as AchievementByEvent, AchievementSave.Instance.achievementData.AchievementList[index]);
             else
-                PopulateAchievementItem(AchievementItems[index], achievementSO as AchievementByCounter);
+                PopulateAchievementItem(AchievementItems[index], achievementSO as AchievementByCounter, AchievementSave.Instance.achievementData.AchievementList[index]);
 
             index++;
         }
+
+        AchievementItems[0].GetComponent<Button>().Select();
+        ShowDescripton(AchievementItems[0]);
     }
 
+    public void UpdateAchievement(AchievementIds achievementIds)
+    {
+        Achievement ach = AchievementSave.Instance.GetAchievementById(achievementIds);
+        if(ach.requiredAmount == -1)
+        {
+            if(ach.currentAmount == 0)
+            {
+                ach.currentAmount = 1;
+                AchievementSave.Instance.SaveAchievements();
+                UnlockAch(achievementIds);
+            }
+            // else already unlocked
+        }
+        else if(ach.requiredAmount > 0)
+        {
+            ach.currentAmount = ach.currentAmount <= ach.requiredAmount ? ach.currentAmount + 1 : ach.currentAmount;
+            if(ach.currentAmount == ach.requiredAmount)
+            {
+                ach.currentAmount = ach.requiredAmount;
+                AchievementSave.Instance.SaveAchievements();
+                UnlockAch(achievementIds);
+            }
+            else
+            {
+                ach.currentAmount = 100;
+                // already unlocked
+            }
+        }
+    }
+    private void UnlockAch(AchievementIds achievementIds)
+    {
+        AchivementSO achSO = GetAchievementSO(achievementIds);
+
+        GameObject go = Instantiate(UnlockAchievementPrefab, transform.GetChild(0));
+        AchUnlock achUnlock = go.GetComponent<AchUnlock>();
+        achUnlock.Ach_Title.text = achSO.Achievement.title;
+        achUnlock.Ach_Img.sprite = achSO.Achievement.texture;
+        achUnlock.Ach_Img.SetNativeSize();
+    }
     public static AchivementSO GetAchievementSO(AchievementIds achievementId)
     {
         foreach(AchivementSO ach in GameManager.Instance.AchievementsInfo)

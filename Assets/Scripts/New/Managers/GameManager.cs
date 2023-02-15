@@ -183,11 +183,12 @@ namespace SpineControllerVersion
                 if (KillCounter.Instance != null)
                     KillCounter.Instance.Kill();
 
-                if (EndlessKillCount > 50)
+                if (EndlessKillCount == 50)
                 {
-                    AchivementSO ach = AchievementSystem.GetAchievementSO(AchievementIds.Bloodbath);
-                    if (!(ach as AchievementByEvent).isUnlocked)
-                        (ach as AchievementByEvent).isUnlocked = true;
+                    AchievementSystem.Instance.UpdateAchievement(AchievementIds.Bloodbath);
+                    //AchivementSO ach = AchievementSystem.GetAchievementSO(AchievementIds.Bloodbath);
+                    //if (!(ach as AchievementByEvent).isUnlocked)
+                    //    (ach as AchievementByEvent).isUnlocked = true;
                 }
             }
         }
@@ -198,17 +199,21 @@ namespace SpineControllerVersion
             set
             {
                 _killCount = value;
-                
-                
-                AchivementSO ach1 = AchievementSystem.GetAchievementSO(AchievementIds.TasteOfBlood);
-                if (!(ach1 as AchievementByEvent).isUnlocked)
-                    (ach1 as AchievementByEvent).isUnlocked = true;
 
-                AchivementSO ach2 = AchievementSystem.GetAchievementSO(AchievementIds.ToHellAndBack);
-                if((ach2 as AchievementByCounter).currentAmount < (ach2 as AchievementByCounter).requiredAmount)
-                {
-                    (ach2 as AchievementByCounter).currentAmount++;
-                }
+                if(KillCount == 1)
+                     AchievementSystem.Instance.UpdateAchievement(AchievementIds.TasteOfBlood);
+                
+                if(KillCount <= 100)
+                    AchievementSystem.Instance.UpdateAchievement(AchievementIds.ToHellAndBack);
+                //AchivementSO ach1 = AchievementSystem.GetAchievementSO(AchievementIds.TasteOfBlood);
+                //if (!(ach1 as AchievementByEvent).isUnlocked)
+                //    (ach1 as AchievementByEvent).isUnlocked = true;
+                //
+                //AchivementSO ach2 = AchievementSystem.GetAchievementSO(AchievementIds.ToHellAndBack);
+                //if((ach2 as AchievementByCounter).currentAmount < (ach2 as AchievementByCounter).requiredAmount)
+                //{
+                //    (ach2 as AchievementByCounter).currentAmount++;
+                //}
             }
         }
 
@@ -384,7 +389,7 @@ namespace SpineControllerVersion
             }
         }
         [Header("Opening Menu")]
-        [SerializeField] private Button ContinueButton;
+        public Button ContinueButton;
 
 
 
@@ -722,7 +727,11 @@ namespace SpineControllerVersion
         public void PlayerDead(int Amount)
         {
             PlayerLives--;
-            DeathCount++;
+            if(!isEndlessLevel)
+            {
+                Debug.Log("enters");
+                DeathCount++;
+            }
         }
 
         public void BuyLives()
@@ -932,7 +941,6 @@ namespace SpineControllerVersion
         {
             SaveData sd = new SaveData();
 
-            Debug.Log(FreshSaveData(sd));
             if (FreshSaveData(sd))
                 FileManager.WriteToFile(sd.ToJson());
             else
@@ -982,14 +990,43 @@ namespace SpineControllerVersion
 
             return true;
         }
+        
+        
+        
+        /****************************
+         * Achievement Save And Load
+        */
+        
+        public void AchievementSaveAsJson()
+        {
+
+        }
+        public bool PopulateAchievementSaveData(AchievementData achievementData)
+        {
+            
+            return false;
+        }
+        public void LoadAchievementSaveData(AchievementData achievementData)
+        {
+            foreach(Achievement ach in achievementData.AchievementList)
+            {
+                
+            }
+        }
+        
+        
+        
+        
         void OnApplicationQuit()
         {
             //SaveDataAsJson();
+            AchievementSave.Instance.SaveAchievements();
         }
 
         public void SaveGame()
         {
-            if(Player == null)
+            AchievementSave.Instance.SaveAchievements();
+            if (Player == null)
             {
                 SaveDataAsJson();
             }

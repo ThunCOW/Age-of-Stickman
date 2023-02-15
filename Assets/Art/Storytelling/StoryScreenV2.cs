@@ -9,7 +9,7 @@ public class StoryScreenV2 : MonoBehaviour
     public float moveSpeed;
     public void FixedUpdate()
     {
-        textGO.position = new Vector3(textGO.position.x, textGO.position.y + moveSpeed * Time.deltaTime, textGO.position.z);
+        textGO.anchoredPosition = new Vector3(textGO.anchoredPosition.x, textGO.anchoredPosition.y + moveSpeed * Time.deltaTime);
     }
 
     public void _Button_SkipStory()
