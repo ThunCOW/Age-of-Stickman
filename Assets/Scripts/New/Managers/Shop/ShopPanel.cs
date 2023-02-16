@@ -11,6 +11,7 @@ namespace ShopPanel_V2
     public class ShopPanel : MonoBehaviour
     {
         public static ShopPanel Instance;
+        public GameObject OpenShopPanelButton;
 
         [SerializeField] ShopScroll ShopScrollActions;
         
@@ -67,6 +68,28 @@ namespace ShopPanel_V2
             SetStartingItems();
         }
 
+        Vector2 res;
+        void Start()
+        {
+            res = new Vector2(Screen.width, Screen.height);
+        }
+
+        void Update()
+        {
+            if(res.x != Screen.width || res.y != Screen.height)
+            {
+                res.x = Screen.width;
+                res.y = Screen.height;
+
+                StartCoroutine(ResetRess());
+            }
+        }
+        IEnumerator ResetRess()
+        {
+            yield return new WaitForFixedUpdate();
+            ShopScrollActions.ResetRes();
+            OpenShopPanelButton.SetActive(true);
+        }
         public void OpenShop()
         {
             ShopScrollActions.Open();
@@ -362,6 +385,8 @@ namespace ShopPanel_V2
     [System.Serializable]
     public class ShopScroll
     {
+        public RectTransform main_canvasRect;
+
         public AnimationClip Idle1920;
         public AnimationClip Open1920;
         public AnimationClip Close1920;
@@ -397,16 +422,13 @@ namespace ShopPanel_V2
         {
             this.animator = animator;
 
-            Vector2 v = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width / 2, Screen.height, 0));
-            Vector2 v2 = Camera.main.ScreenToWorldPoint(new Vector2(Screen.width, Screen.height));
-
-            moveDist = (Mathf.Abs(v.x - v2.x) * 215.73f)/2 + 21;
+            moveDist = (main_canvasRect.rect.width / 2) + 20;
 
             this.shopRect = shopRect;
             
-            if (Screen.width == 1920 || Screen.width == 2560)
+            if ((Screen.width == 1920 && main_canvasRect.rect.width == 1920) || (Screen.width == 2560 && main_canvasRect.rect.width == 2560))
                 animator.Play(Idle1920.name);
-            else if (Screen.width == 2160 || Screen.width == 2960)
+            else if ((Screen.width == 2160 && main_canvasRect.rect.width == 2160) || (Screen.width == 2960 && main_canvasRect.rect.width == 2960))
                 animator.Play(Idle2160.name);
             else
                 this.shopRect.anchoredPosition = new Vector2(-moveDist, shopRect.anchoredPosition.y);
@@ -414,9 +436,9 @@ namespace ShopPanel_V2
 
         public void Open()
         {
-            if (Screen.width == 1920 || Screen.width == 2560)
+            if ((Screen.width == 1920 && main_canvasRect.rect.width == 1920) || (Screen.width == 2560 && main_canvasRect.rect.width == 2560))
                 animator.Play(Open1920.name);
-            else if (Screen.width == 2160 || Screen.width == 2960)
+            else if ((Screen.width == 2160 && main_canvasRect.rect.width == 2160) || (Screen.width == 2960 && main_canvasRect.rect.width == 2960))
                 animator.Play(Open2160.name);
             else
                 OpenScroll();
@@ -425,15 +447,16 @@ namespace ShopPanel_V2
         }
         public void Close()
         {
-            if (Screen.width == 1920 || Screen.width == 2560)
+            if ((Screen.width == 1920 && main_canvasRect.rect.width == 1920) || (Screen.width == 2560 && main_canvasRect.rect.width == 2560))
                 animator.Play(Close1920.name);
-            else if (Screen.width == 2160 || Screen.width == 2960)
+            else if ((Screen.width == 2160 && main_canvasRect.rect.width == 2160) || (Screen.width == 2960 && main_canvasRect.rect.width == 2960))
                 animator.Play(Close2160.name);
             else
                 CloseScroll();
 
             SoundManager.Instance.PlayEffect(ScrollCloseingSFX);
         }
+
         public void OpenScroll()
         {
             animator.Play(OpenMix.name);
@@ -443,12 +466,32 @@ namespace ShopPanel_V2
         }
         public void ResetPosition()
         {
-            if (Screen.width == 1920 || Screen.width == 2560)
+            if ((Screen.width == 1920 && main_canvasRect.rect.width == 1920) || (Screen.width == 2560 && main_canvasRect.rect.width == 2560))
                 animator.Play(Idle1920.name);
-            else if (Screen.width == 2160 || Screen.width == 2960)
+            else if ((Screen.width == 2160 && main_canvasRect.rect.width == 2160) || (Screen.width == 2960 && main_canvasRect.rect.width == 2960))
                 animator.Play(Idle2160.name);
             else
                 shopRect.anchoredPosition = new Vector2(-moveDist, shopRect.anchoredPosition.y);
+        }
+        public void ResetRes()
+        {
+
+            if ((Screen.width == 1920 && main_canvasRect.rect.width == 1920) || (Screen.width == 2560 && main_canvasRect.rect.width == 2560))
+            {
+                shopRect.anchoredPosition = new Vector2(0, shopRect.anchoredPosition.y);
+                animator.Play(Idle1920.name);
+            }
+            else if ((Screen.width == 2160 && main_canvasRect.rect.width == 2160) || (Screen.width == 2960 && main_canvasRect.rect.width == 2960))
+            {
+                shopRect.anchoredPosition = new Vector2(0, shopRect.anchoredPosition.y);
+                animator.Play(Idle2160.name);
+            }
+            else
+            {
+                moveDist = (main_canvasRect.rect.width / 2) + 20;
+                shopRect.anchoredPosition = new Vector2(-moveDist, shopRect.anchoredPosition.y);
+                animator.Play(IdleMix.name);
+            }
         }
         public void CloseScroll()
         {
@@ -470,7 +513,7 @@ namespace ShopPanel_V2
 
                 time -= Time.deltaTime;
 
-                yield return new WaitForEndOfFrame();
+                yield return null;
             }
 
             shopRect.anchoredPosition = new Vector2(startPos + moveDist, shopRect.anchoredPosition.y);

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Achievement:
     id: 7
-    title: Swordhood
+    title: Demonlord
     description: Finish the game without dying
     texture: {fileID: 21300000, guid: d2748287e4894d04d969f90ce5c7645f, type: 3}
   isUnlocked: 0

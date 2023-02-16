@@ -900,4 +900,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textGO: {fileID: 5514164421205292576}
-  moveSpeed: 60
+  moveSpeed: 90

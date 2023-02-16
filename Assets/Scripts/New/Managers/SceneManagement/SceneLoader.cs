@@ -107,10 +107,6 @@ public class SceneLoader : MonoBehaviour
         GameManager.Instance.LoadDataAsJson();
 
         GameManager.Instance.isGameOver = false;
-        if (ShopPanel_V2.ShopPanel.Instance != null)
-        {
-            ShopPanel_V2.ShopPanel.Instance.SetStartingItems();
-        }
 
         OpenMainMenu();
     }
@@ -118,6 +114,12 @@ public class SceneLoader : MonoBehaviour
     public void OpenMainMenu()
     {
         GameManager.Instance.LoadDataAsJson();
+
+        if (ShopPanel_V2.ShopPanel.Instance != null)
+        {
+            ShopPanel_V2.ShopPanel.Instance.SetStartingItems();
+        }
+
         GameManager.Instance.mainMenuPlayer.ChangeUnitEquipments(GameManager.Instance.mainMenuPlayer, GameManager.Instance.PlayerEquipments);
         SceneManager.LoadScene(MainMenu);
     }
@@ -157,6 +159,8 @@ public class SceneLoader : MonoBehaviour
         StartCoroutine(GameManager.Instance.TextAppearDisappearSlowly(DayText.transform.GetChild(0).gameObject, 2f, 4.5f, 0, 2, 4.5f));
         StartCoroutine(GameManager.Instance.TextAppearDisappearSlowly(DayText.transform.GetChild(1).gameObject, 2f, 4.5f, 0, 2, 4.5f));
         DayCycleManager.Instance.MoveCycle();
+
+        GameManager.Instance.SaveGame();
     }
 
     // Settings -> Back To Menu button
@@ -274,6 +278,7 @@ public class SceneLoader : MonoBehaviour
         }
 
         OpeningMenuCanvas.SetActive(false);
+        OpenShopCanvas.interactable = true;
         MainMenuCanvas.SetActive(true);
         if (levelFinishedCheck)
         {
@@ -317,12 +322,17 @@ public class SceneLoader : MonoBehaviour
         // Spawn transition canvas
         GameObject transitionGO = Instantiate(TransitionCanvas_Prefab, gameObject.transform);
         Image[] transitionImg = transitionGO.transform.GetComponentsInChildren<Image>();
-        Color c = Color.white;
+        Color c = transitionImg[0].GetComponent<Image>().color;
         c.a = 0;
+        transitionImg[0].GetComponent<Image>().color = c;
+        c = Color.white;
+        c.a = 0;
+        transitionImg[1].GetComponent<Image>().color = c;
+        transitionImg[2].GetComponent<Image>().color = c;
+        transitionImg[3].GetComponent<Image>().color = c;
         // appears in x second
         foreach (Image image in transitionImg)
         {
-            image.color = c;
             StartCoroutine(ImageAppear(image.gameObject, 2.5f));
         }
         SoundManager.Instance.TurnMusicDownSlowly(2.45f);

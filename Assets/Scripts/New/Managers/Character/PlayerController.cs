@@ -6,7 +6,6 @@ using Spine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Spine.Unity;
-using Newtonsoft.Json.Linq;
 using TMPro;
 using UnityEngine.Serialization;
 
@@ -124,7 +123,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
         }
 
-        if (Application.platform == RuntimePlatform.WindowsPlayer || Application.platform == RuntimePlatform.WindowsEditor)
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WebGLPlayer)
         {
             JoystickControls.transform.parent.gameObject.SetActive(false);
         }
@@ -153,7 +152,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     protected override void CharacterControls()
     {
-        if(Application.platform == RuntimePlatform.WindowsEditor)
+        if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WebGLPlayer)
             KeyboardControls();
 
         if(!isWeaponBeingSwapped)

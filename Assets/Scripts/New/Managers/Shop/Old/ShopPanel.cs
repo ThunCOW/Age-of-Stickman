@@ -24,6 +24,8 @@ public class ShopPanel : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("enters");
+
         ItemUpgradeDict.Add(ShopItemCategory.Weapon, WeaponList);
         ItemUpgradeDict.Add(ShopItemCategory.Shield, ShieldList);
         ItemUpgradeDict.Add(ShopItemCategory.Armor, ArmorList);

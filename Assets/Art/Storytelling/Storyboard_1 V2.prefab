@@ -420,8 +420,8 @@ MonoBehaviour:
 
 
     Before
-    anything, irst you have to leave your home where you have been declared as traitor
-    for standing against the demons.'
+    anything, first you have to leave your homeland where you have been declared
+    as traitor for standing against the demons.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 124c84d0dc5deea4797655842ba145ea, type: 2}
   m_sharedMaterial: {fileID: 2946654849353603563, guid: 124c84d0dc5deea4797655842ba145ea, type: 2}
@@ -607,4 +607,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textGO: {fileID: 1082371638218041581}
-  moveSpeed: 60
+  moveSpeed: 90

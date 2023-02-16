@@ -117,7 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   textGO: {fileID: 7555212674809930861}
-  moveSpeed: 60
+  moveSpeed: 90
 --- !u!1 &4769493869644998828
 GameObject:
   m_ObjectHideFlags: 0
@@ -456,8 +456,8 @@ MonoBehaviour:
   m_text: "After your battle with the elven general you have finally reached the
     border of the demon's territory. \n\nYou have learned that the demons are led
     by two demon lord rather than one, one with two huge axe and another with a magical
-    book that opened the portals to your land.\n\nThis is your chance to stop them,
-    but you have to find them first."
+    book that has opened the portals to this world.\n\nThis is your chance to stop
+    them, but you have to find them first.."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 124c84d0dc5deea4797655842ba145ea, type: 2}
   m_sharedMaterial: {fileID: 2946654849353603563, guid: 124c84d0dc5deea4797655842ba145ea, type: 2}
