@@ -121,7 +121,7 @@ public class SettingsManager : MonoBehaviour
     {
         Time.timeScale = 0;
 
-        if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WebGLPlayer)
+        if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WebGLPlayer || Application.platform == RuntimePlatform.WindowsPlayer)
         {
             KeyboardControlsMenu.SetActive(true);
             StartCoroutine(KeyboardControlsMenuClose());

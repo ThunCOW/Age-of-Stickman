@@ -123,7 +123,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
             SetMixBetweenAnimation(unit.activeAnimations.MovementBackward.SpineAnimationReference, unit.activeAnimations.BreakStance[i].SpineAnimationReference, 0);
         }
 
-        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WebGLPlayer)
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WebGLPlayer || Application.platform == RuntimePlatform.WindowsPlayer)
         {
             JoystickControls.transform.parent.gameObject.SetActive(false);
         }
@@ -152,7 +152,7 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
 
     protected override void CharacterControls()
     {
-        if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WebGLPlayer)
+        if(Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.WebGLPlayer || Application.platform == RuntimePlatform.WindowsPlayer)
             KeyboardControls();
 
         if(!isWeaponBeingSwapped)
@@ -249,6 +249,20 @@ public class PlayerController : UnitController, IPointerDownHandler, IPointerUpH
     
     void KeyboardControls()
     {
+        if(Input.GetKeyDown(KeyCode.Escape))
+        {
+            if(SettingsManager.Instance.SettingsMenu.activeSelf)
+            {
+                SettingsManager.Instance.CloseSettings();
+                SettingsManager.Instance.SettingsMenu.SetActive(false);
+            }
+            else
+            {
+                SettingsManager.Instance.SettingsMenu.SetActive(true);
+                SettingsManager.Instance.OpenSettings();
+            }
+        }
+
         // Space Pressed
         if (Input.GetKeyDown(KeyCode.Space))
         {

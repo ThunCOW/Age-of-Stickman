@@ -278,7 +278,7 @@ public class SceneLoader : MonoBehaviour
         }
 
         OpeningMenuCanvas.SetActive(false);
-        OpenShopCanvas.interactable = true;
+        OpenShopCanvas.gameObject.SetActive(true);
         MainMenuCanvas.SetActive(true);
         if (levelFinishedCheck)
         {
@@ -573,5 +573,14 @@ public class SceneLoader : MonoBehaviour
 
             yield return new WaitForFixedUpdate();
         }
+    }
+
+
+
+
+
+    public void _Button_QuitGame()
+    {
+        Application.Quit();
     }
 }
